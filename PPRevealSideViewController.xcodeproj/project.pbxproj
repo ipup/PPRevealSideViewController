@@ -13,6 +13,7 @@
 		E0D903C914ED2A610072EECD /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = E0D903C714ED2A610072EECD /* InfoPlist.strings */; };
 		E0D903CB14ED2A610072EECD /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E0D903CA14ED2A610072EECD /* main.m */; };
 		E0D903CF14ED2A610072EECD /* PPAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E0D903CE14ED2A610072EECD /* PPAppDelegate.m */; };
+		E0D903D714ED2ABC0072EECD /* PPRevealSideViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E0D903D614ED2ABC0072EECD /* PPRevealSideViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,8 @@
 		E0D903CC14ED2A610072EECD /* PPRevealSideViewController-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PPRevealSideViewController-Prefix.pch"; sourceTree = "<group>"; };
 		E0D903CD14ED2A610072EECD /* PPAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PPAppDelegate.h; sourceTree = "<group>"; };
 		E0D903CE14ED2A610072EECD /* PPAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PPAppDelegate.m; sourceTree = "<group>"; };
+		E0D903D514ED2ABC0072EECD /* PPRevealSideViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPRevealSideViewController.h; sourceTree = "<group>"; };
+		E0D903D614ED2ABC0072EECD /* PPRevealSideViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPRevealSideViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,6 +78,8 @@
 				E0D903CD14ED2A610072EECD /* PPAppDelegate.h */,
 				E0D903CE14ED2A610072EECD /* PPAppDelegate.m */,
 				E0D903C514ED2A610072EECD /* Supporting Files */,
+				E0D903D514ED2ABC0072EECD /* PPRevealSideViewController.h */,
+				E0D903D614ED2ABC0072EECD /* PPRevealSideViewController.m */,
 			);
 			path = PPRevealSideViewController;
 			sourceTree = "<group>";
@@ -153,6 +158,7 @@
 			files = (
 				E0D903CB14ED2A610072EECD /* main.m in Sources */,
 				E0D903CF14ED2A610072EECD /* PPAppDelegate.m in Sources */,
+				E0D903D714ED2ABC0072EECD /* PPRevealSideViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
