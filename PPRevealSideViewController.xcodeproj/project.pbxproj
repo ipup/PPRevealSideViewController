@@ -20,11 +20,11 @@
 		E0D903BE14ED2A610072EECD /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		E0D903C014ED2A610072EECD /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		E0D903C214ED2A610072EECD /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		E0D903C614ED2A610072EECD /* PPRevealSideViewController-Info.plist */ = {isa = PBXFileReference; path = "PPRevealSideViewController-Info.plist"; sourceTree = "<group>"; };
+		E0D903C614ED2A610072EECD /* PPRevealSideViewController-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PPRevealSideViewController-Info.plist"; sourceTree = "<group>"; };
 		E0D903C814ED2A610072EECD /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		E0D903CA14ED2A610072EECD /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		E0D903CC14ED2A610072EECD /* PPRevealSideViewController-Prefix.pch */ = {isa = PBXFileReference; path = "PPRevealSideViewController-Prefix.pch"; sourceTree = "<group>"; };
-		E0D903CD14ED2A610072EECD /* PPAppDelegate.h */ = {isa = PBXFileReference; path = PPAppDelegate.h; sourceTree = "<group>"; };
+		E0D903CC14ED2A610072EECD /* PPRevealSideViewController-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PPRevealSideViewController-Prefix.pch"; sourceTree = "<group>"; };
+		E0D903CD14ED2A610072EECD /* PPAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PPAppDelegate.h; sourceTree = "<group>"; };
 		E0D903CE14ED2A610072EECD /* PPAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PPAppDelegate.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
