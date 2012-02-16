@@ -14,6 +14,10 @@
 		E0D903CB14ED2A610072EECD /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E0D903CA14ED2A610072EECD /* main.m */; };
 		E0D903CF14ED2A610072EECD /* PPAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E0D903CE14ED2A610072EECD /* PPAppDelegate.m */; };
 		E0D903D714ED2ABC0072EECD /* PPRevealSideViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E0D903D614ED2ABC0072EECD /* PPRevealSideViewController.m */; };
+		E0D903F414ED38B50072EECD /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0D903F314ED38B50072EECD /* QuartzCore.framework */; };
+		E0D903F914ED3CF50072EECD /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E0D903F714ED3CF50072EECD /* MainViewController.m */; };
+		E0D903FA14ED3CF50072EECD /* MainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E0D903F814ED3CF50072EECD /* MainViewController.xib */; };
+		E0D903FD14ED3EFF0072EECD /* LeftViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E0D903FC14ED3EFF0072EECD /* LeftViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,6 +33,12 @@
 		E0D903CE14ED2A610072EECD /* PPAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PPAppDelegate.m; sourceTree = "<group>"; };
 		E0D903D514ED2ABC0072EECD /* PPRevealSideViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPRevealSideViewController.h; sourceTree = "<group>"; };
 		E0D903D614ED2ABC0072EECD /* PPRevealSideViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPRevealSideViewController.m; sourceTree = "<group>"; };
+		E0D903F314ED38B50072EECD /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		E0D903F614ED3CF50072EECD /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
+		E0D903F714ED3CF50072EECD /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
+		E0D903F814ED3CF50072EECD /* MainViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainViewController.xib; sourceTree = "<group>"; };
+		E0D903FB14ED3EFE0072EECD /* LeftViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LeftViewController.h; sourceTree = "<group>"; };
+		E0D903FC14ED3EFF0072EECD /* LeftViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LeftViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -36,6 +46,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E0D903F414ED38B50072EECD /* QuartzCore.framework in Frameworks */,
 				E0D903BF14ED2A610072EECD /* UIKit.framework in Frameworks */,
 				E0D903C114ED2A610072EECD /* Foundation.framework in Frameworks */,
 				E0D903C314ED2A610072EECD /* CoreGraphics.framework in Frameworks */,
@@ -65,6 +76,7 @@
 		E0D903BD14ED2A610072EECD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				E0D903F314ED38B50072EECD /* QuartzCore.framework */,
 				E0D903BE14ED2A610072EECD /* UIKit.framework */,
 				E0D903C014ED2A610072EECD /* Foundation.framework */,
 				E0D903C214ED2A610072EECD /* CoreGraphics.framework */,
@@ -77,6 +89,11 @@
 			children = (
 				E0D903CD14ED2A610072EECD /* PPAppDelegate.h */,
 				E0D903CE14ED2A610072EECD /* PPAppDelegate.m */,
+				E0D903F614ED3CF50072EECD /* MainViewController.h */,
+				E0D903F714ED3CF50072EECD /* MainViewController.m */,
+				E0D903F814ED3CF50072EECD /* MainViewController.xib */,
+				E0D903FB14ED3EFE0072EECD /* LeftViewController.h */,
+				E0D903FC14ED3EFF0072EECD /* LeftViewController.m */,
 				E0D903C514ED2A610072EECD /* Supporting Files */,
 				E0D903D514ED2ABC0072EECD /* PPRevealSideViewController.h */,
 				E0D903D614ED2ABC0072EECD /* PPRevealSideViewController.m */,
@@ -146,6 +163,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E0D903C914ED2A610072EECD /* InfoPlist.strings in Resources */,
+				E0D903FA14ED3CF50072EECD /* MainViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -159,6 +177,8 @@
 				E0D903CB14ED2A610072EECD /* main.m in Sources */,
 				E0D903CF14ED2A610072EECD /* PPAppDelegate.m in Sources */,
 				E0D903D714ED2ABC0072EECD /* PPRevealSideViewController.m in Sources */,
+				E0D903F914ED3CF50072EECD /* MainViewController.m in Sources */,
+				E0D903FD14ED3EFF0072EECD /* LeftViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -264,6 +284,7 @@
 				E0D903D414ED2A610072EECD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

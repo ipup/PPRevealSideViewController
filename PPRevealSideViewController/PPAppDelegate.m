@@ -7,15 +7,27 @@
 //
 
 #import "PPAppDelegate.h"
+#import "MainViewController.h"
 
 @implementation PPAppDelegate
 
 @synthesize window = _window;
+@synthesize revealSideViewController = _revealSideViewController;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    // Override point for customization after application launch.
+
+    MainViewController *main = [[MainViewController alloc] initWithNibName:@"MainViewController" bundle:nil];
+    
+    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:main];
+    _revealSideViewController = [[PPRevealSideViewController alloc] initWithRootViewController:nav];
+    
+    self.window.rootViewController = _revealSideViewController;
+    
+    PP_RELEASE(main);
+    PP_RELEASE(nav);
+    
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
     return YES;
