@@ -7,7 +7,7 @@
 //
 
 #import "TableViewController.h"
-
+#import "CustomCell.h"
 
 @implementation TableViewController
 
@@ -15,7 +15,10 @@
 {
     self = [super initWithStyle:style];
     if (self) {
-        // Custom initialization
+        [self.tableView addObserver:self 
+                         forKeyPath:@"revealSideInset"
+                            options:NSKeyValueObservingOptionNew
+                            context:NULL];
     }
     return self;
 }
@@ -74,6 +77,22 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
+- (void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+    if ([keyPath isEqualToString:@"revealSideInset"]) {
+        [self.tableView reloadData];
+    }
+    else
+        [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
+}
+
+- (void) dealloc {
+    [self.tableView removeObserver:self
+                        forKeyPath:@"revealSideInset"];
+#if !PP_ARC_ENABLED
+    [super dealloc];
+#endif
+}
+
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -92,11 +111,12 @@
 {
     static NSString *CellIdentifier = @"Cell";
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    CustomCell *cell = (CustomCell*)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        cell = [[CustomCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
     
+    cell.revealSideInset = self.tableView.revealSideInset;
     cell.textLabel.text = @"Go to root";
     
     return cell;

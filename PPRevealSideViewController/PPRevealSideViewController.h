@@ -153,6 +153,13 @@ The Reveal options. See type def for the default values
 @end
 
 /**
+ UIView category
+ */
+@interface UIView (PPRevealSideViewController)
+@property (nonatomic, assign) UIEdgeInsets revealSideInset;
+@end
+
+/**
  PPRevealSideViewControllerDelegate protocol
  */
 @protocol PPRevealSideViewControllerDelegate <NSObject>

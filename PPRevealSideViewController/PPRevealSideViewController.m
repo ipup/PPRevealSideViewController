@@ -30,6 +30,7 @@
 - (BOOL) canCrossOffsets;
 
 - (CGRect) getSideViewFrameFromRootFrame:(CGRect)rootFrame andDirection:(PPRevealSideDirection)direction;
+- (UIEdgeInsets) getEdgetInsetForDirection:(PPRevealSideDirection)direction;
 
 @end
 
@@ -252,6 +253,7 @@
                 if (finished) {
                     [self informDelegateWithOptionalSelector:@selector(pprevealSideViewController:didPopToController:) withParam:centerController];
                     
+                    // remove the view (don't need to surcharge (not english this word ? ... ) all the interface).
                     UIViewController *oldController = (UIViewController*)[_viewControllers objectForKey:[NSNumber numberWithInt:directionToClose]];
                     [oldController.view removeFromSuperview];
                     
@@ -332,6 +334,19 @@
     }
 }
 
+#pragma mark - Observation method
+- (void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+    if ([keyPath isEqualToString:@"view.frame"]) {
+        PPRevealSideDirection direction = [self getSideToClose];
+        UIViewController *openedController = [_viewControllers objectForKey:[NSNumber numberWithInt:direction]];
+        if (openedController) {
+            openedController.view.revealSideInset = [self getEdgetInsetForDirection:direction];
+        }
+    }
+    else
+        [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
+}
+
 #pragma mark - Setters
 
 - (void) setOptions:(PPRevealSideOptions)options {
@@ -357,9 +372,15 @@
         [self willChangeValueForKey:@"rootViewController"];
         [_rootViewController.view removeFromSuperview];
         
+        [_rootViewController removeObserver:self forKeyPath:@"view.frame"];
+        
         _rootViewController = PP_RETAIN(controller);
         _rootViewController.revealSideViewController = self;
         
+        [_rootViewController addObserver:self
+                              forKeyPath:@"view.frame"
+                                 options:NSKeyValueObservingOptionNew
+                                 context:NULL];
         [self handleShadows];
         
         [self.view addSubview:_rootViewController.view];
@@ -515,6 +536,32 @@
     return slideFrame;
 }
 
+- (UIEdgeInsets) getEdgetInsetForDirection:(PPRevealSideDirection)direction {
+    UIEdgeInsets inset = UIEdgeInsetsZero;
+    if (![self isOptionEnabled:PPRevealSideOptionsResizeSideView]){
+        CGFloat offset = [[_viewControllersOffsets objectForKey:[NSNumber numberWithInt:direction]] floatValue];
+        
+        switch (direction) {
+            case PPRevealSideDirectionLeft:
+                inset.right = offset;
+                break;
+            case PPRevealSideDirectionRight:
+                inset.left = offset;
+                break;
+            case PPRevealSideDirectionTop:
+                inset.bottom = offset;
+                break;
+            case PPRevealSideDirectionBottom:
+                inset.top = offset;
+                break;
+            default:
+                break;
+        }
+    }
+    PPLog(@"%@", NSStringFromUIEdgeInsets(inset));
+    return inset;
+}
+
 #pragma mark - Orientation stuff
 
 - (void) willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
@@ -529,7 +576,6 @@
         UIViewController *controller = (UIViewController *)[_viewControllers objectForKey:key];
         
         if (controller.view.superview) {
-            PPLog(@"%@", controller);
             controller.view.frame = [self getSideViewFrameFromRootFrame:_rootViewController.view.frame
                                                            andDirection:[key intValue]];
             
@@ -611,10 +657,12 @@
 static char revealSideViewControllerKey;
 
 - (void) setRevealSideViewController:(PPRevealSideViewController *)revealSideViewController {
+    [self willChangeValueForKey:@"revealSideViewController"];
     objc_setAssociatedObject( self, 
                              &revealSideViewControllerKey,
                              revealSideViewController,
                              OBJC_ASSOCIATION_RETAIN );
+    [self didChangeValueForKey:@"revealSideViewController"];
 }
 
 - (PPRevealSideViewController*) revealSideViewController {
@@ -626,6 +674,32 @@ static char revealSideViewControllerKey;
         controller = self.navigationController.revealSideViewController;
     
     return controller;
+}
+
+@end
+
+@implementation UIView (PPRevealSideViewController)
+static char revealSideInsetKey;
+
+- (void) setRevealSideInset:(UIEdgeInsets)revealSideInset {
+    [self willChangeValueForKey:@"revealSideInset"];
+    NSString *stringInset = NSStringFromUIEdgeInsets(revealSideInset);
+    objc_setAssociatedObject( self, 
+                             &revealSideInsetKey,
+                             stringInset,
+                             OBJC_ASSOCIATION_RETAIN );
+    [self didChangeValueForKey:@"revealSideInset"];
+}
+
+- (UIEdgeInsets) revealSideInset {
+    NSString *stringInset =  objc_getAssociatedObject( self, 
+                                                      &revealSideInsetKey );
+    UIEdgeInsets inset = UIEdgeInsetsZero;
+    if (stringInset)
+        inset = UIEdgeInsetsFromString(stringInset);
+    else
+        inset = self.superview.revealSideInset;
+    return inset;
 }
 
 @end

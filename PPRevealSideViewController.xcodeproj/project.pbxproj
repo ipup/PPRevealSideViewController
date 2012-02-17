@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		E075287B14EE8F8000518036 /* PopedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E075287914EE8F8000518036 /* PopedViewController.m */; };
 		E075287C14EE8F8000518036 /* PopedViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E075287A14EE8F8000518036 /* PopedViewController.xib */; };
+		E075288814EEC71800518036 /* CustomCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E075288714EEC71800518036 /* CustomCell.m */; };
 		E0D903BF14ED2A610072EECD /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0D903BE14ED2A610072EECD /* UIKit.framework */; };
 		E0D903C114ED2A610072EECD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0D903C014ED2A610072EECD /* Foundation.framework */; };
 		E0D903C314ED2A610072EECD /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0D903C214ED2A610072EECD /* CoreGraphics.framework */; };
@@ -26,6 +27,8 @@
 		E075287814EE8F8000518036 /* PopedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopedViewController.h; sourceTree = "<group>"; };
 		E075287914EE8F8000518036 /* PopedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopedViewController.m; sourceTree = "<group>"; };
 		E075287A14EE8F8000518036 /* PopedViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PopedViewController.xib; sourceTree = "<group>"; };
+		E075288614EEC71800518036 /* CustomCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomCell.h; sourceTree = "<group>"; };
+		E075288714EEC71800518036 /* CustomCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomCell.m; sourceTree = "<group>"; };
 		E0D903BA14ED2A610072EECD /* PPRevealSideViewController.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PPRevealSideViewController.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E0D903BE14ED2A610072EECD /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		E0D903C014ED2A610072EECD /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -99,6 +102,8 @@
 				E0D903F814ED3CF50072EECD /* MainViewController.xib */,
 				E0D903FB14ED3EFE0072EECD /* TableViewController.h */,
 				E0D903FC14ED3EFF0072EECD /* TableViewController.m */,
+				E075288614EEC71800518036 /* CustomCell.h */,
+				E075288714EEC71800518036 /* CustomCell.m */,
 				E075287814EE8F8000518036 /* PopedViewController.h */,
 				E075287914EE8F8000518036 /* PopedViewController.m */,
 				E075287A14EE8F8000518036 /* PopedViewController.xib */,
@@ -189,6 +194,7 @@
 				E0D903F914ED3CF50072EECD /* MainViewController.m in Sources */,
 				E0D903FD14ED3EFF0072EECD /* TableViewController.m in Sources */,
 				E075287B14EE8F8000518036 /* PopedViewController.m in Sources */,
+				E075288814EEC71800518036 /* CustomCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
