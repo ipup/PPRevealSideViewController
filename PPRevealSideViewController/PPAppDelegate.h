@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "PPRevealSideViewController.h"
 
 @interface PPAppDelegate : UIResponder <UIApplicationDelegate>
 

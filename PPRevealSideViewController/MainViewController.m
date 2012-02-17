@@ -7,6 +7,7 @@
 //
 
 #import "MainViewController.h"
+#import "LeftViewController.h"
 
 @implementation MainViewController
 
@@ -46,6 +47,17 @@
 {
     // Return YES for supported orientations
     return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
+}
+
+- (IBAction)test:(id)sender {
+    LeftViewController *c = [[LeftViewController alloc] initWithStyle:UITableViewStylePlain];
+    //[self.revealSideViewController pushViewController:c onDirection:PPRevealSideDirectionLeft animated:YES];
+    [self.revealSideViewController pushViewController:c 
+                                          onDirection:PPRevealSideDirectionLeft
+                                           withOffset:100 
+                                             animated:YES];
+
+    PP_RELEASE(c);
 }
 
 @end

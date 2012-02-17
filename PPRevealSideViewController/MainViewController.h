@@ -10,4 +10,5 @@
 
 @interface MainViewController : UIViewController
 
+- (IBAction)test:(id)sender;
 @end
