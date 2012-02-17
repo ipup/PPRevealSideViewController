@@ -24,22 +24,28 @@
 
 - (CGRect) getSlidingRectForOffset:(CGFloat)offset forDirection:(PPRevealSideDirection)direction;
 
+- (void) popViewControllerWithNewCenterController:(UIViewController *)centerController animated:(BOOL)animated andPresentNewController:(UIViewController*)controllerToPush withDirection:(PPRevealSideDirection)direction andOffset:(CGFloat)offset;
+
+- (BOOL) isOptionEnabled:(PPRevealSideOptions)option;
+
 @end
 
 @implementation PPRevealSideViewController
 @synthesize rootViewController = _rootViewController;
-@synthesize showShadows = _showShadows;
 @synthesize interactions = _interactions;
-@synthesize bouncingAnimations = _bouncingAnimations;
+@synthesize options = _options;
 @synthesize bouncingOffset = _bouncingOffset;
+
 @synthesize delegate = _delegate;
 
 - (id) initWithRootViewController:(UIViewController*)rootViewController {
     self = [super init];
     if (self) {
         [self setRootViewController:rootViewController];
-        self.showShadows = YES;
-        self.bouncingAnimations = YES;
+        
+        // set default options
+        self.options = PPRevealSideOptionsShowShadows | PPRevealSideOptionsBounceAnimations | PPRevealSideOptionsCloseCompletlyBeforeOpeningNewDirection;
+
         self.bouncingOffset = -1.0;
         self.interactions = PPRevealSideInteractionNavigationBar;
         _viewControllers = [[NSMutableDictionary alloc] init];
@@ -70,7 +76,7 @@
 */
 
 #pragma mark - Push and pop methods
-#define DefaultOffset 50.0
+#define DefaultOffset 70.0
 #define DefaultOffsetBouncing 5.0
 
 #define OpenAnimationTime 0.5
@@ -84,26 +90,50 @@
 }
 
 - (void) pushViewController:(UIViewController*)controller onDirection:(PPRevealSideDirection)direction withOffset:(CGFloat)offset animated:(BOOL)animated {
+    
     [self informDelegateWithOptionalSelector:@selector(pprevealSideViewController:willPushController:) withParam:controller];
-    
-    // save the offset
-    [_viewControllersOffsets setObject:[NSNumber numberWithFloat:offset] forKey:[NSNumber numberWithInt:direction]];
-    
-    // save the controller
-    [_viewControllers setObject:controller forKey:[NSNumber numberWithInt:direction]];
     
     // get the side direction to close
     PPRevealSideDirection directionToClose = [self getSideToClose];
     
+    // if this is the same direction, then close it
+    if (directionToClose == direction) {
+        [self popViewControllerWithNewCenterController:_rootViewController animated:animated];
+        return;
+    }
+    else // if the direction is different, and we close completely before opening, then pop / push !
+        if (directionToClose != PPRevealSideDirectionNone && [self isOptionEnabled:PPRevealSideOptionsCloseCompletlyBeforeOpeningNewDirection]) {
+            [self popViewControllerWithNewCenterController:_rootViewController 
+                                                  animated:animated 
+                                   andPresentNewController:controller withDirection:direction andOffset:offset];
+            return;
+        }
+    
+    NSNumber *directionNumber = [NSNumber numberWithInt:direction];
+    
+    // save the offset
+    [_viewControllersOffsets setObject:[NSNumber numberWithFloat:offset] forKey:directionNumber];
+    
+    // save the controller and remove the old one from the view
+    UIViewController *oldController = [_viewControllers objectForKey:directionNumber];
+    if (controller != oldController) {
+        [oldController.view removeFromSuperview];
+    }
+    [_viewControllers setObject:controller forKey:directionNumber];
+
+    // set the container controller to self
+    controller.revealSideViewController = self;
+    
+    // check if the controller.view is already on a different view. If yes, then remove it
     if (controller.view.superview != self.view) [controller.view removeFromSuperview], [self.view insertSubview:controller.view belowSubview:_rootViewController.view];
     
     // replace with the bounds since IB add some offsets with the status bar if enabled
     controller.view.frame = controller.view.bounds;
     
-    void (^closeAnimBlock)(void) = ^(void) {
+    void (^openAnimBlock)(void) = ^(void) {
         controller.view.hidden = NO;
-        
-        if (_bouncingAnimations && animated) // then we make an offset
+        // if bounces is activated and the push is animated, calculate the first frame with the bounce
+        if ([self isOptionEnabled:PPRevealSideOptionsBounceAnimations] && animated) // then we make an offset
             _rootViewController.view.frame = [self getSlidingRectForOffset:offset- ((_bouncingOffset == - 1.0) ? DefaultOffsetBouncing : _bouncingOffset) forDirection:direction];
         else
             _rootViewController.view.frame = [self getSlidingRectForOffset:offset forDirection:direction];
@@ -111,7 +141,7 @@
     };
     
     NSTimeInterval animationTime;
-    if (_bouncingAnimations) animationTime = OpenAnimationTime*(1.0-OpenAnimationTimeBouncingRatio);
+    if ([self isOptionEnabled:PPRevealSideOptionsBounceAnimations]) animationTime = OpenAnimationTime*(1.0-OpenAnimationTimeBouncingRatio);
     else animationTime = OpenAnimationTime;
     
     UIViewAnimationOptions options = UIViewAnimationOptionCurveEaseInOut | UIViewAnimationOptionLayoutSubviews;
@@ -120,9 +150,9 @@
         [UIView animateWithDuration:animationTime
                               delay:0.0
                             options:options
-                         animations:closeAnimBlock
+                         animations:openAnimBlock
                          completion:^(BOOL finished) {
-                             if (_bouncingAnimations) // then we come to normal
+                             if ([self isOptionEnabled:PPRevealSideOptionsBounceAnimations]) // then we come to normal
                              {
                                  [UIView animateWithDuration:OpenAnimationTime*OpenAnimationTimeBouncingRatio
                                                        delay:0.0
@@ -138,13 +168,110 @@
                                  
                          }];
     }
-    else
-        closeAnimBlock();
+    else {
+        openAnimBlock();
+        [self informDelegateWithOptionalSelector:@selector(pprevealSideViewController:didPushController:) withParam:controller];
+    }
 }
 
 - (void) popViewControllerWithNewCenterController:(UIViewController*)centerController animated:(BOOL)animated {
-    [self informDelegateWithOptionalSelector:@selector(pprevealSideViewController:willPopToController:) withParam:centerController];
+    [self popViewControllerWithNewCenterController:centerController
+                                          animated:animated
+                           andPresentNewController:nil
+                                     withDirection:PPRevealSideDirectionNone
+                                         andOffset:0.0];
+}
 
+- (void) popViewControllerAnimated:(BOOL)animated {
+    [self popViewControllerWithNewCenterController:_rootViewController
+                                          animated:animated];
+}
+
+- (void) popViewControllerWithNewCenterController:(UIViewController *)centerController animated:(BOOL)animated andPresentNewController:(UIViewController *)controllerToPush withDirection:(PPRevealSideDirection)direction andOffset:(CGFloat)offset {
+    
+    [self informDelegateWithOptionalSelector:@selector(pprevealSideViewController:willPopToController:) withParam:centerController];
+    
+    UIViewAnimationOptions options = UIViewAnimationOptionCurveEaseInOut | UIViewAnimationOptionLayoutSubviews;
+    
+    // define the close anim block
+    void (^bigAnimBlock)(BOOL) = ^(BOOL finished) {
+        if (finished) {
+            CGRect olfFrame = _rootViewController.view.frame;
+            [self setRootViewController:centerController];
+            _rootViewController.view.frame = olfFrame;
+            
+            // this is the anim block to put to normal the center controller
+            void(^smallAnimBlock)(void) = ^(void) {
+                CGRect newFrame = _rootViewController.view.frame;
+                newFrame.origin.x = 0.0;
+                newFrame.origin.y = 0.0;
+                _rootViewController.view.frame = newFrame;
+            };
+            
+            // this is the completion block when you pop then push the new controller
+            void (^smallAnimBlockCompletion)(BOOL) = ^(BOOL finished) {
+                if (finished) {
+                    [self informDelegateWithOptionalSelector:@selector(pprevealSideViewController:didPopToController:) withParam:centerController];
+                    if (controllerToPush) {
+                        [self pushViewController:controllerToPush
+                                     onDirection:direction
+                                      withOffset:offset
+                                        animated:animated];
+                    }
+                }
+            };
+            
+            // execute the blocks depending on animated or not
+            if (animated) {
+                NSTimeInterval animationTime;
+                if ([self isOptionEnabled:PPRevealSideOptionsBounceAnimations]) animationTime = OpenAnimationTime*(1.0-OpenAnimationTimeBouncingRatio);
+                else animationTime = OpenAnimationTime;
+                
+                [UIView animateWithDuration:animationTime
+                                      delay:0.0
+                                    options:options
+                                 animations:smallAnimBlock
+                                 completion:smallAnimBlockCompletion];
+            }
+            else
+            {
+                smallAnimBlock();
+                smallAnimBlockCompletion(YES);
+            }
+        }
+    };
+    
+    // Now we are gonna use the big block !!
+    if ([self isOptionEnabled:PPRevealSideOptionsBounceAnimations] && animated) {
+        PPRevealSideDirection directionToOpen = [self getSideToClose];
+        
+        // open completely and then close it
+        [UIView animateWithDuration:OpenAnimationTime*OpenAnimationTimeBouncingRatio
+                              delay:0.0
+                            options:options
+                         animations:^{
+                             // this will open completely the view
+                             _rootViewController.view.frame = [self getSlidingRectForOffset:0.0 forDirection:directionToOpen];
+                         } completion:bigAnimBlock];
+    }
+    else
+    {
+        // we just execute the close anim block
+        // Badly, we can't use the bigAnimBlock as an animation block since there is the finished parameter. So, just execute it !
+        if (animated) {
+            [UIView animateWithDuration:OpenAnimationTime
+                                  delay:0.0
+                                options:options
+                             animations:^{
+                                 bigAnimBlock(YES);
+                             } completion:^(BOOL finished) {
+                                 
+                             } ];
+            
+        }  
+        else
+            bigAnimBlock(YES);
+    }
 }
 
 - (void) preloadViewController:(UIViewController*)controller forSide:(PPRevealSideDirection)direction {
@@ -164,11 +291,20 @@
 
 #pragma mark - Setters
 
-- (void) setShowShadows:(BOOL)showShadows {
-    [self willChangeValueForKey:@"showShadows"];
-    _showShadows = showShadows;
+- (void) setOptions:(PPRevealSideOptions)options {
+    [self willChangeValueForKey:@"options"];
+    _options = options;
     [self handleShadows];
-    [self didChangeValueForKey:@"showShadows"];
+    [self didChangeValueForKey:@"options"];
+}
+
+- (void) setOption:(PPRevealSideOptions)option {
+    _options |= option;
+    if (option == PPRevealSideOptionsShowShadows) [self handleShadows];
+}
+- (void) resetOption:(PPRevealSideOptions)option {
+    _options ^= option;
+    if (option == PPRevealSideOptionsShowShadows) [self handleShadows];
 }
 
 #pragma mark - Private methods
@@ -189,7 +325,7 @@
 }
 
 - (void) handleShadows {
-    if (self.showShadows) {
+    if ([self isOptionEnabled:PPRevealSideOptionsShowShadows]) {
         _rootViewController.view.layer.shadowOffset = CGSizeZero;
         _rootViewController.view.layer.shadowOpacity = 0.75f;
         _rootViewController.view.layer.shadowRadius = 10.0f;
@@ -218,23 +354,19 @@
 #pragma mark Closed Controllers 
 
 - (BOOL) isLeftControllerClosed {
-    UIViewController *c = [_viewControllers objectForKey:[NSNumber numberWithInt:PPRevealSideDirectionLeft]];
-    return !c && CGRectGetMinX(_rootViewController.view.frame) <= 0;
+    return CGRectGetMinX(_rootViewController.view.frame) <= 0;
 }
 
 - (BOOL) isRightControllerClosed {
-    UIViewController *c = [_viewControllers objectForKey:[NSNumber numberWithInt:PPRevealSideDirectionRight]];
-    return !c && CGRectGetMaxX(_rootViewController.view.frame) <= CGRectGetWidth(_rootViewController.view.frame);
+    return CGRectGetMaxX(_rootViewController.view.frame) >= CGRectGetWidth(_rootViewController.view.frame);
 }
 
 - (BOOL) isTopControllerClosed {
-    UIViewController *c = [_viewControllers objectForKey:[NSNumber numberWithInt:PPRevealSideDirectionTop]];
-    return !c && CGRectGetMinY(_rootViewController.view.frame) <= 0;
+    return CGRectGetMinY(_rootViewController.view.frame) <= 0;
 }
 
 - (BOOL) isBottomControllerClosed {
-    UIViewController *c = [_viewControllers objectForKey:[NSNumber numberWithInt:PPRevealSideDirectionBottom]];
-    return !c && CGRectGetMaxY(_rootViewController.view.frame) <= CGRectGetHeight(_rootViewController.view.frame); 
+    return CGRectGetMaxY(_rootViewController.view.frame) >= CGRectGetHeight(_rootViewController.view.frame); 
 }
 
 - (PPRevealSideDirection) getSideToClose {
@@ -259,10 +391,10 @@
             rectToReturn.origin = CGPointMake(CGRectGetWidth(_rootViewController.view.frame)-offset, 0.0);
             break;
         case PPRevealSideDirectionRight:
-            rectToReturn.origin = CGPointMake(-offset, 0.0);
+            rectToReturn.origin = CGPointMake(-(CGRectGetWidth(_rootViewController.view.frame)-offset), 0.0);
             break;
         case PPRevealSideDirectionBottom:
-            rectToReturn.origin = CGPointMake(0.0, -offset);
+            rectToReturn.origin = CGPointMake(0.0, -(CGRectGetHeight(_rootViewController.view.frame)-offset));
             break;
         case PPRevealSideDirectionTop:
             rectToReturn.origin = CGPointMake(0.0, CGRectGetHeight(_rootViewController.view.frame)-offset);
@@ -271,6 +403,10 @@
             break;
     }
     return rectToReturn;
+}
+
+- (BOOL) isOptionEnabled:(PPRevealSideOptions)option {
+    return _options & option; 
 }
 
 #pragma mark - Orientation stuff
@@ -284,7 +420,9 @@
     [_rootViewController willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
     
     for (id key in _viewControllers.allKeys)
+    {
         [(UIViewController *)[_viewControllers objectForKey:key] willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
+    }
 }
 
 - (void) didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
@@ -357,12 +495,14 @@ static char revealSideViewControllerKey;
 
 @end
 
-UIInterfaceOrientation PPInterfaceOrientation() {
+#pragma mark - Some Functions
+
+UIInterfaceOrientation PPInterfaceOrientation(void) {
 	UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
 	return orientation;
 }
 
-CGRect PPScreenBounds() {
+CGRect PPScreenBounds(void) {
 	CGRect bounds = [UIScreen mainScreen].bounds;
 	if (UIInterfaceOrientationIsLandscape(PPInterfaceOrientation())) {
 		CGFloat width = bounds.size.width;

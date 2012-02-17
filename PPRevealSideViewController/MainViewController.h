@@ -9,6 +9,13 @@
 #import <UIKit/UIKit.h>
 
 @interface MainViewController : UIViewController
-
-- (IBAction)test:(id)sender;
+{
+    BOOL _animated;
+}
+- (IBAction)showUp:(id)sender;
+- (IBAction)showDown:(id)sender;
+- (IBAction)changeAnimated:(id)sender;
+- (IBAction)changeShadow:(id)sender;
+- (IBAction)changeBounce:(id)sender;
+- (IBAction)changeCloseFull:(id)sender;
 @end

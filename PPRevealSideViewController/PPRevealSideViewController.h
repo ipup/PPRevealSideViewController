@@ -51,6 +51,16 @@ enum {
 };
 typedef NSUInteger PPRevealSideInteraction;
 
+enum {
+    PPRevealSideOptionsNone = 0,
+    PPRevealSideOptionsShowShadows = 1 << 1, //Disable or enable the shadows. Enabled by default
+    PPRevealSideOptionsBounceAnimations = 1 << 2, // Decide if the animations are boucing or not. By default, they are
+    PPRevealSideOptionsCloseCompletlyBeforeOpeningNewDirection = 1 << 3, // Decide if we close completely the old direction, for the new one or not. Set to YES by default
+
+};
+typedef NSUInteger PPRevealSideOptions;
+
+
 @protocol PPRevealSideViewControllerDelegate;
 
 @interface PPRevealSideViewController : UIViewController
@@ -71,14 +81,9 @@ typedef NSUInteger PPRevealSideInteraction;
 @property (nonatomic, readonly, retain) UIViewController *rootViewController;
 
 /**
- Disable or enable the shadows. Enabled by default
+The Reveal options. See type def for the default values 
  */
-@property (nonatomic, assign) BOOL showShadows;
-
-/**
- Decide if the animations are boucing or not. By default, they are
- */
-@property (nonatomic, assign) BOOL bouncingAnimations;
+@property (nonatomic, assign) PPRevealSideOptions options;
 
 /**
  The offset bouncing. 
@@ -98,9 +103,12 @@ typedef NSUInteger PPRevealSideInteraction;
 - (void) pushViewController:(UIViewController*)controller onDirection:(PPRevealSideDirection)direction animated:(BOOL)animated;
 - (void) pushViewController:(UIViewController*)controller onDirection:(PPRevealSideDirection)direction withOffset:(CGFloat)offset animated:(BOOL)animated;
 - (void) popViewControllerWithNewCenterController:(UIViewController*)centerController animated:(BOOL)animated;
+- (void) popViewControllerAnimated:(BOOL)animated;
 
 - (void) preloadViewController:(UIViewController*)controller forSide:(PPRevealSideDirection)direction;
 
+- (void) setOption:(PPRevealSideOptions)option;
+- (void) resetOption:(PPRevealSideOptions)option;
 @end
 
 
@@ -117,5 +125,5 @@ typedef NSUInteger PPRevealSideInteraction;
 - (void) pprevealSideViewController:(PPRevealSideViewController *)controller didPopToController:(UIViewController *)centerController;
 @end
 
-UIInterfaceOrientation PPInterfaceOrientation();
-CGRect PPScreenBounds();
+UIInterfaceOrientation PPInterfaceOrientation(void);
+CGRect PPScreenBounds(void);

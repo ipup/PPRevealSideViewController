@@ -33,7 +33,19 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
+    UIBarButtonItem *left = [[UIBarButtonItem alloc] initWithTitle:@"Left"
+                                                             style:UIBarButtonItemStylePlain
+                                                            target:self
+                                                            action:@selector(showLeft)];
+    self.navigationItem.leftBarButtonItem = PP_AUTORELEASE(left);
+    
+    UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithTitle:@"Right"
+                                                             style:UIBarButtonItemStylePlain
+                                                            target:self
+                                                            action:@selector(showRight)];
+    self.navigationItem.rightBarButtonItem = PP_AUTORELEASE(right);
+    
+    _animated = YES;
 }
 
 - (void)viewDidUnload
@@ -49,15 +61,58 @@
     return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
 }
 
-- (IBAction)test:(id)sender {
-    LeftViewController *c = [[LeftViewController alloc] initWithStyle:UITableViewStylePlain];
-    //[self.revealSideViewController pushViewController:c onDirection:PPRevealSideDirectionLeft animated:YES];
-    [self.revealSideViewController pushViewController:c 
-                                          onDirection:PPRevealSideDirectionLeft
-                                           withOffset:100 
-                                             animated:YES];
 
+- (void) showLeft {
+    LeftViewController *c = [[LeftViewController alloc] initWithStyle:UITableViewStylePlain];
+    [self.revealSideViewController pushViewController:c onDirection:PPRevealSideDirectionLeft animated:_animated];
     PP_RELEASE(c);
 }
 
+- (void) showRight {
+    LeftViewController *c = [[LeftViewController alloc] initWithStyle:UITableViewStylePlain];
+    [self.revealSideViewController pushViewController:c onDirection:PPRevealSideDirectionRight animated:_animated];
+    PP_RELEASE(c);
+}
+
+- (IBAction)showUp:(id)sender {
+    LeftViewController *c = [[LeftViewController alloc] initWithStyle:UITableViewStylePlain];
+    [self.revealSideViewController pushViewController:c onDirection:PPRevealSideDirectionTop animated:_animated];
+    PP_RELEASE(c);
+}
+
+- (IBAction)showDown:(id)sender {
+    LeftViewController *c = [[LeftViewController alloc] initWithStyle:UITableViewStylePlain];
+    [self.revealSideViewController pushViewController:c onDirection:PPRevealSideDirectionBottom animated:_animated];
+    PP_RELEASE(c);
+}
+
+- (IBAction)changeAnimated:(id)sender {
+    _animated = !_animated;
+}
+
+- (IBAction)changeShadow:(id)sender {
+    UISwitch *sw = (UISwitch*)sender;
+    PPLog(@"%d", self.revealSideViewController.options);
+    if (sw.on)
+        [self.revealSideViewController setOption:PPRevealSideOptionsShowShadows];
+    else
+        [self.revealSideViewController resetOption:PPRevealSideOptionsShowShadows];
+    PPLog(@"%d", self.revealSideViewController.options);
+}
+
+- (IBAction)changeBounce:(id)sender {
+    UISwitch *sw = (UISwitch*)sender;
+    if (sw.on)
+        [self.revealSideViewController setOption:PPRevealSideOptionsBounceAnimations];
+    else
+        [self.revealSideViewController resetOption:PPRevealSideOptionsBounceAnimations];
+}
+
+- (IBAction)changeCloseFull:(id)sender {
+    UISwitch *sw = (UISwitch*)sender;
+    if (sw.on)
+        [self.revealSideViewController setOption:PPRevealSideOptionsCloseCompletlyBeforeOpeningNewDirection];
+    else
+        [self.revealSideViewController resetOption:PPRevealSideOptionsCloseCompletlyBeforeOpeningNewDirection];
+}
 @end
