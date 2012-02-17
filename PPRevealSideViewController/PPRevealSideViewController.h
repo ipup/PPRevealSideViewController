@@ -56,7 +56,7 @@ enum {
     PPRevealSideOptionsShowShadows = 1 << 1, //Disable or enable the shadows. Enabled by default
     PPRevealSideOptionsBounceAnimations = 1 << 2, // Decide if the animations are boucing or not. By default, they are
     PPRevealSideOptionsCloseCompletlyBeforeOpeningNewDirection = 1 << 3, // Decide if we close completely the old direction, for the new one or not. Set to YES by default
-
+    PPRevealSideOptionsKeepOffsetOnRotation = 1 << 4, // Keep the same offset when rotating. By default, set to no
 };
 typedef NSUInteger PPRevealSideOptions;
 

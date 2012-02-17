@@ -161,6 +161,7 @@
     // replace with the bounds since IB add some offsets with the status bar if enabled
     CGRect newFrame = controller.view.frame;
     newFrame.origin = CGPointMake(0.0, 0.0);
+    newFrame.size = _rootViewController.view.frame.size;
     controller.view.frame = newFrame;
 
     void (^openAnimBlock)(void) = ^(void) {
@@ -419,18 +420,21 @@
     CGRect rectToReturn = CGRectZero;
     rectToReturn.size = _rootViewController.view.frame.size;
     
+    CGFloat width = (UIInterfaceOrientationIsLandscape(PPInterfaceOrientation()) ? CGRectGetHeight(_rootViewController.view.frame) : CGRectGetWidth(_rootViewController.view.frame));
+        CGFloat height = (UIInterfaceOrientationIsLandscape(PPInterfaceOrientation()) ? CGRectGetWidth(_rootViewController.view.frame) : CGRectGetHeight(_rootViewController.view.frame));
+    
     switch (direction) {
         case PPRevealSideDirectionLeft:
-            rectToReturn.origin = CGPointMake(CGRectGetWidth(_rootViewController.view.frame)-offset, 0.0);
+            rectToReturn.origin = CGPointMake(width-offset, 0.0);
             break;
         case PPRevealSideDirectionRight:
-            rectToReturn.origin = CGPointMake(-(CGRectGetWidth(_rootViewController.view.frame)-offset), 0.0);
+            rectToReturn.origin = CGPointMake(-(width-offset), 0.0);
             break;
         case PPRevealSideDirectionBottom:
-            rectToReturn.origin = CGPointMake(0.0, -(CGRectGetHeight(_rootViewController.view.frame)-offset));
+            rectToReturn.origin = CGPointMake(0.0, -(height-offset));
             break;
         case PPRevealSideDirectionTop:
-            rectToReturn.origin = CGPointMake(0.0, CGRectGetHeight(_rootViewController.view.frame)-offset);
+            rectToReturn.origin = CGPointMake(0.0, height-offset);
             break;   
         default:
             break;
@@ -442,19 +446,45 @@
     return _options & option; 
 }
 
+- (void) resizeCurrentView {
+    PPRevealSideDirection direction = [self getSideToClose];
+    
+    if (
+        ([self isOptionEnabled:PPRevealSideOptionsKeepOffsetOnRotation] && (direction == PPRevealSideDirectionRight || direction == PPRevealSideDirectionLeft))
+        ||
+        (direction == PPRevealSideDirectionBottom || direction == PPRevealSideDirectionTop)
+        ) {
+        _rootViewController.view.frame = [self getSlidingRectForOffset:[(NSNumber*)([_viewControllersOffsets objectForKey:[NSNumber numberWithInt:direction]]) floatValue]
+                                                          forDirection:direction];
+    }
+}
+
 #pragma mark - Orientation stuff
 
 - (void) willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
     [super willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
     
-    _rootViewController.view.layer.shadowPath = nil;
-    _rootViewController.view.layer.shouldRasterize = YES;
+    [self resizeCurrentView];
     
     [_rootViewController willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
     
     for (id key in _viewControllers.allKeys)
     {
         [(UIViewController *)[_viewControllers objectForKey:key] willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
+    }
+}
+
+- (void) willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
+    [super willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
+    
+    _rootViewController.view.layer.shadowPath = nil;
+    _rootViewController.view.layer.shouldRasterize = YES;
+    
+    [_rootViewController willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
+    
+    for (id key in _viewControllers.allKeys)
+    {
+        [(UIViewController *)[_viewControllers objectForKey:key] willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
     }
 }
 

@@ -50,9 +50,22 @@
 
 - (void)viewDidUnload
 {
+    _shadowSwitch = nil;
+    _bounceSwitch = nil;
+    _closeFullSwitch = nil;
+    _keepOffsetSwitch = nil;
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
+}
+
+- (void) viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    PPRevealSideOptions options = self.revealSideViewController.options;
+    _shadowSwitch.on = (options & PPRevealSideOptionsShowShadows);
+    _bounceSwitch.on = (options & PPRevealSideOptionsBounceAnimations);
+    _closeFullSwitch.on = (options & PPRevealSideOptionsCloseCompletlyBeforeOpeningNewDirection);
+    _keepOffsetSwitch.on = (options & PPRevealSideOptionsKeepOffsetOnRotation);
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -90,28 +103,27 @@
     _animated = !_animated;
 }
 
-- (IBAction)changeShadow:(id)sender {
-    UISwitch *sw = (UISwitch*)sender;
+- (void) setOption:(PPRevealSideOptions)option fromSwitch:(UISwitch*)sw {
     if (sw.on)
-        [self.revealSideViewController setOption:PPRevealSideOptionsShowShadows];
+        [self.revealSideViewController setOption:option];
     else
-        [self.revealSideViewController resetOption:PPRevealSideOptionsShowShadows];
+        [self.revealSideViewController resetOption:option]; 
+}
+
+- (IBAction)changeShadow:(id)sender {
+    [self setOption:PPRevealSideOptionsShowShadows fromSwitch:sender];
 }
 
 - (IBAction)changeBounce:(id)sender {
-    UISwitch *sw = (UISwitch*)sender;
-    if (sw.on)
-        [self.revealSideViewController setOption:PPRevealSideOptionsBounceAnimations];
-    else
-        [self.revealSideViewController resetOption:PPRevealSideOptionsBounceAnimations];
+    [self setOption:PPRevealSideOptionsBounceAnimations fromSwitch:sender];
 }
 
 - (IBAction)changeCloseFull:(id)sender {
-    UISwitch *sw = (UISwitch*)sender;
-    if (sw.on)
-        [self.revealSideViewController setOption:PPRevealSideOptionsCloseCompletlyBeforeOpeningNewDirection];
-    else
-        [self.revealSideViewController resetOption:PPRevealSideOptionsCloseCompletlyBeforeOpeningNewDirection];
+    [self setOption:PPRevealSideOptionsCloseCompletlyBeforeOpeningNewDirection fromSwitch:sender];
+}
+
+- (IBAction)changeKeepOffset:(id)sender {
+    [self setOption:PPRevealSideOptionsKeepOffsetOnRotation fromSwitch:sender];
 }
 
 - (IBAction)pushOldLeft:(id)sender {
