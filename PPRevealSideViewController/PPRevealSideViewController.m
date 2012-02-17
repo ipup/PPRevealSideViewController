@@ -27,6 +27,9 @@
 - (void) popViewControllerWithNewCenterController:(UIViewController *)centerController animated:(BOOL)animated andPresentNewController:(UIViewController*)controllerToPush withDirection:(PPRevealSideDirection)direction andOffset:(CGFloat)offset;
 
 - (BOOL) isOptionEnabled:(PPRevealSideOptions)option;
+- (BOOL) canCrossOffsets;
+
+- (CGRect) getSideViewFrameFromRootFrame:(CGRect)rootFrame andDirection:(PPRevealSideDirection)direction;
 
 @end
 
@@ -45,12 +48,12 @@
         
         // set default options
         self.options = PPRevealSideOptionsShowShadows | PPRevealSideOptionsBounceAnimations | PPRevealSideOptionsCloseCompletlyBeforeOpeningNewDirection;
-
+        
         self.bouncingOffset = -1.0;
         self.interactions = PPRevealSideInteractionNavigationBar;
         _viewControllers = [[NSMutableDictionary alloc] init];
         _viewControllersOffsets = [[NSMutableDictionary alloc] init];
-
+        
     }
     return self;
 }
@@ -68,12 +71,12 @@
 
 
 /*
-// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-}
-*/
+ // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
+ - (void)viewDidLoad
+ {
+ [super viewDidLoad];
+ }
+ */
 
 #pragma mark - Push and pop methods
 #define DefaultOffset 70.0
@@ -150,7 +153,7 @@
         [oldController.view removeFromSuperview];
     }
     [_viewControllers setObject:controller forKey:directionNumber];
-
+    
     // set the container controller to self
     controller.revealSideViewController = self;
     
@@ -158,24 +161,25 @@
     [controller.view removeFromSuperview];
     [self.view insertSubview:controller.view belowSubview:_rootViewController.view];
     
-    // replace with the bounds since IB add some offsets with the status bar if enabled
-    CGRect newFrame = controller.view.frame;
-    newFrame.origin = CGPointMake(0.0, 0.0);
-    newFrame.size = _rootViewController.view.frame.size;
-    controller.view.frame = newFrame;
-
+    // if bounces is activated and the push is animated, calculate the first frame with the bounce
+    CGRect rootFrame = CGRectZero;
+    if ([self canCrossOffsets] && animated) // then we make an offset
+        rootFrame = [self getSlidingRectForOffset:offset- ((_bouncingOffset == - 1.0) ? DefaultOffsetBouncing : _bouncingOffset) forDirection:direction];
+    else
+        rootFrame = [self getSlidingRectForOffset:offset forDirection:direction];
+    
+    
     void (^openAnimBlock)(void) = ^(void) {
-        controller.view.hidden = NO;
-        // if bounces is activated and the push is animated, calculate the first frame with the bounce
-        if ([self isOptionEnabled:PPRevealSideOptionsBounceAnimations] && animated) // then we make an offset
-            _rootViewController.view.frame = [self getSlidingRectForOffset:offset- ((_bouncingOffset == - 1.0) ? DefaultOffsetBouncing : _bouncingOffset) forDirection:direction];
-        else
-            _rootViewController.view.frame = [self getSlidingRectForOffset:offset forDirection:direction];
-        
+        controller.view.hidden = NO;        
+        _rootViewController.view.frame = rootFrame;
     };
     
+    // replace the view since IB add some offsets with the status bar if enabled
+    controller.view.frame = [self getSideViewFrameFromRootFrame:rootFrame
+                                                   andDirection:direction];
+    
     NSTimeInterval animationTime;
-    if ([self isOptionEnabled:PPRevealSideOptionsBounceAnimations]) animationTime = OpenAnimationTime*(1.0-OpenAnimationTimeBouncingRatio);
+    if ([self canCrossOffsets]) animationTime = OpenAnimationTime*(1.0-OpenAnimationTimeBouncingRatio);
     else animationTime = OpenAnimationTime;
     
     UIViewAnimationOptions options = UIViewAnimationOptionCurveEaseInOut | UIViewAnimationOptionLayoutSubviews;
@@ -186,7 +190,7 @@
                             options:options
                          animations:openAnimBlock
                          completion:^(BOOL finished) {
-                             if ([self isOptionEnabled:PPRevealSideOptionsBounceAnimations]) // then we come to normal
+                             if ([self canCrossOffsets]) // then we come to normal
                              {
                                  [UIView animateWithDuration:OpenAnimationTime*OpenAnimationTimeBouncingRatio
                                                        delay:0.0
@@ -199,7 +203,7 @@
                              }
                              else
                                  [self informDelegateWithOptionalSelector:@selector(pprevealSideViewController:didPushController:) withParam:controller];
-                                 
+                             
                          }];
     }
     else {
@@ -258,7 +262,7 @@
             // execute the blocks depending on animated or not
             if (animated) {
                 NSTimeInterval animationTime;
-                if ([self isOptionEnabled:PPRevealSideOptionsBounceAnimations]) animationTime = OpenAnimationTime*(1.0-OpenAnimationTimeBouncingRatio);
+                if ([self canCrossOffsets]) animationTime = OpenAnimationTime*(1.0-OpenAnimationTimeBouncingRatio);
                 else animationTime = OpenAnimationTime;
                 
                 [UIView animateWithDuration:animationTime
@@ -276,7 +280,7 @@
     };
     
     // Now we are gonna use the big block !!
-    if ([self isOptionEnabled:PPRevealSideOptionsBounceAnimations] && animated) {
+    if ([self canCrossOffsets] && animated) {
         PPRevealSideDirection directionToOpen = [self getSideToClose];
         
         // open completely and then close it
@@ -412,17 +416,16 @@
     return sideToReturn;
 }
 
-- (CGRect) getSlidingRectForOffset:(CGFloat)offset forDirection:(PPRevealSideDirection)direction {
+- (CGRect) getSlidingRectForOffset:(CGFloat)offset forDirection:(PPRevealSideDirection)direction andOrientation:(UIInterfaceOrientation)orientation {
     if (direction == PPRevealSideDirectionLeft || direction == PPRevealSideDirectionRight) offset = MIN(CGRectGetWidth(PPScreenBounds()), offset);
     
     if (direction == PPRevealSideDirectionTop || direction == PPRevealSideDirectionBottom) offset = MIN(CGRectGetHeight(PPScreenBounds()), offset);
-
+    
     CGRect rectToReturn = CGRectZero;
     rectToReturn.size = _rootViewController.view.frame.size;
     
-    CGFloat width = (UIInterfaceOrientationIsLandscape(PPInterfaceOrientation()) ? CGRectGetHeight(_rootViewController.view.frame) : CGRectGetWidth(_rootViewController.view.frame));
-        CGFloat height = (UIInterfaceOrientationIsLandscape(PPInterfaceOrientation()) ? CGRectGetWidth(_rootViewController.view.frame) : CGRectGetHeight(_rootViewController.view.frame));
-    
+    CGFloat width = CGRectGetWidth(_rootViewController.view.frame);
+    CGFloat height = CGRectGetHeight(_rootViewController.view.frame);
     switch (direction) {
         case PPRevealSideDirectionLeft:
             rectToReturn.origin = CGPointMake(width-offset, 0.0);
@@ -439,11 +442,20 @@
         default:
             break;
     }
+
     return rectToReturn;
+}
+
+- (CGRect) getSlidingRectForOffset:(CGFloat)offset forDirection:(PPRevealSideDirection)direction {
+        return [self getSlidingRectForOffset:offset forDirection:direction andOrientation:PPInterfaceOrientation()];
 }
 
 - (BOOL) isOptionEnabled:(PPRevealSideOptions)option {
     return _options & option; 
+}
+
+- (BOOL) canCrossOffsets {
+    return ![self isOptionEnabled:PPRevealSideOptionsResizeSideView] && [self isOptionEnabled:PPRevealSideOptionsBounceAnimations];
 }
 
 - (void) resizeCurrentView {
@@ -459,6 +471,45 @@
     }
 }
 
+- (CGRect) getSideViewFrameFromRootFrame:(CGRect)rootFrame andDirection:(PPRevealSideDirection)direction {
+    CGRect slideFrame = CGRectZero;
+
+    CGFloat rootHeight = CGRectGetHeight(rootFrame);
+    CGFloat rootWidth = CGRectGetWidth(rootFrame);
+    
+    if ([self isOptionEnabled:PPRevealSideOptionsResizeSideView]){
+        switch (direction) {
+            case PPRevealSideDirectionLeft:
+                slideFrame.size.height = rootHeight;
+                slideFrame.size.width = CGRectGetMinX(rootFrame);
+                break;
+            case PPRevealSideDirectionRight:
+                slideFrame.origin.x = CGRectGetMaxX(rootFrame);
+                slideFrame.size.height = rootHeight;
+                slideFrame.size.width = rootWidth - CGRectGetMaxX(rootFrame);
+                break; 
+            case PPRevealSideDirectionTop:
+                slideFrame.size.height = CGRectGetMinY(rootFrame);
+                slideFrame.size.width = rootWidth;
+                break;
+            case PPRevealSideDirectionBottom:
+                slideFrame.origin.y = CGRectGetMaxY(rootFrame);
+                slideFrame.size.height = rootHeight-CGRectGetMaxY(rootFrame);
+                slideFrame.size.width = rootWidth;
+                break;
+            default:
+                break;
+        }
+    }
+    else
+    {
+        slideFrame.size.width = rootWidth;
+        slideFrame.size.height = rootHeight;
+    }
+
+    return slideFrame;
+}
+
 #pragma mark - Orientation stuff
 
 - (void) willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
@@ -470,7 +521,12 @@
     
     for (id key in _viewControllers.allKeys)
     {
-        [(UIViewController *)[_viewControllers objectForKey:key] willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
+        UIViewController *controller = (UIViewController *)[_viewControllers objectForKey:key];
+        
+        controller.view.frame = [self getSideViewFrameFromRootFrame:_rootViewController.view.frame
+                                                       andDirection:[key intValue]];
+        
+        [controller willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
     }
 }
 
@@ -524,9 +580,9 @@
     PP_RELEASE(_rootViewController);
     PP_RELEASE(_viewControllers);
     PP_RELEASE(_viewControllersOffsets);
-
+    
 #if !PP_ARC_ENABLED
- [super dealloc];
+    [super dealloc];
 #endif
 }
 
@@ -552,7 +608,7 @@ static char revealSideViewControllerKey;
     // because we can't ask the navigation controller to set to the pushed controller the revealSideViewController !
     if (!controller && self.navigationController)
         controller = self.navigationController.revealSideViewController;
-
+    
     return controller;
 }
 

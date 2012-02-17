@@ -54,6 +54,7 @@
     _bounceSwitch = nil;
     _closeFullSwitch = nil;
     _keepOffsetSwitch = nil;
+    _resizeSwitch = nil;
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -66,6 +67,7 @@
     _bounceSwitch.on = (options & PPRevealSideOptionsBounceAnimations);
     _closeFullSwitch.on = (options & PPRevealSideOptionsCloseCompletlyBeforeOpeningNewDirection);
     _keepOffsetSwitch.on = (options & PPRevealSideOptionsKeepOffsetOnRotation);
+    _resizeSwitch.on = (options & PPRevealSideOptionsResizeSideView);
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -124,6 +126,10 @@
 
 - (IBAction)changeKeepOffset:(id)sender {
     [self setOption:PPRevealSideOptionsKeepOffsetOnRotation fromSwitch:sender];
+}
+
+- (IBAction)changeResize:(id)sender {
+    [self setOption:PPRevealSideOptionsResizeSideView fromSwitch:sender];
 }
 
 - (IBAction)pushOldLeft:(id)sender {

@@ -15,6 +15,7 @@
     __weak IBOutlet UISwitch *_bounceSwitch;
     __weak IBOutlet UISwitch *_closeFullSwitch;
     __weak IBOutlet UISwitch *_keepOffsetSwitch;
+    __weak IBOutlet UISwitch *_resizeSwitch;
 }
 - (IBAction)showUp:(id)sender;
 - (IBAction)showDown:(id)sender;
@@ -23,6 +24,7 @@
 - (IBAction)changeBounce:(id)sender;
 - (IBAction)changeCloseFull:(id)sender;
 - (IBAction)changeKeepOffset:(id)sender;
+- (IBAction)changeResize:(id)sender;
 - (IBAction)pushOldLeft:(id)sender;
 - (IBAction)pushOldRight:(id)sender;
 @end

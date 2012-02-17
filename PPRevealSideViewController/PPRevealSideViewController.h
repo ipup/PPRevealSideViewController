@@ -57,6 +57,7 @@ enum {
     PPRevealSideOptionsBounceAnimations = 1 << 2, // Decide if the animations are boucing or not. By default, they are
     PPRevealSideOptionsCloseCompletlyBeforeOpeningNewDirection = 1 << 3, // Decide if we close completely the old direction, for the new one or not. Set to YES by default
     PPRevealSideOptionsKeepOffsetOnRotation = 1 << 4, // Keep the same offset when rotating. By default, set to no
+    PPRevealSideOptionsResizeSideView = 1 << 5, // Resize the side view. If set to yes, this disabled the bouncing stuff since the view behind is not large enough to show bouncing correctly. Set to NO by default
 };
 typedef NSUInteger PPRevealSideOptions;
 
