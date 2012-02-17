@@ -229,6 +229,7 @@
     
     [self informDelegateWithOptionalSelector:@selector(pprevealSideViewController:willPopToController:) withParam:centerController];
     
+    PPRevealSideDirection directionToClose = [self getSideToClose];
     UIViewAnimationOptions options = UIViewAnimationOptionCurveEaseInOut | UIViewAnimationOptionLayoutSubviews;
     
     // define the close anim block
@@ -250,6 +251,10 @@
             void (^smallAnimBlockCompletion)(BOOL) = ^(BOOL finished) {
                 if (finished) {
                     [self informDelegateWithOptionalSelector:@selector(pprevealSideViewController:didPopToController:) withParam:centerController];
+                    
+                    UIViewController *oldController = (UIViewController*)[_viewControllers objectForKey:[NSNumber numberWithInt:directionToClose]];
+                    [oldController.view removeFromSuperview];
+                    
                     if (controllerToPush) {
                         [self pushViewController:controllerToPush
                                      onDirection:direction
@@ -523,10 +528,13 @@
     {
         UIViewController *controller = (UIViewController *)[_viewControllers objectForKey:key];
         
-        controller.view.frame = [self getSideViewFrameFromRootFrame:_rootViewController.view.frame
-                                                       andDirection:[key intValue]];
-        
-        [controller willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
+        if (controller.view.superview) {
+            PPLog(@"%@", controller);
+            controller.view.frame = [self getSideViewFrameFromRootFrame:_rootViewController.view.frame
+                                                           andDirection:[key intValue]];
+            
+            [controller willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
+        }
     }
 }
 
@@ -540,7 +548,10 @@
     
     for (id key in _viewControllers.allKeys)
     {
-        [(UIViewController *)[_viewControllers objectForKey:key] willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
+        // optimisation
+        UIViewController *controller = (UIViewController *)[_viewControllers objectForKey:key];
+        if (controller.view.superview)
+            [controller willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
     }
 }
 
@@ -552,7 +563,12 @@
     
     [_rootViewController didRotateFromInterfaceOrientation:fromInterfaceOrientation];
     for (id key in _viewControllers.allKeys)
-        [(UIViewController *)[_viewControllers objectForKey:key] didRotateFromInterfaceOrientation:fromInterfaceOrientation];
+    {
+        // optimisation
+        UIViewController *controller = (UIViewController *)[_viewControllers objectForKey:key];
+        if (controller.view.superview)
+            [controller didRotateFromInterfaceOrientation:fromInterfaceOrientation];
+    }
 }
 
 - (BOOL) shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation {
