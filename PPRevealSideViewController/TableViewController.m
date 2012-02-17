@@ -6,10 +6,10 @@
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
-#import "LeftViewController.h"
+#import "TableViewController.h"
 
 
-@implementation LeftViewController
+@implementation TableViewController
 
 - (id)initWithStyle:(UITableViewStyle)style
 {

@@ -18,4 +18,6 @@
 - (IBAction)changeShadow:(id)sender;
 - (IBAction)changeBounce:(id)sender;
 - (IBAction)changeCloseFull:(id)sender;
+- (IBAction)pushOldLeft:(id)sender;
+- (IBAction)pushOldRight:(id)sender;
 @end

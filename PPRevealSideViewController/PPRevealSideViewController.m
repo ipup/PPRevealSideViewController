@@ -89,6 +89,36 @@
                     animated:animated];
 }
 
+- (void) pushOldViewControllerOnDirection:(PPRevealSideDirection)direction animated:(BOOL)animated {
+    [self pushOldViewControllerOnDirection:direction
+                                withOffset:DefaultOffset
+                                  animated:animated];
+}
+
+- (void) pushOldViewControllerOnDirection:(PPRevealSideDirection)direction withOffset:(CGFloat)offset animated:(BOOL)animated {
+    UIViewController *oldController = [_viewControllers objectForKey:[NSNumber numberWithInt:direction]];
+    if (oldController) {
+        [self pushViewController:oldController
+                     onDirection:direction
+                      withOffset:offset
+                        animated:animated];
+    }
+    else
+    {
+        // make a small animation to indicate that there is not yet a controller
+        CGRect originalFrame = _rootViewController.view.frame;
+        [UIView animateWithDuration:OpenAnimationTime*0.2 
+                              delay:0.0
+                            options:UIViewAnimationCurveEaseInOut | UIViewAnimationOptionAutoreverse | UIViewAnimationOptionLayoutSubviews
+                         animations:^{
+                             _rootViewController.view.frame = [self getSlidingRectForOffset:CGRectGetWidth(_rootViewController.view.frame)-14.0
+                                                                               forDirection:direction];
+                         } completion:^(BOOL finished) {
+                             _rootViewController.view.frame = originalFrame;
+                         }];
+    }
+}
+
 - (void) pushViewController:(UIViewController*)controller onDirection:(PPRevealSideDirection)direction withOffset:(CGFloat)offset animated:(BOOL)animated {
     
     [self informDelegateWithOptionalSelector:@selector(pprevealSideViewController:willPushController:) withParam:controller];
@@ -124,12 +154,15 @@
     // set the container controller to self
     controller.revealSideViewController = self;
     
-    // check if the controller.view is already on a different view. If yes, then remove it
-    if (controller.view.superview != self.view) [controller.view removeFromSuperview], [self.view insertSubview:controller.view belowSubview:_rootViewController.view];
+    // Place the controller juste below the rootviewcontroller
+    [controller.view removeFromSuperview];
+    [self.view insertSubview:controller.view belowSubview:_rootViewController.view];
     
     // replace with the bounds since IB add some offsets with the status bar if enabled
-    controller.view.frame = controller.view.bounds;
-    
+    CGRect newFrame = controller.view.frame;
+    newFrame.origin = CGPointMake(0.0, 0.0);
+    controller.view.frame = newFrame;
+
     void (^openAnimBlock)(void) = ^(void) {
         controller.view.hidden = NO;
         // if bounces is activated and the push is animated, calculate the first frame with the bounce

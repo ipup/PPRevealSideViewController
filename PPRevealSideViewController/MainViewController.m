@@ -7,8 +7,8 @@
 //
 
 #import "MainViewController.h"
-#import "LeftViewController.h"
-
+#import "TableViewController.h"
+#import "PopedViewController.h"
 @implementation MainViewController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -63,25 +63,25 @@
 
 
 - (void) showLeft {
-    LeftViewController *c = [[LeftViewController alloc] initWithStyle:UITableViewStylePlain];
+    TableViewController *c = [[TableViewController alloc] initWithStyle:UITableViewStylePlain];
     [self.revealSideViewController pushViewController:c onDirection:PPRevealSideDirectionLeft animated:_animated];
     PP_RELEASE(c);
 }
 
 - (void) showRight {
-    LeftViewController *c = [[LeftViewController alloc] initWithStyle:UITableViewStylePlain];
+    PopedViewController *c = [[PopedViewController alloc] initWithNibName:@"PopedViewController" bundle:nil ];
     [self.revealSideViewController pushViewController:c onDirection:PPRevealSideDirectionRight animated:_animated];
     PP_RELEASE(c);
 }
 
 - (IBAction)showUp:(id)sender {
-    LeftViewController *c = [[LeftViewController alloc] initWithStyle:UITableViewStylePlain];
+    TableViewController *c = [[TableViewController alloc] initWithStyle:UITableViewStylePlain];
     [self.revealSideViewController pushViewController:c onDirection:PPRevealSideDirectionTop animated:_animated];
     PP_RELEASE(c);
 }
 
 - (IBAction)showDown:(id)sender {
-    LeftViewController *c = [[LeftViewController alloc] initWithStyle:UITableViewStylePlain];
+    TableViewController *c = [[TableViewController alloc] initWithStyle:UITableViewStylePlain];
     [self.revealSideViewController pushViewController:c onDirection:PPRevealSideDirectionBottom animated:_animated];
     PP_RELEASE(c);
 }
@@ -92,12 +92,10 @@
 
 - (IBAction)changeShadow:(id)sender {
     UISwitch *sw = (UISwitch*)sender;
-    PPLog(@"%d", self.revealSideViewController.options);
     if (sw.on)
         [self.revealSideViewController setOption:PPRevealSideOptionsShowShadows];
     else
         [self.revealSideViewController resetOption:PPRevealSideOptionsShowShadows];
-    PPLog(@"%d", self.revealSideViewController.options);
 }
 
 - (IBAction)changeBounce:(id)sender {
@@ -115,4 +113,13 @@
     else
         [self.revealSideViewController resetOption:PPRevealSideOptionsCloseCompletlyBeforeOpeningNewDirection];
 }
+
+- (IBAction)pushOldLeft:(id)sender {
+    [self.revealSideViewController pushOldViewControllerOnDirection:PPRevealSideDirectionLeft animated:YES];
+}
+
+- (IBAction)pushOldRight:(id)sender {
+    [self.revealSideViewController pushOldViewControllerOnDirection:PPRevealSideDirectionRight animated:YES];
+}
+
 @end

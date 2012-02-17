@@ -100,22 +100,60 @@ The Reveal options. See type def for the default values
 
 @property (nonatomic, assign) id <PPRevealSideViewControllerDelegate> delegate;
 
+/**
+ Push controller with a direction and a default offset
+ */
 - (void) pushViewController:(UIViewController*)controller onDirection:(PPRevealSideDirection)direction animated:(BOOL)animated;
+
+/**
+ Push the old controller if exists for the direction with a default offset
+ */
+- (void) pushOldViewControllerOnDirection:(PPRevealSideDirection)direction animated:(BOOL)animated;
+
+/**
+ Push controller with a direction and an offset
+ */
 - (void) pushViewController:(UIViewController*)controller onDirection:(PPRevealSideDirection)direction withOffset:(CGFloat)offset animated:(BOOL)animated;
+
+/**
+ Push the old controller if exists for the direction  an offset
+ */
+- (void) pushOldViewControllerOnDirection:(PPRevealSideDirection)direction withOffset:(CGFloat)offset animated:(BOOL)animated;
+
+/**
+ Pop controller with a new Center controller
+ */
+
 - (void) popViewControllerWithNewCenterController:(UIViewController*)centerController animated:(BOOL)animated;
+
+/**
+ go back to the center controller
+ */
 - (void) popViewControllerAnimated:(BOOL)animated;
 
+/**
+ Preload a controller (Use only if the animation scratches). Preloading is not good for performances since it uses RAM for nothing.
+ Preload long before pushing the controller (ex in the view did load
+ */
 - (void) preloadViewController:(UIViewController*)controller forSide:(PPRevealSideDirection)direction;
 
+/**
+ Set and reset options
+ */
 - (void) setOption:(PPRevealSideOptions)option;
 - (void) resetOption:(PPRevealSideOptions)option;
 @end
 
-
+/**
+ UIViewController Category
+ */
 @interface UIViewController (PPRevealSideViewController)
 @property (nonatomic, retain) PPRevealSideViewController *revealSideViewController;
 @end
 
+/**
+ PPRevealSideViewControllerDelegate protocol
+ */
 @protocol PPRevealSideViewControllerDelegate <NSObject>
 @optional
 - (void) pprevealSideViewController:(PPRevealSideViewController*)controller didChangeCenterController:(UIViewController*)newCenterController;
