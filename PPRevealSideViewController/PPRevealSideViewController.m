@@ -94,7 +94,7 @@
 #define DefaultOffset 70.0
 #define DefaultOffsetBouncing 5.0
 
-#define OpenAnimationTime 0.5
+#define OpenAnimationTime 0.3
 #define OpenAnimationTimeBouncingRatio 0.3
 
 - (void) pushViewController:(UIViewController*)controller onDirection:(PPRevealSideDirection)direction animated:(BOOL)animated {
@@ -236,11 +236,11 @@
     controller.view.frame = [self getSideViewFrameFromRootFrame:rootFrame
                                                    andDirection:direction];
     
-    NSTimeInterval animationTime;
-    if ([self canCrossOffsets]) animationTime = OpenAnimationTime*(1.0-OpenAnimationTimeBouncingRatio);
-    else animationTime = OpenAnimationTime;
+    NSTimeInterval animationTime = OpenAnimationTime;
+//    if ([self canCrossOffsets]) animationTime = OpenAnimationTime;
+//    else animationTime = OpenAnimationTime;
     
-    UIViewAnimationOptions options = UIViewAnimationOptionCurveEaseInOut | UIViewAnimationOptionLayoutSubviews;
+    UIViewAnimationOptions options = UIViewAnimationOptionCurveEaseOut | UIViewAnimationOptionLayoutSubviews;
     
     if (animated) {
         [UIView animateWithDuration:animationTime
@@ -294,7 +294,7 @@
     [self informDelegateWithOptionalSelector:@selector(pprevealSideViewController:willPopToController:) withParam:centerController];
     
     PPRevealSideDirection directionToClose = [self getSideToClose];
-    UIViewAnimationOptions options = UIViewAnimationOptionCurveEaseInOut;
+    UIViewAnimationOptions options = UIViewAnimationOptionCurveEaseOut;
     
     _animationInProgress = YES;
     
@@ -335,9 +335,9 @@
             
             // execute the blocks depending on animated or not
             if (animated) {
-                NSTimeInterval animationTime;
-                if ([self canCrossOffsets]) animationTime = OpenAnimationTime*(1.0-OpenAnimationTimeBouncingRatio);
-                else animationTime = OpenAnimationTime;
+                NSTimeInterval animationTime = OpenAnimationTime;
+//                if ([self canCrossOffsets]) animationTime = OpenAnimationTime;
+//                else animationTime = OpenAnimationTime;
                 
                 [UIView animateWithDuration:animationTime
                                       delay:0.0
