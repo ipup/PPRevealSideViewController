@@ -399,11 +399,11 @@
         if (existingController.view.superview) [existingController.view removeFromSuperview];
         
         [_viewControllers setObject:controller forKey:[NSNumber numberWithInt:direction]];
-        
         if (![controller isViewLoaded]) {
             [self.view insertSubview:controller.view atIndex:0];
             controller.view.hidden = YES;
         }
+        controller.view.frame = self.view.bounds;
         
     }    
     [_viewControllersOffsets setObject:[NSNumber numberWithFloat:offset] forKey:[NSNumber numberWithInt:direction]];
