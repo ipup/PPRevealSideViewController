@@ -696,7 +696,7 @@
 - (CGRect) getSlidingRectForOffset:(CGFloat)offset forDirection:(PPRevealSideDirection)direction andOrientation:(UIInterfaceOrientation)orientation {
     if (direction == PPRevealSideDirectionLeft || direction == PPRevealSideDirectionRight) offset = MIN(CGRectGetWidth(PPScreenBounds()), offset);
     
-    if (direction == PPRevealSideDirectionTop || direction == PPRevealSideDirectionBottom) offset = MIN(CGRectGetHeight(PPScreenBounds()), offset);
+    if (direction == PPRevealSideDirectionTop || direction == PPRevealSideDirectionBottom) offset = MIN(CGRectGetHeight(self.view.frame), offset);
     
     CGRect rectToReturn = CGRectZero;
     rectToReturn.size = _rootViewController.view.frame.size;
@@ -802,6 +802,8 @@
     if (_currentPanDirection == PPRevealSideDirectionNone) _wasClosed = YES;
     else _wasClosed = NO;
     
+    PPLog(@"%d", _wasClosed);
+    
     BOOL hasExceptionTouch = NO;
     if ([touch.view isKindOfClass:[UIControl class]]) {
         if (![touch.view isKindOfClass:NSClassFromString(@"UINavigationButton")]) hasExceptionTouch = YES;
@@ -815,7 +817,8 @@
     return !_animationInProgress && !hasExceptionTouch && !hasExceptionDelegate;
 }
 
-#define OFFSET_TRIGGER_DIRECTION 3.0
+#define OFFSET_TRIGGER_CHOSE_DIRECTION 3.0
+#define OFFSET_TRIGGER_CHANGE_DIRECTION 0.0
 - (void) gestureRecognizerDidPan:(UIPanGestureRecognizer*)panGesture {
     
     if(_animationInProgress) return;
@@ -832,16 +835,16 @@
         CGFloat panDiffX = currentPoint.x - _panOrigin.x;
         CGFloat panDiffY = currentPoint.y - _panOrigin.y;
 
-        if (panDiffX > 0 && panDiffX > OFFSET_TRIGGER_DIRECTION)
+        if (panDiffX > 0 && panDiffX > OFFSET_TRIGGER_CHOSE_DIRECTION)
             _currentPanDirection = PPRevealSideDirectionLeft;
         else
-            if (panDiffX < 0 && panDiffX < OFFSET_TRIGGER_DIRECTION)
+            if (panDiffX < 0 && panDiffX < OFFSET_TRIGGER_CHOSE_DIRECTION)
                 _currentPanDirection = PPRevealSideDirectionRight;
         else
-            if (panDiffY > 0 && panDiffY > OFFSET_TRIGGER_DIRECTION)
+            if (panDiffY > 0 && panDiffY > OFFSET_TRIGGER_CHOSE_DIRECTION)
                 _currentPanDirection = PPRevealSideDirectionTop;
             else
-                if (panDiffY < 0 && panDiffY < OFFSET_TRIGGER_DIRECTION)
+                if (panDiffY < 0 && panDiffY < OFFSET_TRIGGER_CHOSE_DIRECTION)
                     _currentPanDirection = PPRevealSideDirectionBottom;
     
     }
@@ -883,16 +886,90 @@
     
     offset = MAX(offset, [[_viewControllersOffsets objectForKey:[NSNumber numberWithInt:_currentPanDirection]] floatValue]);
     //PPLog(@"%f", offset);
+    
+    // test if whe changed direction
+    if (_currentPanDirection == PPRevealSideDirectionRight || _currentPanDirection == PPRevealSideDirectionLeft) {
+        if (offset >= CGRectGetWidth(self.view.frame)-OFFSET_TRIGGER_CHANGE_DIRECTION) {
+            // change direction if possible
+            PPRevealSideDirection newDirection;
+            if (_currentPanDirection == PPRevealSideDirectionLeft)
+                newDirection = PPRevealSideDirectionRight;
+            else
+                newDirection = PPRevealSideDirectionLeft;
+            
+            if ([_viewControllers objectForKey:[NSNumber numberWithInt:newDirection]]) {
+                [[[_viewControllers objectForKey:[NSNumber numberWithInt:_currentPanDirection]] view] removeFromSuperview];
+                _currentPanDirection = newDirection;
+                _wasClosed = !_wasClosed;
+                return;
+            }
+            
+            
+        } 
+    }
+    else
+    {
+        if (offset >= CGRectGetHeight(self.view.frame) - OFFSET_TRIGGER_CHANGE_DIRECTION) {
+            // change direction if possible
+            PPRevealSideDirection newDirection;
+            if (_currentPanDirection == PPRevealSideDirectionBottom)
+                newDirection = PPRevealSideDirectionTop;
+            else
+                newDirection = PPRevealSideDirectionBottom;
+            
+            if ([_viewControllers objectForKey:[NSNumber numberWithInt:newDirection]]) {
+                [[[_viewControllers objectForKey:[NSNumber numberWithInt:_currentPanDirection]] view] removeFromSuperview];
+                _currentPanDirection = newDirection;
+                _wasClosed = !_wasClosed;
+                return;
+            }
+        } 
+    }
+    
     self.rootViewController.view.frame = [self getSlidingRectForOffset:offset
                                                           forDirection:_currentPanDirection];  
     
     if (panGesture.state == UIGestureRecognizerStateEnded || panGesture.state == UIGestureRecognizerStateCancelled) {
+        
         CGFloat offsetController = [[_viewControllersOffsets objectForKey:[NSNumber numberWithInt:_currentPanDirection]] floatValue];
+#define divisionNumber 5.0
+        CGFloat triggerStep;
+        if (_currentPanDirection == PPRevealSideDirectionLeft || _currentPanDirection == PPRevealSideDirectionRight)
+            triggerStep = (CGRectGetWidth(self.view.frame) - offsetController)/divisionNumber;
+        else
+            triggerStep = (CGRectGetHeight(self.view.frame) - offsetController)/divisionNumber;
+       
         
-        CGFloat triggeredOffset = (CGRectGetWidth(self.view.frame) - offsetController)/3.0+offsetController;
-        if (_wasClosed) triggeredOffset = 3*triggeredOffset;
+        BOOL shouldClose;
         
-        if (offset > triggeredOffset) {
+        CGFloat sizeToTest;
+        CGFloat offsetTriggered;
+        
+        if (_currentPanDirection == PPRevealSideDirectionLeft || _currentPanDirection == PPRevealSideDirectionRight)
+        {
+            sizeToTest = CGRectGetWidth(self.view.frame);
+        }
+        else
+        {
+            sizeToTest = CGRectGetHeight(self.view.frame);
+        }
+        
+        if (_wasClosed) 
+        {
+            offsetTriggered = sizeToTest - triggerStep;
+        }
+        else
+        {
+            offsetTriggered = triggerStep+offsetController;
+        }
+        
+        //PPLog(@"offset %f ** sizeToTest %f ** triggerStep %f ** - %f", offset, sizeToTest, triggerStep, offsetTriggered);
+        if (offset > offsetTriggered)
+            shouldClose = YES;
+        else
+            shouldClose = NO;
+        
+        if (shouldClose) {
             [self popViewControllerAnimated:YES];
         }
         else

@@ -138,7 +138,7 @@
 }
 
 - (IBAction)showDown:(id)sender {
-    TableViewController *c = [[TableViewController alloc] initWithStyle:UITableViewStylePlain];
+    PopedViewController *c = [[PopedViewController alloc] initWithNibName:@"PopedViewController" bundle:nil ];
     [self.revealSideViewController pushViewController:c onDirection:PPRevealSideDirectionBottom withOffset:_offset animated:_animated];
     PP_RELEASE(c);
 }
