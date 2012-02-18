@@ -14,22 +14,20 @@
 - (void) setRootViewController:(UIViewController*)controller;
 - (void) handleShadows;
 - (void) informDelegateWithOptionalSelector:(SEL)selector withParam:(id)param;
+- (void) popViewControllerWithNewCenterController:(UIViewController *)centerController animated:(BOOL)animated andPresentNewController:(UIViewController*)controllerToPush withDirection:(PPRevealSideDirection)direction andOffset:(CGFloat)offset;
 
 - (BOOL) isLeftControllerClosed;
 - (BOOL) isRightControllerClosed;
 - (BOOL) isTopControllerClosed;
 - (BOOL) isBottomControllerClosed;
+- (BOOL) isOptionEnabled:(PPRevealSideOptions)option;
+- (BOOL) canCrossOffsets;
 
 - (PPRevealSideDirection) getSideToClose;
 
 - (CGRect) getSlidingRectForOffset:(CGFloat)offset forDirection:(PPRevealSideDirection)direction;
-
-- (void) popViewControllerWithNewCenterController:(UIViewController *)centerController animated:(BOOL)animated andPresentNewController:(UIViewController*)controllerToPush withDirection:(PPRevealSideDirection)direction andOffset:(CGFloat)offset;
-
-- (BOOL) isOptionEnabled:(PPRevealSideOptions)option;
-- (BOOL) canCrossOffsets;
-
 - (CGRect) getSideViewFrameFromRootFrame:(CGRect)rootFrame andDirection:(PPRevealSideDirection)direction;
+
 - (UIEdgeInsets) getEdgetInsetForDirection:(PPRevealSideDirection)direction;
 
 @end
@@ -443,6 +441,19 @@
     }
 }
 
+- (void) resizeCurrentView {
+    PPRevealSideDirection direction = [self getSideToClose];
+    
+    if (
+        ([self isOptionEnabled:PPRevealSideOptionsKeepOffsetOnRotation] && (direction == PPRevealSideDirectionRight || direction == PPRevealSideDirectionLeft))
+        ||
+        (direction == PPRevealSideDirectionBottom || direction == PPRevealSideDirectionTop)
+        ) {
+        _rootViewController.view.frame = [self getSlidingRectForOffset:[(NSNumber*)([_viewControllersOffsets objectForKey:[NSNumber numberWithInt:direction]]) floatValue]
+                                                          forDirection:direction];
+    }
+}
+
 #pragma mark Closed Controllers 
 
 - (BOOL) isLeftControllerClosed {
@@ -460,6 +471,15 @@
 - (BOOL) isBottomControllerClosed {
     return CGRectGetMaxY(_rootViewController.view.frame) >= CGRectGetHeight(_rootViewController.view.frame); 
 }
+
+- (BOOL) isOptionEnabled:(PPRevealSideOptions)option {
+    return _options & option; 
+}
+
+- (BOOL) canCrossOffsets {
+    return ![self isOptionEnabled:PPRevealSideOptionsResizeSideView] && [self isOptionEnabled:PPRevealSideOptionsBounceAnimations];
+}
+
 
 - (PPRevealSideDirection) getSideToClose {
     PPRevealSideDirection sideToReturn = PPRevealSideDirectionNone;
@@ -504,26 +524,6 @@
         return [self getSlidingRectForOffset:offset forDirection:direction andOrientation:PPInterfaceOrientation()];
 }
 
-- (BOOL) isOptionEnabled:(PPRevealSideOptions)option {
-    return _options & option; 
-}
-
-- (BOOL) canCrossOffsets {
-    return ![self isOptionEnabled:PPRevealSideOptionsResizeSideView] && [self isOptionEnabled:PPRevealSideOptionsBounceAnimations];
-}
-
-- (void) resizeCurrentView {
-    PPRevealSideDirection direction = [self getSideToClose];
-    
-    if (
-        ([self isOptionEnabled:PPRevealSideOptionsKeepOffsetOnRotation] && (direction == PPRevealSideDirectionRight || direction == PPRevealSideDirectionLeft))
-        ||
-        (direction == PPRevealSideDirectionBottom || direction == PPRevealSideDirectionTop)
-        ) {
-        _rootViewController.view.frame = [self getSlidingRectForOffset:[(NSNumber*)([_viewControllersOffsets objectForKey:[NSNumber numberWithInt:direction]]) floatValue]
-                                                          forDirection:direction];
-    }
-}
 
 - (CGRect) getSideViewFrameFromRootFrame:(CGRect)rootFrame andDirection:(PPRevealSideDirection)direction {
     CGRect slideFrame = CGRectZero;
@@ -586,7 +586,7 @@
                 break;
         }
     }
-    PPLog(@"%@", NSStringFromUIEdgeInsets(inset));
+
     return inset;
 }
 
