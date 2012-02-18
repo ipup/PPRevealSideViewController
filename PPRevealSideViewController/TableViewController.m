@@ -11,6 +11,7 @@
 #import "PopedViewController.h"
 #import "MainViewController.h"
 #import "SecondViewController.h"
+#import "ThirdViewController.h"
 
 @implementation TableViewController
 
@@ -123,7 +124,7 @@
     }
     switch (indexPath.row % 5) {
         case 0:
-            cell.textLabel.text = @"Go to root";
+            cell.textLabel.text = @"Go to root or push if nav";
             break;
         case 1:
             cell.textLabel.text = @"Push a new right";
@@ -190,14 +191,20 @@
 {
     switch (indexPath.row % 5) {
         case 0:
+            if (self.navigationController) {
+                ThirdViewController *c = [[ThirdViewController alloc] initWithNibName:@"ThirdViewController" bundle:nil];
+                [self.navigationController pushViewController:c animated:YES];
+                PP_RELEASE(c);
+            }
+            else
             [self.revealSideViewController popViewControllerAnimated:YES];
             break;
         case 1:
         {
-            PopedViewController *c = [[PopedViewController alloc] initWithNibName:@"PopedViewController" bundle:nil];
-            [self.revealSideViewController pushViewController:c
-                                                  onDirection:PPRevealSideDirectionRight animated:YES];
-            PP_RELEASE(c);
+                PopedViewController *c = [[PopedViewController alloc] initWithNibName:@"PopedViewController" bundle:nil];
+                [self.revealSideViewController pushViewController:c
+                                                      onDirection:PPRevealSideDirectionRight animated:YES];
+                PP_RELEASE(c);
         }
             break; 
         case 2:

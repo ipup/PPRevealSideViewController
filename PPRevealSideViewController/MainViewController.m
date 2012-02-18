@@ -9,6 +9,9 @@
 #import "MainViewController.h"
 #import "TableViewController.h"
 #import "PopedViewController.h"
+#import "SecondViewController.h"
+#import "ThirdViewController.h"
+
 @implementation MainViewController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -128,8 +131,10 @@
 
 - (IBAction)showUp:(id)sender {
     TableViewController *c = [[TableViewController alloc] initWithStyle:UITableViewStylePlain];
-    [self.revealSideViewController pushViewController:c onDirection:PPRevealSideDirectionTop withOffset:_offset animated:_animated];
+    UINavigationController *n = [[UINavigationController alloc] initWithRootViewController:c];
+    [self.revealSideViewController pushViewController:n onDirection:PPRevealSideDirectionTop withOffset:_offset animated:_animated];
     PP_RELEASE(c);
+    PP_RELEASE(n);
 }
 
 - (IBAction)showDown:(id)sender {
@@ -205,6 +210,12 @@
         inter |= PPRevealSideInteractionContentView;
     
     self.revealSideViewController.tapInteractionsWhenOpened = inter;
+}
+
+- (IBAction)pushNav:(id)sender {
+    ThirdViewController *c = [[ThirdViewController alloc] initWithNibName:@"ThirdViewController" bundle:nil];
+    [self.navigationController pushViewController:c animated:YES];
+    PP_RELEASE(c);
 }
 
 @end

@@ -214,6 +214,8 @@
     controller.revealSideViewController = self;
     
     // Place the controller juste below the rootviewcontroller
+    controller.view.frame = self.view.bounds; // handle layout issue with navigation bar. Comment to see the crap, then push a nav controller
+    
     [controller.view removeFromSuperview];
     [self.view insertSubview:controller.view belowSubview:_rootViewController.view];
     
