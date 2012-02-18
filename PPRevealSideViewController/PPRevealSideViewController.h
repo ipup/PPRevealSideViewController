@@ -49,7 +49,7 @@ enum {
     PPRevealSideInteractionContentView = 1 << 2,
     
 };
-typedef NSUInteger PPRevealSideInteraction;
+typedef NSUInteger PPRevealSideInteractions;
 
 enum {
     PPRevealSideOptionsNone = 0,
@@ -64,10 +64,20 @@ typedef NSUInteger PPRevealSideOptions;
 
 @protocol PPRevealSideViewControllerDelegate;
 
-@interface PPRevealSideViewController : UIViewController
+@interface PPRevealSideViewController : UIViewController <UIGestureRecognizerDelegate>
 {
-    NSMutableDictionary *_viewControllers;
-    NSMutableDictionary *_viewControllersOffsets;
+    NSMutableDictionary     *_viewControllers;
+    NSMutableDictionary     *_viewControllersOffsets;
+    
+    NSMutableArray          *_gestures;
+    
+    CGPoint                 _panOrigin;
+    PPRevealSideDirection   _currentPanDirection;
+    CGFloat                 _currentVelocity;
+    
+    BOOL                    _animationInProgress;
+    BOOL                    _shouldNotCloseWhenPushingSameDirection;
+    BOOL                    _wasClosed;
 }
 /**
  Initialize the reveal controller with a rootViewController. This rootViewController will be in the center
@@ -95,9 +105,22 @@ The Reveal options. See type def for the default values
 @property (nonatomic, assign) CGFloat bouncingOffset;
 
 /**
- Define the interactions to display the side views. By default, only the navigation bar is enabled
+ For panning gestures
+ Define the interactions to display the side views when closed. By default, only the navigation bar is enabled
  */
-@property (nonatomic, assign) PPRevealSideDirection interactions;
+@property (nonatomic, assign) PPRevealSideInteractions panInteractionsWhenClosed;
+
+/**
+ For panning gestures
+ Define the interactions to close the side view when opened. By default, all the view is enabled
+ */
+@property (nonatomic, assign) PPRevealSideInteractions panInteractionsWhenOpened;
+
+/**
+ For tapping gestures
+ Define the interactions to close the side view when opened. By default, all the view is enabled
+ */
+@property (nonatomic, assign) PPRevealSideInteractions tapInteractionsWhenOpened;
 
 @property (nonatomic, assign) id <PPRevealSideViewControllerDelegate> delegate;
 
@@ -143,10 +166,17 @@ The Reveal options. See type def for the default values
 - (void) popViewControllerAnimated:(BOOL)animated;
 
 /**
- Preload a controller (Use only if the animation scratches). Preloading is not good for performances since it uses RAM for nothing.
- Preload long before pushing the controller (ex in the view did load
+ Preload a controller (Use only if the animation scratches OR if you want to have gestures on the center view controller without pushing first).
+ Preloading is not good for performances since it uses RAM for nothing.
+ Preload long before pushing the controller (ex in the view did load)
+ Offset set to Default Offset
  */
 - (void) preloadViewController:(UIViewController*)controller forSide:(PPRevealSideDirection)direction;
+
+/**
+ Preload a controller with an offset
+ */
+- (void) preloadViewController:(UIViewController*)controller forSide:(PPRevealSideDirection)direction withOffset:(CGFloat)offset;
 
 /**
  Set and reset options
@@ -179,6 +209,8 @@ The Reveal options. See type def for the default values
 - (void) pprevealSideViewController:(PPRevealSideViewController *)controller didPushController:(UIViewController *)pushedController;
 - (void) pprevealSideViewController:(PPRevealSideViewController *)controller willPopToController:(UIViewController *)centerController;
 - (void) pprevealSideViewController:(PPRevealSideViewController *)controller didPopToController:(UIViewController *)centerController;
+
+- (BOOL) pprevealSideViewController:(PPRevealSideViewController *)controller shouldDeactivateGestureForView:(UIView*)view;
 @end
 
 UIInterfaceOrientation PPInterfaceOrientation(void);

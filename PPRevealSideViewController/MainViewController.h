@@ -19,6 +19,12 @@
     __weak IBOutlet UILabel *_labelOffset;
     __weak IBOutlet UISlider *_offsetSlider;
     
+    __weak IBOutlet UISwitch *_panNavOpenedSwitch;
+    __weak IBOutlet UISwitch *_panContentOpenedSwitch;
+    __weak IBOutlet UISwitch *_panNavClosedSwitch;
+    __weak IBOutlet UISwitch *_panContentClosedSwitch;
+    __weak IBOutlet UISwitch *_tapNavSwitch;
+    __weak IBOutlet UISwitch *_tapContentSwitch;
     CGFloat _offset;
 }
 - (IBAction)changeOffset:(id)sender;
@@ -32,4 +38,7 @@
 - (IBAction)changeResize:(id)sender;
 - (IBAction)pushOldLeft:(id)sender;
 - (IBAction)pushOldRight:(id)sender;
+- (IBAction)changePanOpened:(id)sender;
+- (IBAction)changePanClosed:(id)sender;
+- (IBAction)changeTap:(id)sender;
 @end

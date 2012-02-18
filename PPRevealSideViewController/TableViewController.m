@@ -82,8 +82,6 @@
 
 - (void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
     if ([keyPath isEqualToString:@"revealSideInset"]) {
-        [self.tableView reloadData];
-
         UIEdgeInsets newInset = self.tableView.contentInset;
         newInset.top = self.tableView.revealSideInset.top;
         newInset.bottom = self.tableView.revealSideInset.bottom;

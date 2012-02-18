@@ -49,6 +49,13 @@
     [self changeOffset:_offsetSlider];
     
     _animated = YES;
+    
+    TableViewController *c = [[TableViewController alloc] initWithStyle:UITableViewStylePlain];
+    [self.revealSideViewController preloadViewController:c
+                                                 forSide:PPRevealSideDirectionLeft
+                                              withOffset:_offset];
+    PP_RELEASE(c);
+    
 }
 
 - (void)viewDidUnload
@@ -60,6 +67,12 @@
     _resizeSwitch = nil;
     _labelOffset = nil;
     _offsetSlider = nil;
+    _panNavOpenedSwitch = nil;
+    _panContentOpenedSwitch = nil;
+    _panNavClosedSwitch = nil;
+    _panContentClosedSwitch = nil;
+    _tapNavSwitch = nil;
+    _tapContentSwitch = nil;
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -73,6 +86,19 @@
     _closeFullSwitch.on = (options & PPRevealSideOptionsCloseCompletlyBeforeOpeningNewDirection);
     _keepOffsetSwitch.on = (options & PPRevealSideOptionsKeepOffsetOnRotation);
     _resizeSwitch.on = (options & PPRevealSideOptionsResizeSideView);
+    
+    PPRevealSideInteractions inter = self.revealSideViewController.panInteractionsWhenOpened;
+    _panNavOpenedSwitch.on = (inter & PPRevealSideInteractionNavigationBar);
+    _panContentOpenedSwitch.on = (inter & PPRevealSideInteractionContentView);
+    
+    inter = self.revealSideViewController.panInteractionsWhenClosed;
+    _panNavClosedSwitch.on = (inter & PPRevealSideInteractionNavigationBar);
+    _panContentClosedSwitch.on = (inter & PPRevealSideInteractionContentView);
+    
+    inter = self.revealSideViewController.tapInteractionsWhenOpened;
+    _tapNavSwitch.on = (inter & PPRevealSideInteractionNavigationBar);
+    _tapContentSwitch.on = (inter & PPRevealSideInteractionContentView);
+
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -149,6 +175,36 @@
 
 - (IBAction)pushOldRight:(id)sender {
     [self.revealSideViewController pushOldViewControllerOnDirection:PPRevealSideDirectionRight withOffset:_offset animated:YES];
+}
+
+- (IBAction)changePanOpened:(id)sender {
+    PPRevealSideInteractions inter = PPRevealSideInteractionNone;
+    if (_panNavOpenedSwitch.on)
+        inter |= PPRevealSideInteractionNavigationBar;
+    if (_panContentOpenedSwitch.on)
+        inter |= PPRevealSideInteractionContentView;
+    
+    self.revealSideViewController.panInteractionsWhenOpened = inter;
+}
+
+- (IBAction)changePanClosed:(id)sender {
+    PPRevealSideInteractions inter = PPRevealSideInteractionNone;
+    if (_panNavClosedSwitch.on)
+        inter |= PPRevealSideInteractionNavigationBar;
+    if (_panContentClosedSwitch.on)
+        inter |= PPRevealSideInteractionContentView;
+    
+    self.revealSideViewController.panInteractionsWhenClosed = inter;
+}
+
+- (IBAction)changeTap:(id)sender {
+    PPRevealSideInteractions inter = PPRevealSideInteractionNone;
+    if (_tapNavSwitch.on)
+        inter |= PPRevealSideInteractionNavigationBar;
+    if (_tapContentSwitch.on)
+        inter |= PPRevealSideInteractionContentView;
+    
+    self.revealSideViewController.tapInteractionsWhenOpened = inter;
 }
 
 @end
