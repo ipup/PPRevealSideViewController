@@ -52,13 +52,6 @@
     [self changeOffset:_offsetSlider];
     
     _animated = YES;
-    
-    TableViewController *c = [[TableViewController alloc] initWithStyle:UITableViewStylePlain];
-    [self.revealSideViewController preloadViewController:c
-                                                 forSide:PPRevealSideDirectionLeft
-                                              withOffset:_offset];
-    PP_RELEASE(c);
-    
 }
 
 - (void)viewDidUnload
@@ -102,6 +95,19 @@
     _tapNavSwitch.on = (inter & PPRevealSideInteractionNavigationBar);
     _tapContentSwitch.on = (inter & PPRevealSideInteractionContentView);
 
+}
+
+- (void) preloadLeft {
+    TableViewController *c = [[TableViewController alloc] initWithStyle:UITableViewStylePlain];
+    [self.revealSideViewController preloadViewController:c
+                                                 forSide:PPRevealSideDirectionLeft
+                                              withOffset:_offset];
+    PP_RELEASE(c);
+}
+- (void) viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(preloadLeft) object:nil];
+    [self performSelector:@selector(preloadLeft) withObject:nil afterDelay:0.3];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation

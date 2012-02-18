@@ -293,10 +293,12 @@
 		E0D903D414ED2A610072EECD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: iPuP";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "PPRevealSideViewController/PPRevealSideViewController-Prefix.pch";
 				INFOPLIST_FILE = "PPRevealSideViewController/PPRevealSideViewController-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "82F4A51F-03F5-4214-88F8-08F21369E987";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
