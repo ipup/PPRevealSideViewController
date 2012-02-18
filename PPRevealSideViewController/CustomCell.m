@@ -28,7 +28,6 @@
     newFrame.origin.x = CGRectGetWidth(self.contentView.frame)- 5.0 /*margin*/ - self.revealSideInset.right - CGRectGetWidth(newFrame);
     newFrame.origin.y = floorf((CGRectGetHeight(self.frame) - CGRectGetHeight(_disclosureButton.frame))/2.0);
     _disclosureButton.frame = newFrame;
-    PPLog(@"%@", NSStringFromCGRect(newFrame));
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated

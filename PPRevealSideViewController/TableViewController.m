@@ -8,6 +8,9 @@
 
 #import "TableViewController.h"
 #import "CustomCell.h"
+#import "PopedViewController.h"
+#import "MainViewController.h"
+#import "SecondViewController.h"
 
 @implementation TableViewController
 
@@ -80,6 +83,11 @@
 - (void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
     if ([keyPath isEqualToString:@"revealSideInset"]) {
         [self.tableView reloadData];
+
+        UIEdgeInsets newInset = self.tableView.contentInset;
+        newInset.top = self.tableView.revealSideInset.top;
+        newInset.bottom = self.tableView.revealSideInset.bottom;
+        self.tableView.contentInset = newInset;
     }
     else
         [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
@@ -115,9 +123,26 @@
     if (cell == nil) {
         cell = [[CustomCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
-    
+    switch (indexPath.row % 5) {
+        case 0:
+            cell.textLabel.text = @"Go to root";
+            break;
+        case 1:
+            cell.textLabel.text = @"Push a new right";
+            break; 
+        case 2:
+            cell.textLabel.text = @"Push new left";
+            break;
+        case 3:
+            cell.textLabel.text = @"Pop new center";
+            break;
+        case 4:
+            cell.textLabel.text = @"Pop main center";
+            break;
+        default:
+            break;
+    }
     cell.revealSideInset = self.tableView.revealSideInset;
-    cell.textLabel.text = @"Go to root";
     
     return cell;
 }
@@ -165,7 +190,50 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [self.revealSideViewController popViewControllerAnimated:YES];
+    switch (indexPath.row % 5) {
+        case 0:
+            [self.revealSideViewController popViewControllerAnimated:YES];
+            break;
+        case 1:
+        {
+            PopedViewController *c = [[PopedViewController alloc] initWithNibName:@"PopedViewController" bundle:nil];
+            [self.revealSideViewController pushViewController:c
+                                                  onDirection:PPRevealSideDirectionRight animated:YES];
+            PP_RELEASE(c);
+        }
+            break; 
+        case 2:
+        {
+            PopedViewController *c = [[PopedViewController alloc] initWithNibName:@"PopedViewController" bundle:nil];
+            // Since we are in the left already, we force the pop then push
+            [self.revealSideViewController pushViewController:c
+                                                  onDirection:PPRevealSideDirectionLeft 
+                                                     animated:YES
+                                               forceToPopPush:YES];
+            PP_RELEASE(c);
+        }
+            break;
+        case 3:
+        {
+            SecondViewController *c = [[SecondViewController alloc] initWithNibName:@"SecondViewController" bundle:nil];
+            [self.revealSideViewController popViewControllerWithNewCenterController:c 
+                                                                           animated:YES];
+            PP_RELEASE(c);
+        }
+            break;
+        case 4:
+        {
+            MainViewController *c = [[MainViewController alloc] initWithNibName:@"MainViewController" bundle:nil];
+            UINavigationController *n = [[UINavigationController alloc] initWithRootViewController:c];
+            [self.revealSideViewController popViewControllerWithNewCenterController:n 
+                                                                           animated:YES];
+            PP_RELEASE(c);
+            PP_RELEASE(n);
+        }            break;
+        default:
+            break;
+    }
+    
 }
 
 @end

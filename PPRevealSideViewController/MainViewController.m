@@ -45,6 +45,9 @@
                                                             action:@selector(showRight)];
     self.navigationItem.rightBarButtonItem = PP_AUTORELEASE(right);
     
+    _offsetSlider.value = 80.0;
+    [self changeOffset:_offsetSlider];
+    
     _animated = YES;
 }
 
@@ -55,6 +58,8 @@
     _closeFullSwitch = nil;
     _keepOffsetSwitch = nil;
     _resizeSwitch = nil;
+    _labelOffset = nil;
+    _offsetSlider = nil;
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -79,25 +84,31 @@
 
 - (void) showLeft {
     TableViewController *c = [[TableViewController alloc] initWithStyle:UITableViewStylePlain];
-    [self.revealSideViewController pushViewController:c onDirection:PPRevealSideDirectionLeft animated:_animated];
+    [self.revealSideViewController pushViewController:c onDirection:PPRevealSideDirectionLeft withOffset:_offset animated:_animated];
     PP_RELEASE(c);
 }
 
 - (void) showRight {
     PopedViewController *c = [[PopedViewController alloc] initWithNibName:@"PopedViewController" bundle:nil ];
-    [self.revealSideViewController pushViewController:c onDirection:PPRevealSideDirectionRight animated:_animated];
+    [self.revealSideViewController pushViewController:c onDirection:PPRevealSideDirectionRight withOffset:_offset animated:_animated];
     PP_RELEASE(c);
+}
+
+- (IBAction)changeOffset:(id)sender {
+    UISlider *s = (UISlider*)sender;
+    _offset = floorf(s.value);
+    _labelOffset.text = [NSString stringWithFormat:@"Offset %.0f", _offset];
 }
 
 - (IBAction)showUp:(id)sender {
     TableViewController *c = [[TableViewController alloc] initWithStyle:UITableViewStylePlain];
-    [self.revealSideViewController pushViewController:c onDirection:PPRevealSideDirectionTop animated:_animated];
+    [self.revealSideViewController pushViewController:c onDirection:PPRevealSideDirectionTop withOffset:_offset animated:_animated];
     PP_RELEASE(c);
 }
 
 - (IBAction)showDown:(id)sender {
     TableViewController *c = [[TableViewController alloc] initWithStyle:UITableViewStylePlain];
-    [self.revealSideViewController pushViewController:c onDirection:PPRevealSideDirectionBottom animated:_animated];
+    [self.revealSideViewController pushViewController:c onDirection:PPRevealSideDirectionBottom withOffset:_offset animated:_animated];
     PP_RELEASE(c);
 }
 
@@ -133,11 +144,11 @@
 }
 
 - (IBAction)pushOldLeft:(id)sender {
-    [self.revealSideViewController pushOldViewControllerOnDirection:PPRevealSideDirectionLeft animated:YES];
+    [self.revealSideViewController pushOldViewControllerOnDirection:PPRevealSideDirectionLeft withOffset:_offset animated:YES];
 }
 
 - (IBAction)pushOldRight:(id)sender {
-    [self.revealSideViewController pushOldViewControllerOnDirection:PPRevealSideDirectionRight animated:YES];
+    [self.revealSideViewController pushOldViewControllerOnDirection:PPRevealSideDirectionRight withOffset:_offset animated:YES];
 }
 
 @end

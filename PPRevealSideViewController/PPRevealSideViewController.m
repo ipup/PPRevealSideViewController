@@ -93,6 +93,14 @@
                     animated:animated];
 }
 
+- (void) pushViewController:(UIViewController*)controller onDirection:(PPRevealSideDirection)direction animated:(BOOL)animated forceToPopPush:(BOOL)forcePopPush {
+    [self pushViewController:controller
+                 onDirection:direction
+                  withOffset:DefaultOffset
+                    animated:animated
+              forceToPopPush:forcePopPush];
+}
+
 - (void) pushOldViewControllerOnDirection:(PPRevealSideDirection)direction animated:(BOOL)animated {
     [self pushOldViewControllerOnDirection:direction
                                 withOffset:DefaultOffset
@@ -124,7 +132,14 @@
 }
 
 - (void) pushViewController:(UIViewController*)controller onDirection:(PPRevealSideDirection)direction withOffset:(CGFloat)offset animated:(BOOL)animated {
-    
+ [self pushViewController:controller
+              onDirection:direction 
+               withOffset:offset
+                 animated:animated
+           forceToPopPush:NO];   
+}
+
+- (void) pushViewController:(UIViewController *)controller onDirection:(PPRevealSideDirection)direction withOffset:(CGFloat)offset animated:(BOOL)animated forceToPopPush:(BOOL)forcePopPush {
     [self informDelegateWithOptionalSelector:@selector(pprevealSideViewController:willPushController:) withParam:controller];
     
     // get the side direction to close
@@ -132,7 +147,19 @@
     
     // if this is the same direction, then close it
     if (directionToClose == direction) {
-        [self popViewControllerWithNewCenterController:_rootViewController animated:animated];
+        if (!forcePopPush) {
+            // then pop
+            [self popViewControllerWithNewCenterController:_rootViewController animated:animated];
+        }
+        else
+        {
+            // pop and push
+            [self popViewControllerWithNewCenterController:_rootViewController 
+                                                  animated:animated 
+                                   andPresentNewController:controller
+                                             withDirection:direction 
+                                                 andOffset:offset];
+        }
         return;
     }
     else // if the direction is different, and we close completely before opening, then pop / push !
@@ -211,6 +238,7 @@
         openAnimBlock();
         [self informDelegateWithOptionalSelector:@selector(pprevealSideViewController:didPushController:) withParam:controller];
     }
+    
 }
 
 - (void) popViewControllerWithNewCenterController:(UIViewController*)centerController animated:(BOOL)animated {
@@ -231,15 +259,15 @@
     [self informDelegateWithOptionalSelector:@selector(pprevealSideViewController:willPopToController:) withParam:centerController];
     
     PPRevealSideDirection directionToClose = [self getSideToClose];
-    UIViewAnimationOptions options = UIViewAnimationOptionCurveEaseInOut | UIViewAnimationOptionLayoutSubviews;
+    UIViewAnimationOptions options = UIViewAnimationOptionCurveEaseInOut;
     
     // define the close anim block
     void (^bigAnimBlock)(BOOL) = ^(BOOL finished) {
         if (finished) {
-            CGRect olfFrame = _rootViewController.view.frame;
+            CGRect oldFrame = _rootViewController.view.frame;
+            centerController.view.frame = oldFrame;
             [self setRootViewController:centerController];
-            _rootViewController.view.frame = olfFrame;
-            
+
             // this is the anim block to put to normal the center controller
             void(^smallAnimBlock)(void) = ^(void) {
                 CGRect newFrame = _rootViewController.view.frame;

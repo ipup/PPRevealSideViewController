@@ -16,7 +16,12 @@
     __weak IBOutlet UISwitch *_closeFullSwitch;
     __weak IBOutlet UISwitch *_keepOffsetSwitch;
     __weak IBOutlet UISwitch *_resizeSwitch;
+    __weak IBOutlet UILabel *_labelOffset;
+    __weak IBOutlet UISlider *_offsetSlider;
+    
+    CGFloat _offset;
 }
+- (IBAction)changeOffset:(id)sender;
 - (IBAction)showUp:(id)sender;
 - (IBAction)showDown:(id)sender;
 - (IBAction)changeAnimated:(id)sender;

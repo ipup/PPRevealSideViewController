@@ -107,6 +107,11 @@ The Reveal options. See type def for the default values
 - (void) pushViewController:(UIViewController*)controller onDirection:(PPRevealSideDirection)direction animated:(BOOL)animated;
 
 /**
+ Push controller with a direction and a default offset and force to pop then push
+ */
+- (void) pushViewController:(UIViewController*)controller onDirection:(PPRevealSideDirection)direction animated:(BOOL)animated forceToPopPush:(BOOL)forcePopPush;
+
+/**
  Push the old controller if exists for the direction with a default offset
  */
 - (void) pushOldViewControllerOnDirection:(PPRevealSideDirection)direction animated:(BOOL)animated;
@@ -115,6 +120,11 @@ The Reveal options. See type def for the default values
  Push controller with a direction and an offset
  */
 - (void) pushViewController:(UIViewController*)controller onDirection:(PPRevealSideDirection)direction withOffset:(CGFloat)offset animated:(BOOL)animated;
+
+/**
+ Push controller with a direction and an offset and force to pop then push
+ */
+- (void) pushViewController:(UIViewController*)controller onDirection:(PPRevealSideDirection)direction withOffset:(CGFloat)offset animated:(BOOL)animated forceToPopPush:(BOOL)forcePopPush;
 
 /**
  Push the old controller if exists for the direction  an offset
