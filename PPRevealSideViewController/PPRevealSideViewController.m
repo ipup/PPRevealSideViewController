@@ -719,7 +719,7 @@
         default:
             break;
     }
-
+    PPLog(@"%@", NSStringFromCGRect(rectToReturn));
     return rectToReturn;
 }
 
@@ -819,6 +819,8 @@
 
 #define OFFSET_TRIGGER_CHOSE_DIRECTION 3.0
 #define OFFSET_TRIGGER_CHANGE_DIRECTION 0.0
+#define MAX_TRIGGER_OFFSET 100.0
+
 - (void) gestureRecognizerDidPan:(UIPanGestureRecognizer*)panGesture {
     
     if(_animationInProgress) return;
@@ -855,7 +857,10 @@
     UIViewController *c = [_viewControllers objectForKey:[NSNumber numberWithInt:_currentPanDirection]];
     if (c) {
         if (!c.view.superview)
+        {
+            c.view.frame = self.rootViewController.view.bounds;
             [self.view insertSubview:c.view belowSubview:_rootViewController.view];
+        }
     }
     else // we use the bounce animation
     {
@@ -885,11 +890,10 @@
     }
     
     offset = MAX(offset, [[_viewControllersOffsets objectForKey:[NSNumber numberWithInt:_currentPanDirection]] floatValue]);
-    //PPLog(@"%f", offset);
     
     // test if whe changed direction
     if (_currentPanDirection == PPRevealSideDirectionRight || _currentPanDirection == PPRevealSideDirectionLeft) {
-        if (offset >= CGRectGetWidth(self.view.frame)-OFFSET_TRIGGER_CHANGE_DIRECTION) {
+        if (offset >= CGRectGetWidth(self.rootViewController.view.frame)-OFFSET_TRIGGER_CHANGE_DIRECTION) {
             // change direction if possible
             PPRevealSideDirection newDirection;
             if (_currentPanDirection == PPRevealSideDirectionLeft)
@@ -909,7 +913,7 @@
     }
     else
     {
-        if (offset >= CGRectGetHeight(self.view.frame) - OFFSET_TRIGGER_CHANGE_DIRECTION) {
+        if (offset >= CGRectGetHeight(self.rootViewController.view.frame) - OFFSET_TRIGGER_CHANGE_DIRECTION) {
             // change direction if possible
             PPRevealSideDirection newDirection;
             if (_currentPanDirection == PPRevealSideDirectionBottom)
@@ -925,8 +929,7 @@
             }
         } 
     }
-    
-    self.rootViewController.view.frame = [self getSlidingRectForOffset:offset
+        self.rootViewController.view.frame = [self getSlidingRectForOffset:offset
                                                           forDirection:_currentPanDirection];  
     
     if (panGesture.state == UIGestureRecognizerStateEnded || panGesture.state == UIGestureRecognizerStateCancelled) {
@@ -935,9 +938,9 @@
 #define divisionNumber 5.0
         CGFloat triggerStep;
         if (_currentPanDirection == PPRevealSideDirectionLeft || _currentPanDirection == PPRevealSideDirectionRight)
-            triggerStep = (CGRectGetWidth(self.view.frame) - offsetController)/divisionNumber;
+            triggerStep = (CGRectGetWidth(self.rootViewController.view.frame) - offsetController)/divisionNumber;
         else
-            triggerStep = (CGRectGetHeight(self.view.frame) - offsetController)/divisionNumber;
+            triggerStep = (CGRectGetHeight(self.rootViewController.view.frame) - offsetController)/divisionNumber;
        
         
         BOOL shouldClose;
@@ -945,13 +948,16 @@
         CGFloat sizeToTest;
         CGFloat offsetTriggered;
         
+        // set a max trigger
+        triggerStep = MIN(triggerStep, MAX_TRIGGER_OFFSET);
+        
         if (_currentPanDirection == PPRevealSideDirectionLeft || _currentPanDirection == PPRevealSideDirectionRight)
         {
-            sizeToTest = CGRectGetWidth(self.view.frame);
+            sizeToTest = CGRectGetWidth(self.rootViewController.view.frame);
         }
         else
         {
-            sizeToTest = CGRectGetHeight(self.view.frame);
+            sizeToTest = CGRectGetHeight(self.rootViewController.view.frame);
         }
         
         if (_wasClosed) 
