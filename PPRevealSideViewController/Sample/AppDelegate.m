@@ -6,10 +6,10 @@
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
-#import "PPAppDelegate.h"
+#import "AppDelegate.h"
 #import "MainViewController.h"
 
-@implementation PPAppDelegate
+@implementation AppDelegate
 
 @synthesize window = _window;
 @synthesize revealSideViewController = _revealSideViewController;

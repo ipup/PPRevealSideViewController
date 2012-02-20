@@ -7,38 +7,43 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		E075287B14EE8F8000518036 /* PopedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E075287914EE8F8000518036 /* PopedViewController.m */; };
-		E075287C14EE8F8000518036 /* PopedViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E075287A14EE8F8000518036 /* PopedViewController.xib */; };
-		E075288814EEC71800518036 /* CustomCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E075288714EEC71800518036 /* CustomCell.m */; };
-		E075288C14EFA2DC00518036 /* SecondViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E075288A14EFA2DC00518036 /* SecondViewController.m */; };
-		E075288D14EFA2DC00518036 /* SecondViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E075288B14EFA2DC00518036 /* SecondViewController.xib */; };
-		E075289114F00CAA00518036 /* ThirdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E075288F14F00CAA00518036 /* ThirdViewController.m */; };
-		E075289214F00CAA00518036 /* ThirdViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E075289014F00CAA00518036 /* ThirdViewController.xib */; };
+		E0D35A4D14F282FD0013EB90 /* PPRevealSideViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E0D35A4C14F282FD0013EB90 /* PPRevealSideViewController.m */; };
+		E0D35A6214F283A50013EB90 /* CustomCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E0D35A5714F2831B0013EB90 /* CustomCell.m */; };
+		E0D35A6314F283AE0013EB90 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E0D35A4F14F2831B0013EB90 /* MainViewController.m */; };
+		E0D35A6414F283AE0013EB90 /* SecondViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E0D35A5914F2831B0013EB90 /* SecondViewController.m */; };
+		E0D35A6514F283AE0013EB90 /* ThirdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E0D35A5214F2831B0013EB90 /* ThirdViewController.m */; };
+		E0D35A6614F283AE0013EB90 /* TableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E0D35A5014F2831B0013EB90 /* TableViewController.m */; };
+		E0D35A6714F283AE0013EB90 /* PopedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E0D35A5D14F2831B0013EB90 /* PopedViewController.m */; };
+		E0D35A6814F283AE0013EB90 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E0D35A4E14F2831B0013EB90 /* AppDelegate.m */; };
 		E0D903BF14ED2A610072EECD /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0D903BE14ED2A610072EECD /* UIKit.framework */; };
 		E0D903C114ED2A610072EECD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0D903C014ED2A610072EECD /* Foundation.framework */; };
 		E0D903C314ED2A610072EECD /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0D903C214ED2A610072EECD /* CoreGraphics.framework */; };
 		E0D903C914ED2A610072EECD /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = E0D903C714ED2A610072EECD /* InfoPlist.strings */; };
 		E0D903CB14ED2A610072EECD /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E0D903CA14ED2A610072EECD /* main.m */; };
-		E0D903CF14ED2A610072EECD /* PPAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E0D903CE14ED2A610072EECD /* PPAppDelegate.m */; };
-		E0D903D714ED2ABC0072EECD /* PPRevealSideViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E0D903D614ED2ABC0072EECD /* PPRevealSideViewController.m */; };
 		E0D903F414ED38B50072EECD /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0D903F314ED38B50072EECD /* QuartzCore.framework */; };
-		E0D903F914ED3CF50072EECD /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E0D903F714ED3CF50072EECD /* MainViewController.m */; };
-		E0D903FA14ED3CF50072EECD /* MainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E0D903F814ED3CF50072EECD /* MainViewController.xib */; };
-		E0D903FD14ED3EFF0072EECD /* TableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E0D903FC14ED3EFF0072EECD /* TableViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		E075287814EE8F8000518036 /* PopedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopedViewController.h; sourceTree = "<group>"; };
-		E075287914EE8F8000518036 /* PopedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopedViewController.m; sourceTree = "<group>"; };
-		E075287A14EE8F8000518036 /* PopedViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PopedViewController.xib; sourceTree = "<group>"; };
-		E075288614EEC71800518036 /* CustomCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomCell.h; sourceTree = "<group>"; };
-		E075288714EEC71800518036 /* CustomCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomCell.m; sourceTree = "<group>"; };
-		E075288914EFA2DC00518036 /* SecondViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SecondViewController.h; sourceTree = "<group>"; };
-		E075288A14EFA2DC00518036 /* SecondViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SecondViewController.m; sourceTree = "<group>"; };
-		E075288B14EFA2DC00518036 /* SecondViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SecondViewController.xib; sourceTree = "<group>"; };
-		E075288E14F00CA900518036 /* ThirdViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThirdViewController.h; sourceTree = "<group>"; };
-		E075288F14F00CAA00518036 /* ThirdViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThirdViewController.m; sourceTree = "<group>"; };
-		E075289014F00CAA00518036 /* ThirdViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ThirdViewController.xib; sourceTree = "<group>"; };
+		E0D35A4B14F282FD0013EB90 /* PPRevealSideViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPRevealSideViewController.h; sourceTree = "<group>"; };
+		E0D35A4C14F282FD0013EB90 /* PPRevealSideViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPRevealSideViewController.m; sourceTree = "<group>"; };
+		E0D35A4E14F2831B0013EB90 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = Sample/AppDelegate.m; sourceTree = "<group>"; };
+		E0D35A4F14F2831B0013EB90 /* MainViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = MainViewController.m; path = Sample/MainViewController.m; sourceTree = "<group>"; };
+		E0D35A5014F2831B0013EB90 /* TableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = TableViewController.m; path = Sample/TableViewController.m; sourceTree = "<group>"; };
+		E0D35A5114F2831B0013EB90 /* AppDelegate.h */ = {isa = PBXFileReference; name = AppDelegate.h; path = Sample/AppDelegate.h; sourceTree = "<group>"; };
+		E0D35A5214F2831B0013EB90 /* ThirdViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = ThirdViewController.m; path = Sample/ThirdViewController.m; sourceTree = "<group>"; };
+		E0D35A5314F2831B0013EB90 /* ThirdViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ThirdViewController.xib; path = Sample/ThirdViewController.xib; sourceTree = "<group>"; };
+		E0D35A5414F2831B0013EB90 /* ThirdViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ThirdViewController.h; path = Sample/ThirdViewController.h; sourceTree = "<group>"; };
+		E0D35A5514F2831B0013EB90 /* MainViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MainViewController.h; path = Sample/MainViewController.h; sourceTree = "<group>"; };
+		E0D35A5614F2831B0013EB90 /* MainViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = MainViewController.xib; path = Sample/MainViewController.xib; sourceTree = "<group>"; };
+		E0D35A5714F2831B0013EB90 /* CustomCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = CustomCell.m; path = Sample/CustomCell.m; sourceTree = "<group>"; };
+		E0D35A5814F2831B0013EB90 /* SecondViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SecondViewController.h; path = Sample/SecondViewController.h; sourceTree = "<group>"; };
+		E0D35A5914F2831B0013EB90 /* SecondViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SecondViewController.m; path = Sample/SecondViewController.m; sourceTree = "<group>"; };
+		E0D35A5A14F2831B0013EB90 /* SecondViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = SecondViewController.xib; path = Sample/SecondViewController.xib; sourceTree = "<group>"; };
+		E0D35A5B14F2831B0013EB90 /* CustomCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CustomCell.h; path = Sample/CustomCell.h; sourceTree = "<group>"; };
+		E0D35A5C14F2831B0013EB90 /* PopedViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = PopedViewController.xib; path = Sample/PopedViewController.xib; sourceTree = "<group>"; };
+		E0D35A5D14F2831B0013EB90 /* PopedViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = PopedViewController.m; path = Sample/PopedViewController.m; sourceTree = "<group>"; };
+		E0D35A5E14F2831B0013EB90 /* PopedViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = PopedViewController.h; path = Sample/PopedViewController.h; sourceTree = "<group>"; };
+		E0D35A5F14F2831B0013EB90 /* TableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = TableViewController.h; path = Sample/TableViewController.h; sourceTree = "<group>"; };
 		E0D903BA14ED2A610072EECD /* PPRevealSideViewController.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PPRevealSideViewController.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E0D903BE14ED2A610072EECD /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		E0D903C014ED2A610072EECD /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -47,16 +52,7 @@
 		E0D903C814ED2A610072EECD /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		E0D903CA14ED2A610072EECD /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		E0D903CC14ED2A610072EECD /* PPRevealSideViewController-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PPRevealSideViewController-Prefix.pch"; sourceTree = "<group>"; };
-		E0D903CD14ED2A610072EECD /* PPAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PPAppDelegate.h; sourceTree = "<group>"; };
-		E0D903CE14ED2A610072EECD /* PPAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PPAppDelegate.m; sourceTree = "<group>"; };
-		E0D903D514ED2ABC0072EECD /* PPRevealSideViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPRevealSideViewController.h; sourceTree = "<group>"; };
-		E0D903D614ED2ABC0072EECD /* PPRevealSideViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPRevealSideViewController.m; sourceTree = "<group>"; };
 		E0D903F314ED38B50072EECD /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
-		E0D903F614ED3CF50072EECD /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
-		E0D903F714ED3CF50072EECD /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
-		E0D903F814ED3CF50072EECD /* MainViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainViewController.xib; sourceTree = "<group>"; };
-		E0D903FB14ED3EFE0072EECD /* TableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableViewController.h; sourceTree = "<group>"; };
-		E0D903FC14ED3EFF0072EECD /* TableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,6 +70,45 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		E0D35A4A14F282FD0013EB90 /* PPRevealSideviewController */ = {
+			isa = PBXGroup;
+			children = (
+				E0D35A4B14F282FD0013EB90 /* PPRevealSideViewController.h */,
+				E0D35A4C14F282FD0013EB90 /* PPRevealSideViewController.m */,
+			);
+			path = PPRevealSideviewController;
+			sourceTree = "<group>";
+		};
+		E0D35A6014F283250013EB90 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				E0D35A4F14F2831B0013EB90 /* MainViewController.m */,
+				E0D35A5514F2831B0013EB90 /* MainViewController.h */,
+				E0D35A5614F2831B0013EB90 /* MainViewController.xib */,
+				E0D35A5914F2831B0013EB90 /* SecondViewController.m */,
+				E0D35A5814F2831B0013EB90 /* SecondViewController.h */,
+				E0D35A5A14F2831B0013EB90 /* SecondViewController.xib */,
+				E0D35A5214F2831B0013EB90 /* ThirdViewController.m */,
+				E0D35A5414F2831B0013EB90 /* ThirdViewController.h */,
+				E0D35A5314F2831B0013EB90 /* ThirdViewController.xib */,
+				E0D35A5014F2831B0013EB90 /* TableViewController.m */,
+				E0D35A5F14F2831B0013EB90 /* TableViewController.h */,
+				E0D35A5D14F2831B0013EB90 /* PopedViewController.m */,
+				E0D35A5E14F2831B0013EB90 /* PopedViewController.h */,
+				E0D35A5C14F2831B0013EB90 /* PopedViewController.xib */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
+		E0D35A6114F283830013EB90 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				E0D35A5714F2831B0013EB90 /* CustomCell.m */,
+				E0D35A5B14F2831B0013EB90 /* CustomCell.h */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
 		E0D903AF14ED2A610072EECD = {
 			isa = PBXGroup;
 			children = (
@@ -105,27 +140,12 @@
 		E0D903C414ED2A610072EECD /* PPRevealSideViewController */ = {
 			isa = PBXGroup;
 			children = (
-				E0D903CD14ED2A610072EECD /* PPAppDelegate.h */,
-				E0D903CE14ED2A610072EECD /* PPAppDelegate.m */,
-				E0D903F614ED3CF50072EECD /* MainViewController.h */,
-				E0D903F714ED3CF50072EECD /* MainViewController.m */,
-				E0D903F814ED3CF50072EECD /* MainViewController.xib */,
-				E075288914EFA2DC00518036 /* SecondViewController.h */,
-				E075288A14EFA2DC00518036 /* SecondViewController.m */,
-				E075288B14EFA2DC00518036 /* SecondViewController.xib */,
-				E075288E14F00CA900518036 /* ThirdViewController.h */,
-				E075288F14F00CAA00518036 /* ThirdViewController.m */,
-				E075289014F00CAA00518036 /* ThirdViewController.xib */,
-				E0D903FB14ED3EFE0072EECD /* TableViewController.h */,
-				E0D903FC14ED3EFF0072EECD /* TableViewController.m */,
-				E075288614EEC71800518036 /* CustomCell.h */,
-				E075288714EEC71800518036 /* CustomCell.m */,
-				E075287814EE8F8000518036 /* PopedViewController.h */,
-				E075287914EE8F8000518036 /* PopedViewController.m */,
-				E075287A14EE8F8000518036 /* PopedViewController.xib */,
+				E0D35A6114F283830013EB90 /* Views */,
+				E0D35A6014F283250013EB90 /* Controllers */,
+				E0D35A4E14F2831B0013EB90 /* AppDelegate.m */,
+				E0D35A5114F2831B0013EB90 /* AppDelegate.h */,
+				E0D35A4A14F282FD0013EB90 /* PPRevealSideviewController */,
 				E0D903C514ED2A610072EECD /* Supporting Files */,
-				E0D903D514ED2ABC0072EECD /* PPRevealSideViewController.h */,
-				E0D903D614ED2ABC0072EECD /* PPRevealSideViewController.m */,
 			);
 			path = PPRevealSideViewController;
 			sourceTree = "<group>";
@@ -192,10 +212,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				E0D903C914ED2A610072EECD /* InfoPlist.strings in Resources */,
-				E0D903FA14ED3CF50072EECD /* MainViewController.xib in Resources */,
-				E075287C14EE8F8000518036 /* PopedViewController.xib in Resources */,
-				E075288D14EFA2DC00518036 /* SecondViewController.xib in Resources */,
-				E075289214F00CAA00518036 /* ThirdViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -207,14 +223,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				E0D903CB14ED2A610072EECD /* main.m in Sources */,
-				E0D903CF14ED2A610072EECD /* PPAppDelegate.m in Sources */,
-				E0D903D714ED2ABC0072EECD /* PPRevealSideViewController.m in Sources */,
-				E0D903F914ED3CF50072EECD /* MainViewController.m in Sources */,
-				E0D903FD14ED3EFF0072EECD /* TableViewController.m in Sources */,
-				E075287B14EE8F8000518036 /* PopedViewController.m in Sources */,
-				E075288814EEC71800518036 /* CustomCell.m in Sources */,
-				E075288C14EFA2DC00518036 /* SecondViewController.m in Sources */,
-				E075289114F00CAA00518036 /* ThirdViewController.m in Sources */,
+				E0D35A4D14F282FD0013EB90 /* PPRevealSideViewController.m in Sources */,
+				E0D35A6214F283A50013EB90 /* CustomCell.m in Sources */,
+				E0D35A6314F283AE0013EB90 /* MainViewController.m in Sources */,
+				E0D35A6414F283AE0013EB90 /* SecondViewController.m in Sources */,
+				E0D35A6514F283AE0013EB90 /* ThirdViewController.m in Sources */,
+				E0D35A6614F283AE0013EB90 /* TableViewController.m in Sources */,
+				E0D35A6714F283AE0013EB90 /* PopedViewController.m in Sources */,
+				E0D35A6814F283AE0013EB90 /* AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
