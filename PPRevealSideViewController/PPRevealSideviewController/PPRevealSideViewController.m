@@ -830,7 +830,7 @@
     CGFloat x = currentPoint.x + _panOrigin.x;
     CGFloat y = currentPoint.y + _panOrigin.y;
 
-    CGFloat offset;
+    CGFloat offset = 0;
 
     // if the center view controller is closed, then get the direction we want to Open
     if (_currentPanDirection == PPRevealSideDirectionNone) {

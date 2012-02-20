@@ -29,7 +29,7 @@
 		E0D35A4E14F2831B0013EB90 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = Sample/AppDelegate.m; sourceTree = "<group>"; };
 		E0D35A4F14F2831B0013EB90 /* MainViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = MainViewController.m; path = Sample/MainViewController.m; sourceTree = "<group>"; };
 		E0D35A5014F2831B0013EB90 /* TableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = TableViewController.m; path = Sample/TableViewController.m; sourceTree = "<group>"; };
-		E0D35A5114F2831B0013EB90 /* AppDelegate.h */ = {isa = PBXFileReference; name = AppDelegate.h; path = Sample/AppDelegate.h; sourceTree = "<group>"; };
+		E0D35A5114F2831B0013EB90 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = Sample/AppDelegate.h; sourceTree = "<group>"; };
 		E0D35A5214F2831B0013EB90 /* ThirdViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = ThirdViewController.m; path = Sample/ThirdViewController.m; sourceTree = "<group>"; };
 		E0D35A5314F2831B0013EB90 /* ThirdViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ThirdViewController.xib; path = Sample/ThirdViewController.xib; sourceTree = "<group>"; };
 		E0D35A5414F2831B0013EB90 /* ThirdViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ThirdViewController.h; path = Sample/ThirdViewController.h; sourceTree = "<group>"; };
@@ -300,7 +300,9 @@
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "PPRevealSideViewController/PPRevealSideViewController-Prefix.pch";
+				GCC_VERSION = "";
 				INFOPLIST_FILE = "PPRevealSideViewController/PPRevealSideViewController-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -312,7 +314,9 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: iPuP";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "PPRevealSideViewController/PPRevealSideViewController-Prefix.pch";
+				GCC_VERSION = "";
 				INFOPLIST_FILE = "PPRevealSideViewController/PPRevealSideViewController-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "82F4A51F-03F5-4214-88F8-08F21369E987";
 				WRAPPER_EXTENSION = app;

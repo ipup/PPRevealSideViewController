@@ -121,23 +121,23 @@
     
     CustomCell *cell = (CustomCell*)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[CustomCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        cell = PP_AUTORELEASE([[CustomCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier]);
     }
     switch (indexPath.row % 5) {
         case 0:
-            cell.textLabel.text = @"Go to root or push if nav";
+            cell.myLabel.text = @"Go to root or push if nav";
             break;
         case 1:
-            cell.textLabel.text = @"Push a new right";
+            cell.myLabel.text = @"Push a new right";
             break; 
         case 2:
-            cell.textLabel.text = @"Push new left";
+            cell.myLabel.text = @"Push new left";
             break;
         case 3:
-            cell.textLabel.text = @"Pop new center";
+            cell.myLabel.text = @"Pop new center";
             break;
         case 4:
-            cell.textLabel.text = @"Pop main center";
+            cell.myLabel.text = @"Pop main center";
             break;
         default:
             break;

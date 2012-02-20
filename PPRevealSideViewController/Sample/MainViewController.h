@@ -11,20 +11,20 @@
 @interface MainViewController : UIViewController
 {
     BOOL _animated;
-    __weak IBOutlet UISwitch *_shadowSwitch;
-    __weak IBOutlet UISwitch *_bounceSwitch;
-    __weak IBOutlet UISwitch *_closeFullSwitch;
-    __weak IBOutlet UISwitch *_keepOffsetSwitch;
-    __weak IBOutlet UISwitch *_resizeSwitch;
-    __weak IBOutlet UILabel *_labelOffset;
-    __weak IBOutlet UISlider *_offsetSlider;
+    IBOutlet UISwitch *_shadowSwitch;
+    IBOutlet UISwitch *_bounceSwitch;
+    IBOutlet UISwitch *_closeFullSwitch;
+    IBOutlet UISwitch *_keepOffsetSwitch;
+    IBOutlet UISwitch *_resizeSwitch;
+    IBOutlet UILabel *_labelOffset;
+    IBOutlet UISlider *_offsetSlider;
     
-    __weak IBOutlet UISwitch *_panNavOpenedSwitch;
-    __weak IBOutlet UISwitch *_panContentOpenedSwitch;
-    __weak IBOutlet UISwitch *_panNavClosedSwitch;
-    __weak IBOutlet UISwitch *_panContentClosedSwitch;
-    __weak IBOutlet UISwitch *_tapNavSwitch;
-    __weak IBOutlet UISwitch *_tapContentSwitch;
+    IBOutlet UISwitch *_panNavOpenedSwitch;
+    IBOutlet UISwitch *_panContentOpenedSwitch;
+    IBOutlet UISwitch *_panNavClosedSwitch;
+    IBOutlet UISwitch *_panContentClosedSwitch;
+    IBOutlet UISwitch *_tapNavSwitch;
+    IBOutlet UISwitch *_tapContentSwitch;
     CGFloat _offset;
 }
 - (IBAction)changeOffset:(id)sender;

@@ -12,4 +12,7 @@
 {
     UIButton *_disclosureButton;
 }
+
+@property (nonatomic, retain) UILabel *myLabel;
+
 @end
