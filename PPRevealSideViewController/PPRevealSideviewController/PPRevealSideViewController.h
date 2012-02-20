@@ -31,8 +31,11 @@
 #endif
 
 #ifndef PPLog
-# define PPLog(fmt, ...) NSLog((@"%s [Line %d] " fmt),__PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
-//#define PPLog(fmt, ...)
+    #if !DEBUG
+    # define PPLog(fmt, ...) NSLog((@"%s [Line %d] " fmt),__PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
+        #else
+    #define PPLog(fmt, ...)
+    #endif
 #endif
 
 typedef enum {
@@ -177,6 +180,16 @@ The Reveal options. See type def for the default values
  Preload a controller with an offset
  */
 - (void) preloadViewController:(UIViewController*)controller forSide:(PPRevealSideDirection)direction withOffset:(CGFloat)offset;
+
+/**
+ Change the offset for a direction
+ */
+- (void) changeOffset:(CGFloat)offset forDirection:(PPRevealSideDirection)direction;
+
+/**
+ Change the offset for a direction animated
+ */
+- (void) changeOffset:(CGFloat)offset forDirection:(PPRevealSideDirection)direction animated:(BOOL)animated;
 
 /**
  Set and reset options

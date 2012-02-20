@@ -409,6 +409,29 @@
     [_viewControllersOffsets setObject:[NSNumber numberWithFloat:offset] forKey:[NSNumber numberWithInt:direction]];
 }
 
+
+- (void) changeOffset:(CGFloat)offset forDirection:(PPRevealSideDirection)direction {
+    [self changeOffset:offset forDirection:direction animated:NO];
+}
+
+- (void) changeOffset:(CGFloat)offset forDirection:(PPRevealSideDirection)direction animated:(BOOL)animated {
+    [_viewControllersOffsets setObject:[NSNumber numberWithFloat:offset]
+                                forKey:[NSNumber numberWithInt:direction]];
+    
+    
+    if ([self getSideToClose] == direction ) {
+        if (animated)
+        [UIView animateWithDuration:0.3
+                         animations:^{
+                             _rootViewController.view.frame = [self getSlidingRectForOffset:offset
+                                                                               forDirection:direction];
+                         }];
+        else
+            _rootViewController.view.frame = [self getSlidingRectForOffset:offset
+                                                              forDirection:direction];
+    }
+}
+
 #pragma mark - Observation method
 - (void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
     if ([keyPath isEqualToString:@"view.frame"]) {
@@ -801,9 +824,7 @@
     _currentPanDirection = [self getSideToClose];
     if (_currentPanDirection == PPRevealSideDirectionNone) _wasClosed = YES;
     else _wasClosed = NO;
-    
-    PPLog(@"%d", _wasClosed);
-    
+        
     BOOL hasExceptionTouch = NO;
     if ([touch.view isKindOfClass:[UIControl class]]) {
         if (![touch.view isKindOfClass:NSClassFromString(@"UINavigationButton")]) hasExceptionTouch = YES;

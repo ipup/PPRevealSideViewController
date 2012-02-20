@@ -82,19 +82,19 @@
 		E0D35A6014F283250013EB90 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				E0D35A4F14F2831B0013EB90 /* MainViewController.m */,
 				E0D35A5514F2831B0013EB90 /* MainViewController.h */,
+				E0D35A4F14F2831B0013EB90 /* MainViewController.m */,
 				E0D35A5614F2831B0013EB90 /* MainViewController.xib */,
-				E0D35A5914F2831B0013EB90 /* SecondViewController.m */,
 				E0D35A5814F2831B0013EB90 /* SecondViewController.h */,
+				E0D35A5914F2831B0013EB90 /* SecondViewController.m */,
 				E0D35A5A14F2831B0013EB90 /* SecondViewController.xib */,
-				E0D35A5214F2831B0013EB90 /* ThirdViewController.m */,
 				E0D35A5414F2831B0013EB90 /* ThirdViewController.h */,
+				E0D35A5214F2831B0013EB90 /* ThirdViewController.m */,
 				E0D35A5314F2831B0013EB90 /* ThirdViewController.xib */,
-				E0D35A5014F2831B0013EB90 /* TableViewController.m */,
 				E0D35A5F14F2831B0013EB90 /* TableViewController.h */,
-				E0D35A5D14F2831B0013EB90 /* PopedViewController.m */,
+				E0D35A5014F2831B0013EB90 /* TableViewController.m */,
 				E0D35A5E14F2831B0013EB90 /* PopedViewController.h */,
+				E0D35A5D14F2831B0013EB90 /* PopedViewController.m */,
 				E0D35A5C14F2831B0013EB90 /* PopedViewController.xib */,
 			);
 			name = Controllers;

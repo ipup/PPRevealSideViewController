@@ -133,6 +133,16 @@
     UISlider *s = (UISlider*)sender;
     _offset = floorf(s.value);
     _labelOffset.text = [NSString stringWithFormat:@"Offset %.0f", _offset];
+    
+    [self.revealSideViewController changeOffset:_offset
+                                forDirection:PPRevealSideDirectionRight];
+    [self.revealSideViewController changeOffset:_offset
+                                   forDirection:PPRevealSideDirectionLeft];
+    [self.revealSideViewController changeOffset:_offset
+                                   forDirection:PPRevealSideDirectionTop];
+    [self.revealSideViewController changeOffset:_offset
+                                   forDirection:PPRevealSideDirectionBottom];
+
 }
 
 - (IBAction)showUp:(id)sender {
