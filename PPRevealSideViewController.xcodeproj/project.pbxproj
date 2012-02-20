@@ -103,8 +103,8 @@
 		E0D35A6114F283830013EB90 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				E0D35A5714F2831B0013EB90 /* CustomCell.m */,
 				E0D35A5B14F2831B0013EB90 /* CustomCell.h */,
+				E0D35A5714F2831B0013EB90 /* CustomCell.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -142,8 +142,8 @@
 			children = (
 				E0D35A6114F283830013EB90 /* Views */,
 				E0D35A6014F283250013EB90 /* Controllers */,
-				E0D35A4E14F2831B0013EB90 /* AppDelegate.m */,
 				E0D35A5114F2831B0013EB90 /* AppDelegate.h */,
+				E0D35A4E14F2831B0013EB90 /* AppDelegate.m */,
 				E0D35A4A14F282FD0013EB90 /* PPRevealSideviewController */,
 				E0D903C514ED2A610072EECD /* Supporting Files */,
 			);
