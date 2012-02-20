@@ -207,6 +207,7 @@
     UIViewController *oldController = [_viewControllers objectForKey:directionNumber];
     if (controller != oldController) {
         [oldController.view removeFromSuperview];
+        if ([[[UIDevice currentDevice] systemVersion] floatValue] < 5.0) [oldController viewDidDisappear:animated];
     }
     [_viewControllers setObject:controller forKey:directionNumber];
     
