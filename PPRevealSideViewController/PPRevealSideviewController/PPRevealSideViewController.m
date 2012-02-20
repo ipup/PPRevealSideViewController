@@ -206,6 +206,7 @@
     // save the controller and remove the old one from the view
     UIViewController *oldController = [_viewControllers objectForKey:directionNumber];
     if (controller != oldController) {
+        if ([[[UIDevice currentDevice] systemVersion] floatValue] < 5.0) [oldController viewWillDisappear:animated];
         [oldController.view removeFromSuperview];
         if ([[[UIDevice currentDevice] systemVersion] floatValue] < 5.0) [oldController viewDidDisappear:animated];
     }
@@ -217,9 +218,14 @@
     // Place the controller juste below the rootviewcontroller
     controller.view.frame = self.view.bounds; // handle layout issue with navigation bar. Comment to see the crap, then push a nav controller
     
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] < 5.0) [controller viewWillDisappear:animated];
     [controller.view removeFromSuperview];
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] < 5.0) [controller viewDidDisappear:animated];
+
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] < 5.0) [controller viewWillAppear:animated];
     [self.view insertSubview:controller.view belowSubview:_rootViewController.view];
-    
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] < 5.0) [controller viewDidAppear:animated];
+
     // if bounces is activated and the push is animated, calculate the first frame with the bounce
     CGRect rootFrame = CGRectZero;
     if ([self canCrossOffsets] && animated) // then we make an offset
@@ -321,7 +327,10 @@
                     
                     // remove the view (don't need to surcharge (not english this word ? ... ) all the interface).
                     UIViewController *oldController = (UIViewController*)[_viewControllers objectForKey:[NSNumber numberWithInt:directionToClose]];
+                    if ([[[UIDevice currentDevice] systemVersion] floatValue] < 5.0) [oldController viewWillDisappear:animated];
                     [oldController.view removeFromSuperview];
+                    if ([[[UIDevice currentDevice] systemVersion] floatValue] < 5.0) [oldController viewDidDisappear:animated];
+
                     
                     _animationInProgress = NO;
                     
@@ -493,7 +502,10 @@
         
         [self removeAllGestures];
         
+        if ([[[UIDevice currentDevice] systemVersion] floatValue] < 5.0) [_rootViewController viewWillDisappear:NO];
         [_rootViewController.view removeFromSuperview];
+        if ([[[UIDevice currentDevice] systemVersion] floatValue] < 5.0) [_rootViewController viewDidDisappear:NO];
+
         
         [_rootViewController removeObserver:self forKeyPath:@"view.frame"];
         
@@ -506,8 +518,10 @@
                                  context:NULL];
         [self handleShadows];
         
+        if ([[[UIDevice currentDevice] systemVersion] floatValue] < 5.0) [_rootViewController viewWillAppear:NO];
         [self.view addSubview:_rootViewController.view];
-        
+        if ([[[UIDevice currentDevice] systemVersion] floatValue] < 5.0) [_rootViewController viewDidAppear:NO];
+
         [self addGesturesToController:_rootViewController];
         
         [self didChangeValueForKey:@"rootViewController"];
@@ -881,7 +895,9 @@
         if (!c.view.superview)
         {
             c.view.frame = self.rootViewController.view.bounds;
+            if ([[[UIDevice currentDevice] systemVersion] floatValue] < 5.0) [c viewWillAppear:NO];
             [self.view insertSubview:c.view belowSubview:_rootViewController.view];
+            if ([[[UIDevice currentDevice] systemVersion] floatValue] < 5.0) [c viewDidAppear:NO];
         }
     }
     else // we use the bounce animation
@@ -924,7 +940,11 @@
                 newDirection = PPRevealSideDirectionLeft;
             
             if ([_viewControllers objectForKey:[NSNumber numberWithInt:newDirection]]) {
-                [[[_viewControllers objectForKey:[NSNumber numberWithInt:_currentPanDirection]] view] removeFromSuperview];
+                UIViewController *c = [_viewControllers objectForKey:[NSNumber numberWithInt:_currentPanDirection]];
+                if ([[[UIDevice currentDevice] systemVersion] floatValue] < 5.0) [c viewWillDisappear:NO];
+                [c.view removeFromSuperview];
+                if ([[[UIDevice currentDevice] systemVersion] floatValue] < 5.0) [c viewDidDisappear:NO];
+
                 _currentPanDirection = newDirection;
                 _wasClosed = !_wasClosed;
                 return;
@@ -944,8 +964,10 @@
                 newDirection = PPRevealSideDirectionBottom;
             
             if ([_viewControllers objectForKey:[NSNumber numberWithInt:newDirection]]) {
-                [[[_viewControllers objectForKey:[NSNumber numberWithInt:_currentPanDirection]] view] removeFromSuperview];
-                _currentPanDirection = newDirection;
+                UIViewController *c = [_viewControllers objectForKey:[NSNumber numberWithInt:_currentPanDirection]];
+                if ([[[UIDevice currentDevice] systemVersion] floatValue] < 5.0) [c viewWillDisappear:NO];
+                [c.view removeFromSuperview];
+                if ([[[UIDevice currentDevice] systemVersion] floatValue] < 5.0) [c viewDidDisappear:NO];                _currentPanDirection = newDirection;
                 _wasClosed = !_wasClosed;
                 return;
             }
