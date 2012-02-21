@@ -757,7 +757,7 @@
         default:
             break;
     }
-    PPLog(@"%@", NSStringFromCGRect(rectToReturn));
+    PPRSLog(@"%@", NSStringFromCGRect(rectToReturn));
     return rectToReturn;
 }
 
@@ -902,7 +902,7 @@
     }
     else // we use the bounce animation
     {
-        PPLog(@"****** No controller to push ****** Think to preload controller ! ******");
+        PPRSLog(@"****** No controller to push ****** Think to preload controller ! ******");
         [self pushOldViewControllerOnDirection:_currentPanDirection animated:YES];
         // little trick to cancel the gesture. Otherwise, as long as we pan, we continue to pass here ...
         panGesture.enabled = NO;
@@ -1013,7 +1013,7 @@
             offsetTriggered = triggerStep+offsetController;
         }
         
-        //PPLog(@"offset %f ** sizeToTest %f ** triggerStep %f ** - %f", offset, sizeToTest, triggerStep, offsetTriggered);
+        //PPRSLog(@"offset %f ** sizeToTest %f ** triggerStep %f ** - %f", offset, sizeToTest, triggerStep, offsetTriggered);
         if (offset > offsetTriggered)
             shouldClose = YES;
         else
