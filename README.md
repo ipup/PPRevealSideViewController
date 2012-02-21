@@ -17,11 +17,16 @@ PPRevealSideViewController fully supports ARC *and* non-ARC modes out of the box
 
 #Documentation 
 
-The class is documented. You can either browse into documentation/html folder and then open index.html or install the doc set into Xcode.
-Follow theses steps
-1. Quit Xcode
-2. Go to ~/Library/Developer/Shared/Documentation/DocSets and copy the .docset file.
-3. Launch Xcode and Voilà !
+The class is documented. You can either browse into documentation/html folder and then open index.html (or found it online : http://ipup.github.com/PPRevealSideViewController or install the doc set into Xcode.
+
+Two ways : 
+1. Go to Xcode, preferences, Downloads, + then enter the feed url http://ipup.github.com/PPRevealSideViewController/PPRevealSideViewController.atom
+
+2.Follow these steps
+
+* Quit Xcode
+* Go to ~/Library/Developer/Shared/Documentation/DocSets and copy the Documentation/PPRevealSideViewController.docset file.
+* Launch Xcode and Voilà !
 
 # Usage
 

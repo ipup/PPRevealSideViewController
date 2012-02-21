@@ -16,11 +16,11 @@
 	
 	
 	<key>DocSetFallbackURL</key>
-	<string>https://github.com/ipup/PPRevealSideViewController/</string>
+	<string>http://ipup.github.com/PPRevealSideViewController/</string>
 	<key>DocSetFeedName</key>
 	<string>PPRevealSideViewController Documentation</string>
 	<key>DocSetFeedURL</key>
-	<string>https://github.com/ipup/PPRevealSideViewController/PPRevealSideViewController.atom</string>
+	<string>http://ipup.github.com/PPRevealSideViewController/PPRevealSideViewController.atom</string>
 	<key>DocSetMinimumXcodeVersion</key>
 	<string>3.0</string>
 	

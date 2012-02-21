@@ -263,7 +263,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "/usr/local/bin/appledoc \\\n--project-name \"PPRevealSideViewController\" \\\n--project-company \"Marian PAUL - iPuP SARL\" \\\n--company-id \"fr.ipup\" \\\n--docset-atom-filename \"PPRevealSideViewController.atom\" \\\n--docset-feed-url \"https://github.com/ipup/PPRevealSideViewController/%DOCSETATOMFILENAME\" \\\n--docset-package-url \"https://github.com/ipup/PPRevealSideViewController/%DOCSETPACKAGEFILENAME\" \\\n--docset-fallback-url \"https://github.com/ipup/PPRevealSideViewController/\" \\\n--output \"${PROJECT_DIR}/Documentation\" \\\n--verbose 6 \\\n--publish-docset \\\n--create-docset \\\n--logformat xcode \\\n--keep-intermediate-files \\\n--no-repeat-first-par \\\n--no-warn-invalid-crossref \\\n--ignore \"*.m\" \\\n\"${PROJECT_DIR}\"";
+			shellScript = "/usr/local/bin/appledoc \\\n--project-name \"PPRevealSideViewController\" \\\n--project-company \"Marian PAUL - iPuP SARL\" \\\n--company-id \"fr.ipup\" \\\n--docset-atom-filename \"PPRevealSideViewController.atom\" \\\n--docset-feed-url \"http://ipup.github.com/PPRevealSideViewController/%DOCSETATOMFILENAME\" \\\n--docset-package-url \"http://ipup.github.com/PPRevealSideViewController/%DOCSETPACKAGEFILENAME\" \\\n--docset-fallback-url \"http://ipup.github.com/PPRevealSideViewController/\" \\\n--output \"${PROJECT_DIR}/Documentation\" \\\n--verbose 6 \\\n--publish-docset \\\n--create-docset \\\n--logformat xcode \\\n--keep-intermediate-files \\\n--no-repeat-first-par \\\n--no-warn-invalid-crossref \\\n--ignore \"*.m\" \\\n\"${PROJECT_DIR}\"";
 		};
 /* End PBXShellScriptBuildPhase section */
 
