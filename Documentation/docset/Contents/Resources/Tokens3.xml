@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Categories/UIViewController+PPRevealSideViewController.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cat/UIViewController(PPRevealSideViewController)</TokenIdentifier>
+			<Abstract type="html">UIViewController category for the PPRevealSideViewController</Abstract>
+			<DeclaredIn>PPRevealSideViewController.h</DeclaredIn>
+			
+			<NodeRef refid="3"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/UIViewController(PPRevealSideViewController)/setRevealSideViewController:</TokenIdentifier>
+			<Abstract type="html">The parent revealSideViewController</Abstract>
+			<DeclaredIn>PPRevealSideViewController.h</DeclaredIn>			
+			
+			<Declaration>@property (nonatomic, retain) PPRevealSideViewController *revealSideViewController</Declaration>
+			
+			
+			<Anchor>//api/name/revealSideViewController</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfp/UIViewController(PPRevealSideViewController)/revealSideViewController</TokenIdentifier>
+			<Abstract type="html">The parent revealSideViewController</Abstract>
+			<DeclaredIn>PPRevealSideViewController.h</DeclaredIn>			
+			
+			<Declaration>@property (nonatomic, retain) PPRevealSideViewController *revealSideViewController</Declaration>
+			
+			
+			<Anchor>//api/name/revealSideViewController</Anchor>
+		</Token>
+		
+	</File>
+</Tokens>

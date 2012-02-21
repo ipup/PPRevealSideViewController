@@ -6,7 +6,26 @@
 	objectVersion = 46;
 	objects = {
 
+/* Begin PBXAggregateTarget section */
+		E05F25AB14F4326600AF1F6D /* BuildDocumentation */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = E05F25AC14F4326600AF1F6D /* Build configuration list for PBXAggregateTarget "BuildDocumentation" */;
+			buildPhases = (
+				E05F25AF14F4326A00AF1F6D /* ShellScript */,
+			);
+			dependencies = (
+				E05F25B114F4327500AF1F6D /* PBXTargetDependency */,
+			);
+			name = BuildDocumentation;
+			productName = BuildDocumentation;
+		};
+/* End PBXAggregateTarget section */
+
 /* Begin PBXBuildFile section */
+		E0BEAC3014F2F85900ADA090 /* MainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E0D35A5614F2831B0013EB90 /* MainViewController.xib */; };
+		E0BEAC3114F2F85C00ADA090 /* SecondViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E0D35A5A14F2831B0013EB90 /* SecondViewController.xib */; };
+		E0BEAC3214F2F85E00ADA090 /* ThirdViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E0D35A5314F2831B0013EB90 /* ThirdViewController.xib */; };
+		E0BEAC3314F2F86000ADA090 /* PopedViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E0D35A5C14F2831B0013EB90 /* PopedViewController.xib */; };
 		E0D35A4D14F282FD0013EB90 /* PPRevealSideViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E0D35A4C14F282FD0013EB90 /* PPRevealSideViewController.m */; };
 		E0D35A6214F283A50013EB90 /* CustomCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E0D35A5714F2831B0013EB90 /* CustomCell.m */; };
 		E0D35A6314F283AE0013EB90 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E0D35A4F14F2831B0013EB90 /* MainViewController.m */; };
@@ -22,6 +41,16 @@
 		E0D903CB14ED2A610072EECD /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E0D903CA14ED2A610072EECD /* main.m */; };
 		E0D903F414ED38B50072EECD /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0D903F314ED38B50072EECD /* QuartzCore.framework */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		E05F25B014F4327500AF1F6D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E0D903B114ED2A610072EECD /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E0D903B914ED2A610072EECD;
+			remoteInfo = PPRevealSideViewController;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		E0D35A4B14F282FD0013EB90 /* PPRevealSideViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPRevealSideViewController.h; sourceTree = "<group>"; };
@@ -202,6 +231,7 @@
 			projectRoot = "";
 			targets = (
 				E0D903B914ED2A610072EECD /* PPRevealSideViewController */,
+				E05F25AB14F4326600AF1F6D /* BuildDocumentation */,
 			);
 		};
 /* End PBXProject section */
@@ -212,10 +242,30 @@
 			buildActionMask = 2147483647;
 			files = (
 				E0D903C914ED2A610072EECD /* InfoPlist.strings in Resources */,
+				E0BEAC3014F2F85900ADA090 /* MainViewController.xib in Resources */,
+				E0BEAC3114F2F85C00ADA090 /* SecondViewController.xib in Resources */,
+				E0BEAC3214F2F85E00ADA090 /* ThirdViewController.xib in Resources */,
+				E0BEAC3314F2F86000ADA090 /* PopedViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		E05F25AF14F4326A00AF1F6D /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/local/bin/appledoc \\\n--project-name \"PPRevealSideViewController\" \\\n--project-company \"Marian PAUL - iPuP SARL\" \\\n--company-id \"fr.ipup\" \\\n--docset-atom-filename \"PPRevealSideViewController.atom\" \\\n--docset-feed-url \"https://github.com/ipup/PPRevealSideViewController/%DOCSETATOMFILENAME\" \\\n--docset-package-url \"https://github.com/ipup/PPRevealSideViewController/%DOCSETPACKAGEFILENAME\" \\\n--docset-fallback-url \"https://github.com/ipup/PPRevealSideViewController/\" \\\n--output \"${PROJECT_DIR}/Documentation\" \\\n--verbose 6 \\\n--publish-docset \\\n--create-docset \\\n--logformat xcode \\\n--keep-intermediate-files \\\n--no-repeat-first-par \\\n--no-warn-invalid-crossref \\\n--ignore \"*.m\" \\\n\"${PROJECT_DIR}\"";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		E0D903B614ED2A610072EECD /* Sources */ = {
@@ -236,6 +286,14 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		E05F25B114F4327500AF1F6D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E0D903B914ED2A610072EECD /* PPRevealSideViewController */;
+			targetProxy = E05F25B014F4327500AF1F6D /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin PBXVariantGroup section */
 		E0D903C714ED2A610072EECD /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
@@ -248,6 +306,20 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		E05F25AD14F4326600AF1F6D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		E05F25AE14F4326600AF1F6D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		E0D903D014ED2A610072EECD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -326,6 +398,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		E05F25AC14F4326600AF1F6D /* Build configuration list for PBXAggregateTarget "BuildDocumentation" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E05F25AD14F4326600AF1F6D /* Debug */,
+				E05F25AE14F4326600AF1F6D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		E0D903B414ED2A610072EECD /* Build configuration list for PBXProject "PPRevealSideViewController" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

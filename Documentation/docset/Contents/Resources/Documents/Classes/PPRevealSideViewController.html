@@ -1,0 +1,1758 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="html/html; charset=utf-8" />
+		<title>PPRevealSideViewController Class Reference</title>
+		<meta id="xcode-display" name="xcode-display" content="render"/>
+		<meta name="viewport" content="width=550" />
+		<link rel="stylesheet" type="text/css" href="../css/styles.css" media="all" />
+		<link rel="stylesheet" type="text/css" media="print" href="../css/stylesPrint.css" />
+		<meta name="generator" content="appledoc 2.0.5 (build 759)" />
+	</head>
+	<body>
+		<header id="top_header">
+			<div id="library" class="hideInXcode">
+				<h1><a id="libraryTitle" href="../index.html">PPRevealSideViewController </a></h1>
+				<a id="developerHome" href="../index.html">Marian PAUL - iPuP SARL</a>
+			</div>
+			
+			<div id="title" role="banner">
+				<h1 class="hideInXcode">PPRevealSideViewController Class Reference</h1>
+			</div>
+			<ul id="headerButtons" role="toolbar">
+				<li id="toc_button">
+					<button aria-label="Show Table of Contents" role="checkbox" class="open" id="table_of_contents"><span class="disclosure"></span>Table of Contents</button>
+				</li>
+				<li id="jumpto_button" role="navigation">
+					<select id="jumpTo">
+	<option value="top">Jump To&#133;</option>
+	
+	<option value="overview">Overview</option>
+	
+	
+	
+	
+	<option value="tasks">Tasks</option>
+	
+	
+	
+	
+	
+	<option value="properties">Properties</option>
+	
+	<option value="//api/name/bouncingOffset">&nbsp;&nbsp;&nbsp;&nbsp;bouncingOffset</option>
+	
+	<option value="//api/name/delegate">&nbsp;&nbsp;&nbsp;&nbsp;delegate</option>
+	
+	<option value="//api/name/options">&nbsp;&nbsp;&nbsp;&nbsp;options</option>
+	
+	<option value="//api/name/panInteractionsWhenClosed">&nbsp;&nbsp;&nbsp;&nbsp;panInteractionsWhenClosed</option>
+	
+	<option value="//api/name/panInteractionsWhenOpened">&nbsp;&nbsp;&nbsp;&nbsp;panInteractionsWhenOpened</option>
+	
+	<option value="//api/name/rootViewController">&nbsp;&nbsp;&nbsp;&nbsp;rootViewController</option>
+	
+	<option value="//api/name/tapInteractionsWhenOpened">&nbsp;&nbsp;&nbsp;&nbsp;tapInteractionsWhenOpened</option>
+	
+	
+	
+	
+	
+	
+	<option value="instance_methods">Instance Methods</option>
+	
+	<option value="//api/name/changeOffset:forDirection:">&nbsp;&nbsp;&nbsp;&nbsp;- changeOffset:forDirection:</option>
+	
+	<option value="//api/name/changeOffset:forDirection:animated:">&nbsp;&nbsp;&nbsp;&nbsp;- changeOffset:forDirection:animated:</option>
+	
+	<option value="//api/name/initWithRootViewController:">&nbsp;&nbsp;&nbsp;&nbsp;- initWithRootViewController:</option>
+	
+	<option value="//api/name/popViewControllerAnimated:">&nbsp;&nbsp;&nbsp;&nbsp;- popViewControllerAnimated:</option>
+	
+	<option value="//api/name/popViewControllerWithNewCenterController:animated:">&nbsp;&nbsp;&nbsp;&nbsp;- popViewControllerWithNewCenterController:animated:</option>
+	
+	<option value="//api/name/preloadViewController:forSide:">&nbsp;&nbsp;&nbsp;&nbsp;- preloadViewController:forSide:</option>
+	
+	<option value="//api/name/preloadViewController:forSide:withOffset:">&nbsp;&nbsp;&nbsp;&nbsp;- preloadViewController:forSide:withOffset:</option>
+	
+	<option value="//api/name/pushOldViewControllerOnDirection:animated:">&nbsp;&nbsp;&nbsp;&nbsp;- pushOldViewControllerOnDirection:animated:</option>
+	
+	<option value="//api/name/pushOldViewControllerOnDirection:withOffset:animated:">&nbsp;&nbsp;&nbsp;&nbsp;- pushOldViewControllerOnDirection:withOffset:animated:</option>
+	
+	<option value="//api/name/pushViewController:onDirection:animated:">&nbsp;&nbsp;&nbsp;&nbsp;- pushViewController:onDirection:animated:</option>
+	
+	<option value="//api/name/pushViewController:onDirection:animated:forceToPopPush:">&nbsp;&nbsp;&nbsp;&nbsp;- pushViewController:onDirection:animated:forceToPopPush:</option>
+	
+	<option value="//api/name/pushViewController:onDirection:withOffset:animated:">&nbsp;&nbsp;&nbsp;&nbsp;- pushViewController:onDirection:withOffset:animated:</option>
+	
+	<option value="//api/name/pushViewController:onDirection:withOffset:animated:forceToPopPush:">&nbsp;&nbsp;&nbsp;&nbsp;- pushViewController:onDirection:withOffset:animated:forceToPopPush:</option>
+	
+	<option value="//api/name/resetOption:">&nbsp;&nbsp;&nbsp;&nbsp;- resetOption:</option>
+	
+	<option value="//api/name/setOption:">&nbsp;&nbsp;&nbsp;&nbsp;- setOption:</option>
+	
+	
+	
+</select>
+				</li>
+			</ul>
+		</header>
+		<nav id="tocContainer" class="isShowingTOC">
+			<ul id="toc" role="tree">
+				
+<li role="treeitem"><span class="nodisclosure"></span><span class="sectionName"><a href="#overview">Overview</a></span></li>
+
+
+
+
+<li role="treeitem" id="task_treeitem"><span class="nodisclosure"></span><span class="sectionName"><a href="#tasks">Tasks</a></span><ul>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#task_Init method">Init method</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#task_Pushing and popping methods">Pushing and popping methods</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#task_More functionalities">More functionalities</a></span></li>
+	
+</ul></li>
+
+
+
+
+
+<li role="treeitem" class="children"><span class="disclosure"></span><span class="sectionName"><a href="#properties">Properties</a></span><ul>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/bouncingOffset">bouncingOffset</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/delegate">delegate</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/options">options</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/panInteractionsWhenClosed">panInteractionsWhenClosed</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/panInteractionsWhenOpened">panInteractionsWhenOpened</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/rootViewController">rootViewController</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/tapInteractionsWhenOpened">tapInteractionsWhenOpened</a></span></li>
+	
+</ul></li>
+
+
+
+
+
+<li role="treeitem" class="children"><span class="disclosure"></span><span class="sectionName"><a href="#instance_methods">Instance Methods</a></span><ul>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/changeOffset:forDirection:">changeOffset:forDirection:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/changeOffset:forDirection:animated:">changeOffset:forDirection:animated:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/initWithRootViewController:">initWithRootViewController:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/popViewControllerAnimated:">popViewControllerAnimated:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/popViewControllerWithNewCenterController:animated:">popViewControllerWithNewCenterController:animated:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/preloadViewController:forSide:">preloadViewController:forSide:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/preloadViewController:forSide:withOffset:">preloadViewController:forSide:withOffset:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/pushOldViewControllerOnDirection:animated:">pushOldViewControllerOnDirection:animated:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/pushOldViewControllerOnDirection:withOffset:animated:">pushOldViewControllerOnDirection:withOffset:animated:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/pushViewController:onDirection:animated:">pushViewController:onDirection:animated:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/pushViewController:onDirection:animated:forceToPopPush:">pushViewController:onDirection:animated:forceToPopPush:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/pushViewController:onDirection:withOffset:animated:">pushViewController:onDirection:withOffset:animated:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/pushViewController:onDirection:withOffset:animated:forceToPopPush:">pushViewController:onDirection:withOffset:animated:forceToPopPush:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/resetOption:">resetOption:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/setOption:">setOption:</a></span></li>
+	
+</ul></li>
+
+
+			</ul>
+		</nav>
+		<article>
+			<div id="contents" class="isShowingTOC" role="main">
+				<a title="PPRevealSideViewController Class Reference" name="top"></a>
+				<div class="main-navigation navigation-top">
+					<ul>
+	<li><a href="../index.html">Index</a></li>
+	<li><a href="../hierarchy.html">Hierarchy</a></li>
+</ul>
+				</div>
+				<div id="header">
+					<div class="section-header">
+						<h1 class="title title-header">PPRevealSideViewController Class Reference</h1>
+					</div>		
+				</div>
+				<div id="container">	
+					
+					<div class="section section-specification"><table cellspacing="0"><tbody>
+						<tr>
+	<td class="specification-title">Inherits from</td>
+	<td class="specification-value">UIViewController</td>
+</tr><tr>
+	<td class="specification-title">Conforms to</td>
+	<td class="specification-value">UIGestureRecognizerDelegate</td>
+</tr><tr>
+	<td class="specification-title">Declared in</td>
+	<td class="specification-value">PPRevealSideViewController.h</td>
+</tr>
+						</tbody></table></div>
+					
+					
+					
+					
+					<div class="section section-overview">
+						<a title="Overview" name="overview"></a>
+						<h2 class="subtitle subtitle-overview">Overview</h2>
+						<p>Allow pushing controllers on side views.</p>
+
+<p>This controller allows you to push views on sides. It is just as easy as a UINavigationController to use. It works on <em>both iPhone and iPad</em>, is fully compatible with non ARC and ARC projects.</p>
+
+<h1>Initializing</h1>
+
+<pre><code>MainViewController *main = [[MainViewController alloc] initWithNibName:@"MainViewController" bundle:nil];
+UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:main];
+
+_revealSideViewController = [[PPRevealSideViewController alloc] initWithRootViewController:nav];
+
+self.window.rootViewController = _revealSideViewController;
+</code></pre>
+
+<h1>Pushing a controller</h1>
+
+<p>You have several <a href="#//api/name/options">options</a> to push a controller. The easiest way is :</p>
+
+<pre><code>PopedViewController *c = [[PopedViewController alloc] initWithNibName:@"PopedViewController" bundle:nil ];
+[self.revealSideViewController pushViewController:c onDirection:PPRevealSideDirectionBottom animated:YES];
+</code></pre>
+
+<p>This will push the controller on bottom, with a default offset.
+You have four directions :</p>
+
+<pre><code>PPRevealSideDirectionBottom
+PPRevealSideDirectionTop
+PPRevealSideDirectionLeft
+PPRevealSideDirectionRight
+</code></pre>
+
+<h1>Popping</h1>
+
+<p>To go back to your center controller from a side controller, you can pop :</p>
+
+<pre><code>[self.revealSideViewController popViewControllerAnimated:YES];
+</code></pre>
+
+<p>If you want to pop a new center controller, then do the following :</p>
+
+<pre><code>MainViewController *c = [[MainViewController alloc] initWithNibName:@"MainViewController" bundle:nil];
+UINavigationController *n = [[UINavigationController alloc] initWithRootViewController:c];
+[self.revealSideViewController popViewControllerWithNewCenterController:n animated:YES];
+</code></pre>
+					</div>
+					
+					
+					
+					
+					
+					<div class="section section-tasks">
+						<a title="Tasks" name="tasks"></a>
+						<h2 class="subtitle subtitle-tasks">Tasks</h2>
+						
+						
+						
+						<h3 class="subsubtitle task-title">Other Methods</h3>
+
+						<ul class="task-list">
+							<li>
+	<span class="tooltip">
+		<code><a href="#//api/name/rootViewController">&nbsp;&nbsp;rootViewController</a></code>
+		<span class="tooltip"><p>Getter for the <a href="#//api/name/rootViewController">rootViewController</a></p></span>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/options">&nbsp;&nbsp;options</a></code>
+		<span class="tooltip"><p>Disable or enable the shadows. Enabled by default Decide if the animations are boucing or not. By default, they are Decide if we close completely the old direction, for the new one or not. Set to YES by default Keep the same offset when rotating. By default, set to no Resize the side view. If set to yes, this disabled the bouncing stuff since the view behind is not large enough to show bouncing correctly. Set to NO by default</p></span>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/bouncingOffset">&nbsp;&nbsp;bouncingOffset</a></code>
+		<span class="tooltip"><p>The offset bouncing.
+When opening, if set to -1.0, then the animation will bounce with a default offset
+When closing, if set to -1.0, then the animation open completely before closing.
+Set to -1.0 by default</p></span>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/panInteractionsWhenClosed">&nbsp;&nbsp;panInteractionsWhenClosed</a></code>
+		<span class="tooltip"><p>For panning gestures
+Define the interactions to display the side views when closed. By default, only the navigation bar is enabled
+Possible values are :</p></span>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/panInteractionsWhenOpened">&nbsp;&nbsp;panInteractionsWhenOpened</a></code>
+		<span class="tooltip"><p>For panning gestures
+Define the interactions to close the side view when opened. By default, all the view is enabled</p></span>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/tapInteractionsWhenOpened">&nbsp;&nbsp;tapInteractionsWhenOpened</a></code>
+		<span class="tooltip"><p>For tapping gestures
+Define the interactions to close the side view when opened. By default, all the view is enabled</p></span>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/delegate">&nbsp;&nbsp;delegate</a></code>
+		<span class="tooltip"><p>The <a href="#//api/name/delegate">delegate</a> which will receive events from the controller. See <a href="../Protocols/PPRevealSideViewControllerDelegate.html">PPRevealSideViewControllerDelegate</a> for more informations.</p></span>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li>
+						</ul>
+						
+						
+						<a title="Init method" name="task_Init method"></a>
+						<h3 class="subsubtitle task-title">Init method</h3>
+
+						<ul class="task-list">
+							<li>
+	<span class="tooltip">
+		<code><a href="#//api/name/initWithRootViewController:">&ndash;&nbsp;initWithRootViewController:</a></code>
+		<span class="tooltip"><p>Initialize the reveal controller with a <a href="#//api/name/rootViewController">rootViewController</a>. This <a href="#//api/name/rootViewController">rootViewController</a> will be in the center.</p></span>
+	</span>
+	
+	
+</li>
+						</ul>
+						
+						
+						<a title="Pushing and popping methods" name="task_Pushing and popping methods"></a>
+						<h3 class="subsubtitle task-title">Pushing and popping methods</h3>
+
+						<ul class="task-list">
+							<li>
+	<span class="tooltip">
+		<code><a href="#//api/name/pushViewController:onDirection:animated:">&ndash;&nbsp;pushViewController:onDirection:animated:</a></code>
+		<span class="tooltip"><p>Push controller with a direction and a default offset.</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/pushViewController:onDirection:animated:forceToPopPush:">&ndash;&nbsp;pushViewController:onDirection:animated:forceToPopPush:</a></code>
+		<span class="tooltip"><p>Push controller with a direction and a default offset and force to pop then push.</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/pushOldViewControllerOnDirection:animated:">&ndash;&nbsp;pushOldViewControllerOnDirection:animated:</a></code>
+		<span class="tooltip"><p>Push the old controller if exists for the direction with a default offset.
+This allows you for example to go directly on an another side from a controller in a side.</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/pushViewController:onDirection:withOffset:animated:">&ndash;&nbsp;pushViewController:onDirection:withOffset:animated:</a></code>
+		<span class="tooltip"><p>Same as <a href="#//api/name/pushViewController:onDirection:animated:">pushViewController:onDirection:animated:</a> but with an offset</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/pushViewController:onDirection:withOffset:animated:forceToPopPush:">&ndash;&nbsp;pushViewController:onDirection:withOffset:animated:forceToPopPush:</a></code>
+		<span class="tooltip"><p>Same as <a href="#//api/name/pushViewController:onDirection:animated:forceToPopPush:">pushViewController:onDirection:animated:forceToPopPush:</a> but with an offset</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/pushOldViewControllerOnDirection:withOffset:animated:">&ndash;&nbsp;pushOldViewControllerOnDirection:withOffset:animated:</a></code>
+		<span class="tooltip"><p>Same as <a href="#//api/name/pushOldViewControllerOnDirection:animated:">pushOldViewControllerOnDirection:animated:</a> but with an offset</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/popViewControllerWithNewCenterController:animated:">&ndash;&nbsp;popViewControllerWithNewCenterController:animated:</a></code>
+		<span class="tooltip"><p>Pop controller with a new Center controller.</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/popViewControllerAnimated:">&ndash;&nbsp;popViewControllerAnimated:</a></code>
+		<span class="tooltip"><p>Go back to the center controller.</p></span>
+	</span>
+	
+	
+</li>
+						</ul>
+						
+						
+						<a title="More functionalities" name="task_More functionalities"></a>
+						<h3 class="subsubtitle task-title">More functionalities</h3>
+
+						<ul class="task-list">
+							<li>
+	<span class="tooltip">
+		<code><a href="#//api/name/preloadViewController:forSide:">&ndash;&nbsp;preloadViewController:forSide:</a></code>
+		<span class="tooltip"><p>Preload a controller.
+Use only if the animation scratches OR if you want to have gestures on the center view controller without pushing first.
+Preloading is not good for performances since it uses RAM for nothing.
+Preload long before pushing the controller (ex : in the view did load)
+Offset set to Default Offset</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/preloadViewController:forSide:withOffset:">&ndash;&nbsp;preloadViewController:forSide:withOffset:</a></code>
+		<span class="tooltip"><p>Same as <a href="#//api/name/preloadViewController:forSide:">preloadViewController:forSide:</a> but with an offset.</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/changeOffset:forDirection:">&ndash;&nbsp;changeOffset:forDirection:</a></code>
+		<span class="tooltip"><p>Change the offset for a direction. Not animated.</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/changeOffset:forDirection:animated:">&ndash;&nbsp;changeOffset:forDirection:animated:</a></code>
+		<span class="tooltip"><p>Same as &ndash; (void) changeOffset:(CGFloat)offset forDirection:(PPRevealSideDirection)direction but animated</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/setOption:">&ndash;&nbsp;setOption:</a></code>
+		<span class="tooltip"><p>Set Option.</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/resetOption:">&ndash;&nbsp;resetOption:</a></code>
+		<span class="tooltip"><p>Reset Option.</p></span>
+	</span>
+	
+	
+</li>
+						</ul>
+						
+					</div>
+					
+					
+					
+					
+					
+					<div class="section section-methods">
+						<a title="Properties" name="properties"></a>
+						<h2 class="subtitle subtitle-methods">Properties</h2>
+						
+						<div class="section-method">
+	<a name="//api/name/bouncingOffset" title="bouncingOffset"></a>
+	<h3 class="subsubtitle method-title">bouncingOffset</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>The offset bouncing.
+When opening, if set to -1.0, then the animation will bounce with a default offset
+When closing, if set to -1.0, then the animation open completely before closing.
+Set to -1.0 by default</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) CGFloat bouncingOffset</code></div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">PPRevealSideViewController.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/delegate" title="delegate"></a>
+	<h3 class="subsubtitle method-title">delegate</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>The <a href="#//api/name/delegate">delegate</a> which will receive events from the controller. See <a href="../Protocols/PPRevealSideViewControllerDelegate.html">PPRevealSideViewControllerDelegate</a> for more informations.</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) id&lt;&gt; delegate</code></div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">PPRevealSideViewController.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/options" title="options"></a>
+	<h3 class="subsubtitle method-title">options</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Disable or enable the shadows. Enabled by default Decide if the animations are boucing or not. By default, they are Decide if we close completely the old direction, for the new one or not. Set to YES by default Keep the same offset when rotating. By default, set to no Resize the side view. If set to yes, this disabled the bouncing stuff since the view behind is not large enough to show bouncing correctly. Set to NO by default</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) PPRevealSideOptions options</code></div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">PPRevealSideViewController.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/panInteractionsWhenClosed" title="panInteractionsWhenClosed"></a>
+	<h3 class="subsubtitle method-title">panInteractionsWhenClosed</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>For panning gestures
+Define the interactions to display the side views when closed. By default, only the navigation bar is enabled
+Possible values are :</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) PPRevealSideInteractions panInteractionsWhenClosed</code></div>
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<ul>
+<li>PPRevealSideInteractionNone = 0</li>
+<li>PPRevealSideInteractionNavigationBar = 1 &lt;&lt; 1</li>
+<li>PPRevealSideInteractionContentView = 1 &lt;&lt; 2</li>
+</ul>
+
+	</div>
+	
+	
+	
+	
+	
+	<div class="method-subsection see-also-section">
+		<h4 class="method-subtitle">See Also</h4>
+		<ul>
+			
+			<li><code><p><a href="#//api/name/panInteractionsWhenOpened">@property panInteractionsWhenOpened</a></p></code></li>
+			
+			<li><code><p><a href="#//api/name/tapInteractionsWhenOpened">@property tapInteractionsWhenOpened</a></p></code></li>
+			
+		</ul>
+	</div>
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">PPRevealSideViewController.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/panInteractionsWhenOpened" title="panInteractionsWhenOpened"></a>
+	<h3 class="subsubtitle method-title">panInteractionsWhenOpened</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>For panning gestures
+Define the interactions to close the side view when opened. By default, all the view is enabled</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) PPRevealSideInteractions panInteractionsWhenOpened</code></div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection see-also-section">
+		<h4 class="method-subtitle">See Also</h4>
+		<ul>
+			
+			<li><code><p><a href="#//api/name/panInteractionsWhenClosed">@property panInteractionsWhenClosed</a></p></code></li>
+			
+			<li><code><p><a href="#//api/name/tapInteractionsWhenOpened">@property tapInteractionsWhenOpened</a></p></code></li>
+			
+		</ul>
+	</div>
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">PPRevealSideViewController.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/rootViewController" title="rootViewController"></a>
+	<h3 class="subsubtitle method-title">rootViewController</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Getter for the <a href="#//api/name/rootViewController">rootViewController</a></p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly, retain) UIViewController *rootViewController</code></div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">PPRevealSideViewController.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/tapInteractionsWhenOpened" title="tapInteractionsWhenOpened"></a>
+	<h3 class="subsubtitle method-title">tapInteractionsWhenOpened</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>For tapping gestures
+Define the interactions to close the side view when opened. By default, all the view is enabled</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) PPRevealSideInteractions tapInteractionsWhenOpened</code></div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection see-also-section">
+		<h4 class="method-subtitle">See Also</h4>
+		<ul>
+			
+			<li><code><p><a href="#//api/name/panInteractionsWhenClosed">@property panInteractionsWhenClosed</a></p></code></li>
+			
+			<li><code><p><a href="#//api/name/panInteractionsWhenOpened">@property panInteractionsWhenOpened</a></p></code></li>
+			
+		</ul>
+	</div>
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">PPRevealSideViewController.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+					</div>
+					
+					
+					
+					
+					
+					<div class="section section-methods">
+						<a title="Instance Methods" name="instance_methods"></a>
+						<h2 class="subtitle subtitle-methods">Instance Methods</h2>
+						
+						<div class="section-method">
+	<a name="//api/name/changeOffset:forDirection:" title="changeOffset:forDirection:"></a>
+	<h3 class="subsubtitle method-title">changeOffset:forDirection:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Change the offset for a direction. Not animated.</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>- (void)changeOffset:(CGFloat)<em>offset</em> forDirection:(PPRevealSideDirection)<em>direction</em></code></div>
+	
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>offset</em></dt>
+			<dd><p>The offset</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>direction</em></dt>
+			<dd><p>The direction for which to change the offset</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection see-also-section">
+		<h4 class="method-subtitle">See Also</h4>
+		<ul>
+			
+			<li><code><p><a href="#//api/name/changeOffset:forDirection:animated:">&ndash; changeOffset:forDirection:animated:</a></p></code></li>
+			
+		</ul>
+	</div>
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">PPRevealSideViewController.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/changeOffset:forDirection:animated:" title="changeOffset:forDirection:animated:"></a>
+	<h3 class="subsubtitle method-title">changeOffset:forDirection:animated:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Same as &ndash; (void) changeOffset:(CGFloat)offset forDirection:(PPRevealSideDirection)direction but animated</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>- (void)changeOffset:(CGFloat)<em>offset</em> forDirection:(PPRevealSideDirection)<em>direction</em> animated:(BOOL)<em>animated</em></code></div>
+	
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>offset</em></dt>
+			<dd><p>The offset</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>direction</em></dt>
+			<dd><p>The direction for which to change the offset</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>animated</em></dt>
+			<dd><p>Animated or not</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">PPRevealSideViewController.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/initWithRootViewController:" title="initWithRootViewController:"></a>
+	<h3 class="subsubtitle method-title">initWithRootViewController:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Initialize the reveal controller with a <a href="#//api/name/rootViewController">rootViewController</a>. This <a href="#//api/name/rootViewController">rootViewController</a> will be in the center.</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>- (id)initWithRootViewController:(UIViewController *)<em>rootViewController</em></code></div>
+	
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>rootViewController</em></dt>
+			<dd><p>The center view controller.</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	<div class="method-subsection return">
+		<h4 class="method-subtitle parameter-title">Return Value</h4>
+		<p>the controller initialized</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">PPRevealSideViewController.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/popViewControllerAnimated:" title="popViewControllerAnimated:"></a>
+	<h3 class="subsubtitle method-title">popViewControllerAnimated:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Go back to the center controller.</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>- (void)popViewControllerAnimated:(BOOL)<em>animated</em></code></div>
+	
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>animated</em></dt>
+			<dd><p>Animated or not</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection see-also-section">
+		<h4 class="method-subtitle">See Also</h4>
+		<ul>
+			
+			<li><code><p><a href="#//api/name/popViewControllerWithNewCenterController:animated:">&ndash; popViewControllerWithNewCenterController:animated:</a></p></code></li>
+			
+		</ul>
+	</div>
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">PPRevealSideViewController.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/popViewControllerWithNewCenterController:animated:" title="popViewControllerWithNewCenterController:animated:"></a>
+	<h3 class="subsubtitle method-title">popViewControllerWithNewCenterController:animated:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Pop controller with a new Center controller.</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>- (void)popViewControllerWithNewCenterController:(UIViewController *)<em>centerController</em> animated:(BOOL)<em>animated</em></code></div>
+	
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>centerController</em></dt>
+			<dd><p>The new center controller</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>animated</em></dt>
+			<dd><p>Animated or not</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection see-also-section">
+		<h4 class="method-subtitle">See Also</h4>
+		<ul>
+			
+			<li><code><p><a href="#//api/name/popViewControllerAnimated:">&ndash; popViewControllerAnimated:</a></p></code></li>
+			
+		</ul>
+	</div>
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">PPRevealSideViewController.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/preloadViewController:forSide:" title="preloadViewController:forSide:"></a>
+	<h3 class="subsubtitle method-title">preloadViewController:forSide:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Preload a controller.
+Use only if the animation scratches OR if you want to have gestures on the center view controller without pushing first.
+Preloading is not good for performances since it uses RAM for nothing.
+Preload long before pushing the controller (ex : in the view did load)
+Offset set to Default Offset</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>- (void)preloadViewController:(UIViewController *)<em>controller</em> forSide:(PPRevealSideDirection)<em>direction</em></code></div>
+	
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>controller</em></dt>
+			<dd><p>The controller to preload</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>direction</em></dt>
+			<dd><p>The direction for the future controller</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>For example, you will use as it, with a performSelector:afterDelay: (because of some interferences with the push/pop methods)</p>
+
+<pre><code>- (void) viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(preloadLeft) object:nil];
+    [self performSelector:@selector(preloadLeft) withObject:nil afterDelay:0.3];
+}
+
+- (void) preloadLeft {
+    TableViewController *c = [[TableViewController alloc] initWithStyle:UITableViewStylePlain];
+    [self.revealSideViewController preloadViewController:c
+                                                forSide:PPRevealSideDirectionLeft
+                                            withOffset:_offset];
+}
+</code></pre>
+	</div>
+	
+	
+	
+	
+	
+	<div class="method-subsection see-also-section">
+		<h4 class="method-subtitle">See Also</h4>
+		<ul>
+			
+			<li><code><p><a href="#//api/name/preloadViewController:forSide:withOffset:">&ndash; preloadViewController:forSide:withOffset:</a></p></code></li>
+			
+		</ul>
+	</div>
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">PPRevealSideViewController.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/preloadViewController:forSide:withOffset:" title="preloadViewController:forSide:withOffset:"></a>
+	<h3 class="subsubtitle method-title">preloadViewController:forSide:withOffset:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Same as <a href="#//api/name/preloadViewController:forSide:">preloadViewController:forSide:</a> but with an offset.</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>- (void)preloadViewController:(UIViewController *)<em>controller</em> forSide:(PPRevealSideDirection)<em>direction</em> withOffset:(CGFloat)<em>offset</em></code></div>
+	
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>controller</em></dt>
+			<dd><p>The controller to preload</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>direction</em></dt>
+			<dd><p>The direction for the future controller</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>offset</em></dt>
+			<dd><p>The offset</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection see-also-section">
+		<h4 class="method-subtitle">See Also</h4>
+		<ul>
+			
+			<li><code><p><a href="#//api/name/changeOffset:forDirection:">&ndash; changeOffset:forDirection:</a></p></code></li>
+			
+		</ul>
+	</div>
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">PPRevealSideViewController.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/pushOldViewControllerOnDirection:animated:" title="pushOldViewControllerOnDirection:animated:"></a>
+	<h3 class="subsubtitle method-title">pushOldViewControllerOnDirection:animated:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Push the old controller if exists for the direction with a default offset.
+This allows you for example to go directly on an another side from a controller in a side.</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>- (void)pushOldViewControllerOnDirection:(PPRevealSideDirection)<em>direction</em> animated:(BOOL)<em>animated</em></code></div>
+	
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>direction</em></dt>
+			<dd><p>The direction</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>animated</em></dt>
+			<dd><p>Animated or not</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection see-also-section">
+		<h4 class="method-subtitle">See Also</h4>
+		<ul>
+			
+			<li><code><p><a href="#//api/name/pushOldViewControllerOnDirection:withOffset:animated:">&ndash; pushOldViewControllerOnDirection:withOffset:animated:</a></p></code></li>
+			
+		</ul>
+	</div>
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">PPRevealSideViewController.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/pushOldViewControllerOnDirection:withOffset:animated:" title="pushOldViewControllerOnDirection:withOffset:animated:"></a>
+	<h3 class="subsubtitle method-title">pushOldViewControllerOnDirection:withOffset:animated:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Same as <a href="#//api/name/pushOldViewControllerOnDirection:animated:">pushOldViewControllerOnDirection:animated:</a> but with an offset</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>- (void)pushOldViewControllerOnDirection:(PPRevealSideDirection)<em>direction</em> withOffset:(CGFloat)<em>offset</em> animated:(BOOL)<em>animated</em></code></div>
+	
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>direction</em></dt>
+			<dd><p>The direction</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>offset</em></dt>
+			<dd><p>The offset when the side view is pushed</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>animated</em></dt>
+			<dd><p>Animated or not</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">PPRevealSideViewController.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/pushViewController:onDirection:animated:" title="pushViewController:onDirection:animated:"></a>
+	<h3 class="subsubtitle method-title">pushViewController:onDirection:animated:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Push controller with a direction and a default offset.</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>- (void)pushViewController:(UIViewController *)<em>controller</em> onDirection:(PPRevealSideDirection)<em>direction</em> animated:(BOOL)<em>animated</em></code></div>
+	
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>controller</em></dt>
+			<dd><p>The controller to push</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>direction</em></dt>
+			<dd><p>This parameter allows you to choose the direction to push the controller</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>animated</em></dt>
+			<dd><p>Animated or not</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection see-also-section">
+		<h4 class="method-subtitle">See Also</h4>
+		<ul>
+			
+			<li><code><p><a href="#//api/name/pushViewController:onDirection:withOffset:animated:">&ndash; pushViewController:onDirection:withOffset:animated:</a></p></code></li>
+			
+			<li><code><p><a href="#//api/name/pushOldViewControllerOnDirection:animated:">&ndash; pushOldViewControllerOnDirection:animated:</a></p></code></li>
+			
+			<li><code><p><a href="#//api/name/pushViewController:onDirection:animated:forceToPopPush:">&ndash; pushViewController:onDirection:animated:forceToPopPush:</a></p></code></li>
+			
+		</ul>
+	</div>
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">PPRevealSideViewController.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/pushViewController:onDirection:animated:forceToPopPush:" title="pushViewController:onDirection:animated:forceToPopPush:"></a>
+	<h3 class="subsubtitle method-title">pushViewController:onDirection:animated:forceToPopPush:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Push controller with a direction and a default offset and force to pop then push.</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>- (void)pushViewController:(UIViewController *)<em>controller</em> onDirection:(PPRevealSideDirection)<em>direction</em> animated:(BOOL)<em>animated</em> forceToPopPush:(BOOL)<em>forcePopPush</em></code></div>
+	
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>controller</em></dt>
+			<dd><p>The controller to push</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>direction</em></dt>
+			<dd><p>This parameter allows you to choose the direction to push the controller</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>animated</em></dt>
+			<dd><p>Animated or not</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>forcePopPush</em></dt>
+			<dd><p>This parameter is needed when you want to push a new controller in the same direction.
+For example, you could push a new left controller from the left. In this case, setting forcePopPush to YES will pop to center view controller, then push the new controller.</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection see-also-section">
+		<h4 class="method-subtitle">See Also</h4>
+		<ul>
+			
+			<li><code><p><a href="#//api/name/pushViewController:onDirection:withOffset:animated:forceToPopPush:">&ndash; pushViewController:onDirection:withOffset:animated:forceToPopPush:</a></p></code></li>
+			
+		</ul>
+	</div>
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">PPRevealSideViewController.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/pushViewController:onDirection:withOffset:animated:" title="pushViewController:onDirection:withOffset:animated:"></a>
+	<h3 class="subsubtitle method-title">pushViewController:onDirection:withOffset:animated:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Same as <a href="#//api/name/pushViewController:onDirection:animated:">pushViewController:onDirection:animated:</a> but with an offset</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>- (void)pushViewController:(UIViewController *)<em>controller</em> onDirection:(PPRevealSideDirection)<em>direction</em> withOffset:(CGFloat)<em>offset</em> animated:(BOOL)<em>animated</em></code></div>
+	
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>controller</em></dt>
+			<dd><p>The controller to push</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>direction</em></dt>
+			<dd><p>The direction of the push</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>offset</em></dt>
+			<dd><p>The offset when the side view is pushed</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>animated</em></dt>
+			<dd><p>Animated or not</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">PPRevealSideViewController.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/pushViewController:onDirection:withOffset:animated:forceToPopPush:" title="pushViewController:onDirection:withOffset:animated:forceToPopPush:"></a>
+	<h3 class="subsubtitle method-title">pushViewController:onDirection:withOffset:animated:forceToPopPush:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Same as <a href="#//api/name/pushViewController:onDirection:animated:forceToPopPush:">pushViewController:onDirection:animated:forceToPopPush:</a> but with an offset</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>- (void)pushViewController:(UIViewController *)<em>controller</em> onDirection:(PPRevealSideDirection)<em>direction</em> withOffset:(CGFloat)<em>offset</em> animated:(BOOL)<em>animated</em> forceToPopPush:(BOOL)<em>forcePopPush</em></code></div>
+	
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>controller</em></dt>
+			<dd><p>The controller to push</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>direction</em></dt>
+			<dd><p>This parameter allows you to choose the direction to push the controller</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>offset</em></dt>
+			<dd><p>The offset when the side view is pushed</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>animated</em></dt>
+			<dd><p>Animated or not</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>forcePopPush</em></dt>
+			<dd><p>This parameter is needed when you want to push a new controller in the same direction.
+For example, you could push a new left controller from the left. In this case, setting forcePopPush to YES will pop to center view controller, then push the new controller.</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">PPRevealSideViewController.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/resetOption:" title="resetOption:"></a>
+	<h3 class="subsubtitle method-title">resetOption:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Reset Option.</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>- (void)resetOption:(PPRevealSideOptions)<em>option</em></code></div>
+	
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>option</em></dt>
+			<dd><p>The option to reset</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">PPRevealSideViewController.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/setOption:" title="setOption:"></a>
+	<h3 class="subsubtitle method-title">setOption:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Set Option.</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>- (void)setOption:(PPRevealSideOptions)<em>option</em></code></div>
+	
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>option</em></dt>
+			<dd><p>The option to set</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">PPRevealSideViewController.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+					</div>
+					
+					
+				</div>
+				<div class="main-navigation navigation-bottom">
+					<ul>
+	<li><a href="../index.html">Index</a></li>
+	<li><a href="../hierarchy.html">Hierarchy</a></li>
+</ul>
+				</div>
+				<div id="footer">
+					<hr />
+					<div class="footer-copyright">
+						<p><span class="copyright">&copy; 2012 Marian PAUL - iPuP SARL. All rights reserved. (Last updated: 2012-02-21)</span><br />
+						
+						<span class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.0.5 (build 759)</a>.</span></p>
+						
+					</div>
+				</div>
+			</div>
+		</article>
+		<script type="text/javascript">
+			function jumpToChange()
+			{
+				window.location.hash = this.options[this.selectedIndex].value;
+			}
+			
+			function toggleTOC()
+			{
+				var contents = document.getElementById('contents');
+				var tocContainer = document.getElementById('tocContainer');
+				
+				if (this.getAttribute('class') == 'open')
+				{
+					this.setAttribute('class', '');
+					contents.setAttribute('class', '');
+					tocContainer.setAttribute('class', '');
+					
+					window.name = "hideTOC";
+				}
+				else
+				{
+					this.setAttribute('class', 'open');
+					contents.setAttribute('class', 'isShowingTOC');
+					tocContainer.setAttribute('class', 'isShowingTOC');
+					
+					window.name = "";
+				}
+				return false;
+			}
+			
+			function toggleTOCEntryChildren(e)
+			{
+				e.stopPropagation();
+				var currentClass = this.getAttribute('class');
+				if (currentClass == 'children') {
+					this.setAttribute('class', 'children open');
+				}
+				else if (currentClass == 'children open') {
+					this.setAttribute('class', 'children');
+				}
+				return false;
+			}
+			
+			function tocEntryClick(e)
+			{
+				e.stopPropagation();
+				return true;
+			}
+			
+			function init()
+			{
+				var selectElement = document.getElementById('jumpTo');
+				selectElement.addEventListener('change', jumpToChange, false);
+				
+				var tocButton = document.getElementById('table_of_contents');
+				tocButton.addEventListener('click', toggleTOC, false);
+				
+				var taskTreeItem = document.getElementById('task_treeitem');
+				if (taskTreeItem.getElementsByTagName('li').length > 0)
+				{
+					taskTreeItem.setAttribute('class', 'children');
+					taskTreeItem.firstChild.setAttribute('class', 'disclosure');
+				}
+				
+				var tocList = document.getElementById('toc');
+				
+				var tocEntries = tocList.getElementsByTagName('li');
+				for (var i = 0; i < tocEntries.length; i++) {
+					tocEntries[i].addEventListener('click', toggleTOCEntryChildren, false);
+				}
+				
+				var tocLinks = tocList.getElementsByTagName('a');
+				for (var i = 0; i < tocLinks.length; i++) {
+					tocLinks[i].addEventListener('click', tocEntryClick, false);
+				}
+				
+				if (window.name == "hideTOC") {
+					toggleTOC.call(tocButton);
+				}
+			}
+			
+			window.onload = init;
+		</script>
+	</body>
+</html>

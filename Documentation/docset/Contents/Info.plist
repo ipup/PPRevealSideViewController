@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>en</string>
+	<key>CFBundleIdentifier</key>
+	<string>fr.ipup.PPRevealSideViewController</string>
+	<key>CFBundleName</key>
+	<string>PPRevealSideViewController Documentation</string>
+	<key>CFBundleShortVersionString</key>
+	<string>1.0</string>
+	<key>CFBundleVersion</key>
+	<string>1.0</string>
+	
+	
+	
+	<key>DocSetFallbackURL</key>
+	<string>https://github.com/ipup/PPRevealSideViewController/</string>
+	<key>DocSetFeedName</key>
+	<string>PPRevealSideViewController Documentation</string>
+	<key>DocSetFeedURL</key>
+	<string>https://github.com/ipup/PPRevealSideViewController/PPRevealSideViewController.atom</string>
+	<key>DocSetMinimumXcodeVersion</key>
+	<string>3.0</string>
+	
+	<key>DocSetPublisherIdentifier</key>
+	<string>fr.ipup.documentation</string>
+	<key>DocSetPublisherName</key>
+	<string>Marian PAUL - iPuP SARL</string>
+	<key>NSHumanReadableCopyright</key>
+	<string>Copyright © 2012 Marian PAUL - iPuP SARL. All rights reserved.</string>
+</dict>
+</plist>

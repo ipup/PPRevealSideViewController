@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Categories/UIView+PPRevealSideViewController.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cat/UIView(PPRevealSideViewController)</TokenIdentifier>
+			<Abstract type="html">UIView category to add a content inset when you push a view with an offset</Abstract>
+			<DeclaredIn>PPRevealSideViewController.h</DeclaredIn>
+			
+			<NodeRef refid="2"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/UIView(PPRevealSideViewController)/setRevealSideInset:</TokenIdentifier>
+			<Abstract type="html">Content inset when you push a view with an offset</Abstract>
+			<DeclaredIn>PPRevealSideViewController.h</DeclaredIn>			
+			
+			<Declaration>@property (nonatomic, assign) UIEdgeInsets revealSideInset</Declaration>
+			
+			
+			<Anchor>//api/name/revealSideInset</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfp/UIView(PPRevealSideViewController)/revealSideInset</TokenIdentifier>
+			<Abstract type="html">Content inset when you push a view with an offset</Abstract>
+			<DeclaredIn>PPRevealSideViewController.h</DeclaredIn>			
+			
+			<Declaration>@property (nonatomic, assign) UIEdgeInsets revealSideInset</Declaration>
+			
+			
+			<Anchor>//api/name/revealSideInset</Anchor>
+		</Token>
+		
+	</File>
+</Tokens>

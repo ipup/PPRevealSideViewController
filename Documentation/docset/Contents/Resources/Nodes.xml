@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DocSetNodes version="1.0">
+    <TOC>
+        <Node type="folder">
+            <Name>PPRevealSideViewController</Name>
+            <Path>index.html</Path>
+			<Subnodes>
+				
+				<Node type="folder">
+					<Name>Classes</Name>
+					<Path>index.html</Path>
+					<Subnodes>
+						<NodeRef refid="1"/>
+						
+					</Subnodes>
+				</Node>
+				
+				
+				<Node type="folder">
+					<Name>Categories</Name>
+					<Path>index.html</Path>
+					<Subnodes>
+						<NodeRef refid="2"/>
+						<NodeRef refid="3"/>
+						
+					</Subnodes>
+				</Node>
+				
+				
+				<Node type="folder">
+					<Name>Protocols</Name>
+					<Path>index.html</Path>
+					<Subnodes>
+						<NodeRef refid="4"/>
+						
+					</Subnodes>
+				</Node>
+				
+			</Subnodes>
+        </Node>
+    </TOC>
+	<Library>
+		<Node id="1">
+			<Name>PPRevealSideViewController</Name>
+			<Path>Classes/PPRevealSideViewController.html</Path>
+		</Node>
+		
+		<Node id="2">
+			<Name>UIView(PPRevealSideViewController)</Name>
+			<Path>Categories/UIView+PPRevealSideViewController.html</Path>
+		</Node>
+		<Node id="3">
+			<Name>UIViewController(PPRevealSideViewController)</Name>
+			<Path>Categories/UIViewController+PPRevealSideViewController.html</Path>
+		</Node>
+		
+		<Node id="4">
+			<Name>PPRevealSideViewControllerDelegate</Name>
+			<Path>Protocols/PPRevealSideViewControllerDelegate.html</Path>
+		</Node>
+		
+	</Library>
+</DocSetNodes>

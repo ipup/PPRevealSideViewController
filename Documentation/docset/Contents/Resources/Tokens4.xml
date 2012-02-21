@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Protocols/PPRevealSideViewControllerDelegate.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intf/PPRevealSideViewControllerDelegate</TokenIdentifier>
+			<Abstract type="html">PPRevealSideViewControllerDelegate protocol</Abstract>
+			<DeclaredIn>PPRevealSideViewController.h</DeclaredIn>
+			
+			<NodeRef refid="4"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/PPRevealSideViewControllerDelegate/pprevealSideViewController:didChangeCenterController:</TokenIdentifier>
+			<Abstract type="html">Called when the center controller has changed</Abstract>
+			<DeclaredIn>PPRevealSideViewController.h</DeclaredIn>			
+			
+			<Declaration>- (void)pprevealSideViewController:(PPRevealSideViewController *)controller didChangeCenterController:(UIViewController *)newCenterController</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>controller</Name>
+					<Abstract type="html">The reveal side view controller</Abstract>
+				</Parameter><Parameter>
+					<Name>newCenterController</Name>
+					<Abstract type="html">The new center controller</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/pprevealSideViewController:didChangeCenterController:</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/PPRevealSideViewControllerDelegate/pprevealSideViewController:willPushController:</TokenIdentifier>
+			<Abstract type="html">Called when a controller will be pushed</Abstract>
+			<DeclaredIn>PPRevealSideViewController.h</DeclaredIn>			
+			
+			<Declaration>- (void)pprevealSideViewController:(PPRevealSideViewController *)controller willPushController:(UIViewController *)pushedController</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>controller</Name>
+					<Abstract type="html">The reveal side view controller</Abstract>
+				</Parameter><Parameter>
+					<Name>pushedController</Name>
+					<Abstract type="html">The controller pushed</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/pprevealSideViewController:willPushController:</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/PPRevealSideViewControllerDelegate/pprevealSideViewController:didPushController:</TokenIdentifier>
+			<Abstract type="html">Called when a controller has been pushed</Abstract>
+			<DeclaredIn>PPRevealSideViewController.h</DeclaredIn>			
+			
+			<Declaration>- (void)pprevealSideViewController:(PPRevealSideViewController *)controller didPushController:(UIViewController *)pushedController</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>controller</Name>
+					<Abstract type="html">The reveal side view controller</Abstract>
+				</Parameter><Parameter>
+					<Name>pushedController</Name>
+					<Abstract type="html">The controller pushed</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/pprevealSideViewController:didPushController:</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/PPRevealSideViewControllerDelegate/pprevealSideViewController:willPopToController:</TokenIdentifier>
+			<Abstract type="html">Called when a controller will be poped</Abstract>
+			<DeclaredIn>PPRevealSideViewController.h</DeclaredIn>			
+			
+			<Declaration>- (void)pprevealSideViewController:(PPRevealSideViewController *)controller willPopToController:(UIViewController *)centerController</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>controller</Name>
+					<Abstract type="html">The reveal side view controller</Abstract>
+				</Parameter><Parameter>
+					<Name>centerController</Name>
+					<Abstract type="html">The center controller poped</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/pprevealSideViewController:willPopToController:</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/PPRevealSideViewControllerDelegate/pprevealSideViewController:didPopToController:</TokenIdentifier>
+			<Abstract type="html">Called when a controller has been poped</Abstract>
+			<DeclaredIn>PPRevealSideViewController.h</DeclaredIn>			
+			
+			<Declaration>- (void)pprevealSideViewController:(PPRevealSideViewController *)controller didPopToController:(UIViewController *)centerController</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>controller</Name>
+					<Abstract type="html">The reveal side view controller</Abstract>
+				</Parameter><Parameter>
+					<Name>centerController</Name>
+					<Abstract type="html">The center controller poped</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/pprevealSideViewController:didPopToController:</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/PPRevealSideViewControllerDelegate/pprevealSideViewController:shouldDeactivateGestureForView:</TokenIdentifier>
+			<Abstract type="html">Called when a gesture will start. Typically, if you would use a class like the UISlider (handled by default in the class), you don't want to activate the pan gesture on the slider since it will not be functional.</Abstract>
+			<DeclaredIn>PPRevealSideViewController.h</DeclaredIn>			
+			
+			<Declaration>- (BOOL)pprevealSideViewController:(PPRevealSideViewController *)controller shouldDeactivateGestureForView:(UIView *)view</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>controller</Name>
+					<Abstract type="html">The reveal side view controller</Abstract>
+				</Parameter><Parameter>
+					<Name>view</Name>
+					<Abstract type="html">The view</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">Return YES or NO for the view you want to deactivate gesture. Please return NO by default.</Abstract></ReturnValue>
+			<Anchor>//api/name/pprevealSideViewController:shouldDeactivateGestureForView:</Anchor>
+		</Token>
+		
+	</File>
+</Tokens>

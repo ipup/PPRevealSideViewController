@@ -15,6 +15,14 @@ Sometimes, you need to push a new controller to show some options, but a small c
 
 PPRevealSideViewController fully supports ARC *and* non-ARC modes out of the box, there is no configuration necessary. This is really convenient when you have older projects, or do no want to use ARC.  ARC support has been tested with the Apple LLVM 3.0 compiler.
 
+#Documentation 
+
+The class is documented. You can either browse into documentation/html folder and then open index.html or install the doc set into Xcode.
+Follow theses steps
+1. Quit Xcode
+2. Go to ~/Library/Developer/Shared/Documentation/DocSets and copy the .docset file.
+3. Launch Xcode and Voilà !
+
 # Usage
 
 ## Creating your controller

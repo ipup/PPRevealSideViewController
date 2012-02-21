@@ -4,6 +4,11 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>BuildDocumentation.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>1</integer>
+		</dict>
 		<key>PPRevealSideViewController.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
@@ -12,6 +17,26 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
+		<key>E05F25A414F4323A00AF1F6D</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>E05F25AB14F4326600AF1F6D</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>E0BEABE114F2B9A400ADA090</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>E0BEABF614F2B9E100ADA090</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>E0D903B914ED2A610072EECD</key>
 		<dict>
 			<key>primary</key>

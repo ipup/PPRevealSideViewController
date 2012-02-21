@@ -1,0 +1,574 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Classes/PPRevealSideViewController.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cl/PPRevealSideViewController</TokenIdentifier>
+			<Abstract type="html">Allow pushing controllers on side views.</Abstract>
+			<DeclaredIn>PPRevealSideViewController.h</DeclaredIn>
+			
+			<NodeRef refid="1"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/PPRevealSideViewController/setRootViewController:</TokenIdentifier>
+			<Abstract type="html">Getter for the rootViewController</Abstract>
+			<DeclaredIn>PPRevealSideViewController.h</DeclaredIn>			
+			
+			<Declaration>@property (nonatomic, readonly, retain) UIViewController *rootViewController</Declaration>
+			
+			
+			<Anchor>//api/name/rootViewController</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/PPRevealSideViewController/rootViewController</TokenIdentifier>
+			<Abstract type="html">Getter for the rootViewController</Abstract>
+			<DeclaredIn>PPRevealSideViewController.h</DeclaredIn>			
+			
+			<Declaration>@property (nonatomic, readonly, retain) UIViewController *rootViewController</Declaration>
+			
+			
+			<Anchor>//api/name/rootViewController</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/PPRevealSideViewController/setOptions:</TokenIdentifier>
+			<Abstract type="html">Disable or enable the shadows. Enabled by default Decide if the animations are boucing or not. By default, they are Decide if we close completely the old direction, for the new one or not. Set to YES by default Keep the same offset when rotating. By default, set to no Resize the side view. If set to yes, this disabled the bouncing stuff since the view behind is not large enough to show bouncing correctly. Set to NO by default</Abstract>
+			<DeclaredIn>PPRevealSideViewController.h</DeclaredIn>			
+			
+			<Declaration>@property (nonatomic, assign) PPRevealSideOptions options</Declaration>
+			
+			
+			<Anchor>//api/name/options</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/PPRevealSideViewController/options</TokenIdentifier>
+			<Abstract type="html">Disable or enable the shadows. Enabled by default Decide if the animations are boucing or not. By default, they are Decide if we close completely the old direction, for the new one or not. Set to YES by default Keep the same offset when rotating. By default, set to no Resize the side view. If set to yes, this disabled the bouncing stuff since the view behind is not large enough to show bouncing correctly. Set to NO by default</Abstract>
+			<DeclaredIn>PPRevealSideViewController.h</DeclaredIn>			
+			
+			<Declaration>@property (nonatomic, assign) PPRevealSideOptions options</Declaration>
+			
+			
+			<Anchor>//api/name/options</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/PPRevealSideViewController/setBouncingOffset:</TokenIdentifier>
+			<Abstract type="html">The offset bouncing.
+When opening, if set to -1.0, then the animation will bounce with a default offset
+When closing, if set to -1.0, then the animation open completely before closing.
+Set to -1.0 by default</Abstract>
+			<DeclaredIn>PPRevealSideViewController.h</DeclaredIn>			
+			
+			<Declaration>@property (nonatomic, assign) CGFloat bouncingOffset</Declaration>
+			
+			
+			<Anchor>//api/name/bouncingOffset</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/PPRevealSideViewController/bouncingOffset</TokenIdentifier>
+			<Abstract type="html">The offset bouncing.
+When opening, if set to -1.0, then the animation will bounce with a default offset
+When closing, if set to -1.0, then the animation open completely before closing.
+Set to -1.0 by default</Abstract>
+			<DeclaredIn>PPRevealSideViewController.h</DeclaredIn>			
+			
+			<Declaration>@property (nonatomic, assign) CGFloat bouncingOffset</Declaration>
+			
+			
+			<Anchor>//api/name/bouncingOffset</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/PPRevealSideViewController/setPanInteractionsWhenClosed:</TokenIdentifier>
+			<Abstract type="html">For panning gestures
+Define the interactions to display the side views when closed. By default, only the navigation bar is enabled
+Possible values are :</Abstract>
+			<DeclaredIn>PPRevealSideViewController.h</DeclaredIn>			
+			
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/occ/instp/PPRevealSideViewController/panInteractionsWhenOpened</TokenIdentifier>
+		<TokenIdentifier>//apple_ref/occ/instp/PPRevealSideViewController/tapInteractionsWhenOpened</TokenIdentifier>
+		
+	</RelatedTokens>
+	
+			<Declaration>@property (nonatomic, assign) PPRevealSideInteractions panInteractionsWhenClosed</Declaration>
+			
+			
+			<Anchor>//api/name/panInteractionsWhenClosed</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/PPRevealSideViewController/panInteractionsWhenClosed</TokenIdentifier>
+			<Abstract type="html">For panning gestures
+Define the interactions to display the side views when closed. By default, only the navigation bar is enabled
+Possible values are :</Abstract>
+			<DeclaredIn>PPRevealSideViewController.h</DeclaredIn>			
+			
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/occ/instp/PPRevealSideViewController/panInteractionsWhenOpened</TokenIdentifier>
+		<TokenIdentifier>//apple_ref/occ/instp/PPRevealSideViewController/tapInteractionsWhenOpened</TokenIdentifier>
+		
+	</RelatedTokens>
+	
+			<Declaration>@property (nonatomic, assign) PPRevealSideInteractions panInteractionsWhenClosed</Declaration>
+			
+			
+			<Anchor>//api/name/panInteractionsWhenClosed</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/PPRevealSideViewController/setPanInteractionsWhenOpened:</TokenIdentifier>
+			<Abstract type="html">For panning gestures
+Define the interactions to close the side view when opened. By default, all the view is enabled</Abstract>
+			<DeclaredIn>PPRevealSideViewController.h</DeclaredIn>			
+			
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/occ/instp/PPRevealSideViewController/panInteractionsWhenClosed</TokenIdentifier>
+		<TokenIdentifier>//apple_ref/occ/instp/PPRevealSideViewController/tapInteractionsWhenOpened</TokenIdentifier>
+		
+	</RelatedTokens>
+	
+			<Declaration>@property (nonatomic, assign) PPRevealSideInteractions panInteractionsWhenOpened</Declaration>
+			
+			
+			<Anchor>//api/name/panInteractionsWhenOpened</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/PPRevealSideViewController/panInteractionsWhenOpened</TokenIdentifier>
+			<Abstract type="html">For panning gestures
+Define the interactions to close the side view when opened. By default, all the view is enabled</Abstract>
+			<DeclaredIn>PPRevealSideViewController.h</DeclaredIn>			
+			
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/occ/instp/PPRevealSideViewController/panInteractionsWhenClosed</TokenIdentifier>
+		<TokenIdentifier>//apple_ref/occ/instp/PPRevealSideViewController/tapInteractionsWhenOpened</TokenIdentifier>
+		
+	</RelatedTokens>
+	
+			<Declaration>@property (nonatomic, assign) PPRevealSideInteractions panInteractionsWhenOpened</Declaration>
+			
+			
+			<Anchor>//api/name/panInteractionsWhenOpened</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/PPRevealSideViewController/setTapInteractionsWhenOpened:</TokenIdentifier>
+			<Abstract type="html">For tapping gestures
+Define the interactions to close the side view when opened. By default, all the view is enabled</Abstract>
+			<DeclaredIn>PPRevealSideViewController.h</DeclaredIn>			
+			
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/occ/instp/PPRevealSideViewController/panInteractionsWhenClosed</TokenIdentifier>
+		<TokenIdentifier>//apple_ref/occ/instp/PPRevealSideViewController/panInteractionsWhenOpened</TokenIdentifier>
+		
+	</RelatedTokens>
+	
+			<Declaration>@property (nonatomic, assign) PPRevealSideInteractions tapInteractionsWhenOpened</Declaration>
+			
+			
+			<Anchor>//api/name/tapInteractionsWhenOpened</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/PPRevealSideViewController/tapInteractionsWhenOpened</TokenIdentifier>
+			<Abstract type="html">For tapping gestures
+Define the interactions to close the side view when opened. By default, all the view is enabled</Abstract>
+			<DeclaredIn>PPRevealSideViewController.h</DeclaredIn>			
+			
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/occ/instp/PPRevealSideViewController/panInteractionsWhenClosed</TokenIdentifier>
+		<TokenIdentifier>//apple_ref/occ/instp/PPRevealSideViewController/panInteractionsWhenOpened</TokenIdentifier>
+		
+	</RelatedTokens>
+	
+			<Declaration>@property (nonatomic, assign) PPRevealSideInteractions tapInteractionsWhenOpened</Declaration>
+			
+			
+			<Anchor>//api/name/tapInteractionsWhenOpened</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/PPRevealSideViewController/setDelegate:</TokenIdentifier>
+			<Abstract type="html">The delegate which will receive events from the controller. See PPRevealSideViewControllerDelegate for more informations.</Abstract>
+			<DeclaredIn>PPRevealSideViewController.h</DeclaredIn>			
+			
+			<Declaration>@property (nonatomic, assign) id&lt;&gt; delegate</Declaration>
+			
+			
+			<Anchor>//api/name/delegate</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/PPRevealSideViewController/delegate</TokenIdentifier>
+			<Abstract type="html">The delegate which will receive events from the controller. See PPRevealSideViewControllerDelegate for more informations.</Abstract>
+			<DeclaredIn>PPRevealSideViewController.h</DeclaredIn>			
+			
+			<Declaration>@property (nonatomic, assign) id&lt;&gt; delegate</Declaration>
+			
+			
+			<Anchor>//api/name/delegate</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/PPRevealSideViewController/initWithRootViewController:</TokenIdentifier>
+			<Abstract type="html">Initialize the reveal controller with a rootViewController. This rootViewController will be in the center.</Abstract>
+			<DeclaredIn>PPRevealSideViewController.h</DeclaredIn>			
+			
+			<Declaration>- (id)initWithRootViewController:(UIViewController *)rootViewController</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>rootViewController</Name>
+					<Abstract type="html">The center view controller.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">the controller initialized</Abstract></ReturnValue>
+			<Anchor>//api/name/initWithRootViewController:</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/PPRevealSideViewController/pushViewController:onDirection:animated:</TokenIdentifier>
+			<Abstract type="html">Push controller with a direction and a default offset.</Abstract>
+			<DeclaredIn>PPRevealSideViewController.h</DeclaredIn>			
+			
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/occ/instm/PPRevealSideViewController/pushViewController:onDirection:withOffset:animated:</TokenIdentifier>
+		<TokenIdentifier>//apple_ref/occ/instm/PPRevealSideViewController/pushOldViewControllerOnDirection:animated:</TokenIdentifier>
+		<TokenIdentifier>//apple_ref/occ/instm/PPRevealSideViewController/pushViewController:onDirection:animated:forceToPopPush:</TokenIdentifier>
+		
+	</RelatedTokens>
+	
+			<Declaration>- (void)pushViewController:(UIViewController *)controller onDirection:(PPRevealSideDirection)direction animated:(BOOL)animated</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>controller</Name>
+					<Abstract type="html">The controller to push</Abstract>
+				</Parameter><Parameter>
+					<Name>direction</Name>
+					<Abstract type="html">This parameter allows you to choose the direction to push the controller</Abstract>
+				</Parameter><Parameter>
+					<Name>animated</Name>
+					<Abstract type="html">Animated or not</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/pushViewController:onDirection:animated:</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/PPRevealSideViewController/pushViewController:onDirection:animated:forceToPopPush:</TokenIdentifier>
+			<Abstract type="html">Push controller with a direction and a default offset and force to pop then push.</Abstract>
+			<DeclaredIn>PPRevealSideViewController.h</DeclaredIn>			
+			
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/occ/instm/PPRevealSideViewController/pushViewController:onDirection:withOffset:animated:forceToPopPush:</TokenIdentifier>
+		
+	</RelatedTokens>
+	
+			<Declaration>- (void)pushViewController:(UIViewController *)controller onDirection:(PPRevealSideDirection)direction animated:(BOOL)animated forceToPopPush:(BOOL)forcePopPush</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>controller</Name>
+					<Abstract type="html">The controller to push</Abstract>
+				</Parameter><Parameter>
+					<Name>direction</Name>
+					<Abstract type="html">This parameter allows you to choose the direction to push the controller</Abstract>
+				</Parameter><Parameter>
+					<Name>animated</Name>
+					<Abstract type="html">Animated or not</Abstract>
+				</Parameter><Parameter>
+					<Name>forcePopPush</Name>
+					<Abstract type="html">This parameter is needed when you want to push a new controller in the same direction.
+For example, you could push a new left controller from the left. In this case, setting forcePopPush to YES will pop to center view controller, then push the new controller.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/pushViewController:onDirection:animated:forceToPopPush:</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/PPRevealSideViewController/pushOldViewControllerOnDirection:animated:</TokenIdentifier>
+			<Abstract type="html">Push the old controller if exists for the direction with a default offset.
+This allows you for example to go directly on an another side from a controller in a side.</Abstract>
+			<DeclaredIn>PPRevealSideViewController.h</DeclaredIn>			
+			
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/occ/instm/PPRevealSideViewController/pushOldViewControllerOnDirection:withOffset:animated:</TokenIdentifier>
+		
+	</RelatedTokens>
+	
+			<Declaration>- (void)pushOldViewControllerOnDirection:(PPRevealSideDirection)direction animated:(BOOL)animated</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>direction</Name>
+					<Abstract type="html">The direction</Abstract>
+				</Parameter><Parameter>
+					<Name>animated</Name>
+					<Abstract type="html">Animated or not</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/pushOldViewControllerOnDirection:animated:</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/PPRevealSideViewController/pushViewController:onDirection:withOffset:animated:</TokenIdentifier>
+			<Abstract type="html">Same as pushViewController:onDirection:animated: but with an offset</Abstract>
+			<DeclaredIn>PPRevealSideViewController.h</DeclaredIn>			
+			
+			<Declaration>- (void)pushViewController:(UIViewController *)controller onDirection:(PPRevealSideDirection)direction withOffset:(CGFloat)offset animated:(BOOL)animated</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>controller</Name>
+					<Abstract type="html">The controller to push</Abstract>
+				</Parameter><Parameter>
+					<Name>direction</Name>
+					<Abstract type="html">The direction of the push</Abstract>
+				</Parameter><Parameter>
+					<Name>offset</Name>
+					<Abstract type="html">The offset when the side view is pushed</Abstract>
+				</Parameter><Parameter>
+					<Name>animated</Name>
+					<Abstract type="html">Animated or not</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/pushViewController:onDirection:withOffset:animated:</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/PPRevealSideViewController/pushViewController:onDirection:withOffset:animated:forceToPopPush:</TokenIdentifier>
+			<Abstract type="html">Same as pushViewController:onDirection:animated:forceToPopPush: but with an offset</Abstract>
+			<DeclaredIn>PPRevealSideViewController.h</DeclaredIn>			
+			
+			<Declaration>- (void)pushViewController:(UIViewController *)controller onDirection:(PPRevealSideDirection)direction withOffset:(CGFloat)offset animated:(BOOL)animated forceToPopPush:(BOOL)forcePopPush</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>controller</Name>
+					<Abstract type="html">The controller to push</Abstract>
+				</Parameter><Parameter>
+					<Name>direction</Name>
+					<Abstract type="html">This parameter allows you to choose the direction to push the controller</Abstract>
+				</Parameter><Parameter>
+					<Name>offset</Name>
+					<Abstract type="html">The offset when the side view is pushed</Abstract>
+				</Parameter><Parameter>
+					<Name>animated</Name>
+					<Abstract type="html">Animated or not</Abstract>
+				</Parameter><Parameter>
+					<Name>forcePopPush</Name>
+					<Abstract type="html">This parameter is needed when you want to push a new controller in the same direction.
+For example, you could push a new left controller from the left. In this case, setting forcePopPush to YES will pop to center view controller, then push the new controller.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/pushViewController:onDirection:withOffset:animated:forceToPopPush:</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/PPRevealSideViewController/pushOldViewControllerOnDirection:withOffset:animated:</TokenIdentifier>
+			<Abstract type="html">Same as pushOldViewControllerOnDirection:animated: but with an offset</Abstract>
+			<DeclaredIn>PPRevealSideViewController.h</DeclaredIn>			
+			
+			<Declaration>- (void)pushOldViewControllerOnDirection:(PPRevealSideDirection)direction withOffset:(CGFloat)offset animated:(BOOL)animated</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>direction</Name>
+					<Abstract type="html">The direction</Abstract>
+				</Parameter><Parameter>
+					<Name>offset</Name>
+					<Abstract type="html">The offset when the side view is pushed</Abstract>
+				</Parameter><Parameter>
+					<Name>animated</Name>
+					<Abstract type="html">Animated or not</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/pushOldViewControllerOnDirection:withOffset:animated:</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/PPRevealSideViewController/popViewControllerWithNewCenterController:animated:</TokenIdentifier>
+			<Abstract type="html">Pop controller with a new Center controller.</Abstract>
+			<DeclaredIn>PPRevealSideViewController.h</DeclaredIn>			
+			
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/occ/instm/PPRevealSideViewController/popViewControllerAnimated:</TokenIdentifier>
+		
+	</RelatedTokens>
+	
+			<Declaration>- (void)popViewControllerWithNewCenterController:(UIViewController *)centerController animated:(BOOL)animated</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>centerController</Name>
+					<Abstract type="html">The new center controller</Abstract>
+				</Parameter><Parameter>
+					<Name>animated</Name>
+					<Abstract type="html">Animated or not</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/popViewControllerWithNewCenterController:animated:</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/PPRevealSideViewController/popViewControllerAnimated:</TokenIdentifier>
+			<Abstract type="html">Go back to the center controller.</Abstract>
+			<DeclaredIn>PPRevealSideViewController.h</DeclaredIn>			
+			
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/occ/instm/PPRevealSideViewController/popViewControllerWithNewCenterController:animated:</TokenIdentifier>
+		
+	</RelatedTokens>
+	
+			<Declaration>- (void)popViewControllerAnimated:(BOOL)animated</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>animated</Name>
+					<Abstract type="html">Animated or not</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/popViewControllerAnimated:</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/PPRevealSideViewController/preloadViewController:forSide:</TokenIdentifier>
+			<Abstract type="html">Preload a controller.
+Use only if the animation scratches OR if you want to have gestures on the center view controller without pushing first.
+Preloading is not good for performances since it uses RAM for nothing.
+Preload long before pushing the controller (ex : in the view did load)
+Offset set to Default Offset</Abstract>
+			<DeclaredIn>PPRevealSideViewController.h</DeclaredIn>			
+			
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/occ/instm/PPRevealSideViewController/preloadViewController:forSide:withOffset:</TokenIdentifier>
+		
+	</RelatedTokens>
+	
+			<Declaration>- (void)preloadViewController:(UIViewController *)controller forSide:(PPRevealSideDirection)direction</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>controller</Name>
+					<Abstract type="html">The controller to preload</Abstract>
+				</Parameter><Parameter>
+					<Name>direction</Name>
+					<Abstract type="html">The direction for the future controller</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/preloadViewController:forSide:</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/PPRevealSideViewController/preloadViewController:forSide:withOffset:</TokenIdentifier>
+			<Abstract type="html">Same as preloadViewController:forSide: but with an offset.</Abstract>
+			<DeclaredIn>PPRevealSideViewController.h</DeclaredIn>			
+			
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/occ/instm/PPRevealSideViewController/changeOffset:forDirection:</TokenIdentifier>
+		
+	</RelatedTokens>
+	
+			<Declaration>- (void)preloadViewController:(UIViewController *)controller forSide:(PPRevealSideDirection)direction withOffset:(CGFloat)offset</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>controller</Name>
+					<Abstract type="html">The controller to preload</Abstract>
+				</Parameter><Parameter>
+					<Name>direction</Name>
+					<Abstract type="html">The direction for the future controller</Abstract>
+				</Parameter><Parameter>
+					<Name>offset</Name>
+					<Abstract type="html">The offset</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/preloadViewController:forSide:withOffset:</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/PPRevealSideViewController/changeOffset:forDirection:</TokenIdentifier>
+			<Abstract type="html">Change the offset for a direction. Not animated.</Abstract>
+			<DeclaredIn>PPRevealSideViewController.h</DeclaredIn>			
+			
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/occ/instm/PPRevealSideViewController/changeOffset:forDirection:animated:</TokenIdentifier>
+		
+	</RelatedTokens>
+	
+			<Declaration>- (void)changeOffset:(CGFloat)offset forDirection:(PPRevealSideDirection)direction</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>offset</Name>
+					<Abstract type="html">The offset</Abstract>
+				</Parameter><Parameter>
+					<Name>direction</Name>
+					<Abstract type="html">The direction for which to change the offset</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/changeOffset:forDirection:</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/PPRevealSideViewController/changeOffset:forDirection:animated:</TokenIdentifier>
+			<Abstract type="html">Same as - (void) changeOffset:(CGFloat)offset forDirection:(PPRevealSideDirection)direction but animated</Abstract>
+			<DeclaredIn>PPRevealSideViewController.h</DeclaredIn>			
+			
+			<Declaration>- (void)changeOffset:(CGFloat)offset forDirection:(PPRevealSideDirection)direction animated:(BOOL)animated</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>offset</Name>
+					<Abstract type="html">The offset</Abstract>
+				</Parameter><Parameter>
+					<Name>direction</Name>
+					<Abstract type="html">The direction for which to change the offset</Abstract>
+				</Parameter><Parameter>
+					<Name>animated</Name>
+					<Abstract type="html">Animated or not</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/changeOffset:forDirection:animated:</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/PPRevealSideViewController/setOption:</TokenIdentifier>
+			<Abstract type="html">Set Option.</Abstract>
+			<DeclaredIn>PPRevealSideViewController.h</DeclaredIn>			
+			
+			<Declaration>- (void)setOption:(PPRevealSideOptions)option</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>option</Name>
+					<Abstract type="html">The option to set</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/setOption:</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/PPRevealSideViewController/resetOption:</TokenIdentifier>
+			<Abstract type="html">Reset Option.</Abstract>
+			<DeclaredIn>PPRevealSideViewController.h</DeclaredIn>			
+			
+			<Declaration>- (void)resetOption:(PPRevealSideOptions)option</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>option</Name>
+					<Abstract type="html">The option to reset</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/resetOption:</Anchor>
+		</Token>
+		
+	</File>
+</Tokens>
