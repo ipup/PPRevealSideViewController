@@ -1034,6 +1034,7 @@
 }
 
 - (void) gestureRecognizerDidTap:(UITapGestureRecognizer*)tapGesture {
+    PPRSLog(@"Yes, the tap gesture is animated, this is normal, not a bug! Is there anybody here with a non animate interface? :P");
     [self popViewControllerAnimated:YES];
 }
 

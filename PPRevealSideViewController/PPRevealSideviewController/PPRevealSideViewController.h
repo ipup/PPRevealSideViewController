@@ -120,7 +120,16 @@ typedef NSUInteger PPRevealSideOptions;
     MainViewController *c = [[MainViewController alloc] initWithNibName:@"MainViewController" bundle:nil];
     UINavigationController *n = [[UINavigationController alloc] initWithRootViewController:c];
     [self.revealSideViewController popViewControllerWithNewCenterController:n animated:YES];
-    
+ 
+ # Pushing from a side
+ If you are for example on the up side, and you want to push a controller on the left, you could call a method on your center controller asking him to display a left controller. But I thought it would be more convenient to provide a way to push an old controller directly. So, using the following will do the trick 
+
+    [self.revealSideViewController pushOldViewControllerOnDirection:PPRevealSideDirectionLeft animated:YES];
+
+ If you are on top, and you want to push a new controller on top (why not), the default behavior of the controller would be to close the top side since it's open. But you can force it to pop push :
+ 
+    [self.revealSideViewController pushViewController:c onDirection:PPRevealSideDirectionTop animated:YES forceToPopPush:YES];
+ 
  */
 
 @interface PPRevealSideViewController : UIViewController <UIGestureRecognizerDelegate>
@@ -141,20 +150,24 @@ typedef NSUInteger PPRevealSideOptions;
 
 /**
  Getter for the rootViewController
- 
  */
 @property (nonatomic, readonly, retain) UIViewController *rootViewController;
 
 /**
  The Reveal options. Possible values are :
  
- * PPRevealSideOptionsNone = 0,
- * PPRevealSideOptionsShowShadows = 1 << 1, /// Disable or enable the shadows. Enabled by default
- * PPRevealSideOptionsBounceAnimations = 1 << 2, /// Decide if the animations are boucing or not. By default, they are
- * PPRevealSideOptionsCloseCompletlyBeforeOpeningNewDirection = 1 << 3, /// Decide if we close completely the old direction, for the new one or not. Set to YES by default
- * PPRevealSideOptionsKeepOffsetOnRotation = 1 << 4, /// Keep the same offset when rotating. By default, set to no
- * PPRevealSideOptionsResizeSideView = 1 << 5, /// Resize the side view. If set to yes, this disabled the bouncing stuff since the view behind is not large enough to show bouncing correctly. Set to NO by default
-
+ - PPRevealSideOptionsNone = 0
+ - PPRevealSideOptionsShowShadows = 1 << 1
+ Disable or enable the shadows. Enabled by default
+ - PPRevealSideOptionsBounceAnimations = 1 << 2
+ Decide if the animations are boucing or not. By default, they are
+ - PPRevealSideOptionsCloseCompletlyBeforeOpeningNewDirection = 1 << 3
+ Decide if we close completely the old direction, for the new one or not. Set to YES by default
+ - PPRevealSideOptionsKeepOffsetOnRotation = 1 << 4
+ Keep the same offset when rotating. By default, set to no
+ - PPRevealSideOptionsResizeSideView = 1 << 5
+ Resize the side view. If set to yes, this disabled the bouncing stuff since the view behind is not large enough to show bouncing correctly. Set to NO by default
+ 
  */
 @property (nonatomic, assign) PPRevealSideOptions options;
 

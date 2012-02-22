@@ -2,7 +2,11 @@ PPRevealSideViewController
 ==========================
 
 This is a new controller container, showing views on the side like the Facebook or Path app. It is as easy to use as a navigation controller.
-Sometimes, you need to push a new controller to show some options, but a small controller would be enough … PPRevealSideViewController is the controller you need.
+Sometimes, you need to push a new controller to show some options, but a small controller would be enough … PPRevealSideViewController is THE controller you need.
+
+Pan and Tap gestures are also included !
+
+[See a demo on Youtube!](http://www.youtube.com/watch?v=lsc7RQvyy20)
 
 # Installation
 
@@ -77,7 +81,17 @@ If you want to pop a new center controller, then do the following :
 	MainViewController *c = [[MainViewController alloc] initWithNibName:@"MainViewController" bundle:nil];
     UINavigationController *n = [[UINavigationController alloc] initWithRootViewController:c];
     [self.revealSideViewController popViewControllerWithNewCenterController:n animated:YES];
-    
+  
+## Pushing from a side
+ If you are for example on the up side, and you want to push a controller on the left, you could call a method on your center controller asking him to display a left controller. But I thought it would be more convenient to provide a way to push an old controller directly. So, using the following will do the trick 
+
+    [self.revealSideViewController pushOldViewControllerOnDirection:PPRevealSideDirectionLeft animated:YES];
+
+ If you are on top, and you want to push a new controller on top (why not), the default behavior of the controller would be to close the top side since it's open. But you can force it to pop push :
+ 
+    [self.revealSideViewController pushViewController:c onDirection:PPRevealSideDirectionTop animated:YES forceToPopPush:YES];
+
+  
 ## To go deeper 
 By default, the side views are not loaded. This means that even if you interface have a button to push a side view, the panning gesture won't show the controller. If you want so, you need to preload the controller you want to present.
 
