@@ -35,7 +35,7 @@
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/PPRevealSideViewController/setOptions:</TokenIdentifier>
-			<Abstract type="html">Disable or enable the shadows. Enabled by default Decide if the animations are boucing or not. By default, they are Decide if we close completely the old direction, for the new one or not. Set to YES by default Keep the same offset when rotating. By default, set to no Resize the side view. If set to yes, this disabled the bouncing stuff since the view behind is not large enough to show bouncing correctly. Set to NO by default</Abstract>
+			<Abstract type="html">The Reveal options. Possible values are :</Abstract>
 			<DeclaredIn>PPRevealSideViewController.h</DeclaredIn>			
 			
 			<Declaration>@property (nonatomic, assign) PPRevealSideOptions options</Declaration>
@@ -46,7 +46,7 @@
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instp/PPRevealSideViewController/options</TokenIdentifier>
-			<Abstract type="html">Disable or enable the shadows. Enabled by default Decide if the animations are boucing or not. By default, they are Decide if we close completely the old direction, for the new one or not. Set to YES by default Keep the same offset when rotating. By default, set to no Resize the side view. If set to yes, this disabled the bouncing stuff since the view behind is not large enough to show bouncing correctly. Set to NO by default</Abstract>
+			<Abstract type="html">The Reveal options. Possible values are :</Abstract>
 			<DeclaredIn>PPRevealSideViewController.h</DeclaredIn>			
 			
 			<Declaration>@property (nonatomic, assign) PPRevealSideOptions options</Declaration>
