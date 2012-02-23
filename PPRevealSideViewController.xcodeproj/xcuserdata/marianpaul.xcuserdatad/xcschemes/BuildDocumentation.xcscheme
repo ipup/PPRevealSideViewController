@@ -13,7 +13,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "E05F25A414F4323A00AF1F6D"
+               BlueprintIdentifier = "E05F25AB14F4326600AF1F6D"
                BuildableName = "BuildDocumentation"
                BlueprintName = "BuildDocumentation"
                ReferencedContainer = "container:PPRevealSideViewController.xcodeproj">

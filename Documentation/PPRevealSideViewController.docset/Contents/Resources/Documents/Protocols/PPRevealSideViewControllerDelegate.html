@@ -50,7 +50,9 @@
 	
 	<option value="//api/name/pprevealSideViewController:didPushController:">&nbsp;&nbsp;&nbsp;&nbsp;- pprevealSideViewController:didPushController:</option>
 	
-	<option value="//api/name/pprevealSideViewController:shouldDeactivateGestureForView:">&nbsp;&nbsp;&nbsp;&nbsp;- pprevealSideViewController:shouldDeactivateGestureForView:</option>
+	<option value="//api/name/pprevealSideViewController:directionsAllowedForPanningOnView:">&nbsp;&nbsp;&nbsp;&nbsp;- pprevealSideViewController:directionsAllowedForPanningOnView:</option>
+	
+	<option value="//api/name/pprevealSideViewController:shouldDeactivateGesture:forView:">&nbsp;&nbsp;&nbsp;&nbsp;- pprevealSideViewController:shouldDeactivateGesture:forView:</option>
 	
 	<option value="//api/name/pprevealSideViewController:willPopToController:">&nbsp;&nbsp;&nbsp;&nbsp;- pprevealSideViewController:willPopToController:</option>
 	
@@ -90,7 +92,9 @@
 	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/pprevealSideViewController:didPushController:">pprevealSideViewController:didPushController:</a></span></li>
 	
-	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/pprevealSideViewController:shouldDeactivateGestureForView:">pprevealSideViewController:shouldDeactivateGestureForView:</a></span></li>
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/pprevealSideViewController:directionsAllowedForPanningOnView:">pprevealSideViewController:directionsAllowedForPanningOnView:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/pprevealSideViewController:shouldDeactivateGesture:forView:">pprevealSideViewController:shouldDeactivateGesture:forView:</a></span></li>
 	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/pprevealSideViewController:willPopToController:">pprevealSideViewController:willPopToController:</a></span></li>
 	
@@ -186,8 +190,15 @@
 	
 </li><li>
 	<span class="tooltip">
-		<code><a href="#//api/name/pprevealSideViewController:shouldDeactivateGestureForView:">&ndash;&nbsp;pprevealSideViewController:shouldDeactivateGestureForView:</a></code>
+		<code><a href="#//api/name/pprevealSideViewController:shouldDeactivateGesture:forView:">&ndash;&nbsp;pprevealSideViewController:shouldDeactivateGesture:forView:</a></code>
 		<span class="tooltip"><p>Called when a gesture will start. Typically, if you would use a class like the UISlider (handled by default in the class), you don&rsquo;t want to activate the pan gesture on the slider since it will not be functional.</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/pprevealSideViewController:directionsAllowedForPanningOnView:">&ndash;&nbsp;pprevealSideViewController:directionsAllowedForPanningOnView:</a></code>
+		<span class="tooltip"><p>Called when a gesture will start</p></span>
 	</span>
 	
 	
@@ -356,17 +367,17 @@
 </div>
 						
 						<div class="section-method">
-	<a name="//api/name/pprevealSideViewController:shouldDeactivateGestureForView:" title="pprevealSideViewController:shouldDeactivateGestureForView:"></a>
-	<h3 class="subsubtitle method-title">pprevealSideViewController:shouldDeactivateGestureForView:</h3>
+	<a name="//api/name/pprevealSideViewController:directionsAllowedForPanningOnView:" title="pprevealSideViewController:directionsAllowedForPanningOnView:"></a>
+	<h3 class="subsubtitle method-title">pprevealSideViewController:directionsAllowedForPanningOnView:</h3>
 	
 	
 	
 	<div class="method-subsection brief-description">
-		<p>Called when a gesture will start. Typically, if you would use a class like the UISlider (handled by default in the class), you don&rsquo;t want to activate the pan gesture on the slider since it will not be functional.</p>
+		<p>Called when a gesture will start</p>
 	</div>		
 	
 	
-	<div class="method-subsection method-declaration"><code>- (BOOL)pprevealSideViewController:(PPRevealSideViewController *)<em>controller</em> shouldDeactivateGestureForView:(UIView *)<em>view</em></code></div>
+	<div class="method-subsection method-declaration"><code>- (PPRevealSideDirection)pprevealSideViewController:(PPRevealSideViewController *)<em>controller</em> directionsAllowedForPanningOnView:(UIView *)<em>view</em></code></div>
 	
 	
 	<div class="method-subsection arguments-section parameters">
@@ -375,6 +386,87 @@
 		<dl class="argument-def parameter-def">
 			<dt><em>controller</em></dt>
 			<dd><p>The reveal side view controller</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>view</em></dt>
+			<dd><p>The view</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	<div class="method-subsection return">
+		<h4 class="method-subtitle parameter-title">Return Value</h4>
+		<p>Return directions allowed for panning</p>
+	</div>
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>You could need to deactivate gesture for specific direction on a web view for example. If your web view fits the screen on width, then you probably want to deactivate gestures on top and bottom. In this case, you can do</p>
+
+<pre><code> - (PPRevealSideDirection)pprevealSideViewController:(PPRevealSideViewController*)controller directionsAllowedForPanningOnView:(UIView*)view {
+
+    if ([view isKindOfClass:NSClassFromString(@"UIWebBrowserView")]) return PPRevealSideDirectionLeft | PPRevealSideDirectionRight;
+
+    return PPRevealSideDirectionLeft | PPRevealSideDirectionRight | PPRevealSideDirectionTop | PPRevealSideDirectionBottom;
+ }
+</code></pre>
+	</div>
+	
+	
+	
+	
+	
+	<div class="method-subsection see-also-section">
+		<h4 class="method-subtitle">See Also</h4>
+		<ul>
+			
+			<li><code><p><a href="#//api/name/pprevealSideViewController:shouldDeactivateGesture:forView:">&ndash; pprevealSideViewController:shouldDeactivateGesture:forView:</a></p></code></li>
+			
+		</ul>
+	</div>
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">PPRevealSideViewController.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/pprevealSideViewController:shouldDeactivateGesture:forView:" title="pprevealSideViewController:shouldDeactivateGesture:forView:"></a>
+	<h3 class="subsubtitle method-title">pprevealSideViewController:shouldDeactivateGesture:forView:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Called when a gesture will start. Typically, if you would use a class like the UISlider (handled by default in the class), you don&rsquo;t want to activate the pan gesture on the slider since it will not be functional.</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>- (BOOL)pprevealSideViewController:(PPRevealSideViewController *)<em>controller</em> shouldDeactivateGesture:(UIGestureRecognizer *)<em>gesture</em> forView:(UIView *)<em>view</em></code></div>
+	
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>controller</em></dt>
+			<dd><p>The reveal side view controller</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>gesture</em></dt>
+			<dd><p>The gesture which triggered the event</p></dd>
 		</dl>
 		
 		<dl class="argument-def parameter-def">
@@ -398,6 +490,15 @@
 	
 	
 	
+	
+	<div class="method-subsection see-also-section">
+		<h4 class="method-subtitle">See Also</h4>
+		<ul>
+			
+			<li><code><p><a href="#//api/name/pprevealSideViewController:directionsAllowedForPanningOnView:">&ndash; pprevealSideViewController:directionsAllowedForPanningOnView:</a></p></code></li>
+			
+		</ul>
+	</div>
 	
 	
 	
@@ -520,7 +621,7 @@
 				<div id="footer">
 					<hr />
 					<div class="footer-copyright">
-						<p><span class="copyright">&copy; 2012 Marian PAUL - iPuP SARL. All rights reserved. (Last updated: 2012-02-22)</span><br />
+						<p><span class="copyright">&copy; 2012 Marian PAUL - iPuP SARL. All rights reserved. (Last updated: 2012-02-23)</span><br />
 						
 						<span class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.0.5 (build 759)</a>.</span></p>
 						

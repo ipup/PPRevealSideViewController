@@ -31,7 +31,7 @@
 #endif
 
 #ifndef PPRSLog
-    #if !DEBUG
+    #if DEBUG
     # define PPRSLog(fmt, ...) NSLog((@"%s [Line %d] " fmt),__PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
         #else
     #define PPRSLog(fmt, ...)
@@ -42,18 +42,19 @@
  @enum PPRevealSideDirection
  The direction to push !
  */
-typedef enum {
+enum {
     /** Left direction */
-    PPRevealSideDirectionLeft = 0,
+    PPRevealSideDirectionLeft = 1 << 1,
     /** Right direction */
-    PPRevealSideDirectionRight,
+    PPRevealSideDirectionRight = 1 << 2,
     /** Top direction */
-    PPRevealSideDirectionTop,
+    PPRevealSideDirectionTop = 1 << 3,
     /** Bottom direction */
-    PPRevealSideDirectionBottom,
+    PPRevealSideDirectionBottom = 1 << 4,
     /** This cannot be used as a direction. Only for internal use ! */
-    PPRevealSideDirectionNone = -1
-} PPRevealSideDirection;
+    PPRevealSideDirectionNone = 0,
+};
+typedef NSUInteger PPRevealSideDirection;
 
 /** @enum PPRevealSideInteractions 
  The interactions availabled 
@@ -130,6 +131,15 @@ typedef NSUInteger PPRevealSideOptions;
  
     [self.revealSideViewController pushViewController:c onDirection:PPRevealSideDirectionTop animated:YES forceToPopPush:YES];
  
+ # Note if you don't have controllers for all the sides
+ If you want to present only a controller on the left and the right for example, you probably don't want the bouncing animation which shows that there is not yet a controller to present. This animation comes when you do a panning gesture with no preloaded controller, or no controller pushed yet on the triggered side.
+ In that case, do the following 
+ 
+    [self.revealSideViewController setDirectionsToShowBounce:PPRevealSideDirectionLeft | PPRevealSideDirectionRight];
+ 
+ You could also don't want these animations at all. Disabled these like it 
+    [self.revealSideViewController setDirectionsToShowBounce:PPRevealSideDirectionNone];
+ 
  */
 
 @interface PPRevealSideViewController : UIViewController <UIGestureRecognizerDelegate>
@@ -141,6 +151,7 @@ typedef NSUInteger PPRevealSideOptions;
     
     CGPoint                 _panOrigin;
     PPRevealSideDirection   _currentPanDirection;
+    PPRevealSideDirection   _disabledPanGestureDirection;
     CGFloat                 _currentVelocity;
     
     BOOL                    _animationInProgress;
@@ -208,6 +219,11 @@ typedef NSUInteger PPRevealSideOptions;
  @see panInteractionsWhenOpened
  */
 @property (nonatomic, assign) PPRevealSideInteractions tapInteractionsWhenOpened;
+
+/**
+ Define the side you want them to bounce if there is no controller. By default, all the side are enabled
+ */
+@property (nonatomic, assign) PPRevealSideDirection directionsToShowBounce;
 
 /**
  The delegate which will receive events from the controller. See PPRevealSideViewControllerDelegate for more informations.
@@ -438,12 +454,33 @@ typedef NSUInteger PPRevealSideOptions;
 - (void) pprevealSideViewController:(PPRevealSideViewController *)controller didPopToController:(UIViewController *)centerController;
 
 /** Called when a gesture will start. Typically, if you would use a class like the UISlider (handled by default in the class), you don't want to activate the pan gesture on the slider since it will not be functional.
+ @param controller The reveal side view controller
+ @param gesture The gesture which triggered the event
+ @param view The view
+ @return Return YES or NO for the view you want to deactivate gesture. Please return NO by default.
+ @see pprevealSideViewController:directionsAllowedForPanningOnView:
+
+ */
+- (BOOL) pprevealSideViewController:(PPRevealSideViewController *)controller shouldDeactivateGesture:(UIGestureRecognizer*)gesture forView:(UIView*)view;
+
+/**
+ Called when a gesture will start
+
+ You could need to deactivate gesture for specific direction on a web view for example. If your web view fits the screen on width, then you probably want to deactivate gestures on top and bottom. In this case, you can do
+     - (PPRevealSideDirection)pprevealSideViewController:(PPRevealSideViewController*)controller directionsAllowedForPanningOnView:(UIView*)view {
+     
+        if ([view isKindOfClass:NSClassFromString(@"UIWebBrowserView")]) return PPRevealSideDirectionLeft | PPRevealSideDirectionRight;
+     
+        return PPRevealSideDirectionLeft | PPRevealSideDirectionRight | PPRevealSideDirectionTop | PPRevealSideDirectionBottom;
+     }
  
  @param controller The reveal side view controller
  @param view The view
- @return Return YES or NO for the view you want to deactivate gesture. Please return NO by default.
- */
-- (BOOL) pprevealSideViewController:(PPRevealSideViewController *)controller shouldDeactivateGestureForView:(UIView*)view;
+ @return Return directions allowed for panning
+ @see pprevealSideViewController:shouldDeactivateGesture:forView:
+*/
+- (PPRevealSideDirection)pprevealSideViewController:(PPRevealSideViewController*)controller directionsAllowedForPanningOnView:(UIView*)view;
+
 @end
 
 /**

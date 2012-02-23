@@ -43,6 +43,7 @@
 @synthesize panInteractionsWhenClosed = _panInteractionsWhenClosed;
 @synthesize panInteractionsWhenOpened = _panInteractionsWhenOpened;
 @synthesize tapInteractionsWhenOpened = _tapInteractionsWhenOpened;
+@synthesize directionsToShowBounce = _directionsToShowBounce;
 @synthesize options = _options;
 @synthesize bouncingOffset = _bouncingOffset;
 
@@ -60,6 +61,8 @@
         self.panInteractionsWhenOpened = PPRevealSideInteractionNavigationBar | PPRevealSideInteractionContentView;
         
         self.tapInteractionsWhenOpened = PPRevealSideInteractionContentView | PPRevealSideInteractionNavigationBar;
+        
+        self.directionsToShowBounce = PPRevealSideDirectionBottom | PPRevealSideDirectionLeft | PPRevealSideDirectionRight | PPRevealSideDirectionTop;
         
         _viewControllers = [[NSMutableDictionary alloc] init];
         _viewControllersOffsets = [[NSMutableDictionary alloc] init];
@@ -129,40 +132,42 @@
     }
     else
     {
-        // make a small animation to indicate that there is not yet a controller
-        CGRect originalFrame = _rootViewController.view.frame;
-        _animationInProgress = YES;
-        [UIView animateWithDuration:OpenAnimationTime*0.15
-                              delay:0.0
-                            options:UIViewAnimationCurveEaseInOut
-                         animations:^{
-                             CGFloat offsetBounce;
-                             if (direction == PPRevealSideDirectionLeft || direction == PPRevealSideDirectionRight)
-                                 offsetBounce = CGRectGetWidth(_rootViewController.view.frame)-BOUNCE_ERROR_OFFSET; 
-                             else
-                                offsetBounce = CGRectGetHeight(_rootViewController.view.frame)-BOUNCE_ERROR_OFFSET;  
-                             
-                             _rootViewController.view.frame = [self getSlidingRectForOffset:offsetBounce
-                                                                               forDirection:direction];
-                         } completion:^(BOOL finished) {
-                             [UIView animateWithDuration:OpenAnimationTime*0.15
-                                                   delay:0.0
-                                                 options:UIViewAnimationCurveEaseInOut
-                                              animations:^{
-                                                  _rootViewController.view.frame = originalFrame;
-                                              } completion:^(BOOL finished) {
-                                                  _animationInProgress = NO;
-                                              }];
-                         }];
+        if ((_directionsToShowBounce & direction) == direction) {
+            // make a small animation to indicate that there is not yet a controller
+            CGRect originalFrame = _rootViewController.view.frame;
+            _animationInProgress = YES;
+            [UIView animateWithDuration:OpenAnimationTime*0.15
+                                  delay:0.0
+                                options:UIViewAnimationCurveEaseInOut
+                             animations:^{
+                                 CGFloat offsetBounce;
+                                 if (direction == PPRevealSideDirectionLeft || direction == PPRevealSideDirectionRight)
+                                     offsetBounce = CGRectGetWidth(_rootViewController.view.frame)-BOUNCE_ERROR_OFFSET; 
+                                 else
+                                     offsetBounce = CGRectGetHeight(_rootViewController.view.frame)-BOUNCE_ERROR_OFFSET;  
+                                 
+                                 _rootViewController.view.frame = [self getSlidingRectForOffset:offsetBounce
+                                                                                   forDirection:direction];
+                             } completion:^(BOOL finished) {
+                                 [UIView animateWithDuration:OpenAnimationTime*0.15
+                                                       delay:0.0
+                                                     options:UIViewAnimationCurveEaseInOut
+                                                  animations:^{
+                                                      _rootViewController.view.frame = originalFrame;
+                                                  } completion:^(BOOL finished) {
+                                                      _animationInProgress = NO;
+                                                  }];
+                             }];
+        }
     }
 }
 
 - (void) pushViewController:(UIViewController*)controller onDirection:(PPRevealSideDirection)direction withOffset:(CGFloat)offset animated:(BOOL)animated {
- [self pushViewController:controller
-              onDirection:direction 
-               withOffset:offset
-                 animated:animated
-           forceToPopPush:NO];   
+    [self pushViewController:controller
+                 onDirection:direction 
+                  withOffset:offset
+                    animated:animated
+              forceToPopPush:NO];   
 }
 
 - (void) pushViewController:(UIViewController *)controller onDirection:(PPRevealSideDirection)direction withOffset:(CGFloat)offset animated:(BOOL)animated forceToPopPush:(BOOL)forcePopPush {
@@ -608,7 +613,7 @@
                 c = [_rootViewController.navigationController.viewControllers lastObject];
             else
                 c = _rootViewController;
-        
+    
         [c.view addGestureRecognizer:panGesture];
         [_gestures addObject:panGesture];
         PP_RELEASE(panGesture);
@@ -714,7 +719,7 @@
 }
 
 - (BOOL) isOptionEnabled:(PPRevealSideOptions)option {
-    return _options & option; 
+    return ((_options & option) == option); 
 }
 
 - (BOOL) canCrossOffsets {
@@ -757,7 +762,7 @@
         default:
             break;
     }
-    PPRSLog(@"%@", NSStringFromCGRect(rectToReturn));
+
     return rectToReturn;
 }
 
@@ -846,11 +851,22 @@
     }
     
     BOOL hasExceptionDelegate = NO;
-    if ([self.delegate respondsToSelector:@selector(pprevealSideViewController:shouldDeactivateGestureForView:)])
+    if ([self.delegate respondsToSelector:@selector(pprevealSideViewController:shouldDeactivateGesture:forView:)])
         hasExceptionDelegate = [self.delegate pprevealSideViewController:self
-                                            shouldDeactivateGestureForView:touch.view];
+                                            shouldDeactivateGesture:gestureRecognizer
+                                                                 forView:touch.view];
+    
+    if ([self.delegate respondsToSelector:@selector(pprevealSideViewController:directionsAllowedForPanningOnView:)]) {
+        _disabledPanGestureDirection = [self.delegate pprevealSideViewController:self directionsAllowedForPanningOnView:touch.view];
+    }
+    else
+        _disabledPanGestureDirection = PPRevealSideDirectionLeft | PPRevealSideDirectionRight | PPRevealSideDirectionTop | PPRevealSideDirectionBottom;
     
     return !_animationInProgress && !hasExceptionTouch && !hasExceptionDelegate;
+}
+
+- (BOOL) gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
+    return YES;
 }
 
 #define OFFSET_TRIGGER_CHOSE_DIRECTION 3.0
@@ -886,8 +902,16 @@
                     _currentPanDirection = PPRevealSideDirectionBottom;
     
     }
-    
+        
     if (_currentPanDirection == PPRevealSideDirectionNone) return;
+    
+    // if the direction is disabled, then cancel the gesture
+    if ((_currentPanDirection & _disabledPanGestureDirection) != _currentPanDirection) {
+        // little trick to cancel the gesture. Otherwise, as long as we pan, we continue to pass here ...
+        panGesture.enabled = NO;
+        panGesture.enabled = YES;
+        return;
+    }
     
     // see if there is a controller or not for the direction. If yes, then add it.
     UIViewController *c = [_viewControllers objectForKey:[NSNumber numberWithInt:_currentPanDirection]];

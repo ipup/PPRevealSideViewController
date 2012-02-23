@@ -32,6 +32,10 @@ Two ways :
 * Go to ~/Library/Developer/Shared/Documentation/DocSets and copy the Documentation/PPRevealSideViewController.docset file.
 * Launch Xcode and Voilà !
 
+## Use The BuildDocumentation Scheme
+If you want to create the documentation, before running this target, you need to install AppleDoc : 
+https://github.com/tomaz/appledoc
+
 # Usage
 
 ## Creating your controller
@@ -81,7 +85,16 @@ If you want to pop a new center controller, then do the following :
 	MainViewController *c = [[MainViewController alloc] initWithNibName:@"MainViewController" bundle:nil];
     UINavigationController *n = [[UINavigationController alloc] initWithRootViewController:c];
     [self.revealSideViewController popViewControllerWithNewCenterController:n animated:YES];
-  
+
+## Note if you don't have controllers for all the sides
+ If you want to present only a controller on the left and the right for example, you probably don't want the bouncing animation which shows that there is not yet a controller to present. This animation comes when you do a panning gesture with no preloaded controller, or no controller pushed yet on the triggered side.
+ In that case, do the following 
+ 
+    [self.revealSideViewController setDirectionsToShowBounce:PPRevealSideDirectionLeft | PPRevealSideDirectionRight];
+ 
+ You could also don't want these animations at all. Disabled these like it 
+    [self.revealSideViewController setDirectionsToShowBounce:PPRevealSideDirectionNone];
+
 ## Pushing from a side
  If you are for example on the up side, and you want to push a controller on the left, you could call a method on your center controller asking him to display a left controller. But I thought it would be more convenient to provide a way to push an old controller directly. So, using the following will do the trick 
 
@@ -108,6 +121,22 @@ Please not that there can be some interferences with the preload method, when yo
 	    [self performSelector:@selector(preloadLeft) withObject:nil afterDelay:0.3];
 	}
 	
+If you have some view whith pan gestures already configured, you have several options. 
+Remember that, for the UIWebView for example, the best thing to do is to fit the width on the screen, and disabled zooming. This is typically what you would do on a mobile aware web page.
+ 
+1. Disable the panning gesture on the content view
+	    self.revealSideViewController.panInteractionsWhenClosed = PPRevealSideInteractionNavigationBar;
+	    self.revealSideViewController.panInteractionsWhenOpened = PPRevealSideInteractionNavigationBar;
+
+2. Implement the delegate method 
+	- (PPRevealSideDirection)pprevealSideViewController:(PPRevealSideViewController*)controller directionsAllowedForPanningOnView:(UIView*)view {
+        
+    	if ([view isKindOfClass:NSClassFromString(@"UIWebBrowserView")]) return PPRevealSideDirectionLeft | PPRevealSideDirectionRight;
+
+    	return PPRevealSideDirectionLeft | PPRevealSideDirectionRight | PPRevealSideDirectionTop | PPRevealSideDirectionBottom;
+	}
+3. In the case you do not have controllers on all sides, you can also disable the bouncing animation which show that there is no controller.
+
 ## Options
 You have some options availabled defined in PPRevealSideOptions
 
@@ -116,6 +145,7 @@ You have some options availabled defined in PPRevealSideOptions
 * PPRevealSideOptionsCloseCompletlyBeforeOpeningNewDirection : Decide if we close completely the old direction, for the new one or not. Set to YES by default.
 * PPRevealSideOptionsKeepOffsetOnRotation : Keep the same offset when rotating. By default, set to no.
 * PPRevealSideOptionsResizeSideView : Resize the side view. If set to yes, this disabled the bouncing stuff since the view behind is not large enough to show bouncing correctly. Set to NO by default.
+
 
                                                 
 License

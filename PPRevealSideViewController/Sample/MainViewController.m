@@ -51,6 +51,10 @@
     _offsetSlider.value = 80.0;
     [self changeOffset:_offsetSlider];
     
+    
+    // reinit the bouncing directions (should not be done in your own implementation, this is just for the sample)
+    [self.revealSideViewController setDirectionsToShowBounce:PPRevealSideDirectionBottom | PPRevealSideDirectionLeft | PPRevealSideDirectionRight | PPRevealSideDirectionTop];
+
     _animated = YES;
 }
 

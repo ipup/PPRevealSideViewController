@@ -23,6 +23,8 @@
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:main];
     _revealSideViewController = [[PPRevealSideViewController alloc] initWithRootViewController:nav];
     
+    _revealSideViewController.delegate = self;
+    
     self.window.rootViewController = _revealSideViewController;
     
     PP_RELEASE(main);
@@ -55,13 +57,16 @@
     
 }
 
-- (BOOL) pprevealSideViewController:(PPRevealSideViewController *)controller shouldDeactivateGestureForView:(UIView *)view {
+- (BOOL) pprevealSideViewController:(PPRevealSideViewController *)controller shouldDeactivateDirectionGesture:(UIGestureRecognizer*)gesture forView:(UIView*)view {
     return NO;    
 }
 
+- (PPRevealSideDirection)pprevealSideViewController:(PPRevealSideViewController*)controller directionsAllowedForPanningOnView:(UIView*)view {
+        
+    if ([view isKindOfClass:NSClassFromString(@"UIWebBrowserView")]) return PPRevealSideDirectionLeft | PPRevealSideDirectionRight;
 
-
-
+    return PPRevealSideDirectionLeft | PPRevealSideDirectionRight | PPRevealSideDirectionTop | PPRevealSideDirectionBottom;
+}
 
 - (void)applicationWillResignActive:(UIApplication *)application
 {

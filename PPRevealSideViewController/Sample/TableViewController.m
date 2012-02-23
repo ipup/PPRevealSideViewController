@@ -12,6 +12,7 @@
 #import "MainViewController.h"
 #import "SecondViewController.h"
 #import "ThirdViewController.h"
+#import "WebViewController.h"
 
 @implementation TableViewController
 
@@ -123,7 +124,7 @@
     if (cell == nil) {
         cell = PP_AUTORELEASE([[CustomCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier]);
     }
-    switch (indexPath.row % 5) {
+    switch (indexPath.row % 6) {
         case 0:
             cell.myLabel.text = @"Go to root or push if nav";
             break;
@@ -138,6 +139,9 @@
             break;
         case 4:
             cell.myLabel.text = @"Pop main center";
+            break;
+        case 5:
+            cell.myLabel.text = @"Pop Web view center";
             break;
         default:
             break;
@@ -190,7 +194,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    switch (indexPath.row % 5) {
+    switch (indexPath.row % 6) {
         case 0:
             if (self.navigationController) {
                 ThirdViewController *c = [[ThirdViewController alloc] initWithNibName:@"ThirdViewController" bundle:nil];
@@ -235,7 +239,18 @@
                                                                            animated:YES];
             PP_RELEASE(c);
             PP_RELEASE(n);
-        }            break;
+        }            
+            break;
+        case 5:
+        {
+            WebViewController *c = [[WebViewController alloc] initWithNibName:@"WebViewController" bundle:nil];
+            UINavigationController *n = [[UINavigationController alloc] initWithRootViewController:c];
+            [self.revealSideViewController popViewControllerWithNewCenterController:n 
+                                                                           animated:YES];
+            PP_RELEASE(c);
+            PP_RELEASE(n);
+        }            
+            break;
         default:
             break;
     }

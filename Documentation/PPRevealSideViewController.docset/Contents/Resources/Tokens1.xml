@@ -194,6 +194,28 @@ Define the interactions to close the side view when opened. By default, all the 
 		</Token>
 		
 		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/PPRevealSideViewController/setDirectionsToShowBounce:</TokenIdentifier>
+			<Abstract type="html">Define the side you want them to bounce if there is no controller. By default, all the side are enabled</Abstract>
+			<DeclaredIn>PPRevealSideViewController.h</DeclaredIn>			
+			
+			<Declaration>@property (nonatomic, assign) PPRevealSideDirection directionsToShowBounce</Declaration>
+			
+			
+			<Anchor>//api/name/directionsToShowBounce</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/PPRevealSideViewController/directionsToShowBounce</TokenIdentifier>
+			<Abstract type="html">Define the side you want them to bounce if there is no controller. By default, all the side are enabled</Abstract>
+			<DeclaredIn>PPRevealSideViewController.h</DeclaredIn>			
+			
+			<Declaration>@property (nonatomic, assign) PPRevealSideDirection directionsToShowBounce</Declaration>
+			
+			
+			<Anchor>//api/name/directionsToShowBounce</Anchor>
+		</Token>
+		
+		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/PPRevealSideViewController/setDelegate:</TokenIdentifier>
 			<Abstract type="html">The delegate which will receive events from the controller. See PPRevealSideViewControllerDelegate for more informations.</Abstract>
 			<DeclaredIn>PPRevealSideViewController.h</DeclaredIn>			

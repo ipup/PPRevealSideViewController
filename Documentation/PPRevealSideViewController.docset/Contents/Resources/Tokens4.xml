@@ -107,11 +107,43 @@
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/PPRevealSideViewControllerDelegate/pprevealSideViewController:shouldDeactivateGestureForView:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/intfm/PPRevealSideViewControllerDelegate/pprevealSideViewController:shouldDeactivateGesture:forView:</TokenIdentifier>
 			<Abstract type="html">Called when a gesture will start. Typically, if you would use a class like the UISlider (handled by default in the class), you don't want to activate the pan gesture on the slider since it will not be functional.</Abstract>
 			<DeclaredIn>PPRevealSideViewController.h</DeclaredIn>			
 			
-			<Declaration>- (BOOL)pprevealSideViewController:(PPRevealSideViewController *)controller shouldDeactivateGestureForView:(UIView *)view</Declaration>
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/occ/intfm/PPRevealSideViewControllerDelegate/pprevealSideViewController:directionsAllowedForPanningOnView:</TokenIdentifier>
+		
+	</RelatedTokens>
+	
+			<Declaration>- (BOOL)pprevealSideViewController:(PPRevealSideViewController *)controller shouldDeactivateGesture:(UIGestureRecognizer *)gesture forView:(UIView *)view</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>controller</Name>
+					<Abstract type="html">The reveal side view controller</Abstract>
+				</Parameter><Parameter>
+					<Name>gesture</Name>
+					<Abstract type="html">The gesture which triggered the event</Abstract>
+				</Parameter><Parameter>
+					<Name>view</Name>
+					<Abstract type="html">The view</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">Return YES or NO for the view you want to deactivate gesture. Please return NO by default.</Abstract></ReturnValue>
+			<Anchor>//api/name/pprevealSideViewController:shouldDeactivateGesture:forView:</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/PPRevealSideViewControllerDelegate/pprevealSideViewController:directionsAllowedForPanningOnView:</TokenIdentifier>
+			<Abstract type="html">Called when a gesture will start</Abstract>
+			<DeclaredIn>PPRevealSideViewController.h</DeclaredIn>			
+			
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/occ/intfm/PPRevealSideViewControllerDelegate/pprevealSideViewController:shouldDeactivateGesture:forView:</TokenIdentifier>
+		
+	</RelatedTokens>
+	
+			<Declaration>- (PPRevealSideDirection)pprevealSideViewController:(PPRevealSideViewController *)controller directionsAllowedForPanningOnView:(UIView *)view</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>controller</Name>
@@ -121,8 +153,8 @@
 					<Abstract type="html">The view</Abstract>
 				</Parameter>
 			</Parameters>
-			<ReturnValue><Abstract type="html">Return YES or NO for the view you want to deactivate gesture. Please return NO by default.</Abstract></ReturnValue>
-			<Anchor>//api/name/pprevealSideViewController:shouldDeactivateGestureForView:</Anchor>
+			<ReturnValue><Abstract type="html">Return directions allowed for panning</Abstract></ReturnValue>
+			<Anchor>//api/name/pprevealSideViewController:directionsAllowedForPanningOnView:</Anchor>
 		</Token>
 		
 	</File>
