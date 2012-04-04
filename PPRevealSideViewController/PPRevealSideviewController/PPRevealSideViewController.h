@@ -230,6 +230,8 @@ typedef NSUInteger PPRevealSideOptions;
  */
 @property (nonatomic, assign) id <PPRevealSideViewControllerDelegate> delegate;
 
+@property (nonatomic, readonly) PPRevealSideDirection sideDirectionOpened;
+
 /**---------------------------------------------------------------------------------------
  * @name Init method
  *  ---------------------------------------------------------------------------------------

@@ -507,6 +507,13 @@
     [self didChangeValueForKey:@"tapInteractionsWhenOpened"];
 }
 
+#pragma mark - Getters
+
+- (PPRevealSideDirection) sideDirectionOpened
+{
+    return [self getSideToClose];
+}
+
 #pragma mark - Private methods
 
 - (void) setRootViewController:(UIViewController *)controller {
