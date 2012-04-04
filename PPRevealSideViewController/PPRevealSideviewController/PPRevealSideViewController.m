@@ -12,6 +12,8 @@
 
 @interface PPRevealSideViewController (Private)
 - (void) setRootViewController:(UIViewController*)controller;
+- (void) addShadow;
+- (void) removeShadow;
 - (void) handleShadows;
 - (void) informDelegateWithOptionalSelector:(SEL)selector withParam:(id)param;
 - (void) popViewControllerWithNewCenterController:(UIViewController *)centerController animated:(BOOL)animated andPresentNewController:(UIViewController*)controllerToPush withDirection:(PPRevealSideDirection)direction andOffset:(CGFloat)offset;
@@ -584,20 +586,31 @@
     }
 }
 
+- (void) addShadow
+{
+    _rootViewController.view.layer.shadowOffset = CGSizeZero;
+    _rootViewController.view.layer.shadowOpacity = 0.75f;
+    _rootViewController.view.layer.shadowRadius = 10.0f;
+    _rootViewController.view.layer.shadowColor = [UIColor blackColor].CGColor;
+    _rootViewController.view.layer.shadowPath = [UIBezierPath bezierPathWithRect:self.view.layer.bounds].CGPath;
+    _rootViewController.view.clipsToBounds = NO; 
+}
+
+- (void) removeShadow
+{
+    _rootViewController.view.layer.shadowPath = nil;
+    _rootViewController.view.layer.shadowOpacity = 0.0f;
+    _rootViewController.view.layer.shadowRadius = 0.0;
+    _rootViewController.view.layer.shadowColor = nil;
+}
+
 - (void) handleShadows {
     if ([self isOptionEnabled:PPRevealSideOptionsShowShadows]) {
-        _rootViewController.view.layer.shadowOffset = CGSizeZero;
-        _rootViewController.view.layer.shadowOpacity = 0.75f;
-        _rootViewController.view.layer.shadowRadius = 10.0f;
-        _rootViewController.view.layer.shadowColor = [UIColor blackColor].CGColor;
-        _rootViewController.view.layer.shadowPath = [UIBezierPath bezierPathWithRect:self.view.layer.bounds].CGPath;
-        _rootViewController.view.clipsToBounds = NO; 
+        [self addShadow];       
     }
-    else {
-        _rootViewController.view.layer.shadowPath = nil;
-        _rootViewController.view.layer.shadowOpacity = 0.0f;
-        _rootViewController.view.layer.shadowRadius = 0.0;
-        _rootViewController.view.layer.shadowColor = nil;
+    else 
+    {
+        [self removeShadow];
     }
 }
 
@@ -1156,9 +1169,10 @@
 
 - (void) willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
     [super willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
-    
-    _rootViewController.view.layer.shadowPath = nil;
+
+    [self removeShadow];
     _rootViewController.view.layer.shouldRasterize = YES;
+
     
     [_rootViewController willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
     
@@ -1174,8 +1188,8 @@
 - (void) didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
     [super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
     
-    _rootViewController.view.layer.shadowPath = [UIBezierPath bezierPathWithRect:_rootViewController.view.layer.bounds].CGPath;
     _rootViewController.view.layer.shouldRasterize = NO;
+    [self handleShadows];
     
     [_rootViewController didRotateFromInterfaceOrientation:fromInterfaceOrientation];
     for (id key in _viewControllers.allKeys)
