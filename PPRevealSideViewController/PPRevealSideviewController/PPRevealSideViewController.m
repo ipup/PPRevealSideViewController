@@ -85,6 +85,42 @@
     self.view.autoresizesSubviews = YES;
 }
 
+- (void) viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [_rootViewController viewWillAppear:animated];
+    
+    PPRevealSideDirection direction = [self getSideToClose];
+    if (direction != PPRevealSideDirectionNone) [[_viewControllers objectForKey:[NSNumber numberWithInt:direction]] viewWillAppear:animated];
+}
+
+- (void) viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    [_rootViewController viewDidAppear:animated];
+    
+    PPRevealSideDirection direction = [self getSideToClose];
+    if (direction != PPRevealSideDirectionNone) [[_viewControllers objectForKey:[NSNumber numberWithInt:direction]] viewDidAppear:animated];
+
+}
+
+- (void) viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [_rootViewController viewWillDisappear:animated];
+    
+    PPRevealSideDirection direction = [self getSideToClose];
+    if (direction != PPRevealSideDirectionNone) [[_viewControllers objectForKey:[NSNumber numberWithInt:direction]] viewWillDisappear:animated];
+}
+
+- (void) viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    [_rootViewController viewDidDisappear:animated];
+    
+    PPRevealSideDirection direction = [self getSideToClose];
+    if (direction != PPRevealSideDirectionNone) [[_viewControllers objectForKey:[NSNumber numberWithInt:direction]] viewDidDisappear:animated];
+}
 
 /*
  // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
