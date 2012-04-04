@@ -368,6 +368,12 @@ typedef NSUInteger PPRevealSideOptions;
 - (void) preloadViewController:(UIViewController*)controller forSide:(PPRevealSideDirection)direction withOffset:(CGFloat)offset;
 
 /**
+ Remove the controller for a direction. This a convenient method when you use for example a Container view controller like Tab bar controller. When you switch from tabs, you probably want some tabs not to have side controllers. In that case, unload in view will disappear of the tab's controller, then preload on view will appear.
+ @param direction The direction for which to unload the controller
+ */
+- (void) unloadViewControllerForSide:(PPRevealSideDirection)direction;
+
+/**
  Change the offset for a direction. Not animated.
  @param offset The offset
  @param direction The direction for which to change the offset
@@ -394,7 +400,10 @@ typedef NSUInteger PPRevealSideOptions;
  @param option The option to reset
  */
 - (void) resetOption:(PPRevealSideOptions)option;
-
+/**
+ Update the view with gestures. Should be called for example when used with controllerForGesturesOnPPRevealSideViewController delegate method when using a container controller as the root. For example with a UITabBarController, call this method when the selected controller has been updated
+ */
+- (void) updateViewWhichHandleGestures;
 @end
 
 /**
@@ -481,6 +490,13 @@ typedef NSUInteger PPRevealSideOptions;
 */
 - (PPRevealSideDirection)pprevealSideViewController:(PPRevealSideViewController*)controller directionsAllowedForPanningOnView:(UIView*)view;
 
+/**
+ Implement this method if you have for example a container as the rootViewController (like UITabBarController). If you do not implement this method, the gestures are added to the RootViewController (the center view controller)
+ 
+ @param controller The reveal side view controller
+ @return the controller in which we will add gestures
+*/
+- (UIViewController*) controllerForGesturesOnPPRevealSideViewController:(PPRevealSideViewController*)controller;
 @end
 
 /**
