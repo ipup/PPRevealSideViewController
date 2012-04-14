@@ -93,6 +93,7 @@ If you want to pop a new center controller, then do the following :
     [self.revealSideViewController setDirectionsToShowBounce:PPRevealSideDirectionLeft | PPRevealSideDirectionRight];
  
  You could also don't want these animations at all. Disabled these like it 
+ 
     [self.revealSideViewController setDirectionsToShowBounce:PPRevealSideDirectionNone];
 
 ## Pushing from a side
@@ -125,16 +126,19 @@ If you have some view whith pan gestures already configured, you have several op
 Remember that, for the UIWebView for example, the best thing to do is to fit the width on the screen, and disabled zooming. This is typically what you would do on a mobile aware web page.
  
 1. Disable the panning gesture on the content view
-	    self.revealSideViewController.panInteractionsWhenClosed = PPRevealSideInteractionNavigationBar;
-	    self.revealSideViewController.panInteractionsWhenOpened = PPRevealSideInteractionNavigationBar;
+	
+	self.revealSideViewController.panInteractionsWhenClosed = PPRevealSideInteractionNavigationBar;
+	self.revealSideViewController.panInteractionsWhenOpened = PPRevealSideInteractionNavigationBar;
 
 2. Implement the delegate method 
+	
 	- (PPRevealSideDirection)pprevealSideViewController:(PPRevealSideViewController*)controller directionsAllowedForPanningOnView:(UIView*)view {
         
     	if ([view isKindOfClass:NSClassFromString(@"UIWebBrowserView")]) return PPRevealSideDirectionLeft | PPRevealSideDirectionRight;
 
     	return PPRevealSideDirectionLeft | PPRevealSideDirectionRight | PPRevealSideDirectionTop | PPRevealSideDirectionBottom;
 	}
+
 3. In the case you do not have controllers on all sides, you can also disable the bouncing animation which show that there is no controller.
 
 ## Options
