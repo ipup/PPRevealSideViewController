@@ -24,6 +24,7 @@
 - (void) removeAllPanGestures;
 - (void) removeAllTapGestures;
 - (void) removeAllGestures;
+- (void) setOffset:(CGFloat)offset forDirection:(PPRevealSideDirection)direction;
 
 - (BOOL) isLeftControllerClosed;
 - (BOOL) isRightControllerClosed;
@@ -39,6 +40,8 @@
 
 - (UIEdgeInsets) getEdgetInsetForDirection:(PPRevealSideDirection)direction;
 
+- (CGFloat) getOffsetForDirection:(PPRevealSideDirection)direction andInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation;
+- (CGFloat) getOffsetForDirection:(PPRevealSideDirection)direction;
 @end
 
 @implementation PPRevealSideViewController
@@ -69,6 +72,7 @@
         
         _viewControllers = [[NSMutableDictionary alloc] init];
         _viewControllersOffsets = [[NSMutableDictionary alloc] init];
+
         _gestures = [[NSMutableArray alloc] init];
         
         [self setRootViewController:rootViewController];
@@ -245,7 +249,10 @@
     NSNumber *directionNumber = [NSNumber numberWithInt:direction];
     
     // save the offset
-    [_viewControllersOffsets setObject:[NSNumber numberWithFloat:offset] forKey:directionNumber];
+    [self setOffset:offset forDirection:direction];
+    
+    // get the offset with orientation aware stuff
+    offset = [self getOffsetForDirection:direction];
     
     // save the controller and remove the old one from the view
     UIViewController *oldController = [_viewControllers objectForKey:directionNumber];
@@ -460,7 +467,7 @@
         controller.view.frame = self.view.bounds;
         
     }    
-    [_viewControllersOffsets setObject:[NSNumber numberWithFloat:offset] forKey:[NSNumber numberWithInt:direction]];
+    [self setOffset:offset forDirection:direction];
 }
 
 - (void) unloadViewControllerForSide:(PPRevealSideDirection)direction
@@ -476,9 +483,7 @@
 }
 
 - (void) changeOffset:(CGFloat)offset forDirection:(PPRevealSideDirection)direction animated:(BOOL)animated {
-    [_viewControllersOffsets setObject:[NSNumber numberWithFloat:offset]
-                                forKey:[NSNumber numberWithInt:direction]];
-    
+    [self setOffset:offset forDirection:direction];
     
     if ([self getSideToClose] == direction ) {
         if (animated)
@@ -638,7 +643,7 @@
         ||
         (direction == PPRevealSideDirectionBottom || direction == PPRevealSideDirectionTop)
         ) {
-        _rootViewController.view.frame = [self getSlidingRectForOffset:[(NSNumber*)([_viewControllersOffsets objectForKey:[NSNumber numberWithInt:direction]]) floatValue]
+        _rootViewController.view.frame = [self getSlidingRectForOffset:[self getOffsetForDirection:direction]
                                                           forDirection:direction];
     }
 }
@@ -783,6 +788,12 @@
     [self addGesturesToCenterController];
 }
 
+- (void) setOffset:(CGFloat)offset forDirection:(PPRevealSideDirection)direction
+{
+    // This is always an offset for portrait
+    [_viewControllersOffsets setObject:[NSNumber numberWithFloat:offset] forKey:[NSNumber numberWithInt:direction]];
+}
+
 #pragma mark Closed Controllers 
 
 - (BOOL) isLeftControllerClosed {
@@ -896,7 +907,7 @@
 - (UIEdgeInsets) getEdgetInsetForDirection:(PPRevealSideDirection)direction {
     UIEdgeInsets inset = UIEdgeInsetsZero;
     if (![self isOptionEnabled:PPRevealSideOptionsResizeSideView]){
-        CGFloat offset = [[_viewControllersOffsets objectForKey:[NSNumber numberWithInt:direction]] floatValue];
+        CGFloat offset = [self getOffsetForDirection:direction];
         
         switch (direction) {
             case PPRevealSideDirectionLeft:
@@ -919,6 +930,32 @@
     return inset;
 }
 
+- (CGFloat) getOffsetForDirection:(PPRevealSideDirection)direction andInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+    CGFloat offset = [[_viewControllersOffsets objectForKey:[NSNumber numberWithInt:direction]] floatValue];
+    
+    if (UIInterfaceOrientationIsLandscape(interfaceOrientation)) {
+        if (![self isOptionEnabled:PPRevealSideOptionsKeepOffsetOnRotation]) 
+        {
+            // Take an orientation free rect
+            CGRect portraitBounds = [UIScreen mainScreen].bounds;
+            // Get the difference between width and height
+            CGFloat diff = 0.0;
+            if (direction == PPRevealSideDirectionLeft || direction == PPRevealSideDirectionRight)
+                diff = portraitBounds.size.height - portraitBounds.size.width;
+            // Store the offset + the diff
+            offset += diff;
+        }
+    }
+
+    return offset;
+}
+
+- (CGFloat) getOffsetForDirection:(PPRevealSideDirection)direction
+{
+    return [self getOffsetForDirection:direction andInterfaceOrientation:PPInterfaceOrientation()];
+}
+
 #pragma mark - Gesture recognizer
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
@@ -929,9 +966,9 @@
     else _wasClosed = NO;
         
     BOOL hasExceptionTouch = NO;
-//    if ([touch.view isKindOfClass:[UIControl class]]) {
-//        if (![touch.view isKindOfClass:NSClassFromString(@"UINavigationButton")]) hasExceptionTouch = YES;
-//    }
+    if ([touch.view isKindOfClass:[UIControl class]] && [gestureRecognizer isKindOfClass:[UITapGestureRecognizer class]]) {
+        if (![touch.view isKindOfClass:NSClassFromString(@"UINavigationButton")]) hasExceptionTouch = YES;
+    }
 
     BOOL hasExceptionDelegate = NO;
     if ([self.delegate respondsToSelector:@selector(pprevealSideViewController:shouldDeactivateGesture:forView:)])
@@ -1034,8 +1071,8 @@
             break;
     }
     
-    offset = MAX(offset, [[_viewControllersOffsets objectForKey:[NSNumber numberWithInt:_currentPanDirection]] floatValue]);
-    
+    offset = MAX(offset, [self getOffsetForDirection:_currentPanDirection]);
+
     // test if whe changed direction
     if (_currentPanDirection == PPRevealSideDirectionRight || _currentPanDirection == PPRevealSideDirectionLeft) {
         if (offset >= CGRectGetWidth(self.rootViewController.view.frame)-OFFSET_TRIGGER_CHANGE_DIRECTION) {
@@ -1085,7 +1122,7 @@
     
     if (panGesture.state == UIGestureRecognizerStateEnded || panGesture.state == UIGestureRecognizerStateCancelled) {
         
-        CGFloat offsetController = [[_viewControllersOffsets objectForKey:[NSNumber numberWithInt:_currentPanDirection]] floatValue];
+        CGFloat offsetController = [self getOffsetForDirection:_currentPanDirection];
 #define divisionNumber 5.0
         CGFloat triggerStep;
         if (_currentPanDirection == PPRevealSideDirectionLeft || _currentPanDirection == PPRevealSideDirectionRight)
@@ -1133,7 +1170,7 @@
         {
             _shouldNotCloseWhenPushingSameDirection = YES;
             [self pushOldViewControllerOnDirection:_currentPanDirection 
-                                        withOffset:offsetController
+                                        withOffset:[self getOffsetForDirection:_currentPanDirection andInterfaceOrientation:UIInterfaceOrientationPortrait] // we get the interface orientation for Portrait since we set it just after.
                                           animated:YES];
             _shouldNotCloseWhenPushingSameDirection = NO;
         }
