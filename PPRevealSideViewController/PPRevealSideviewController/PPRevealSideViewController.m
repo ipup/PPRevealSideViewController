@@ -85,7 +85,9 @@
 // Implement loadView to create a view hierarchy programmatically, without using a nib.
 - (void)loadView
 {
-    self.view = PP_AUTORELEASE([[UIView alloc] initWithFrame:PPScreenBounds()]);
+    CGRect rect  = PPScreenBounds();
+    rect.size.height -= PPStatusBarHeight();
+    self.view = PP_AUTORELEASE([[UIView alloc] initWithFrame:rect]);
     self.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     self.view.clipsToBounds = YES;
     self.view.autoresizesSubviews = YES;
@@ -128,13 +130,21 @@
     if (direction != PPRevealSideDirectionNone) [[_viewControllers objectForKey:[NSNumber numberWithInt:direction]] viewDidDisappear:animated];
 }
 
-/*
- // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
- - (void)viewDidLoad
- {
- [super viewDidLoad];
- }
- */
+// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    if (_rootViewController && !_rootViewController.view.superview) 
+    {
+      // Then we have probably received memory warning
+        UIViewController *newRoot = PP_RETAIN(_rootViewController);
+        // Just a little hack to reset the root
+        self.rootViewController = nil;
+        self.rootViewController = newRoot;
+        PP_RELEASE(newRoot);
+        NSLog(@"youhou %@", NSStringFromCGRect(self.view.frame));
+    }
+}
 
 #pragma mark - Push and pop methods
 #define DefaultOffset 70.0
@@ -564,28 +574,30 @@
         [self willChangeValueForKey:@"rootViewController"];
         
         [self removeAllGestures];
-        
+
+        [_rootViewController removeObserver:self forKeyPath:@"view.frame"];
+
         if ([[[UIDevice currentDevice] systemVersion] floatValue] < 5.0) [_rootViewController viewWillDisappear:NO];
         [_rootViewController.view removeFromSuperview];
         if ([[[UIDevice currentDevice] systemVersion] floatValue] < 5.0) [_rootViewController viewDidDisappear:NO];
 
-        
-        [_rootViewController removeObserver:self forKeyPath:@"view.frame"];
-        
         _rootViewController = PP_RETAIN(controller);
         _rootViewController.revealSideViewController = self;
-        
-        [_rootViewController addObserver:self
-                              forKeyPath:@"view.frame"
-                                 options:NSKeyValueObservingOptionNew
-                                 context:NULL];
+    
         [self handleShadows];
         
         if ([[[UIDevice currentDevice] systemVersion] floatValue] < 5.0) [_rootViewController viewWillAppear:NO];
         [self.view addSubview:_rootViewController.view];
         if ([[[UIDevice currentDevice] systemVersion] floatValue] < 5.0) [_rootViewController viewDidAppear:NO];
 
+        [_rootViewController addObserver:self
+                              forKeyPath:@"view.frame"
+                                 options:NSKeyValueObservingOptionNew
+                                 context:NULL];
+        
         [self addGesturesToCenterController];
+
+        _rootViewController.view.frame = self.view.bounds;
         
         [self didChangeValueForKey:@"rootViewController"];
     }
@@ -1244,19 +1256,19 @@
 
 #pragma mark - Memory management things
 
+- (void) viewWillUnload
+{
+    [super viewWillUnload];
+}
+
 - (void)didReceiveMemoryWarning
 {
-    // Releases the view if it doesn't have a superview.
     [super didReceiveMemoryWarning];
-    
-    // Release any cached data, images, etc that aren't in use.
 }
 
 - (void)viewDidUnload
 {
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
 }
 
 - (void) dealloc {
@@ -1342,4 +1354,12 @@ CGRect PPScreenBounds(void) {
 		bounds.size.height = width;
 	}
 	return bounds;
+}
+
+CGFloat PPStatusBarHeight(void) {
+    if ([[UIApplication sharedApplication] isStatusBarHidden]) return 0.0;
+    if (UIInterfaceOrientationIsLandscape(PPInterfaceOrientation()))
+        return [[UIApplication sharedApplication] statusBarFrame].size.width;
+    else
+        return [[UIApplication sharedApplication] statusBarFrame].size.height;
 }

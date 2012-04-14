@@ -20,17 +20,15 @@
 {
     self = [super initWithStyle:style];
     if (self) {
-        [self.tableView addObserver:self 
-                         forKeyPath:@"revealSideInset"
-                            options:NSKeyValueObservingOptionNew
-                            context:NULL];
     }
     return self;
 }
 
 - (void)didReceiveMemoryWarning
 {
-    // Releases the view if it doesn't have a superview.
+    [self.tableView removeObserver:self
+                        forKeyPath:@"revealSideInset"];
+    
     [super didReceiveMemoryWarning];
     
     // Release any cached data, images, etc that aren't in use.
@@ -42,18 +40,17 @@
 {
     [super viewDidLoad];
 
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
- 
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    [self.tableView addObserver:self 
+                     forKeyPath:@"revealSideInset"
+                        options:NSKeyValueObservingOptionNew
+                        context:NULL];
 }
 
 - (void)viewDidUnload
 {
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
+    [self.tableView removeObserver:self
+                        forKeyPath:@"revealSideInset"];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -94,9 +91,14 @@
         [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
 }
 
-- (void) dealloc {
-    [self.tableView removeObserver:self
-                        forKeyPath:@"revealSideInset"];
+- (void) dealloc 
+{
+    @try{
+        [self.tableView removeObserver:self
+                            forKeyPath:@"revealSideInset"];
+    }@catch(id anException){
+        //do nothing, obviously it wasn't attached because an exception was thrown
+    }
 #if !PP_ARC_ENABLED
     [super dealloc];
 #endif
@@ -254,7 +256,6 @@
         default:
             break;
     }
-    
 }
 
 @end

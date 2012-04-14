@@ -24,6 +24,8 @@
 /* Begin PBXBuildFile section */
 		E06CBF1314F562A500123636 /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E06CBF1114F562A500123636 /* WebViewController.m */; };
 		E06CBF1414F562A500123636 /* WebViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E06CBF1214F562A500123636 /* WebViewController.xib */; };
+		E0BB469115397C2200C1EA46 /* ModalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E0BB468F15397C2100C1EA46 /* ModalViewController.m */; };
+		E0BB469215397C2200C1EA46 /* ModalViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E0BB469015397C2100C1EA46 /* ModalViewController.xib */; };
 		E0BEAC3014F2F85900ADA090 /* MainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E0D35A5614F2831B0013EB90 /* MainViewController.xib */; };
 		E0BEAC3114F2F85C00ADA090 /* SecondViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E0D35A5A14F2831B0013EB90 /* SecondViewController.xib */; };
 		E0BEAC3214F2F85E00ADA090 /* ThirdViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E0D35A5314F2831B0013EB90 /* ThirdViewController.xib */; };
@@ -58,6 +60,9 @@
 		E06CBF1014F562A500123636 /* WebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WebViewController.h; path = Sample/WebViewController.h; sourceTree = "<group>"; };
 		E06CBF1114F562A500123636 /* WebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WebViewController.m; path = Sample/WebViewController.m; sourceTree = "<group>"; };
 		E06CBF1214F562A500123636 /* WebViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = WebViewController.xib; path = Sample/WebViewController.xib; sourceTree = "<group>"; };
+		E0BB468E15397C2100C1EA46 /* ModalViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModalViewController.h; sourceTree = "<group>"; };
+		E0BB468F15397C2100C1EA46 /* ModalViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModalViewController.m; sourceTree = "<group>"; };
+		E0BB469015397C2100C1EA46 /* ModalViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ModalViewController.xib; sourceTree = "<group>"; };
 		E0D35A4B14F282FD0013EB90 /* PPRevealSideViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPRevealSideViewController.h; sourceTree = "<group>"; };
 		E0D35A4C14F282FD0013EB90 /* PPRevealSideViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPRevealSideViewController.m; sourceTree = "<group>"; };
 		E0D35A4E14F2831B0013EB90 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = Sample/AppDelegate.m; sourceTree = "<group>"; };
@@ -133,6 +138,9 @@
 				E06CBF1014F562A500123636 /* WebViewController.h */,
 				E06CBF1114F562A500123636 /* WebViewController.m */,
 				E06CBF1214F562A500123636 /* WebViewController.xib */,
+				E0BB468E15397C2100C1EA46 /* ModalViewController.h */,
+				E0BB468F15397C2100C1EA46 /* ModalViewController.m */,
+				E0BB469015397C2100C1EA46 /* ModalViewController.xib */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -255,6 +263,7 @@
 				E0BEAC3214F2F85E00ADA090 /* ThirdViewController.xib in Resources */,
 				E0BEAC3314F2F86000ADA090 /* PopedViewController.xib in Resources */,
 				E06CBF1414F562A500123636 /* WebViewController.xib in Resources */,
+				E0BB469215397C2200C1EA46 /* ModalViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -291,6 +300,7 @@
 				E0D35A6714F283AE0013EB90 /* PopedViewController.m in Sources */,
 				E0D35A6814F283AE0013EB90 /* AppDelegate.m in Sources */,
 				E06CBF1314F562A500123636 /* WebViewController.m in Sources */,
+				E0BB469115397C2200C1EA46 /* ModalViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

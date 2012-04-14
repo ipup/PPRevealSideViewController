@@ -509,3 +509,8 @@ UIInterfaceOrientation PPInterfaceOrientation(void);
  A convenient function which get the screen bounds. Also handle the size in both landscape and portrait.
  */
 CGRect PPScreenBounds(void);
+
+/**
+ A convenient function which get the status bar height
+ */
+CGFloat PPStatusBarHeight(void);

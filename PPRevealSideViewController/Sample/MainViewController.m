@@ -11,6 +11,7 @@
 #import "PopedViewController.h"
 #import "SecondViewController.h"
 #import "ThirdViewController.h"
+#import "ModalViewController.h"
 
 @implementation MainViewController
 
@@ -236,6 +237,15 @@
     ThirdViewController *c = [[ThirdViewController alloc] initWithNibName:@"ThirdViewController" bundle:nil];
     [self.navigationController pushViewController:c animated:YES];
     PP_RELEASE(c);
+}
+
+- (IBAction)presentModal:(id)sender 
+{
+    ModalViewController *m = [[ModalViewController alloc] initWithNibName:@"ModalViewController" bundle:nil];
+    UINavigationController *n = [[UINavigationController alloc] initWithRootViewController:m];
+    [self.revealSideViewController presentModalViewController:n animated:YES];
+    PP_RELEASE(m);
+    PP_RELEASE(n);
 }
 
 @end
