@@ -955,6 +955,9 @@
             CGFloat diff = 0.0;
             if (direction == PPRevealSideDirectionLeft || direction == PPRevealSideDirectionRight)
                 diff = portraitBounds.size.height - portraitBounds.size.width;
+            if (direction == PPRevealSideDirectionTop)
+                diff = -(portraitBounds.size.height - portraitBounds.size.width);
+
             // Store the offset + the diff
             offset += diff;
         }
@@ -1198,11 +1201,10 @@
 
 - (void) willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
     [super willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
-    
-    [self resizeCurrentView];
-    
     [_rootViewController willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
-    
+
+    [self resizeCurrentView];
+        
     for (id key in _viewControllers.allKeys)
     {
         UIViewController *controller = (UIViewController *)[_viewControllers objectForKey:key];
