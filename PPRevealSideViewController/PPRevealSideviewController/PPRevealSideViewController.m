@@ -11,6 +11,7 @@
 #import <objc/runtime.h>
 
 @interface PPRevealSideViewController (Private)
+- (void) setRootViewController:(UIViewController *)controller replaceToOrigin:(BOOL)replace;
 - (void) setRootViewController:(UIViewController*)controller;
 - (void) addShadow;
 - (void) removeShadow;
@@ -371,7 +372,7 @@
         if (finished) {
             CGRect oldFrame = _rootViewController.view.frame;
             centerController.view.frame = oldFrame;
-            [self setRootViewController:centerController];
+            [self setRootViewController:centerController replaceToOrigin:NO];
 
             // this is the anim block to put to normal the center controller
             void(^smallAnimBlock)(void) = ^(void) {
@@ -394,7 +395,7 @@
 
                     
                     _animationInProgress = NO;
-                    
+
                     if (controllerToPush) {
                         [self pushViewController:controllerToPush
                                      onDirection:direction
@@ -569,7 +570,8 @@
 
 #pragma mark - Private methods
 
-- (void) setRootViewController:(UIViewController *)controller {
+- (void) setRootViewController:(UIViewController *)controller replaceToOrigin:(BOOL)replace
+{
     if (_rootViewController != controller) {
         [self willChangeValueForKey:@"rootViewController"];
         
@@ -584,31 +586,36 @@
         @finally {
             
         }
-
+        
         if ([[[UIDevice currentDevice] systemVersion] floatValue] < 5.0) [_rootViewController viewWillDisappear:NO];
         [_rootViewController.view removeFromSuperview];
         if ([[[UIDevice currentDevice] systemVersion] floatValue] < 5.0) [_rootViewController viewDidDisappear:NO];
-
+        
         _rootViewController = PP_RETAIN(controller);
         _rootViewController.revealSideViewController = self;
-    
+        
         [self handleShadows];
         
         if ([[[UIDevice currentDevice] systemVersion] floatValue] < 5.0) [_rootViewController viewWillAppear:NO];
         [self.view addSubview:_rootViewController.view];
         if ([[[UIDevice currentDevice] systemVersion] floatValue] < 5.0) [_rootViewController viewDidAppear:NO];
-
+        
         [_rootViewController addObserver:self
                               forKeyPath:@"view.frame"
                                  options:NSKeyValueObservingOptionNew
                                  context:NULL];
         
         [self addGesturesToCenterController];
-
-        _rootViewController.view.frame = self.view.bounds;
+        
+        if (replace)
+            _rootViewController.view.frame = self.view.bounds;
         
         [self didChangeValueForKey:@"rootViewController"];
     }
+}
+- (void) setRootViewController:(UIViewController *)controller 
+{
+    [self setRootViewController:controller replaceToOrigin:YES];
 }
 
 - (void) addShadow
