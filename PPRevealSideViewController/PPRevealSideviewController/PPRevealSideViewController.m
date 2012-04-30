@@ -134,6 +134,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
     if (_rootViewController && !_rootViewController.view.superview) 
     {
       // Then we have probably received memory warning
@@ -142,7 +143,6 @@
         self.rootViewController = nil;
         self.rootViewController = newRoot;
         PP_RELEASE(newRoot);
-        NSLog(@"youhou %@", NSStringFromCGRect(self.view.frame));
     }
 }
 
@@ -575,7 +575,15 @@
         
         [self removeAllGestures];
 
-        [_rootViewController removeObserver:self forKeyPath:@"view.frame"];
+        @try {
+            [_rootViewController removeObserver:self forKeyPath:@"view.frame"];
+        }
+        @catch (NSException *exception) {
+            
+        }
+        @finally {
+            
+        }
 
         if ([[[UIDevice currentDevice] systemVersion] floatValue] < 5.0) [_rootViewController viewWillDisappear:NO];
         [_rootViewController.view removeFromSuperview];
@@ -1266,6 +1274,15 @@
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
+    @try {
+        [_rootViewController removeObserver:self forKeyPath:@"view.frame"];
+    }
+    @catch (NSException *exception) {
+        
+    }
+    @finally {
+        
+    }
 }
 
 - (void)viewDidUnload

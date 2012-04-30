@@ -26,8 +26,16 @@
 
 - (void)didReceiveMemoryWarning
 {
-    [self.tableView removeObserver:self
-                        forKeyPath:@"revealSideInset"];
+    @try {
+        [self.tableView removeObserver:self
+                            forKeyPath:@"revealSideInset"];
+    }
+    @catch (NSException *exception) {
+        
+    }
+    @finally {
+        
+    }
     
     [super didReceiveMemoryWarning];
     
