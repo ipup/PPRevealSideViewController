@@ -363,6 +363,12 @@
     [self informDelegateWithOptionalSelector:@selector(pprevealSideViewController:willPopToController:) withParam:centerController];
     
     PPRevealSideDirection directionToClose = [self getSideToClose];
+    if (directionToClose == PPRevealSideDirectionNone && _popFromPanGesture)
+    {
+        directionToClose = _currentPanDirection;
+        _popFromPanGesture = NO;
+    }
+    
     UIViewAnimationOptions options = UIViewAnimationOptionCurveEaseOut;
     
     _animationInProgress = YES;
@@ -1194,6 +1200,7 @@
             shouldClose = NO;
         
         if (shouldClose) {
+            _popFromPanGesture = YES;
             [self popViewControllerAnimated:YES];
         }
         else

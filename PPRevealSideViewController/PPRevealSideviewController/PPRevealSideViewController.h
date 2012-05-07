@@ -157,6 +157,7 @@ typedef NSUInteger PPRevealSideOptions;
     BOOL                    _animationInProgress;
     BOOL                    _shouldNotCloseWhenPushingSameDirection;
     BOOL                    _wasClosed;
+    BOOL                    _popFromPanGesture;
 }
 
 /**
