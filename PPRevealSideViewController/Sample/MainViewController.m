@@ -243,7 +243,11 @@
 {
     ModalViewController *m = [[ModalViewController alloc] initWithNibName:@"ModalViewController" bundle:nil];
     UINavigationController *n = [[UINavigationController alloc] initWithRootViewController:m];
-    [self.revealSideViewController presentModalViewController:n animated:YES];
+    if (PPSystemVersionGreaterOrEqualThan(5.0))
+        [self presentModalViewController:n animated:YES];
+    else
+        [self.revealSideViewController presentModalViewController:n animated:YES];
+    
     PP_RELEASE(m);
     PP_RELEASE(n);
 }

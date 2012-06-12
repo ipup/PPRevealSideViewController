@@ -93,6 +93,10 @@
 	
 	<option value="//api/name/setOption:">&nbsp;&nbsp;&nbsp;&nbsp;- setOption:</option>
 	
+	<option value="//api/name/unloadViewControllerForSide:">&nbsp;&nbsp;&nbsp;&nbsp;- unloadViewControllerForSide:</option>
+	
+	<option value="//api/name/updateViewWhichHandleGestures">&nbsp;&nbsp;&nbsp;&nbsp;- updateViewWhichHandleGestures</option>
+	
 	
 	
 </select>
@@ -177,6 +181,10 @@
 	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/setOption:">setOption:</a></span></li>
 	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/unloadViewControllerForSide:">unloadViewControllerForSide:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/updateViewWhichHandleGestures">updateViewWhichHandleGestures</a></span></li>
+	
 </ul></li>
 
 
@@ -223,69 +231,59 @@
 
 <h1>Initializing</h1>
 
-<pre><code>MainViewController *main = [[MainViewController alloc] initWithNibName:@"MainViewController" bundle:nil];
-UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:main];
+<p><a href="../Classes/MainViewController.html">MainViewController</a> <em>main = [[MainViewController alloc] initWithNibName:@&ldquo;MainViewController&rdquo; bundle:nil];
+UINavigationController </em>nav = [[UINavigationController alloc] initWithRootViewController:main];</p>
 
-_revealSideViewController = [[PPRevealSideViewController alloc] initWithRootViewController:nav];
+<p>_revealSideViewController = [[PPRevealSideViewController alloc] initWithRootViewController:nav];</p>
 
-self.window.rootViewController = _revealSideViewController;
-</code></pre>
+<p>self.window.<a href="#//api/name/rootViewController">rootViewController</a> = _revealSideViewController;</p>
 
 <h1>Pushing a controller</h1>
 
 <p>You have several <a href="#//api/name/options">options</a> to push a controller. The easiest way is :</p>
 
-<pre><code>PopedViewController *c = [[PopedViewController alloc] initWithNibName:@"PopedViewController" bundle:nil ];
-[self.revealSideViewController pushViewController:c onDirection:PPRevealSideDirectionBottom animated:YES];
-</code></pre>
+<p><a href="../Classes/PopedViewController.html">PopedViewController</a> *c = [[PopedViewController alloc] initWithNibName:@&ldquo;PopedViewController&rdquo; bundle:nil ];
+[self.revealSideViewController pushViewController:c onDirection:PPRevealSideDirectionBottom animated:YES];</p>
 
 <p>This will push the controller on bottom, with a default offset.
 You have four directions :</p>
 
-<pre><code>PPRevealSideDirectionBottom
+<p>PPRevealSideDirectionBottom
 PPRevealSideDirectionTop
 PPRevealSideDirectionLeft
-PPRevealSideDirectionRight
-</code></pre>
+PPRevealSideDirectionRight</p>
 
 <h1>Popping</h1>
 
 <p>To go back to your center controller from a side controller, you can pop :</p>
 
-<pre><code>[self.revealSideViewController popViewControllerAnimated:YES];
-</code></pre>
+<p>[self.revealSideViewController popViewControllerAnimated:YES];</p>
 
 <p>If you want to pop a new center controller, then do the following :</p>
 
-<pre><code>MainViewController *c = [[MainViewController alloc] initWithNibName:@"MainViewController" bundle:nil];
-UINavigationController *n = [[UINavigationController alloc] initWithRootViewController:c];
-[self.revealSideViewController popViewControllerWithNewCenterController:n animated:YES];
-</code></pre>
+<p><a href="../Classes/MainViewController.html">MainViewController</a> <em>c = [[MainViewController alloc] initWithNibName:@&ldquo;MainViewController&rdquo; bundle:nil];
+UINavigationController </em>n = [[UINavigationController alloc] initWithRootViewController:c];
+[self.revealSideViewController popViewControllerWithNewCenterController:n animated:YES];</p>
 
 <h1>Pushing from a side</h1>
 
 <p>If you are for example on the up side, and you want to push a controller on the left, you could call a method on your center controller asking him to display a left controller. But I thought it would be more convenient to provide a way to push an old controller directly. So, using the following will do the trick</p>
 
-<pre><code>[self.revealSideViewController pushOldViewControllerOnDirection:PPRevealSideDirectionLeft animated:YES];
-</code></pre>
+<p>[self.revealSideViewController pushOldViewControllerOnDirection:PPRevealSideDirectionLeft animated:YES];</p>
 
 <p>If you are on top, and you want to push a new controller on top (why not), the default behavior of the controller would be to close the top side since it&rsquo;s open. But you can force it to pop push :</p>
 
-<pre><code>[self.revealSideViewController pushViewController:c onDirection:PPRevealSideDirectionTop animated:YES forceToPopPush:YES];
-</code></pre>
+<p>[self.revealSideViewController pushViewController:c onDirection:PPRevealSideDirectionTop animated:YES forceToPopPush:YES];</p>
 
 <h1>Note if you don&rsquo;t have controllers for all the sides</h1>
 
 <p>If you want to present only a controller on the left and the right for example, you probably don&rsquo;t want the bouncing animation which shows that there is not yet a controller to present. This animation comes when you do a panning gesture with no preloaded controller, or no controller pushed yet on the triggered side.
 In that case, do the following</p>
 
-<pre><code>[self.revealSideViewController setDirectionsToShowBounce:PPRevealSideDirectionLeft | PPRevealSideDirectionRight];
-</code></pre>
+<p>[self.revealSideViewController setDirectionsToShowBounce:PPRevealSideDirectionLeft | PPRevealSideDirectionRight];</p>
 
-<p>You could also don&rsquo;t want these animations at all. Disabled these like it</p>
-
-<pre><code>[self.revealSideViewController setDirectionsToShowBounce:PPRevealSideDirectionNone];
-</code></pre>
+<p>You could also don&rsquo;t want these animations at all. Disabled these like it
+[self.revealSideViewController setDirectionsToShowBounce:PPRevealSideDirectionNone];</p>
 					</div>
 					
 					
@@ -472,6 +470,13 @@ Offset set to Default Offset</p></span>
 	
 </li><li>
 	<span class="tooltip">
+		<code><a href="#//api/name/unloadViewControllerForSide:">&ndash;&nbsp;unloadViewControllerForSide:</a></code>
+		<span class="tooltip"><p>Remove the controller for a direction. This a convenient method when you use for example a Container view controller like Tab bar controller. When you switch from tabs, you probably want some tabs not to have side controllers. In that case, unload in view will disappear of the tab&rsquo;s controller, then preload on view will appear.</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
 		<code><a href="#//api/name/changeOffset:forDirection:">&ndash;&nbsp;changeOffset:forDirection:</a></code>
 		<span class="tooltip"><p>Change the offset for a direction. Not animated.</p></span>
 	</span>
@@ -495,6 +500,13 @@ Offset set to Default Offset</p></span>
 	<span class="tooltip">
 		<code><a href="#//api/name/resetOption:">&ndash;&nbsp;resetOption:</a></code>
 		<span class="tooltip"><p>Reset Option.</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/updateViewWhichHandleGestures">&ndash;&nbsp;updateViewWhichHandleGestures</a></code>
+		<span class="tooltip"><p>Update the view with gestures. Should be called for example when used with controllerForGesturesOn<a href="PPRevealSideViewController.html">PPRevealSideViewController</a> <a href="#//api/name/delegate">delegate</a> method when using a container controller as the root. For example with a UITabBarController, call this method when the selected controller has been updated</p></span>
 	</span>
 	
 	
@@ -1176,19 +1188,20 @@ Offset set to Default Offset</p>
 		<h4 class="method-subtitle">Discussion</h4>
 		<p>For example, you will use as it, with a performSelector:afterDelay: (because of some interferences with the push/pop methods)</p>
 
-<pre><code>- (void) viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(preloadLeft) object:nil];
-    [self performSelector:@selector(preloadLeft) withObject:nil afterDelay:0.3];
-}
+<ul>
+<li><p>(void) viewDidAppear:(BOOL)animated {
+[super viewDidAppear:animated];
+[NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(preloadLeft) object:nil];
+[self performSelector:@selector(preloadLeft) withObject:nil afterDelay:0.3];
+}</p></li>
+<li><p>(void) preloadLeft {
+TableViewController *c = [[TableViewController alloc] initWithStyle:UITableViewStylePlain];
+[self.revealSideViewController preloadViewController:c
+forSide:PPRevealSideDirectionLeft
+withOffset:_offset];
+}</p></li>
+</ul>
 
-- (void) preloadLeft {
-    TableViewController *c = [[TableViewController alloc] initWithStyle:UITableViewStylePlain];
-    [self.revealSideViewController preloadViewController:c
-                                                forSide:PPRevealSideDirectionLeft
-                                            withOffset:_offset];
-}
-</code></pre>
 	</div>
 	
 	
@@ -1738,6 +1751,84 @@ For example, you could push a new left controller from the left. In this case, s
 	
 </div>
 						
+						<div class="section-method">
+	<a name="//api/name/unloadViewControllerForSide:" title="unloadViewControllerForSide:"></a>
+	<h3 class="subsubtitle method-title">unloadViewControllerForSide:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Remove the controller for a direction. This a convenient method when you use for example a Container view controller like Tab bar controller. When you switch from tabs, you probably want some tabs not to have side controllers. In that case, unload in view will disappear of the tab&rsquo;s controller, then preload on view will appear.</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>- (void)unloadViewControllerForSide:(PPRevealSideDirection)<em>direction</em></code></div>
+	
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>direction</em></dt>
+			<dd><p>The direction for which to unload the controller</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">PPRevealSideViewController.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/updateViewWhichHandleGestures" title="updateViewWhichHandleGestures"></a>
+	<h3 class="subsubtitle method-title">updateViewWhichHandleGestures</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Update the view with gestures. Should be called for example when used with controllerForGesturesOn<a href="PPRevealSideViewController.html">PPRevealSideViewController</a> <a href="#//api/name/delegate">delegate</a> method when using a container controller as the root. For example with a UITabBarController, call this method when the selected controller has been updated</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>- (void)updateViewWhichHandleGestures</code></div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">PPRevealSideViewController.h</code><br />
+	</div>				
+	
+	
+</div>
+						
 					</div>
 					
 					
@@ -1751,7 +1842,7 @@ For example, you could push a new left controller from the left. In this case, s
 				<div id="footer">
 					<hr />
 					<div class="footer-copyright">
-						<p><span class="copyright">&copy; 2012 Marian PAUL - iPuP SARL. All rights reserved. (Last updated: 2012-02-23)</span><br />
+						<p><span class="copyright">&copy; 2012 Marian PAUL - iPuP SARL. All rights reserved. (Last updated: 2012-06-12)</span><br />
 						
 						<span class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.0.5 (build 759)</a>.</span></p>
 						

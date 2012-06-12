@@ -515,6 +515,22 @@ Offset set to Default Offset</Abstract>
 		</Token>
 		
 		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/PPRevealSideViewController/unloadViewControllerForSide:</TokenIdentifier>
+			<Abstract type="html">Remove the controller for a direction. This a convenient method when you use for example a Container view controller like Tab bar controller. When you switch from tabs, you probably want some tabs not to have side controllers. In that case, unload in view will disappear of the tab's controller, then preload on view will appear.</Abstract>
+			<DeclaredIn>PPRevealSideViewController.h</DeclaredIn>			
+			
+			<Declaration>- (void)unloadViewControllerForSide:(PPRevealSideDirection)direction</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>direction</Name>
+					<Abstract type="html">The direction for which to unload the controller</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/unloadViewControllerForSide:</Anchor>
+		</Token>
+		
+		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/PPRevealSideViewController/changeOffset:forDirection:</TokenIdentifier>
 			<Abstract type="html">Change the offset for a direction. Not animated.</Abstract>
 			<DeclaredIn>PPRevealSideViewController.h</DeclaredIn>			
@@ -590,6 +606,17 @@ Offset set to Default Offset</Abstract>
 			</Parameters>
 			
 			<Anchor>//api/name/resetOption:</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/PPRevealSideViewController/updateViewWhichHandleGestures</TokenIdentifier>
+			<Abstract type="html">Update the view with gestures. Should be called for example when used with controllerForGesturesOnPPRevealSideViewController delegate method when using a container controller as the root. For example with a UITabBarController, call this method when the selected controller has been updated</Abstract>
+			<DeclaredIn>PPRevealSideViewController.h</DeclaredIn>			
+			
+			<Declaration>- (void)updateViewWhichHandleGestures</Declaration>
+			
+			
+			<Anchor>//api/name/updateViewWhichHandleGestures</Anchor>
 		</Token>
 		
 	</File>

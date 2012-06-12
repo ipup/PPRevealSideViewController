@@ -19,9 +19,25 @@ Pan and Tap gestures are also included !
 
 PPRevealSideViewController fully supports ARC *and* non-ARC modes out of the box, there is no configuration necessary. This is really convenient when you have older projects, or do no want to use ARC.  ARC support has been tested with the Apple LLVM 3.0 compiler.
 
-#Documentation 
+# Compatibility
+
+The class if fully compatible from iOS 4 to iOS 5. Not tested yet on iOS 6 nor older versions like iOS 3, but there is no reasons it doesn't work.
+Please note that this class use the new container methods of UIViewController since iOS 5. By using this class on iOS 4 for example, you need to be careful with rotation handling, and presentModalViewController stuff.
+Some things you need to be aware on iOS 4 or older :
+
+* the currentOrientation property is not passed to child controllers, so only the window rootViewController knows the currentOrientation. Always use the status bar orientation from UIApplication
+* override willAnimateRotationToInterfaceOrientation method to relayout the subviews
+* ALWAYS present modal view controller from reveal side view controller, not from the controller itself. Otherwise, you will see strange bug with memory warning and/or rotation (bad layout)
+* There is no support on iOS 4 and older of hiding and showing status bar in the app. It's ok if the status bar is initially hidden or not
+
+# Documentation 
 
 The class is documented. You can either browse into documentation/html folder and then open index.html (or found it online : http://ipup.github.com/PPRevealSideViewController or install the doc set into Xcode.
+
+There are two sample codes :
+
+* The first one is very simple, open it in EasySample
+* The second one show all the configuration aspects : Open PPRevealSideViewController.xcodeproj
 
 Two ways : 
 1. Go to Xcode, preferences, Downloads, + then enter the feed url http://ipup.github.com/PPRevealSideViewController/PPRevealSideViewController.atom
@@ -121,6 +137,10 @@ Please not that there can be some interferences with the preload method, when yo
 	    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(preloadLeft) object:nil];
 	    [self performSelector:@selector(preloadLeft) withObject:nil afterDelay:0.3];
 	}
+	
+If needed, you also have an unload method. This is useful when you use a tab bar controller as a root of your reveal side view controller. The first item can have a left side, but not the second one !
+
+	- (void) unloadViewControllerForSide:(PPRevealSideDirection)direction;
 	
 If you have some view whith pan gestures already configured, you have several options. 
 Remember that, for the UIWebView for example, the best thing to do is to fit the width on the screen, and disabled zooming. This is typically what you would do on a mobile aware web page.

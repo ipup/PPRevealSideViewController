@@ -26,6 +26,7 @@
 - (void) removeAllTapGestures;
 - (void) removeAllGestures;
 - (void) setOffset:(CGFloat)offset forDirection:(PPRevealSideDirection)direction;
+- (void) removeControllerFromView:(UIViewController*)controller animated:(BOOL)animated;
 
 - (BOOL) isLeftControllerClosed;
 - (BOOL) isRightControllerClosed;
@@ -110,7 +111,6 @@
     
     PPRevealSideDirection direction = [self getSideToClose];
     if (direction != PPRevealSideDirectionNone) [[_viewControllers objectForKey:[NSNumber numberWithInt:direction]] viewDidAppear:animated];
-
 }
 
 - (void) viewWillDisappear:(BOOL)animated
@@ -138,7 +138,7 @@
     
     if (_rootViewController && !_rootViewController.view.superview) 
     {
-      // Then we have probably received memory warning
+        // Then we have probably received memory warning
         UIViewController *newRoot = PP_RETAIN(_rootViewController);
         // Just a little hack to reset the root
         self.rootViewController = nil;
@@ -267,11 +267,9 @@
     
     // save the controller and remove the old one from the view
     UIViewController *oldController = [_viewControllers objectForKey:directionNumber];
-    if (controller != oldController) {
-        if ([[[UIDevice currentDevice] systemVersion] floatValue] < 5.0) [oldController viewWillDisappear:animated];
-        [oldController.view removeFromSuperview];
-        if ([[[UIDevice currentDevice] systemVersion] floatValue] < 5.0) [oldController viewDidDisappear:animated];
-    }
+    
+    if (controller != oldController) [self removeControllerFromView:oldController animated:animated];
+    
     [_viewControllers setObject:controller forKey:directionNumber];
     
     // set the container controller to self
@@ -280,14 +278,19 @@
     // Place the controller juste below the rootviewcontroller
     controller.view.frame = self.view.bounds; // handle layout issue with navigation bar. Comment to see the crap, then push a nav controller
     
-    if ([[[UIDevice currentDevice] systemVersion] floatValue] < 5.0) [controller viewWillDisappear:animated];
-    [controller.view removeFromSuperview];
-    if ([[[UIDevice currentDevice] systemVersion] floatValue] < 5.0) [controller viewDidDisappear:animated];
-
-    if ([[[UIDevice currentDevice] systemVersion] floatValue] < 5.0) [controller viewWillAppear:animated];
+    [self removeControllerFromView:controller animated:animated];
+    
+    // TODO remove then adding not so good ... Maybe do something different 
+    if (PPSystemVersionGreaterOrEqualThan(5.0))
+    {
+        [controller willMoveToParentViewController:self];
+        [self addChildViewController:controller];
+    }
+    
+    if (!PPSystemVersionGreaterOrEqualThan(5.0)) [controller viewWillAppear:animated];
     [self.view insertSubview:controller.view belowSubview:_rootViewController.view];
-    if ([[[UIDevice currentDevice] systemVersion] floatValue] < 5.0) [controller viewDidAppear:animated];
-
+    if (!PPSystemVersionGreaterOrEqualThan(5.0)) [controller viewDidAppear:animated];
+    
     // if bounces is activated and the push is animated, calculate the first frame with the bounce
     CGRect rootFrame = CGRectZero;
     if ([self canCrossOffsets] && animated) // then we make an offset
@@ -326,12 +329,14 @@
                                                       _rootViewController.view.frame = [self getSlidingRectForOffset:offset forDirection:direction];
                                                   } completion:^(BOOL finished) {
                                                       _animationInProgress = NO;
+                                                      if (PPSystemVersionGreaterOrEqualThan(5.0)) [controller didMoveToParentViewController:self];
                                                       [self informDelegateWithOptionalSelector:@selector(pprevealSideViewController:didPushController:) withParam:controller];
                                                   }];
                              }
                              else
                              {
                                  _animationInProgress = NO;
+                                 if (PPSystemVersionGreaterOrEqualThan(5.0)) [controller didMoveToParentViewController:self];
                                  [self informDelegateWithOptionalSelector:@selector(pprevealSideViewController:didPushController:) withParam:controller];
                              }
                              
@@ -340,6 +345,7 @@
     else {
         openAnimBlock();
         _animationInProgress = NO;
+        if (PPSystemVersionGreaterOrEqualThan(5.0)) [controller didMoveToParentViewController:self];
         [self informDelegateWithOptionalSelector:@selector(pprevealSideViewController:didPushController:) withParam:controller];
     }
     
@@ -395,10 +401,8 @@
                     
                     // remove the view (don't need to surcharge (not english this word ? ... ) all the interface).
                     UIViewController *oldController = (UIViewController*)[_viewControllers objectForKey:[NSNumber numberWithInt:directionToClose]];
-                    if ([[[UIDevice currentDevice] systemVersion] floatValue] < 5.0) [oldController viewWillDisappear:animated];
-                    [oldController.view removeFromSuperview];
-                    if ([[[UIDevice currentDevice] systemVersion] floatValue] < 5.0) [oldController viewDidDisappear:animated];
-
+                    
+                    [self removeControllerFromView:oldController animated:animated];
                     
                     _animationInProgress = NO;
 
@@ -474,11 +478,19 @@
     UIViewController *existingController = [_viewControllers objectForKey:[NSNumber numberWithInt:direction]];
     if (existingController != controller) {
         
-        if (existingController.view.superview) [existingController.view removeFromSuperview];
+        if (existingController.view.superview) [self removeControllerFromView:existingController animated:NO];
         
         [_viewControllers setObject:controller forKey:[NSNumber numberWithInt:direction]];
         if (![controller isViewLoaded]) {
+            if (PPSystemVersionGreaterOrEqualThan(5.0)) [controller willMoveToParentViewController:self];
+            
             [self.view insertSubview:controller.view atIndex:0];
+            
+            if (PPSystemVersionGreaterOrEqualThan(5.0))
+            {
+                [self addChildViewController:controller];
+                [controller didMoveToParentViewController:self];
+            }
             controller.view.hidden = YES;
         }
         controller.view.frame = self.view.bounds;
@@ -491,7 +503,9 @@
 {
     NSNumber *key = [NSNumber numberWithInt:direction];
     UIViewController *controller = [_viewControllers objectForKey:key];
-    [controller.view removeFromSuperview];
+    
+    [self removeControllerFromView:controller animated:NO];
+    
     [_viewControllers removeObjectForKey:key];
 }
 
@@ -504,11 +518,11 @@
     
     if ([self getSideToClose] == direction ) {
         if (animated)
-        [UIView animateWithDuration:0.3
-                         animations:^{
-                             _rootViewController.view.frame = [self getSlidingRectForOffset:offset
-                                                                               forDirection:direction];
-                         }];
+            [UIView animateWithDuration:0.3
+                             animations:^{
+                                 _rootViewController.view.frame = [self getSlidingRectForOffset:offset
+                                                                                   forDirection:direction];
+                             }];
         else
             _rootViewController.view.frame = [self getSlidingRectForOffset:offset
                                                               forDirection:direction];
@@ -593,18 +607,25 @@
             
         }
         
-        if ([[[UIDevice currentDevice] systemVersion] floatValue] < 5.0) [_rootViewController viewWillDisappear:NO];
-        [_rootViewController.view removeFromSuperview];
-        if ([[[UIDevice currentDevice] systemVersion] floatValue] < 5.0) [_rootViewController viewDidDisappear:NO];
+        [self removeControllerFromView:_rootViewController animated:NO];
         
         _rootViewController = PP_RETAIN(controller);
         _rootViewController.revealSideViewController = self;
         
+        if (PPSystemVersionGreaterOrEqualThan(5.0))
+        {
+            [_rootViewController willMoveToParentViewController:self];
+            [self addChildViewController:_rootViewController];
+        }
+        
         [self handleShadows];
         
-        if ([[[UIDevice currentDevice] systemVersion] floatValue] < 5.0) [_rootViewController viewWillAppear:NO];
+        if (!PPSystemVersionGreaterOrEqualThan(5.0)) [_rootViewController viewWillAppear:NO];
         [self.view addSubview:_rootViewController.view];
-        if ([[[UIDevice currentDevice] systemVersion] floatValue] < 5.0) [_rootViewController viewDidAppear:NO];
+        if (!PPSystemVersionGreaterOrEqualThan(5.0)) [_rootViewController viewDidAppear:NO];
+        
+        if (PPSystemVersionGreaterOrEqualThan(5.0))
+            [_rootViewController didMoveToParentViewController:self];
         
         [_rootViewController addObserver:self
                               forKeyPath:@"view.frame"
@@ -704,8 +725,8 @@
         UINavigationController *nav;
         if ([controller isKindOfClass:[UINavigationController class]])
             nav = (UINavigationController*)controller;
-            else
-                nav = controller.navigationController;
+        else
+            nav = controller.navigationController;
         
         [nav.navigationBar addGestureRecognizer:panGesture];
         [_gestures addObject:panGesture];
@@ -827,6 +848,21 @@
     [_viewControllersOffsets setObject:[NSNumber numberWithFloat:offset] forKey:[NSNumber numberWithInt:direction]];
 }
 
+- (void) removeControllerFromView:(UIViewController*)controller animated:(BOOL)animated
+{
+    if (PPSystemVersionGreaterOrEqualThan(5.0)) [controller willMoveToParentViewController:nil];
+    if (!PPSystemVersionGreaterOrEqualThan(5.0)) [controller viewWillDisappear:animated];
+    
+    [controller.view removeFromSuperview];
+    
+    if (!PPSystemVersionGreaterOrEqualThan(5.0)) [controller viewDidDisappear:animated];
+    if (PPSystemVersionGreaterOrEqualThan(5.0))
+    {
+        [controller removeFromParentViewController];
+        [controller didMoveToParentViewController:nil];
+    }
+}
+
 #pragma mark Closed Controllers 
 
 - (BOOL) isLeftControllerClosed {
@@ -894,7 +930,7 @@
 }
 
 - (CGRect) getSlidingRectForOffset:(CGFloat)offset forDirection:(PPRevealSideDirection)direction {
-        return [self getSlidingRectForOffset:offset forDirection:direction andOrientation:PPInterfaceOrientation()];
+    return [self getSlidingRectForOffset:offset forDirection:direction andOrientation:PPInterfaceOrientation()];
 }
 
 
@@ -1009,7 +1045,7 @@
     BOOL hasExceptionDelegate = NO;
     if ([self.delegate respondsToSelector:@selector(pprevealSideViewController:shouldDeactivateGesture:forView:)])
         hasExceptionDelegate = [self.delegate pprevealSideViewController:self
-                                            shouldDeactivateGesture:gestureRecognizer
+                                                 shouldDeactivateGesture:gestureRecognizer
                                                                  forView:touch.view];
     
     if ([self.delegate respondsToSelector:@selector(pprevealSideViewController:directionsAllowedForPanningOnView:)]) {
@@ -1050,15 +1086,15 @@
         else
             if (panDiffX < 0 && panDiffX < OFFSET_TRIGGER_CHOSE_DIRECTION)
                 _currentPanDirection = PPRevealSideDirectionRight;
-        else
-            if (panDiffY > 0 && panDiffY > OFFSET_TRIGGER_CHOSE_DIRECTION)
-                _currentPanDirection = PPRevealSideDirectionTop;
             else
-                if (panDiffY < 0 && panDiffY < OFFSET_TRIGGER_CHOSE_DIRECTION)
-                    _currentPanDirection = PPRevealSideDirectionBottom;
-    
-    }
+                if (panDiffY > 0 && panDiffY > OFFSET_TRIGGER_CHOSE_DIRECTION)
+                    _currentPanDirection = PPRevealSideDirectionTop;
+                else
+                    if (panDiffY < 0 && panDiffY < OFFSET_TRIGGER_CHOSE_DIRECTION)
+                        _currentPanDirection = PPRevealSideDirectionBottom;
         
+    }
+    
     if (_currentPanDirection == PPRevealSideDirectionNone) return;
     
     // if the direction is disabled, then cancel the gesture
@@ -1075,9 +1111,17 @@
         if (!c.view.superview)
         {
             c.view.frame = self.rootViewController.view.bounds;
-            if ([[[UIDevice currentDevice] systemVersion] floatValue] < 5.0) [c viewWillAppear:NO];
+            if (PPSystemVersionGreaterOrEqualThan(5.0))
+            {
+                [c willMoveToParentViewController:self];
+                [self addChildViewController:c];
+            }
+            
+            if (!PPSystemVersionGreaterOrEqualThan(5.0)) [c viewWillAppear:NO];
             [self.view insertSubview:c.view belowSubview:_rootViewController.view];
-            if ([[[UIDevice currentDevice] systemVersion] floatValue] < 5.0) [c viewDidAppear:NO];
+            if (!PPSystemVersionGreaterOrEqualThan(5.0)) [c viewDidAppear:NO];
+            
+            if (PPSystemVersionGreaterOrEqualThan(5.0)) [self didMoveToParentViewController:self];
         }
     }
     else // we use the bounce animation
@@ -1121,10 +1165,9 @@
             
             if ([_viewControllers objectForKey:[NSNumber numberWithInt:newDirection]]) {
                 UIViewController *c = [_viewControllers objectForKey:[NSNumber numberWithInt:_currentPanDirection]];
-                if ([[[UIDevice currentDevice] systemVersion] floatValue] < 5.0) [c viewWillDisappear:NO];
-                [c.view removeFromSuperview];
-                if ([[[UIDevice currentDevice] systemVersion] floatValue] < 5.0) [c viewDidDisappear:NO];
-
+                
+                [self removeControllerFromView:c animated:YES];
+                
                 _currentPanDirection = newDirection;
                 _wasClosed = !_wasClosed;
                 return;
@@ -1145,15 +1188,16 @@
             
             if ([_viewControllers objectForKey:[NSNumber numberWithInt:newDirection]]) {
                 UIViewController *c = [_viewControllers objectForKey:[NSNumber numberWithInt:_currentPanDirection]];
-                if ([[[UIDevice currentDevice] systemVersion] floatValue] < 5.0) [c viewWillDisappear:NO];
-                [c.view removeFromSuperview];
-                if ([[[UIDevice currentDevice] systemVersion] floatValue] < 5.0) [c viewDidDisappear:NO];                _currentPanDirection = newDirection;
+                
+                [self removeControllerFromView:c animated:YES];
+                
+                _currentPanDirection = newDirection;
                 _wasClosed = !_wasClosed;
                 return;
             }
         } 
     }
-        self.rootViewController.view.frame = [self getSlidingRectForOffset:offset
+    self.rootViewController.view.frame = [self getSlidingRectForOffset:offset
                                                           forDirection:_currentPanDirection];  
     
     if (panGesture.state == UIGestureRecognizerStateEnded || panGesture.state == UIGestureRecognizerStateCancelled) {
@@ -1165,7 +1209,7 @@
             triggerStep = (CGRectGetWidth(self.rootViewController.view.frame) - offsetController)/divisionNumber;
         else
             triggerStep = (CGRectGetHeight(self.rootViewController.view.frame) - offsetController)/divisionNumber;
-       
+        
         
         BOOL shouldClose;
         
@@ -1223,7 +1267,8 @@
 
 - (void) willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
     [super willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
-    [_rootViewController willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
+    
+    if (!PPSystemVersionGreaterOrEqualThan(5.0)) [_rootViewController willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
 
     [self resizeCurrentView];
         
@@ -1234,42 +1279,41 @@
         if (controller.view.superview) {
             controller.view.frame = [self getSideViewFrameFromRootFrame:_rootViewController.view.frame
                                                            andDirection:[key intValue]];
-            
-            [controller willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
+            if (!PPSystemVersionGreaterOrEqualThan(5.0)) [controller willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
         }
     }
 }
 
 - (void) willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
     [super willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
-
     [self removeShadow];
     _rootViewController.view.layer.shouldRasterize = YES;
-
     
-    [_rootViewController willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
+    
+    if (!PPSystemVersionGreaterOrEqualThan(5.0)) [_rootViewController willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
+    return;
     
     for (id key in _viewControllers.allKeys)
     {
         // optimisation
         UIViewController *controller = (UIViewController *)[_viewControllers objectForKey:key];
-        if (controller.view.superview)
+        if (controller.view.superview && !PPSystemVersionGreaterOrEqualThan(5.0))
             [controller willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
     }
 }
 
 - (void) didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
     [super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
-    
     _rootViewController.view.layer.shouldRasterize = NO;
     [self handleShadows];
     
-    [_rootViewController didRotateFromInterfaceOrientation:fromInterfaceOrientation];
+    if (!PPSystemVersionGreaterOrEqualThan(5.0)) [_rootViewController didRotateFromInterfaceOrientation:fromInterfaceOrientation];
+    
     for (id key in _viewControllers.allKeys)
     {
         // optimisation
         UIViewController *controller = (UIViewController *)[_viewControllers objectForKey:key];
-        if (controller.view.superview)
+        if (controller.view.superview && !PPSystemVersionGreaterOrEqualThan(5.0))
             [controller didRotateFromInterfaceOrientation:fromInterfaceOrientation];
     }
 }

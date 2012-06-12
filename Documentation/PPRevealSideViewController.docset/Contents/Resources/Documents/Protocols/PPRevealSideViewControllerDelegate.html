@@ -44,6 +44,8 @@
 	
 	<option value="instance_methods">Instance Methods</option>
 	
+	<option value="//api/name/controllerForGesturesOnPPRevealSideViewController:">&nbsp;&nbsp;&nbsp;&nbsp;- controllerForGesturesOnPPRevealSideViewController:</option>
+	
 	<option value="//api/name/pprevealSideViewController:didChangeCenterController:">&nbsp;&nbsp;&nbsp;&nbsp;- pprevealSideViewController:didChangeCenterController:</option>
 	
 	<option value="//api/name/pprevealSideViewController:didPopToController:">&nbsp;&nbsp;&nbsp;&nbsp;- pprevealSideViewController:didPopToController:</option>
@@ -85,6 +87,8 @@
 
 
 <li role="treeitem" class="children"><span class="disclosure"></span><span class="sectionName"><a href="#instance_methods">Instance Methods</a></span><ul>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/controllerForGesturesOnPPRevealSideViewController:">controllerForGesturesOnPPRevealSideViewController:</a></span></li>
 	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/pprevealSideViewController:didChangeCenterController:">pprevealSideViewController:didChangeCenterController:</a></span></li>
 	
@@ -202,6 +206,13 @@
 	</span>
 	
 	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/controllerForGesturesOnPPRevealSideViewController:">&ndash;&nbsp;controllerForGesturesOnPPRevealSideViewController:</a></code>
+		<span class="tooltip"><p>Implement this method if you have for example a container as the rootViewController (like UITabBarController). If you do not implement this method, the gestures are added to the RootViewController (the center view controller)</p></span>
+	</span>
+	
+	
 </li>
 						</ul>
 						
@@ -218,6 +229,55 @@
 					<div class="section section-methods">
 						<a title="Instance Methods" name="instance_methods"></a>
 						<h2 class="subtitle subtitle-methods">Instance Methods</h2>
+						
+						<div class="section-method">
+	<a name="//api/name/controllerForGesturesOnPPRevealSideViewController:" title="controllerForGesturesOnPPRevealSideViewController:"></a>
+	<h3 class="subsubtitle method-title">controllerForGesturesOnPPRevealSideViewController:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Implement this method if you have for example a container as the rootViewController (like UITabBarController). If you do not implement this method, the gestures are added to the RootViewController (the center view controller)</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>- (UIViewController *)controllerForGesturesOnPPRevealSideViewController:(PPRevealSideViewController *)<em>controller</em></code></div>
+	
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>controller</em></dt>
+			<dd><p>The reveal side view controller</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	<div class="method-subsection return">
+		<h4 class="method-subtitle parameter-title">Return Value</h4>
+		<p>the controller in which we will add gestures</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">PPRevealSideViewController.h</code><br />
+	</div>				
+	
+	
+</div>
 						
 						<div class="section-method">
 	<a name="//api/name/pprevealSideViewController:didChangeCenterController:" title="pprevealSideViewController:didChangeCenterController:"></a>
@@ -408,15 +468,13 @@
 	
 	<div class="method-subsection discussion-section">
 		<h4 class="method-subtitle">Discussion</h4>
-		<p>You could need to deactivate gesture for specific direction on a web view for example. If your web view fits the screen on width, then you probably want to deactivate gestures on top and bottom. In this case, you can do</p>
+		<p>You could need to deactivate gesture for specific direction on a web view for example. If your web view fits the screen on width, then you probably want to deactivate gestures on top and bottom. In this case, you can do
+&ndash; (PPRevealSideDirection)pprevealSideViewController:(<a href="../Classes/PPRevealSideViewController.html">PPRevealSideViewController</a><em>)controller directionsAllowedForPanningOnView:(UIView</em>)view {</p>
 
-<pre><code> - (PPRevealSideDirection)pprevealSideViewController:(PPRevealSideViewController*)controller directionsAllowedForPanningOnView:(UIView*)view {
+<p>if ([view isKindOfClass:NSClassFromString(@&ldquo;UIWebBrowserView&rdquo;)]) return PPRevealSideDirectionLeft | PPRevealSideDirectionRight;</p>
 
-    if ([view isKindOfClass:NSClassFromString(@"UIWebBrowserView")]) return PPRevealSideDirectionLeft | PPRevealSideDirectionRight;
-
-    return PPRevealSideDirectionLeft | PPRevealSideDirectionRight | PPRevealSideDirectionTop | PPRevealSideDirectionBottom;
- }
-</code></pre>
+<p>return PPRevealSideDirectionLeft | PPRevealSideDirectionRight | PPRevealSideDirectionTop | PPRevealSideDirectionBottom;
+}</p>
 	</div>
 	
 	
@@ -621,7 +679,7 @@
 				<div id="footer">
 					<hr />
 					<div class="footer-copyright">
-						<p><span class="copyright">&copy; 2012 Marian PAUL - iPuP SARL. All rights reserved. (Last updated: 2012-02-23)</span><br />
+						<p><span class="copyright">&copy; 2012 Marian PAUL - iPuP SARL. All rights reserved. (Last updated: 2012-06-12)</span><br />
 						
 						<span class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.0.5 (build 759)</a>.</span></p>
 						
