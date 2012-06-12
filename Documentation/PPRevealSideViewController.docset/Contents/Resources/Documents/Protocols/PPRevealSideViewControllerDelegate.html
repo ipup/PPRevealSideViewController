@@ -468,13 +468,15 @@
 	
 	<div class="method-subsection discussion-section">
 		<h4 class="method-subtitle">Discussion</h4>
-		<p>You could need to deactivate gesture for specific direction on a web view for example. If your web view fits the screen on width, then you probably want to deactivate gestures on top and bottom. In this case, you can do
-&ndash; (PPRevealSideDirection)pprevealSideViewController:(<a href="../Classes/PPRevealSideViewController.html">PPRevealSideViewController</a><em>)controller directionsAllowedForPanningOnView:(UIView</em>)view {</p>
+		<p>You could need to deactivate gesture for specific direction on a web view for example. If your web view fits the screen on width, then you probably want to deactivate gestures on top and bottom. In this case, you can do</p>
 
-<p>if ([view isKindOfClass:NSClassFromString(@&ldquo;UIWebBrowserView&rdquo;)]) return PPRevealSideDirectionLeft | PPRevealSideDirectionRight;</p>
+<pre><code>- (PPRevealSideDirection)pprevealSideViewController:(PPRevealSideViewController*)controller directionsAllowedForPanningOnView:(UIView*)view {
 
-<p>return PPRevealSideDirectionLeft | PPRevealSideDirectionRight | PPRevealSideDirectionTop | PPRevealSideDirectionBottom;
-}</p>
+    if ([view isKindOfClass:NSClassFromString(@"UIWebBrowserView")]) return PPRevealSideDirectionLeft | PPRevealSideDirectionRight;
+
+    return PPRevealSideDirectionLeft | PPRevealSideDirectionRight | PPRevealSideDirectionTop | PPRevealSideDirectionBottom;
+}
+</code></pre>
 	</div>
 	
 	

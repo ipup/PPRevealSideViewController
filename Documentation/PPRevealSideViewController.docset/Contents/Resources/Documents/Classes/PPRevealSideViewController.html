@@ -231,59 +231,69 @@
 
 <h1>Initializing</h1>
 
-<p><a href="../Classes/MainViewController.html">MainViewController</a> <em>main = [[MainViewController alloc] initWithNibName:@&ldquo;MainViewController&rdquo; bundle:nil];
-UINavigationController </em>nav = [[UINavigationController alloc] initWithRootViewController:main];</p>
+<pre><code>MainViewController *main = [[MainViewController alloc] initWithNibName:@"MainViewController" bundle:nil];
+UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:main];
 
-<p>_revealSideViewController = [[PPRevealSideViewController alloc] initWithRootViewController:nav];</p>
+_revealSideViewController = [[PPRevealSideViewController alloc] initWithRootViewController:nav];
 
-<p>self.window.<a href="#//api/name/rootViewController">rootViewController</a> = _revealSideViewController;</p>
+self.window.rootViewController = _revealSideViewController;
+</code></pre>
 
 <h1>Pushing a controller</h1>
 
 <p>You have several <a href="#//api/name/options">options</a> to push a controller. The easiest way is :</p>
 
-<p><a href="../Classes/PopedViewController.html">PopedViewController</a> *c = [[PopedViewController alloc] initWithNibName:@&ldquo;PopedViewController&rdquo; bundle:nil ];
-[self.revealSideViewController pushViewController:c onDirection:PPRevealSideDirectionBottom animated:YES];</p>
+<pre><code>PopedViewController *c = [[PopedViewController alloc] initWithNibName:@"PopedViewController" bundle:nil ];
+[self.revealSideViewController pushViewController:c onDirection:PPRevealSideDirectionBottom animated:YES];
+</code></pre>
 
 <p>This will push the controller on bottom, with a default offset.
 You have four directions :</p>
 
-<p>PPRevealSideDirectionBottom
+<pre><code>PPRevealSideDirectionBottom
 PPRevealSideDirectionTop
 PPRevealSideDirectionLeft
-PPRevealSideDirectionRight</p>
+PPRevealSideDirectionRight
+</code></pre>
 
 <h1>Popping</h1>
 
 <p>To go back to your center controller from a side controller, you can pop :</p>
 
-<p>[self.revealSideViewController popViewControllerAnimated:YES];</p>
+<pre><code>[self.revealSideViewController popViewControllerAnimated:YES];
+</code></pre>
 
 <p>If you want to pop a new center controller, then do the following :</p>
 
-<p><a href="../Classes/MainViewController.html">MainViewController</a> <em>c = [[MainViewController alloc] initWithNibName:@&ldquo;MainViewController&rdquo; bundle:nil];
-UINavigationController </em>n = [[UINavigationController alloc] initWithRootViewController:c];
-[self.revealSideViewController popViewControllerWithNewCenterController:n animated:YES];</p>
+<pre><code>MainViewController *c = [[MainViewController alloc] initWithNibName:@"MainViewController" bundle:nil];
+UINavigationController *n = [[UINavigationController alloc] initWithRootViewController:c];
+[self.revealSideViewController popViewControllerWithNewCenterController:n animated:YES];
+</code></pre>
 
 <h1>Pushing from a side</h1>
 
 <p>If you are for example on the up side, and you want to push a controller on the left, you could call a method on your center controller asking him to display a left controller. But I thought it would be more convenient to provide a way to push an old controller directly. So, using the following will do the trick</p>
 
-<p>[self.revealSideViewController pushOldViewControllerOnDirection:PPRevealSideDirectionLeft animated:YES];</p>
+<pre><code>[self.revealSideViewController pushOldViewControllerOnDirection:PPRevealSideDirectionLeft animated:YES];
+</code></pre>
 
 <p>If you are on top, and you want to push a new controller on top (why not), the default behavior of the controller would be to close the top side since it&rsquo;s open. But you can force it to pop push :</p>
 
-<p>[self.revealSideViewController pushViewController:c onDirection:PPRevealSideDirectionTop animated:YES forceToPopPush:YES];</p>
+<pre><code>[self.revealSideViewController pushViewController:c onDirection:PPRevealSideDirectionTop animated:YES forceToPopPush:YES];
+</code></pre>
 
 <h1>Note if you don&rsquo;t have controllers for all the sides</h1>
 
 <p>If you want to present only a controller on the left and the right for example, you probably don&rsquo;t want the bouncing animation which shows that there is not yet a controller to present. This animation comes when you do a panning gesture with no preloaded controller, or no controller pushed yet on the triggered side.
 In that case, do the following</p>
 
-<p>[self.revealSideViewController setDirectionsToShowBounce:PPRevealSideDirectionLeft | PPRevealSideDirectionRight];</p>
+<pre><code>[self.revealSideViewController setDirectionsToShowBounce:PPRevealSideDirectionLeft | PPRevealSideDirectionRight];
+</code></pre>
 
-<p>You could also don&rsquo;t want these animations at all. Disabled these like it
-[self.revealSideViewController setDirectionsToShowBounce:PPRevealSideDirectionNone];</p>
+<p>You could also don&rsquo;t want these animations at all. Disabled these like it</p>
+
+<pre><code>[self.revealSideViewController setDirectionsToShowBounce:PPRevealSideDirectionNone];
+</code></pre>
 					</div>
 					
 					
@@ -1188,20 +1198,19 @@ Offset set to Default Offset</p>
 		<h4 class="method-subtitle">Discussion</h4>
 		<p>For example, you will use as it, with a performSelector:afterDelay: (because of some interferences with the push/pop methods)</p>
 
-<ul>
-<li><p>(void) viewDidAppear:(BOOL)animated {
-[super viewDidAppear:animated];
-[NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(preloadLeft) object:nil];
-[self performSelector:@selector(preloadLeft) withObject:nil afterDelay:0.3];
-}</p></li>
-<li><p>(void) preloadLeft {
-TableViewController *c = [[TableViewController alloc] initWithStyle:UITableViewStylePlain];
-[self.revealSideViewController preloadViewController:c
-forSide:PPRevealSideDirectionLeft
-withOffset:_offset];
-}</p></li>
-</ul>
+<pre><code>- (void) viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(preloadLeft) object:nil];
+    [self performSelector:@selector(preloadLeft) withObject:nil afterDelay:0.3];
+}
 
+- (void) preloadLeft {
+    TableViewController *c = [[TableViewController alloc] initWithStyle:UITableViewStylePlain];
+    [self.revealSideViewController preloadViewController:c
+                                                 forSide:PPRevealSideDirectionLeft
+                                              withOffset:_offset];
+}
+</code></pre>
 	</div>
 	
 	
