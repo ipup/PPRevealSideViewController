@@ -67,6 +67,8 @@
 	
 	<option value="//api/name/changeOffset:forDirection:animated:">&nbsp;&nbsp;&nbsp;&nbsp;- changeOffset:forDirection:animated:</option>
 	
+	<option value="//api/name/controllerForSide:">&nbsp;&nbsp;&nbsp;&nbsp;- controllerForSide:</option>
+	
 	<option value="//api/name/initWithRootViewController:">&nbsp;&nbsp;&nbsp;&nbsp;- initWithRootViewController:</option>
 	
 	<option value="//api/name/popViewControllerAnimated:">&nbsp;&nbsp;&nbsp;&nbsp;- popViewControllerAnimated:</option>
@@ -154,6 +156,8 @@
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/changeOffset:forDirection:">changeOffset:forDirection:</a></span></li>
 	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/changeOffset:forDirection:animated:">changeOffset:forDirection:animated:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/controllerForSide:">controllerForSide:</a></span></li>
 	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/initWithRootViewController:">initWithRootViewController:</a></span></li>
 	
@@ -517,6 +521,14 @@ Offset set to Default Offset</p></span>
 	<span class="tooltip">
 		<code><a href="#//api/name/updateViewWhichHandleGestures">&ndash;&nbsp;updateViewWhichHandleGestures</a></code>
 		<span class="tooltip"><p>Update the view with gestures. Should be called for example when used with controllerForGesturesOn<a href="PPRevealSideViewController.html">PPRevealSideViewController</a> <a href="#//api/name/delegate">delegate</a> method when using a container controller as the root. For example with a UITabBarController, call this method when the selected controller has been updated</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/controllerForSide:">&ndash;&nbsp;controllerForSide:</a></code>
+		<span class="tooltip"><p>Get the controller for a side. It is useful when you are for example on the left, and you want to update the right controller. You could use a reference to the root controller but it is more convenient like this.
+Please be aware that this getter does asume that you already displayed at least once the controller you are trying to reach, or you preloaded it. It will return nil otherwise !</p></span>
 	</span>
 	
 	
@@ -976,6 +988,56 @@ Define the interactions to close the side view when opened. By default, all the 
 	</div>
 	
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">PPRevealSideViewController.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/controllerForSide:" title="controllerForSide:"></a>
+	<h3 class="subsubtitle method-title">controllerForSide:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Get the controller for a side. It is useful when you are for example on the left, and you want to update the right controller. You could use a reference to the root controller but it is more convenient like this.
+Please be aware that this getter does asume that you already displayed at least once the controller you are trying to reach, or you preloaded it. It will return nil otherwise !</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>- (UIViewController *)controllerForSide:(PPRevealSideDirection)<em>side</em></code></div>
+	
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>side</em></dt>
+			<dd><p>The side of the controller you requested</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	<div class="method-subsection return">
+		<h4 class="method-subtitle parameter-title">Return Value</h4>
+		<p>The controller on the side parameter</p>
+	</div>
 	
 	
 	

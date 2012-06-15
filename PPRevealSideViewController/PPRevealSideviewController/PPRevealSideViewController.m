@@ -588,6 +588,10 @@
     return [self getSideToClose];
 }
 
+- (UIViewController*)controllerForSide:(PPRevealSideDirection)side
+{
+    return [_viewControllers objectForKey:[NSNumber numberWithInt:side]];
+}
 #pragma mark - Private methods
 
 - (void) setRootViewController:(UIViewController *)controller replaceToOrigin:(BOOL)replace
