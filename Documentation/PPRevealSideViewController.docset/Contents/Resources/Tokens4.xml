@@ -158,6 +158,38 @@
 		</Token>
 		
 		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/PPRevealSideViewControllerDelegate/customViewsToAddPanGestureOnPPRevealSideViewController:</TokenIdentifier>
+			<Abstract type="html">Implement this method if you have some custom views in which to add pan gestures, for example a custom navigation bar (not a UINavigationBar)</Abstract>
+			<DeclaredIn>PPRevealSideViewController.h</DeclaredIn>			
+			
+			<Declaration>- (NSArray *)customViewsToAddPanGestureOnPPRevealSideViewController:(PPRevealSideViewController *)controller</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>controller</Name>
+					<Abstract type="html">The reveal side view controller</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">an array of views</Abstract></ReturnValue>
+			<Anchor>//api/name/customViewsToAddPanGestureOnPPRevealSideViewController:</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/PPRevealSideViewControllerDelegate/customViewsToAddTapGestureOnPPRevealSideViewController:</TokenIdentifier>
+			<Abstract type="html">Implement this method if you have some custom views in which to add Tap gestures, for example a custom navigation bar (not a UINavigationBar)</Abstract>
+			<DeclaredIn>PPRevealSideViewController.h</DeclaredIn>			
+			
+			<Declaration>- (NSArray *)customViewsToAddTapGestureOnPPRevealSideViewController:(PPRevealSideViewController *)controller</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>controller</Name>
+					<Abstract type="html">The reveal side view controller</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">an array of views</Abstract></ReturnValue>
+			<Anchor>//api/name/customViewsToAddTapGestureOnPPRevealSideViewController:</Anchor>
+		</Token>
+		
+		<Token>
 			<TokenIdentifier>//apple_ref/occ/intfm/PPRevealSideViewControllerDelegate/controllerForGesturesOnPPRevealSideViewController:</TokenIdentifier>
 			<Abstract type="html">Implement this method if you have for example a container as the rootViewController (like UITabBarController). If you do not implement this method, the gestures are added to the RootViewController (the center view controller)</Abstract>
 			<DeclaredIn>PPRevealSideViewController.h</DeclaredIn>			

@@ -712,31 +712,37 @@
     return controllerForGestures;
 }
 
+- (void) addPanGestureToView:(UIView*)view
+{
+    UIPanGestureRecognizer* panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self
+                                                                                 action:@selector(gestureRecognizerDidPan:)];
+    panGesture.cancelsTouchesInView = YES;
+    panGesture.delegate = self;
+    [view addGestureRecognizer:panGesture];
+    [_gestures addObject:panGesture];
+    PP_RELEASE(panGesture);
+}
+
 - (void) addPanGestureToController:(UIViewController*)controller {
     
     BOOL isClosed = ([self getSideToClose] == PPRevealSideDirectionNone) ? YES : NO;
     PPRevealSideInteractions interactions = isClosed ? _panInteractionsWhenClosed : _panInteractionsWhenOpened;
     
+    // Nav Bar
     if (interactions & PPRevealSideInteractionNavigationBar && ([controller isKindOfClass:[UINavigationController class]] || controller.navigationController)) {
-        UIPanGestureRecognizer* panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self
-                                                                                     action:@selector(gestureRecognizerDidPan:)];
-        panGesture.cancelsTouchesInView = YES;
-        panGesture.delegate = self;
+
         UINavigationController *nav;
         if ([controller isKindOfClass:[UINavigationController class]])
             nav = (UINavigationController*)controller;
         else
             nav = controller.navigationController;
         
-        [nav.navigationBar addGestureRecognizer:panGesture];
-        [_gestures addObject:panGesture];
-        PP_RELEASE(panGesture);
+        [self addPanGestureToView:nav.navigationBar];
     }
+    
+    // Content View
     if (interactions & PPRevealSideInteractionContentView) {
-        UIPanGestureRecognizer* panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self
-                                                                                     action:@selector(gestureRecognizerDidPan:)];
-        panGesture.cancelsTouchesInView = YES;
-        panGesture.delegate = self;
+
         UIViewController *c;
         if ([controller isKindOfClass:[UINavigationController class]]) {
             c = [((UINavigationController*)controller).viewControllers lastObject];
@@ -747,10 +753,28 @@
             else
                 c = controller;
     
-        [c.view addGestureRecognizer:panGesture];
-        [_gestures addObject:panGesture];
-        PP_RELEASE(panGesture);
+        [self addPanGestureToView:c.view];
     }
+    
+    // Customs views
+    if ([self.delegate respondsToSelector:@selector(customViewsToAddPanGestureOnPPRevealSideViewController:)]) {
+        NSArray *views = [self.delegate customViewsToAddPanGestureOnPPRevealSideViewController:self];
+        if (views)
+            for (UIView *vi in views)
+                if ([vi isKindOfClass:[UIView class]])
+                    [self addPanGestureToView:vi];
+    }
+}
+
+- (void) addTapGestureToView:(UIView*)view
+{
+    UITapGestureRecognizer* tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                                                 action:@selector(gestureRecognizerDidTap:)];
+    tapGesture.cancelsTouchesInView = YES;
+    tapGesture.delegate = self;
+    [view addGestureRecognizer:tapGesture];
+    [_gestures addObject:tapGesture];
+    PP_RELEASE(tapGesture);
 }
 
 - (void) addTapGestureToController:(UIViewController *)controller {
@@ -762,27 +786,19 @@
         return; 
     }
 
+    // Nav Bar
     if (_tapInteractionsWhenOpened & PPRevealSideInteractionNavigationBar && ([controller isKindOfClass:[UINavigationController class]] || controller.navigationController)) {
-        UITapGestureRecognizer* tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self
-                                                                                     action:@selector(gestureRecognizerDidTap:)];
-        tapGesture.cancelsTouchesInView = YES;
-        tapGesture.delegate = self;
         UINavigationController *nav;
         if ([controller isKindOfClass:[UINavigationController class]])
             nav = (UINavigationController*)controller;
         else
             nav = controller.navigationController;
         
-        [nav.navigationBar addGestureRecognizer:tapGesture];
-        [_gestures addObject:tapGesture];
-        PP_RELEASE(tapGesture);
+        [self addTapGestureToView:nav.navigationBar];
     }
     
+    // Content View
     if (_tapInteractionsWhenOpened & PPRevealSideInteractionContentView) {
-        UITapGestureRecognizer* tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self
-                                                                                     action:@selector(gestureRecognizerDidTap:)];
-        tapGesture.cancelsTouchesInView = YES;
-        tapGesture.delegate = self;
         UIViewController *c;
         if ([controller isKindOfClass:[UINavigationController class]]) {
             c = [((UINavigationController*)controller).viewControllers lastObject];
@@ -793,9 +809,16 @@
             else
                 c = controller;
         
-        [c.view addGestureRecognizer:tapGesture];
-        [_gestures addObject:tapGesture];
-        PP_RELEASE(tapGesture);
+        [self addTapGestureToView:c.view];
+    }
+    
+    // Customs views
+    if ([self.delegate respondsToSelector:@selector(customViewsToAddTapGestureOnPPRevealSideViewController:)]) {
+        NSArray *views = [self.delegate customViewsToAddTapGestureOnPPRevealSideViewController:self];
+        if (views)
+            for (UIView *vi in views)
+                if ([vi isKindOfClass:[UIView class]])
+                    [self addTapGestureToView:vi];
     }
 }
 

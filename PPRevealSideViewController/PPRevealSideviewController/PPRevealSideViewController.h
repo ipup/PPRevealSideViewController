@@ -495,6 +495,22 @@ If you want to pop a new center controller, then do the following :
 - (PPRevealSideDirection)pprevealSideViewController:(PPRevealSideViewController*)controller directionsAllowedForPanningOnView:(UIView*)view;
 
 /**
+ Implement this method if you have some custom views in which to add pan gestures, for example a custom navigation bar (not a UINavigationBar)
+ 
+ @param controller The reveal side view controller
+ @return an array of views
+ */
+- (NSArray*) customViewsToAddPanGestureOnPPRevealSideViewController:(PPRevealSideViewController*)controller;
+
+/**
+ Implement this method if you have some custom views in which to add Tap gestures, for example a custom navigation bar (not a UINavigationBar)
+ 
+ @param controller The reveal side view controller
+ @return an array of views
+ */
+- (NSArray*) customViewsToAddTapGestureOnPPRevealSideViewController:(PPRevealSideViewController*)controller;
+
+/**
  Implement this method if you have for example a container as the rootViewController (like UITabBarController). If you do not implement this method, the gestures are added to the RootViewController (the center view controller)
  
  @param controller The reveal side view controller
