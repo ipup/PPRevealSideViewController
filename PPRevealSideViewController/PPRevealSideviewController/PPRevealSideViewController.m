@@ -494,7 +494,6 @@
             controller.view.hidden = YES;
         }
         controller.view.frame = self.view.bounds;
-        
     }    
     [self setOffset:offset forDirection:direction];
 }
@@ -1150,6 +1149,7 @@
             
             if (PPSystemVersionGreaterOrEqualThan(5.0)) [self didMoveToParentViewController:self];
         }
+        c.view.hidden = NO;
     }
     else // we use the bounce animation
     {

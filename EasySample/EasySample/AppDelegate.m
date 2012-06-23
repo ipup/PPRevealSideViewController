@@ -24,6 +24,7 @@
     self.revealSideViewController = [[PPRevealSideViewController alloc] initWithRootViewController:nav];
     
     [self.revealSideViewController setDirectionsToShowBounce:PPRevealSideDirectionNone];
+    [self.revealSideViewController setPanInteractionsWhenClosed:PPRevealSideInteractionContentView | PPRevealSideInteractionNavigationBar];
     
     self.window.rootViewController = self.revealSideViewController;
     
