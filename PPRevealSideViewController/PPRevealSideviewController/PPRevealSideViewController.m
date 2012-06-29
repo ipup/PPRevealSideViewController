@@ -1287,7 +1287,7 @@
 - (void) willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
     [super willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
     [self removeShadow];
-    _rootViewController.view.layer.shouldRasterize = YES;
+    //_rootViewController.view.layer.shouldRasterize = YES;
     
     
     if (!PPSystemVersionGreaterOrEqualThan(5.0)) [_rootViewController willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
@@ -1304,7 +1304,7 @@
 
 - (void) didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
     [super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
-    _rootViewController.view.layer.shouldRasterize = NO;
+    //_rootViewController.view.layer.shouldRasterize = NO;
     [self handleShadows];
     
     if (!PPSystemVersionGreaterOrEqualThan(5.0)) [_rootViewController didRotateFromInterfaceOrientation:fromInterfaceOrientation];
