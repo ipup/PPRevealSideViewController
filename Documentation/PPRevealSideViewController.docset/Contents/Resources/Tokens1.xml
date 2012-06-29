@@ -619,5 +619,22 @@ Offset set to Default Offset</Abstract>
 			<Anchor>//api/name/updateViewWhichHandleGestures</Anchor>
 		</Token>
 		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/PPRevealSideViewController/controllerForSide:</TokenIdentifier>
+			<Abstract type="html">Get the controller for a side. It is useful when you are for example on the left, and you want to update the right controller. You could use a reference to the root controller but it is more convenient like this.
+Please be aware that this getter does asume that you already displayed at least once the controller you are trying to reach, or you preloaded it. It will return nil otherwise !</Abstract>
+			<DeclaredIn>PPRevealSideViewController.h</DeclaredIn>			
+			
+			<Declaration>- (UIViewController *)controllerForSide:(PPRevealSideDirection)side</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>side</Name>
+					<Abstract type="html">The side of the controller you requested</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">The controller on the side parameter</Abstract></ReturnValue>
+			<Anchor>//api/name/controllerForSide:</Anchor>
+		</Token>
+		
 	</File>
 </Tokens>

@@ -46,6 +46,10 @@
 	
 	<option value="//api/name/controllerForGesturesOnPPRevealSideViewController:">&nbsp;&nbsp;&nbsp;&nbsp;- controllerForGesturesOnPPRevealSideViewController:</option>
 	
+	<option value="//api/name/customViewsToAddPanGestureOnPPRevealSideViewController:">&nbsp;&nbsp;&nbsp;&nbsp;- customViewsToAddPanGestureOnPPRevealSideViewController:</option>
+	
+	<option value="//api/name/customViewsToAddTapGestureOnPPRevealSideViewController:">&nbsp;&nbsp;&nbsp;&nbsp;- customViewsToAddTapGestureOnPPRevealSideViewController:</option>
+	
 	<option value="//api/name/pprevealSideViewController:didChangeCenterController:">&nbsp;&nbsp;&nbsp;&nbsp;- pprevealSideViewController:didChangeCenterController:</option>
 	
 	<option value="//api/name/pprevealSideViewController:didPopToController:">&nbsp;&nbsp;&nbsp;&nbsp;- pprevealSideViewController:didPopToController:</option>
@@ -89,6 +93,10 @@
 <li role="treeitem" class="children"><span class="disclosure"></span><span class="sectionName"><a href="#instance_methods">Instance Methods</a></span><ul>
 	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/controllerForGesturesOnPPRevealSideViewController:">controllerForGesturesOnPPRevealSideViewController:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/customViewsToAddPanGestureOnPPRevealSideViewController:">customViewsToAddPanGestureOnPPRevealSideViewController:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/customViewsToAddTapGestureOnPPRevealSideViewController:">customViewsToAddTapGestureOnPPRevealSideViewController:</a></span></li>
 	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/pprevealSideViewController:didChangeCenterController:">pprevealSideViewController:didChangeCenterController:</a></span></li>
 	
@@ -208,6 +216,20 @@
 	
 </li><li>
 	<span class="tooltip">
+		<code><a href="#//api/name/customViewsToAddPanGestureOnPPRevealSideViewController:">&ndash;&nbsp;customViewsToAddPanGestureOnPPRevealSideViewController:</a></code>
+		<span class="tooltip"><p>Implement this method if you have some custom views in which to add pan gestures, for example a custom navigation bar (not a UINavigationBar)</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/customViewsToAddTapGestureOnPPRevealSideViewController:">&ndash;&nbsp;customViewsToAddTapGestureOnPPRevealSideViewController:</a></code>
+		<span class="tooltip"><p>Implement this method if you have some custom views in which to add Tap gestures, for example a custom navigation bar (not a UINavigationBar)</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
 		<code><a href="#//api/name/controllerForGesturesOnPPRevealSideViewController:">&ndash;&nbsp;controllerForGesturesOnPPRevealSideViewController:</a></code>
 		<span class="tooltip"><p>Implement this method if you have for example a container as the rootViewController (like UITabBarController). If you do not implement this method, the gestures are added to the RootViewController (the center view controller)</p></span>
 	</span>
@@ -259,6 +281,104 @@
 	<div class="method-subsection return">
 		<h4 class="method-subtitle parameter-title">Return Value</h4>
 		<p>the controller in which we will add gestures</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">PPRevealSideViewController.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/customViewsToAddPanGestureOnPPRevealSideViewController:" title="customViewsToAddPanGestureOnPPRevealSideViewController:"></a>
+	<h3 class="subsubtitle method-title">customViewsToAddPanGestureOnPPRevealSideViewController:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Implement this method if you have some custom views in which to add pan gestures, for example a custom navigation bar (not a UINavigationBar)</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>- (NSArray *)customViewsToAddPanGestureOnPPRevealSideViewController:(PPRevealSideViewController *)<em>controller</em></code></div>
+	
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>controller</em></dt>
+			<dd><p>The reveal side view controller</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	<div class="method-subsection return">
+		<h4 class="method-subtitle parameter-title">Return Value</h4>
+		<p>an array of views</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">PPRevealSideViewController.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/customViewsToAddTapGestureOnPPRevealSideViewController:" title="customViewsToAddTapGestureOnPPRevealSideViewController:"></a>
+	<h3 class="subsubtitle method-title">customViewsToAddTapGestureOnPPRevealSideViewController:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Implement this method if you have some custom views in which to add Tap gestures, for example a custom navigation bar (not a UINavigationBar)</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>- (NSArray *)customViewsToAddTapGestureOnPPRevealSideViewController:(PPRevealSideViewController *)<em>controller</em></code></div>
+	
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>controller</em></dt>
+			<dd><p>The reveal side view controller</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	<div class="method-subsection return">
+		<h4 class="method-subtitle parameter-title">Return Value</h4>
+		<p>an array of views</p>
 	</div>
 	
 	
@@ -681,7 +801,7 @@
 				<div id="footer">
 					<hr />
 					<div class="footer-copyright">
-						<p><span class="copyright">&copy; 2012 Marian PAUL - iPuP SARL. All rights reserved. (Last updated: 2012-06-12)</span><br />
+						<p><span class="copyright">&copy; 2012 Marian PAUL - iPuP SARL. All rights reserved. (Last updated: 2012-06-15)</span><br />
 						
 						<span class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.0.5 (build 759)</a>.</span></p>
 						

@@ -408,6 +408,15 @@ If you want to pop a new center controller, then do the following :
  Update the view with gestures. Should be called for example when used with controllerForGesturesOnPPRevealSideViewController delegate method when using a container controller as the root. For example with a UITabBarController, call this method when the selected controller has been updated
  */
 - (void) updateViewWhichHandleGestures;
+
+/**
+ Get the controller for a side. It is useful when you are for example on the left, and you want to update the right controller. You could use a reference to the root controller but it is more convenient like this.
+ Please be aware that this getter does asume that you already displayed at least once the controller you are trying to reach, or you preloaded it. It will return nil otherwise !
+ @param side The side of the controller you requested
+ @return The controller on the side parameter
+ */
+- (UIViewController*)controllerForSide:(PPRevealSideDirection)side;
+
 @end
 
 /**
@@ -493,6 +502,22 @@ If you want to pop a new center controller, then do the following :
  @see pprevealSideViewController:shouldDeactivateGesture:forView:
  */
 - (PPRevealSideDirection)pprevealSideViewController:(PPRevealSideViewController*)controller directionsAllowedForPanningOnView:(UIView*)view;
+
+/**
+ Implement this method if you have some custom views in which to add pan gestures, for example a custom navigation bar (not a UINavigationBar)
+ 
+ @param controller The reveal side view controller
+ @return an array of views
+ */
+- (NSArray*) customViewsToAddPanGestureOnPPRevealSideViewController:(PPRevealSideViewController*)controller;
+
+/**
+ Implement this method if you have some custom views in which to add Tap gestures, for example a custom navigation bar (not a UINavigationBar)
+ 
+ @param controller The reveal side view controller
+ @return an array of views
+ */
+- (NSArray*) customViewsToAddTapGestureOnPPRevealSideViewController:(PPRevealSideViewController*)controller;
 
 /**
  Implement this method if you have for example a container as the rootViewController (like UITabBarController). If you do not implement this method, the gestures are added to the RootViewController (the center view controller)
