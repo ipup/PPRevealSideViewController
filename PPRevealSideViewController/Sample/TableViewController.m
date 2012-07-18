@@ -13,6 +13,7 @@
 #import "SecondViewController.h"
 #import "ThirdViewController.h"
 #import "WebViewController.h"
+#import "ModalViewController.h"
 
 @implementation TableViewController
 
@@ -123,7 +124,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    return 20;
+    return 24;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -134,7 +135,7 @@
     if (cell == nil) {
         cell = PP_AUTORELEASE([[CustomCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier]);
     }
-    switch (indexPath.row % 6) {
+    switch (indexPath.row % 7) {
         case 0:
             cell.myLabel.text = @"Go to root or push if nav";
             break;
@@ -152,6 +153,9 @@
             break;
         case 5:
             cell.myLabel.text = @"Pop Web view center";
+            break;
+        case 6:
+            cell.myLabel.text = @"Present Modal";
             break;
         default:
             break;
@@ -204,7 +208,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    switch (indexPath.row % 6) {
+    switch (indexPath.row % 7) {
         case 0:
             if (self.navigationController) {
                 ThirdViewController *c = [[ThirdViewController alloc] initWithNibName:@"ThirdViewController" bundle:nil];
@@ -260,6 +264,19 @@
             PP_RELEASE(c);
             PP_RELEASE(n);
         }            
+            break;
+        case 6:
+        {
+            ModalViewController *m = [[ModalViewController alloc] initWithNibName:@"ModalViewController" bundle:nil];
+            UINavigationController *n = [[UINavigationController alloc] initWithRootViewController:m];
+            if (PPSystemVersionGreaterOrEqualThan(5.0))
+                [self presentModalViewController:n animated:YES];
+            else
+                [self.revealSideViewController presentModalViewController:n animated:YES];
+            
+            PP_RELEASE(m);
+            PP_RELEASE(n);
+        }
             break;
         default:
             break;

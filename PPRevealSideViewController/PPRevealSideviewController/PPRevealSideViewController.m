@@ -474,7 +474,18 @@
                      withOffset:DefaultOffset];
 }
 
-- (void) preloadViewController:(UIViewController*)controller forSide:(PPRevealSideDirection)direction withOffset:(CGFloat)offset {
+- (void) preloadViewController:(UIViewController*)controller forSide:(PPRevealSideDirection)direction withOffset:(CGFloat)offset
+{
+    [self preloadViewController:controller
+                        forSide:direction
+                     withOffset:offset
+                   forceRemoval:NO];
+}
+
+- (void) preloadViewController:(UIViewController*)controller forSide:(PPRevealSideDirection)direction withOffset:(CGFloat)offset forceRemoval:(BOOL)force
+{
+    if (direction == [self sideDirectionOpened] && !force) return;
+    
     UIViewController *existingController = [_viewControllers objectForKey:[NSNumber numberWithInt:direction]];
     if (existingController != controller) {
         
