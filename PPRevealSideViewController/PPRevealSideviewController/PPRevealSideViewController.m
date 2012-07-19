@@ -225,8 +225,11 @@
 }
 
 - (void) pushViewController:(UIViewController *)controller onDirection:(PPRevealSideDirection)direction withOffset:(CGFloat)offset animated:(BOOL)animated forceToPopPush:(BOOL)forcePopPush {
-    [self informDelegateWithOptionalSelector:@selector(pprevealSideViewController:willPushController:) withParam:controller];
     
+    if (_animationInProgress) return;
+
+    [self informDelegateWithOptionalSelector:@selector(pprevealSideViewController:willPushController:) withParam:controller];
+
     // get the side direction to close
     PPRevealSideDirection directionToClose = [self getSideToClose];
     
@@ -365,9 +368,11 @@
 }
 
 - (void) popViewControllerWithNewCenterController:(UIViewController *)centerController animated:(BOOL)animated andPresentNewController:(UIViewController *)controllerToPush withDirection:(PPRevealSideDirection)direction andOffset:(CGFloat)offset {
+
+    if (_animationInProgress) return;
     
     [self informDelegateWithOptionalSelector:@selector(pprevealSideViewController:willPopToController:) withParam:centerController];
-    
+
     PPRevealSideDirection directionToClose = [self getSideToClose];
     if (directionToClose == PPRevealSideDirectionNone && _popFromPanGesture)
     {
