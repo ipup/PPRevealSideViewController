@@ -1428,6 +1428,9 @@ static char revealSideViewControllerKey;
     if (!controller && self.navigationController)
         controller = self.navigationController.revealSideViewController;
     
+    if (!controller && self.tabBarController)
+        controller = self.tabBarController.revealSideViewController;
+    
     return controller;
 }
 
