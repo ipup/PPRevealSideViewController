@@ -629,32 +629,34 @@
         [self removeControllerFromView:_rootViewController animated:NO];
         
         _rootViewController = PP_RETAIN(controller);
-        _rootViewController.revealSideViewController = self;
-        
-        if (PPSystemVersionGreaterOrEqualThan(5.0))
-        {
-            [_rootViewController willMoveToParentViewController:self];
-            [self addChildViewController:_rootViewController];
+        if (_rootViewController) {
+            _rootViewController.revealSideViewController = self;
+            
+            if (PPSystemVersionGreaterOrEqualThan(5.0))
+            {
+                [_rootViewController willMoveToParentViewController:self];
+                [self addChildViewController:_rootViewController];
+            }
+            
+            [self handleShadows];
+            
+            if (!PPSystemVersionGreaterOrEqualThan(5.0)) [_rootViewController viewWillAppear:NO];
+            [self.view addSubview:_rootViewController.view];
+            if (!PPSystemVersionGreaterOrEqualThan(5.0)) [_rootViewController viewDidAppear:NO];
+            
+            if (PPSystemVersionGreaterOrEqualThan(5.0))
+                [_rootViewController didMoveToParentViewController:self];
+            
+            [_rootViewController addObserver:self
+                                  forKeyPath:@"view.frame"
+                                     options:NSKeyValueObservingOptionNew
+                                     context:NULL];
+            
+            [self addGesturesToCenterController];
+            
+            if (replace)
+                _rootViewController.view.frame = self.view.bounds;
         }
-        
-        [self handleShadows];
-        
-        if (!PPSystemVersionGreaterOrEqualThan(5.0)) [_rootViewController viewWillAppear:NO];
-        [self.view addSubview:_rootViewController.view];
-        if (!PPSystemVersionGreaterOrEqualThan(5.0)) [_rootViewController viewDidAppear:NO];
-        
-        if (PPSystemVersionGreaterOrEqualThan(5.0))
-            [_rootViewController didMoveToParentViewController:self];
-        
-        [_rootViewController addObserver:self
-                              forKeyPath:@"view.frame"
-                                 options:NSKeyValueObservingOptionNew
-                                 context:NULL];
-        
-        [self addGesturesToCenterController];
-        
-        if (replace)
-            _rootViewController.view.frame = self.view.bounds;
         
         [self didChangeValueForKey:@"rootViewController"];
     }
