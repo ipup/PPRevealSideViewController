@@ -22,6 +22,7 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		5635878F1605F51A003BC599 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5635878E1605F51A003BC599 /* Default-568h@2x.png */; };
 		E06CBF1314F562A500123636 /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E06CBF1114F562A500123636 /* WebViewController.m */; };
 		E06CBF1414F562A500123636 /* WebViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E06CBF1214F562A500123636 /* WebViewController.xib */; };
 		E0BB469115397C2200C1EA46 /* ModalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E0BB468F15397C2100C1EA46 /* ModalViewController.m */; };
@@ -57,6 +58,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		5635878E1605F51A003BC599 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "../Default-568h@2x.png"; sourceTree = "<group>"; };
 		E06CBF1014F562A500123636 /* WebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WebViewController.h; path = Sample/WebViewController.h; sourceTree = "<group>"; };
 		E06CBF1114F562A500123636 /* WebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WebViewController.m; path = Sample/WebViewController.m; sourceTree = "<group>"; };
 		E06CBF1214F562A500123636 /* WebViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = WebViewController.xib; path = Sample/WebViewController.xib; sourceTree = "<group>"; };
@@ -191,6 +193,7 @@
 				E0D35A4E14F2831B0013EB90 /* AppDelegate.m */,
 				E0D35A4A14F282FD0013EB90 /* PPRevealSideviewController */,
 				E0D903C514ED2A610072EECD /* Supporting Files */,
+				5635878E1605F51A003BC599 /* Default-568h@2x.png */,
 			);
 			path = PPRevealSideViewController;
 			sourceTree = "<group>";
@@ -264,6 +267,7 @@
 				E0BEAC3314F2F86000ADA090 /* PopedViewController.xib in Resources */,
 				E06CBF1414F562A500123636 /* WebViewController.xib in Resources */,
 				E0BB469215397C2200C1EA46 /* ModalViewController.xib in Resources */,
+				5635878F1605F51A003BC599 /* Default-568h@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

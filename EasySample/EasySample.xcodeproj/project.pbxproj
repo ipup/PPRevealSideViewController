@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		563587921605F5C6003BC599 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 563587911605F5C6003BC599 /* Default-568h@2x.png */; };
 		E0865F6815875F9100B46B63 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0865F6715875F9100B46B63 /* UIKit.framework */; };
 		E0865F6A15875F9100B46B63 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0865F6915875F9100B46B63 /* Foundation.framework */; };
 		E0865F6C15875F9100B46B63 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0865F6B15875F9100B46B63 /* CoreGraphics.framework */; };
@@ -19,6 +20,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		563587911605F5C6003BC599 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "../Default-568h@2x.png"; sourceTree = "<group>"; };
 		E0865F6315875F9100B46B63 /* EasySample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EasySample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E0865F6715875F9100B46B63 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		E0865F6915875F9100B46B63 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -81,6 +83,7 @@
 		E0865F6D15875F9100B46B63 /* EasySample */ = {
 			isa = PBXGroup;
 			children = (
+				563587911605F5C6003BC599 /* Default-568h@2x.png */,
 				E0865F7E15875F9C00B46B63 /* PPRevealSideViewController */,
 				E0865F7615875F9100B46B63 /* AppDelegate.h */,
 				E0865F7715875F9100B46B63 /* AppDelegate.m */,
@@ -164,6 +167,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E0865F7215875F9100B46B63 /* InfoPlist.strings in Resources */,
+				563587921605F5C6003BC599 /* Default-568h@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -282,6 +286,7 @@
 				E0865F7D15875F9100B46B63 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
