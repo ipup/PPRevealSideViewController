@@ -944,10 +944,11 @@
 }
 
 - (CGRect) getSlidingRectForOffset:(CGFloat)offset forDirection:(PPRevealSideDirection)direction andOrientation:(UIInterfaceOrientation)orientation {
-    if (direction == PPRevealSideDirectionLeft || direction == PPRevealSideDirectionRight) offset = MIN(CGRectGetWidth(PPScreenBounds()), offset);
-    
-    if (direction == PPRevealSideDirectionTop || direction == PPRevealSideDirectionBottom) offset = MIN(CGRectGetHeight(self.view.frame), offset);
-    
+    if (_wasClosed) {
+        if (direction == PPRevealSideDirectionLeft || direction == PPRevealSideDirectionRight) offset = MIN(CGRectGetWidth(PPScreenBounds()), offset);
+        
+        if (direction == PPRevealSideDirectionTop || direction == PPRevealSideDirectionBottom) offset = MIN(CGRectGetHeight(self.view.frame), offset);
+    }
     CGRect rectToReturn = CGRectZero;
     rectToReturn.size = _rootViewController.view.frame.size;
     
@@ -969,7 +970,7 @@
         default:
             break;
     }
-
+    
     return rectToReturn;
 }
 
@@ -1195,7 +1196,7 @@
         default:
             break;
     }
-    
+    CGFloat oldOffsetBeforeMax = offset;
     offset = MAX(offset, [self getOffsetForDirection:_currentPanDirection]);
 
     // test if whe changed direction
@@ -1242,8 +1243,12 @@
             }
         } 
     }
+    
+    if (!_wasClosed)
+        offset = oldOffsetBeforeMax;
+    
     self.rootViewController.view.frame = [self getSlidingRectForOffset:offset
-                                                          forDirection:_currentPanDirection];  
+                                                          forDirection:_currentPanDirection];
     
     if (panGesture.state == UIGestureRecognizerStateEnded || panGesture.state == UIGestureRecognizerStateCancelled) {
         
