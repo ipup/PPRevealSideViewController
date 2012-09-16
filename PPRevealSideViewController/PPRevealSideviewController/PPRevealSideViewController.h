@@ -328,6 +328,18 @@ If you want to pop a new center controller, then do the following :
  */
 - (void) popViewControllerAnimated:(BOOL)animated;
 
+/**
+ Open completely the side
+ @param direction The direction to open the side completely
+ @param animated Animated or not
+ */
+- (void) openCompletelySide:(PPRevealSideDirection)direction animated:(BOOL)animated;
+
+/**
+ Open completely the current side semi opened
+ @param animated Animated or not
+ */
+- (void) openCompletelyAnimated:(BOOL)animated;
 
 /**---------------------------------------------------------------------------------------
  * @name More functionalities

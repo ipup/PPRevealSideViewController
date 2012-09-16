@@ -228,6 +228,8 @@
     
     if (_animationInProgress) return;
 
+    _rootViewController.view.alpha = 1.0;
+
     [self informDelegateWithOptionalSelector:@selector(pprevealSideViewController:willPushController:) withParam:controller];
 
     // get the side direction to close
@@ -296,11 +298,10 @@
     
     // if bounces is activated and the push is animated, calculate the first frame with the bounce
     CGRect rootFrame = CGRectZero;
-    if ([self canCrossOffsets] && animated) // then we make an offset
+    if ([self canCrossOffsets] && animated && offset != 0.0f) // then we make an offset
         rootFrame = [self getSlidingRectForOffset:offset- ((_bouncingOffset == - 1.0) ? DefaultOffsetBouncing : _bouncingOffset) forDirection:direction];
     else
         rootFrame = [self getSlidingRectForOffset:offset forDirection:direction];
-    
     
     void (^openAnimBlock)(void) = ^(void) {
         controller.view.hidden = NO;        
@@ -331,7 +332,18 @@
                                                   animations:^{
                                                       _rootViewController.view.frame = [self getSlidingRectForOffset:offset forDirection:direction];
                                                   } completion:^(BOOL finished) {
-                                                      _animationInProgress = NO;
+                                                      if (offset == 0.0) {
+                                                          [UIView animateWithDuration:0.1
+                                                                           animations:^{
+                                                                               _rootViewController.view.alpha = 0.0;
+                                                                           }
+                                                           completion:^(BOOL finished) {
+                                                               _animationInProgress = NO;
+                                                           }];
+                                                      }
+                                                      else
+                                                          _animationInProgress = NO;
+                                                      
                                                       if (PPSystemVersionGreaterOrEqualThan(5.0)) [controller didMoveToParentViewController:self];
                                                       [self informDelegateWithOptionalSelector:@selector(pprevealSideViewController:didPushController:) withParam:controller];
                                                   }];
@@ -370,6 +382,8 @@
 - (void) popViewControllerWithNewCenterController:(UIViewController *)centerController animated:(BOOL)animated andPresentNewController:(UIViewController *)controllerToPush withDirection:(PPRevealSideDirection)direction andOffset:(CGFloat)offset {
 
     if (_animationInProgress) return;
+    
+    _rootViewController.view.alpha = 1.0f;
     
     [self informDelegateWithOptionalSelector:@selector(pprevealSideViewController:willPopToController:) withParam:centerController];
 
@@ -471,6 +485,19 @@
         else
             bigAnimBlock(YES);
     }
+}
+
+- (void) openCompletelySide:(PPRevealSideDirection)direction animated:(BOOL)animated
+{
+    _shouldNotCloseWhenPushingSameDirection = YES;
+    [self pushOldViewControllerOnDirection:direction withOffset:0.0 animated:YES];
+}
+
+- (void) openCompletelyAnimated:(BOOL)animated
+{
+    PPRevealSideDirection direction = [self getSideToClose];
+    [self openCompletelySide:direction
+                    animated:animated];
 }
 
 - (void) preloadViewController:(UIViewController*)controller forSide:(PPRevealSideDirection)direction {

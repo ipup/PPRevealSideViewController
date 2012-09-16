@@ -124,7 +124,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    return 24;
+    return 28;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -135,7 +135,7 @@
     if (cell == nil) {
         cell = PP_AUTORELEASE([[CustomCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier]);
     }
-    switch (indexPath.row % 7) {
+    switch (indexPath.row % 8) {
         case 0:
             cell.myLabel.text = @"Go to root or push if nav";
             break;
@@ -156,6 +156,9 @@
             break;
         case 6:
             cell.myLabel.text = @"Present Modal";
+            break;
+        case 7:
+            cell.myLabel.text = @"Open completely";
             break;
         default:
             break;
@@ -208,7 +211,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    switch (indexPath.row % 7) {
+    switch (indexPath.row % 8) {
         case 0:
             if (self.navigationController) {
                 ThirdViewController *c = [[ThirdViewController alloc] initWithNibName:@"ThirdViewController" bundle:nil];
@@ -277,6 +280,9 @@
             PP_RELEASE(m);
             PP_RELEASE(n);
         }
+            break;
+            case 7:
+            [self.revealSideViewController openCompletelyAnimated:YES];
             break;
         default:
             break;
