@@ -121,7 +121,16 @@ If you want to pop a new center controller, then do the following :
  
     [self.revealSideViewController pushViewController:c onDirection:PPRevealSideDirectionTop animated:YES forceToPopPush:YES];
 
-  
+## Open Completely
+ You can open completely a side (take the example of Facebook app when you tap on search bar). 
+ When you are on an opened side :
+    
+    [self.revealSideViewController openCompletelyAnimated:YES];
+    
+ Or when you want to open from the center controller (think to preload the controller)
+    
+    [self.revealSideViewController openCompletelySide:PPRevealSideDirectionLeft animated:YES];
+
 ## To go deeper 
 By default, the side views are not loaded. This means that even if you interface have a button to push a side view, the panning gesture won't show the controller. If you want so, you need to preload the controller you want to present.
 
