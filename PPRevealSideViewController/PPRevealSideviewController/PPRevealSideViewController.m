@@ -500,6 +500,21 @@
                     animated:animated];
 }
 
+- (void) replaceAfterOpenedCompletelyWithOffset:(CGFloat)offset animated:(BOOL)animated
+{
+    _shouldNotCloseWhenPushingSameDirection = YES;
+    PPRevealSideDirection direction = [self getSideToClose];
+    [self pushOldViewControllerOnDirection:direction
+                                withOffset:offset
+                                  animated:animated];
+}
+
+- (void) replaceAfterOpenedCompletelyAnimated:(BOOL)animated
+{
+    [self replaceAfterOpenedCompletelyWithOffset:DefaultOffset
+                                        animated:animated];
+}
+
 - (void) preloadViewController:(UIViewController*)controller forSide:(PPRevealSideDirection)direction {
     [self preloadViewController:controller
                         forSide:direction
