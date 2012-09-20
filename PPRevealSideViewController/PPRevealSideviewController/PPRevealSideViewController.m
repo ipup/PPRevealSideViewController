@@ -698,6 +698,8 @@
             
             if (replace)
                 _rootViewController.view.frame = self.view.bounds;
+            
+            [self informDelegateWithOptionalSelector:@selector(pprevealSideViewController:didChangeCenterController:) withParam:_rootViewController];
         }
         
         [self didChangeValueForKey:@"rootViewController"];
