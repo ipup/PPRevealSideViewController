@@ -21,7 +21,7 @@ PPRevealSideViewController fully supports ARC *and* non-ARC modes out of the box
 
 # Compatibility
 
-The class if fully compatible from iOS 4 to iOS 5. Not tested yet on iOS 6 nor older versions like iOS 3, but there is no reasons it doesn't work.
+The class if fully compatible from iOS 4 to iOS 6. Not tested yet on older versions like iOS 3, but there is no reasons it doesn't work.
 Please note that this class use the new container methods of UIViewController since iOS 5. By using this class on iOS 4 for example, you need to be careful with rotation handling, and presentModalViewController stuff.
 Some things you need to be aware on iOS 4 or older :
 
