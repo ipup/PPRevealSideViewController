@@ -27,6 +27,7 @@
 - (void) removeAllGestures;
 - (void) setOffset:(CGFloat)offset forDirection:(PPRevealSideDirection)direction;
 - (void) removeControllerFromView:(UIViewController*)controller animated:(BOOL)animated;
+- (void) preloadViewController:(UIViewController*)controller forSide:(PPRevealSideDirection)direction withOffset:(CGFloat)offset forceRemoval:(BOOL)force;
 
 - (BOOL) isLeftControllerClosed;
 - (BOOL) isRightControllerClosed;
