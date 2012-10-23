@@ -39,7 +39,7 @@
 - (PPRevealSideDirection) getSideToClose;
 
 - (CGRect) getSlidingRectForOffset:(CGFloat)offset forDirection:(PPRevealSideDirection)direction;
-- (CGRect) getSideViewFrameFromRootFrame:(CGRect)rootFrame andDirection:(PPRevealSideDirection)direction;
+- (CGRect) getSideViewFrameFromRootFrame:(CGRect)rootFrame andDirection:(PPRevealSideDirection)direction alreadyFullScreenLayout:(BOOL)alreadyFullScreenLayout;
 
 - (UIEdgeInsets) getEdgetInsetForDirection:(PPRevealSideDirection)direction;
 
@@ -312,13 +312,15 @@
         rootFrame = [self getSlidingRectForOffset:offset forDirection:direction];
     
     void (^openAnimBlock)(void) = ^(void) {
-        controller.view.hidden = NO;        
+        controller.view.hidden = NO;
         _rootViewController.view.frame = rootFrame;
     };
     
     // replace the view since IB add some offsets with the status bar if enabled
+    PPRSLog(@"%d", controller.wantsFullScreenLayout);
     controller.view.frame = [self getSideViewFrameFromRootFrame:rootFrame
-                                                   andDirection:direction];
+                                                   andDirection:direction
+                                        alreadyFullScreenLayout:controller.wantsFullScreenLayout];
     
     NSTimeInterval animationTime = OpenAnimationTime;
 //    if ([self canCrossOffsets]) animationTime = OpenAnimationTime;
@@ -625,7 +627,8 @@
                              PPRevealSideDirection direction = [self getSideToClose];
                              UIViewController *openedController = [_viewControllers objectForKey:[NSNumber numberWithInt:direction]];
                              CGRect newFrame = [self getSideViewFrameFromRootFrame:_rootViewController.view.frame
-                                                                      andDirection:direction];
+                                                                      andDirection:direction
+                                                           alreadyFullScreenLayout:openedController.wantsFullScreenLayout];
                              openedController.view.frame = newFrame;
                              
                              CGFloat offset = [[_viewControllersOffsets objectForKey:[NSNumber numberWithInt:direction]] floatValue];
@@ -1061,11 +1064,12 @@
 }
 
 
-- (CGRect) getSideViewFrameFromRootFrame:(CGRect)rootFrame andDirection:(PPRevealSideDirection)direction {
+- (CGRect) getSideViewFrameFromRootFrame:(CGRect)rootFrame andDirection:(PPRevealSideDirection)direction alreadyFullScreenLayout:(BOOL)alreadyFullScreenLayout{
     CGRect slideFrame = CGRectZero;
-    slideFrame.origin.y = PPStatusBarHeight();
+    if (!alreadyFullScreenLayout)
+        slideFrame.origin.y = PPStatusBarHeight();
     
-    CGFloat rootHeight = CGRectGetHeight(rootFrame)-PPStatusBarHeight();
+    CGFloat rootHeight = CGRectGetHeight(rootFrame) - (alreadyFullScreenLayout ? 0.0 : PPStatusBarHeight());
     CGFloat rootWidth = CGRectGetWidth(rootFrame);
     
     if ([self isOptionEnabled:PPRevealSideOptionsResizeSideView]){
@@ -1411,7 +1415,8 @@
         
         if (controller.view.superview) {
             controller.view.frame = [self getSideViewFrameFromRootFrame:_rootViewController.view.frame
-                                                           andDirection:[key intValue]];
+                                                           andDirection:[key intValue]
+                                                alreadyFullScreenLayout:controller.wantsFullScreenLayout];
             if (!PPSystemVersionGreaterOrEqualThan(5.0)) [controller willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
         }
     }
