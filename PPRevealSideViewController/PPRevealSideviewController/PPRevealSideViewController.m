@@ -94,6 +94,7 @@
     self.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     self.view.clipsToBounds = YES;
     self.view.autoresizesSubviews = YES;
+    self.wantsFullScreenLayout = YES;
 }
 
 - (void) viewWillAppear:(BOOL)animated
@@ -146,6 +147,12 @@
         self.rootViewController = newRoot;
         PP_RELEASE(newRoot);
     }
+    _oldStatusBarHeight = PPStatusBarHeight();
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(statusBarFrameWillChange:)
+                                                 name:UIApplicationWillChangeStatusBarFrameNotification
+                                               object:nil];
 }
 
 #pragma mark - Push and pop methods
@@ -600,6 +607,36 @@
         [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
 }
 
+- (void) statusBarFrameWillChange:(NSNotification*)notif {
+    // Could be needed in future bug fixes
+//    NSValue* rectValue = [[notif userInfo] valueForKey:UIApplicationStatusBarFrameUserInfoKey];
+//    CGRect newFrame;
+//    [rectValue getValue:&newFrame];
+   
+    // PPRSLog(@"old %f new %f", _oldStatusBarHeight, PPStatusBarHeight());
+    if (PPStatusBarHeight() != _oldStatusBarHeight)
+    {
+        _oldStatusBarHeight = PPStatusBarHeight();
+        // Replace the views
+        [UIView animateWithDuration:[UIApplication sharedApplication].statusBarOrientationAnimationDuration
+                              delay:0.0
+                            options:UIViewAnimationOptionCurveEaseInOut
+                         animations:^{
+                             PPRevealSideDirection direction = [self getSideToClose];
+                             UIViewController *openedController = [_viewControllers objectForKey:[NSNumber numberWithInt:direction]];
+                             CGRect newFrame = [self getSideViewFrameFromRootFrame:_rootViewController.view.frame
+                                                                      andDirection:direction];
+                             openedController.view.frame = newFrame;
+                             
+                             CGFloat offset = [[_viewControllersOffsets objectForKey:[NSNumber numberWithInt:direction]] floatValue];
+                             CGRect rootFrame = [self getSlidingRectForOffset:offset forDirection:direction];
+                             _rootViewController.view.frame = rootFrame;
+                             PPRSLog(@"%@", NSStringFromCGRect(rootFrame));
+                         }
+                         completion:nil];
+    }
+}
+
 #pragma mark - Setters
 
 - (void) setOptions:(PPRevealSideOptions)options {
@@ -1026,8 +1063,9 @@
 
 - (CGRect) getSideViewFrameFromRootFrame:(CGRect)rootFrame andDirection:(PPRevealSideDirection)direction {
     CGRect slideFrame = CGRectZero;
-
-    CGFloat rootHeight = CGRectGetHeight(rootFrame);
+    slideFrame.origin.y = PPStatusBarHeight();
+    
+    CGFloat rootHeight = CGRectGetHeight(rootFrame)-PPStatusBarHeight();
     CGFloat rootWidth = CGRectGetWidth(rootFrame);
     
     if ([self isOptionEnabled:PPRevealSideOptionsResizeSideView]){
@@ -1211,7 +1249,7 @@
             [self.view insertSubview:c.view belowSubview:_rootViewController.view];
             if (!PPSystemVersionGreaterOrEqualThan(5.0)) [c viewDidAppear:NO];
             
-            if (PPSystemVersionGreaterOrEqualThan(5.0)) [self didMoveToParentViewController:self];
+            if (PPSystemVersionGreaterOrEqualThan(5.0)) [c didMoveToParentViewController:self];
         }
         c.view.hidden = NO;
     }
@@ -1441,6 +1479,9 @@
 - (void)viewDidUnload
 {
     [super viewDidUnload];
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:UIApplicationWillChangeStatusBarFrameNotification
+                                                  object:nil];
 }
 
 - (void) dealloc {
@@ -1450,6 +1491,9 @@
     [self removeAllGestures];
     PP_RELEASE(_gestures);
     
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:UIApplicationWillChangeStatusBarFrameNotification
+                                                  object:nil];
 #if !PP_ARC_ENABLED
     [super dealloc];
 #endif

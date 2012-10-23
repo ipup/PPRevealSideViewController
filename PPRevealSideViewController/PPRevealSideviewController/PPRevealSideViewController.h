@@ -154,6 +154,7 @@ If you want to pop a new center controller, then do the following :
     PPRevealSideDirection   _currentPanDirection;
     PPRevealSideDirection   _disabledPanGestureDirection;
     CGFloat                 _currentVelocity;
+    CGFloat                 _oldStatusBarHeight;
     
     BOOL                    _animationInProgress;
     BOOL                    _shouldNotCloseWhenPushingSameDirection;

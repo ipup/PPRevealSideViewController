@@ -57,6 +57,7 @@
     [self.revealSideViewController setDirectionsToShowBounce:PPRevealSideDirectionBottom | PPRevealSideDirectionLeft | PPRevealSideDirectionRight | PPRevealSideDirectionTop];
 
     _animated = YES;
+    
 }
 
 - (void)viewDidUnload
@@ -115,14 +116,8 @@
     [self performSelector:@selector(preloadLeft) withObject:nil afterDelay:0.3];
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+- (void) showLeft
 {
-    // Return YES for supported orientations
-    return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
-}
-
-
-- (void) showLeft {
     TableViewController *c = [[TableViewController alloc] initWithStyle:UITableViewStylePlain];
     [self.revealSideViewController pushViewController:c onDirection:PPRevealSideDirectionLeft withOffset:_offset animated:_animated];
     PP_RELEASE(c);
@@ -250,6 +245,29 @@
     
     PP_RELEASE(m);
     PP_RELEASE(n);
+}
+
+#pragma mark - Orientation
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+    // Return YES for supported orientations
+    return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
+}
+
+#pragma mark iOS 6
+
+- (BOOL)shouldAutorotate{
+    return YES;
+}
+
+- (NSUInteger)supportedInterfaceOrientations
+{
+    if([[UIDevice currentDevice] respondsToSelector:@selector(userInterfaceIdiom)])
+        if([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad)
+            return UIInterfaceOrientationMaskAll;
+    
+    return UIInterfaceOrientationMaskAllButUpsideDown;
 }
 
 @end
