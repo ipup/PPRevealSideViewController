@@ -1003,7 +1003,7 @@
 }
 
 - (BOOL) isTopControllerClosed {
-    return CGRectGetMinY(_rootViewController.view.frame) <= 0;
+    return CGRectGetMinY(_rootViewController.view.frame) <= 20;
 }
 
 - (BOOL) isBottomControllerClosed {
