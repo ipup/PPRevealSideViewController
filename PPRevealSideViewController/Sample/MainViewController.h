@@ -41,6 +41,7 @@
 - (IBAction)changePanOpened:(id)sender;
 - (IBAction)changePanClosed:(id)sender;
 - (IBAction)changeTap:(id)sender;
+- (IBAction)switchCentral:(id)sender;
 - (IBAction)pushNav:(id)sender;
 - (IBAction)presentModal:(id)sender;
 @end

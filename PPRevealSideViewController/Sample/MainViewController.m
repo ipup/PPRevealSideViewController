@@ -228,6 +228,25 @@
     self.revealSideViewController.tapInteractionsWhenOpened = inter;
 }
 
+- (IBAction)switchCentral:(id)sender {
+	NSLog(@"switchCentral");
+	SecondViewController *c = [[SecondViewController alloc] initWithNibName:@"SecondViewController" bundle:nil];
+	[self.revealSideViewController replaceCentralViewControllerWithNewController:c animated:YES animationDirection:PPRevealSideDirectionLeft completion:^{
+		NSLog(@"poped with new controller");
+	}];
+	PP_RELEASE(c);
+	
+//	__block __typeof(&*self) weakSelf = self;
+//	[self.revealSideViewController openCompletelySide:PPRevealSideDirectionLeft animated:YES completion:^{
+//		NSLog(@"opened completely");
+//		SecondViewController *c = [[SecondViewController alloc] initWithNibName:@"SecondViewController" bundle:nil];
+//		[weakSelf.revealSideViewController popViewControllerWithNewCenterController:c animated:YES completion:^{
+//			NSLog(@"poped with new controller");
+//		}];
+//		PP_RELEASE(c);
+//	}];
+}
+
 - (IBAction)pushNav:(id)sender {
     ThirdViewController *c = [[ThirdViewController alloc] initWithNibName:@"ThirdViewController" bundle:nil];
     [self.navigationController pushViewController:c animated:YES];
