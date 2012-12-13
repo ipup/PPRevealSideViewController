@@ -106,7 +106,6 @@ static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
     self.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     self.view.clipsToBounds = YES;
     self.view.autoresizesSubviews = YES;
-    self.wantsFullScreenLayout = YES;
 }
 
 - (void) viewWillAppear:(BOOL)animated
@@ -1101,9 +1100,7 @@ static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
 
 - (CGRect) getSideViewFrameFromRootFrame:(CGRect)rootFrame andDirection:(PPRevealSideDirection)direction alreadyFullScreenLayout:(BOOL)alreadyFullScreenLayout{
     CGRect slideFrame = CGRectZero;
-    if (!alreadyFullScreenLayout)
-        slideFrame.origin.y = PPStatusBarHeight();
-    
+
     CGFloat rootHeight = CGRectGetHeight(rootFrame) - (alreadyFullScreenLayout ? 0.0 : PPStatusBarHeight());
     CGFloat rootWidth = CGRectGetWidth(rootFrame);
     
@@ -1605,7 +1602,7 @@ UIInterfaceOrientation PPInterfaceOrientation(void) {
 }
 
 CGRect PPScreenBounds(void) {
-	CGRect bounds = [UIScreen mainScreen].bounds;
+	CGRect bounds = [[UIScreen mainScreen] applicationFrame];
 	if (UIInterfaceOrientationIsLandscape(PPInterfaceOrientation())) {
 		CGFloat width = bounds.size.width;
 		bounds.size.width = bounds.size.height;
