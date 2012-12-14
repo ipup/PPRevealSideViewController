@@ -1,4 +1,4 @@
 *.xcscheme
 *.xcuserstate
 *.plist
-.DS_Store
+*.DS_Store

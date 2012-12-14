@@ -101,7 +101,6 @@ static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
 - (void)loadView
 {
     CGRect rect  = PPScreenBounds();
-    rect.size.height -= PPStatusBarHeight();
     self.view = PP_AUTORELEASE([[UIView alloc] initWithFrame:rect]);
     self.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     self.view.clipsToBounds = YES;
