@@ -1185,6 +1185,12 @@
 }
 
 - (BOOL) gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
+
+    // If there is a scroll view gesture recognised, save it, we may cancel it in the future
+    if ([otherGestureRecognizer isKindOfClass:NSClassFromString(@"UIScrollViewPanGestureRecognizer")]) {
+        PP_RELEASE(_tableViewSwipeGestureRecognizer);
+        _tableViewSwipeGestureRecognizer = PP_RETAIN(otherGestureRecognizer);
+    }
     return YES;
 }
 
@@ -1230,6 +1236,15 @@
         panGesture.enabled = NO;
         panGesture.enabled = YES;
         return;
+    }
+    
+    // If the direction is left or right, then cancel the swipe gesture to avoid double scrolling
+    if (_currentPanDirection == PPRevealSideDirectionLeft || _currentPanDirection == PPRevealSideDirectionRight)
+    {
+        // This is a simple way to cancel a gesture
+        _tableViewSwipeGestureRecognizer.enabled = NO;
+        _tableViewSwipeGestureRecognizer.enabled = YES;
+        PP_RELEASE(_tableViewSwipeGestureRecognizer);
     }
     
     // see if there is a controller or not for the direction. If yes, then add it.
@@ -1502,6 +1517,7 @@
     PP_RELEASE(_viewControllersOffsets);
     [self removeAllGestures];
     PP_RELEASE(_gestures);
+    PP_RELEASE(_tableViewSwipeGestureRecognizer);
     
     [[NSNotificationCenter defaultCenter] removeObserver:self
                                                     name:UIApplicationWillChangeStatusBarFrameNotification
