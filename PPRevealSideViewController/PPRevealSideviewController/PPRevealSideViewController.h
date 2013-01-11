@@ -257,15 +257,28 @@ If you want to pop a new center controller, then do the following :
  */
 
 /**
+ Same as below, but without completionBlock for backward compatibility
+ @see pushViewController:onDirection:animated:completion:
+ */
+- (void) pushViewController:(UIViewController*)controller onDirection:(PPRevealSideDirection)direction animated:(BOOL)animated;
+
+/**
  Push controller with a direction and a default offset.
  @param controller The controller to push
  @param direction This parameter allows you to choose the direction to push the controller
  @param animated Animated or not
- @see pushViewController:onDirection:withOffset:animated:
- @see pushOldViewControllerOnDirection:animated:
- @see pushViewController:onDirection:animated:forceToPopPush:
+ @param completionBlock Block that would be called after animation completed
+ @see pushViewController:onDirection:withOffset:animated:completion:
+ @see pushViewController:onDirection:animated:forceToPopPush:completion:
+ @see pushOldViewControllerOnDirection:animated:completion:
  */
-- (void) pushViewController:(UIViewController*)controller onDirection:(PPRevealSideDirection)direction animated:(BOOL)animated;
+- (void) pushViewController:(UIViewController*)controller onDirection:(PPRevealSideDirection)direction animated:(BOOL)animated completion:(void(^)())completionBlock;
+
+/**
+ Same as below, but without completionBlock for backward compatibility
+ @see pushViewController:onDirection:animated:forceToPopPush:completion:
+ */
+- (void) pushViewController:(UIViewController*)controller onDirection:(PPRevealSideDirection)direction animated:(BOOL)animated forceToPopPush:(BOOL)forcePopPush;
 
 /**
  Push controller with a direction and a default offset and force to pop then push.
@@ -273,19 +286,17 @@ If you want to pop a new center controller, then do the following :
  @param direction This parameter allows you to choose the direction to push the controller
  @param animated Animated or not
  @param forcePopPush This parameter is needed when you want to push a new controller in the same direction.
+ @param completionBlock Block that would be called after animation completed
  For example, you could push a new left controller from the left. In this case, setting forcePopPush to YES will pop to center view controller, then push the new controller.
  @see pushViewController:onDirection:withOffset:animated:forceToPopPush:
  */
-- (void) pushViewController:(UIViewController*)controller onDirection:(PPRevealSideDirection)direction animated:(BOOL)animated forceToPopPush:(BOOL)forcePopPush;
+- (void) pushViewController:(UIViewController*)controller onDirection:(PPRevealSideDirection)direction animated:(BOOL)animated forceToPopPush:(BOOL)forcePopPush completion:(void(^)())completionBlock;
 
 /**
- Push the old controller if exists for the direction with a default offset.
- This allows you for example to go directly on an another side from a controller in a side. 
- @param direction The direction
- @param animated Animated or not
- @see pushOldViewControllerOnDirection:withOffset:animated:
+ Same as below, but without completionBlock for backward compatibility
+ @see pushViewController:onDirection:withOffset:animated:completion:
  */
-- (void) pushOldViewControllerOnDirection:(PPRevealSideDirection)direction animated:(BOOL)animated;
+- (void) pushViewController:(UIViewController*)controller onDirection:(PPRevealSideDirection)direction withOffset:(CGFloat)offset animated:(BOOL)animated;
 
 /**
  Same as pushViewController:onDirection:animated: but with an offset
@@ -293,8 +304,15 @@ If you want to pop a new center controller, then do the following :
  @param direction The direction of the push
  @param offset The offset when the side view is pushed
  @param animated Animated or not
+ @param completionBlock Block that would be called after animation completed
  */
-- (void) pushViewController:(UIViewController*)controller onDirection:(PPRevealSideDirection)direction withOffset:(CGFloat)offset animated:(BOOL)animated;
+- (void) pushViewController:(UIViewController*)controller onDirection:(PPRevealSideDirection)direction withOffset:(CGFloat)offset animated:(BOOL)animated completion:(void(^)())completionBlock;
+
+/**
+ Same as below, but without completionBlock for backward compatibility
+ @see pushViewController:onDirection:withOffset:animated:forceToPopPush:completion:
+ */
+- (void) pushViewController:(UIViewController*)controller onDirection:(PPRevealSideDirection)direction withOffset:(CGFloat)offset animated:(BOOL)animated forceToPopPush:(BOOL)forcePopPush;
 
 /**
  Same as pushViewController:onDirection:animated:forceToPopPush: but with an offset
@@ -303,63 +321,135 @@ If you want to pop a new center controller, then do the following :
  @param offset The offset when the side view is pushed
  @param animated Animated or not
  @param forcePopPush This parameter is needed when you want to push a new controller in the same direction.
+ @param completionBlock Block that would be called after animation completed
  For example, you could push a new left controller from the left. In this case, setting forcePopPush to YES will pop to center view controller, then push the new controller.
  */
-- (void) pushViewController:(UIViewController*)controller onDirection:(PPRevealSideDirection)direction withOffset:(CGFloat)offset animated:(BOOL)animated forceToPopPush:(BOOL)forcePopPush;
+- (void) pushViewController:(UIViewController*)controller onDirection:(PPRevealSideDirection)direction withOffset:(CGFloat)offset animated:(BOOL)animated forceToPopPush:(BOOL)forcePopPush completion:(void(^)())completionBlock;
+
+/**
+ Same as below, but without completionBlock for backward compatibility
+ @see pushOldViewControllerOnDirection:animated:completion:
+ */
+- (void) pushOldViewControllerOnDirection:(PPRevealSideDirection)direction animated:(BOOL)animated;
+
+/**
+ Push the old controller if exists for the direction with a default offset.
+ This allows you for example to go directly on an another side from a controller in a side.
+ @param direction The direction
+ @param animated Animated or not
+ @param completionBlock Block that would be called after animation completed
+ @see pushOldViewControllerOnDirection:withOffset:animated:
+ */
+- (void) pushOldViewControllerOnDirection:(PPRevealSideDirection)direction animated:(BOOL)animated completion:(void(^)())completionBlock;
+
+/**
+ Same as below, but without completionBlock for backward compatibility
+ @see pushOldViewControllerOnDirection:withOffset:animated:completion:
+ */
+- (void) pushOldViewControllerOnDirection:(PPRevealSideDirection)direction withOffset:(CGFloat)offset animated:(BOOL)animated;
 
 /**
  Same as pushOldViewControllerOnDirection:animated: but with an offset
  @param direction The direction
  @param offset The offset when the side view is pushed
  @param animated Animated or not
+ @param completionBlock Block that would be called after animation completed
  */
-- (void) pushOldViewControllerOnDirection:(PPRevealSideDirection)direction withOffset:(CGFloat)offset animated:(BOOL)animated;
+- (void) pushOldViewControllerOnDirection:(PPRevealSideDirection)direction withOffset:(CGFloat)offset animated:(BOOL)animated completion:(void(^)())completionBlock;
+
+/**
+ Same as below, but without completionBlock for backward compatibility
+ @see popViewControllerWithNewCenterController:animated:completion:
+ */
+- (void) popViewControllerWithNewCenterController:(UIViewController*)centerController animated:(BOOL)animated;
 
 /**
  Pop controller with a new Center controller.
  @param centerController The new center controller
  @param animated Animated or not
+ @param completionBlock Block that would be called after animation completed
  @see popViewControllerAnimated:
  */
+- (void) popViewControllerWithNewCenterController:(UIViewController*)centerController animated:(BOOL)animated completion:(void(^)())completionBlock;
 
-- (void) popViewControllerWithNewCenterController:(UIViewController*)centerController animated:(BOOL)animated;
+/**
+ Same as below, but without completionBlock for backward compatibility
+ @see popViewControllerAnimated:
+ */
+- (void) popViewControllerAnimated:(BOOL)animated;
 
 /**
  Go back to the center controller.
  @param animated Animated or not
+ @param completionBlock Block that would be called after animation completed
  @see popViewControllerWithNewCenterController:animated:
  */
-- (void) popViewControllerAnimated:(BOOL)animated;
+- (void) popViewControllerAnimated:(BOOL)animated completion:(void(^)())completionBlock;
+
+/**
+ Same as below, but without completionBlock for backward compatibility
+ @see openCompletelySide:animated:completion:
+ */
+- (void) openCompletelySide:(PPRevealSideDirection)direction animated:(BOOL)animated;
 
 /**
  Open completely the side
  @param direction The direction to open the side completely
  @param animated Animated or not
+ @param completionBlock Block that would be called after animation completed
  */
-- (void) openCompletelySide:(PPRevealSideDirection)direction animated:(BOOL)animated;
+- (void) openCompletelySide:(PPRevealSideDirection)direction animated:(BOOL)animated completion:(void(^)())completionBlock;
+
+/**
+ Same as below, but without completionBlock for backward compatibility
+ @see openCompletelyAnimated:completion:
+ */
+- (void) openCompletelyAnimated:(BOOL)animated;
 
 /**
  Open completely the current side semi opened
  @param animated Animated or not
+ @param completionBlock Block that would be called after animation completed
  @see openCompletelySide:animated:
  */
-- (void) openCompletelyAnimated:(BOOL)animated;
+- (void) openCompletelyAnimated:(BOOL)animated completion:(void(^)())completionBlock;
+
+/**
+ Same as below, but without completionBlock for backward compatibility
+ @see replaceAfterOpenedCompletelyAnimated:completion:
+ */
+- (void) replaceAfterOpenedCompletelyAnimated:(BOOL)animated;
+
+/**
+ Replace the side view with default offset.
+ @param animated Animated or not
+ @param completionBlock Block that would be called after animation completed
+ @see replaceAfterOpenedCompletelyWithOffset:animated:
+ */
+- (void) replaceAfterOpenedCompletelyAnimated:(BOOL)animated completion:(void(^)())completionBlock;
+
+/**
+ Same as below, but without completionBlock for backward compatibility
+ @see replaceAfterOpenedCompletelyWithOffset:animated:completion:
+ */
+- (void) replaceAfterOpenedCompletelyWithOffset:(CGFloat)offset animated:(BOOL)animated;
 
 /**
  Replace the side view with an offset after it was opened completely. For example, if you hit a search bar, then you will open completely. 
  If the user cancel, you probably want to replace the like it was before, to complete the cancel stuff.
  @param offset The offset
  @param animated Animated or not
+ @param completionBlock Block that would be called after animation completed
  */
-- (void) replaceAfterOpenedCompletelyWithOffset:(CGFloat)offset animated:(BOOL)animated;
+- (void) replaceAfterOpenedCompletelyWithOffset:(CGFloat)offset animated:(BOOL)animated completion:(void(^)())completionBlock;
 
 /**
- Replace the side view with default offset.
+ Replace the central view with complete opening animation. This is useful if you use side view as menu and need to switch central view after some operation without using the menu.
+ @param newCenterController A new controller for central view
  @param animated Animated or not
- @see replaceAfterOpenedCompletelyWithOffset:animated:
+ @param completionBlock Block that would be called after animation completed
  */
- - (void) replaceAfterOpenedCompletelyAnimated:(BOOL)animated;
-
+- (void) replaceCentralViewControllerWithNewController:(UIViewController*)newCenterController animated:(BOOL)animated animationDirection:(PPRevealSideDirection)direction completion:(void(^)())completionBlock;
 
 /**---------------------------------------------------------------------------------------
  * @name More functionalities
