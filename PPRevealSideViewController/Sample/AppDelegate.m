@@ -38,23 +38,23 @@
 #pragma mark - PPRevealSideViewController delegate
 
 - (void) pprevealSideViewController:(PPRevealSideViewController *)controller willPushController:(UIViewController *)pushedController {
-    
+    PPRSLog(@"%@", pushedController);
 }
 
 - (void) pprevealSideViewController:(PPRevealSideViewController *)controller didPushController:(UIViewController *)pushedController {
-    
+    PPRSLog(@"%@", pushedController);
 }
 
 - (void) pprevealSideViewController:(PPRevealSideViewController *)controller willPopToController:(UIViewController *)centerController {
-    
+    PPRSLog(@"%@", centerController);
 }
 
 - (void) pprevealSideViewController:(PPRevealSideViewController *)controller didPopToController:(UIViewController *)centerController {
-    
+    PPRSLog(@"%@", centerController);
 }
 
 - (void) pprevealSideViewController:(PPRevealSideViewController *)controller didChangeCenterController:(UIViewController *)newCenterController {
-    
+    PPRSLog(@"%@", newCenterController);
 }
 
 - (BOOL) pprevealSideViewController:(PPRevealSideViewController *)controller shouldDeactivateDirectionGesture:(UIGestureRecognizer*)gesture forView:(UIView*)view {

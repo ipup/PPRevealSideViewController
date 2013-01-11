@@ -311,6 +311,8 @@ static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
 													  }
                                                       
                                                       if (PPSystemVersionGreaterOrEqualThan(5.0)) [controller didMoveToParentViewController:self];
+                                                      if (completionBlock) completionBlock();
+
                                                       [self informDelegateWithOptionalSelector:@selector(pprevealSideViewController:didPushController:) withParam:controller];
                                                   }];
                              }
@@ -396,11 +398,11 @@ static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
 	[self popViewControllerWithNewCenterController:centerController animated:animated completion:nil];
 }
 
-- (void) popViewControllerWithNewCenterController:(UIViewController*)centerController animated:(BOOL)animated completion:(void(^)())completionBlock{
-    [self popViewControllerWithNewCenterController:centerController animated:animated andPresentNewController:nil withDirection:PPRevealSideDirectionNone andOffset:0.0];
+- (void) popViewControllerWithNewCenterController:(UIViewController*)centerController animated:(BOOL)animated completion:(void(^)())completionBlock {
+    [self popViewControllerWithNewCenterController:centerController animated:animated andPresentNewController:nil withDirection:PPRevealSideDirectionNone andOffset:0.0 completion:completionBlock];
 }
 
-- (void) popViewControllerWithNewCenterController:(UIViewController *)centerController animated:(BOOL)animated andPresentNewController:(UIViewController *)controllerToPush withDirection:(PPRevealSideDirection)direction andOffset:(CGFloat)offset{
+- (void) popViewControllerWithNewCenterController:(UIViewController *)centerController animated:(BOOL)animated andPresentNewController:(UIViewController *)controllerToPush withDirection:(PPRevealSideDirection)direction andOffset:(CGFloat)offset {
 	[self popViewControllerWithNewCenterController:centerController animated:animated andPresentNewController:controllerToPush withDirection:direction andOffset:offset completion:nil];
 }
 

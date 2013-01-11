@@ -119,13 +119,26 @@
 - (void) showLeft
 {
     TableViewController *c = [[TableViewController alloc] initWithStyle:UITableViewStylePlain];
-    [self.revealSideViewController pushViewController:c onDirection:PPRevealSideDirectionLeft withOffset:_offset animated:_animated];
+
+    if (_useCompletionBlock.isOn)
+        [self.revealSideViewController pushViewController:c onDirection:PPRevealSideDirectionLeft withOffset:_offset animated:_animated completion:^{
+            PPRSLog(@"This is the end!");
+        }];
+    else // NB: we could have use directly completion method with nil parameter, but I just want to make sure the app is working without using it (pseudo regression test)
+        [self.revealSideViewController pushViewController:c onDirection:PPRevealSideDirectionLeft withOffset:_offset animated:_animated];
+    
     PP_RELEASE(c);
 }
 
 - (void) showRight {
     PopedViewController *c = [[PopedViewController alloc] initWithNibName:@"PopedViewController" bundle:nil ];
-    [self.revealSideViewController pushViewController:c onDirection:PPRevealSideDirectionRight withOffset:_offset animated:_animated];
+    if (_useCompletionBlock.isOn)
+        [self.revealSideViewController pushViewController:c onDirection:PPRevealSideDirectionRight withOffset:_offset animated:_animated completion:^{
+            PPRSLog(@"This is the end!");
+        }];
+    else
+        [self.revealSideViewController pushViewController:c onDirection:PPRevealSideDirectionRight withOffset:_offset animated:_animated];
+    
     PP_RELEASE(c);
 }
 
@@ -142,20 +155,30 @@
                                    forDirection:PPRevealSideDirectionTop];
     [self.revealSideViewController changeOffset:_offset
                                    forDirection:PPRevealSideDirectionBottom];
-
+    
 }
 
 - (IBAction)showUp:(id)sender {
     TableViewController *c = [[TableViewController alloc] initWithStyle:UITableViewStylePlain];
     UINavigationController *n = [[UINavigationController alloc] initWithRootViewController:c];
-    [self.revealSideViewController pushViewController:n onDirection:PPRevealSideDirectionTop withOffset:_offset animated:_animated];
+    if (_useCompletionBlock.isOn)
+        [self.revealSideViewController pushViewController:n onDirection:PPRevealSideDirectionTop withOffset:_offset animated:_animated completion:^{
+            PPRSLog(@"This is the end!");
+        }];
+    else
+        [self.revealSideViewController pushViewController:n onDirection:PPRevealSideDirectionTop withOffset:_offset animated:_animated];
     PP_RELEASE(c);
     PP_RELEASE(n);
 }
 
 - (IBAction)showDown:(id)sender {
     PopedViewController *c = [[PopedViewController alloc] initWithNibName:@"PopedViewController" bundle:nil ];
-    [self.revealSideViewController pushViewController:c onDirection:PPRevealSideDirectionBottom withOffset:_offset animated:_animated];
+    if (_useCompletionBlock.isOn)
+        [self.revealSideViewController pushViewController:c onDirection:PPRevealSideDirectionBottom withOffset:_offset animated:_animated completion:^{
+            PPRSLog(@"This is the end!");
+        }];
+    else
+        [self.revealSideViewController pushViewController:c onDirection:PPRevealSideDirectionBottom withOffset:_offset animated:_animated];
     PP_RELEASE(c);
 }
 
@@ -191,11 +214,21 @@
 }
 
 - (IBAction)pushOldLeft:(id)sender {
-    [self.revealSideViewController pushOldViewControllerOnDirection:PPRevealSideDirectionLeft withOffset:_offset animated:YES];
+    if (_useCompletionBlock.isOn)
+        [self.revealSideViewController pushOldViewControllerOnDirection:PPRevealSideDirectionLeft withOffset:_offset animated:YES completion:^{
+            PPRSLog(@"This is the end!");
+        }];
+    else
+        [self.revealSideViewController pushOldViewControllerOnDirection:PPRevealSideDirectionLeft withOffset:_offset animated:YES];
 }
 
 - (IBAction)pushOldRight:(id)sender {
-    [self.revealSideViewController pushOldViewControllerOnDirection:PPRevealSideDirectionRight withOffset:_offset animated:YES];
+    if (_useCompletionBlock.isOn)
+        [self.revealSideViewController pushOldViewControllerOnDirection:PPRevealSideDirectionRight withOffset:_offset animated:YES completion:^{
+            PPRSLog(@"This is the end!");
+        }];
+    else
+        [self.revealSideViewController pushOldViewControllerOnDirection:PPRevealSideDirectionRight withOffset:_offset animated:YES];
 }
 
 - (IBAction)changePanOpened:(id)sender {
@@ -228,11 +261,16 @@
     self.revealSideViewController.tapInteractionsWhenOpened = inter;
 }
 
+- (void)changeCompletion:(id)sender
+{
+    // nothing to do
+}
+
 - (IBAction)switchCentral:(id)sender {
-	NSLog(@"switchCentral");
+	PPRSLog(@"switchCentral");
 	SecondViewController *c = [[SecondViewController alloc] initWithNibName:@"SecondViewController" bundle:nil];
 	[self.revealSideViewController replaceCentralViewControllerWithNewController:c animated:YES animationDirection:PPRevealSideDirectionLeft completion:^{
-		NSLog(@"poped with new controller");
+		PPRSLog(@"Poped with new controller");
 	}];
 	PP_RELEASE(c);
 	

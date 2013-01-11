@@ -25,8 +25,11 @@
     IBOutlet UISwitch *_panContentClosedSwitch;
     IBOutlet UISwitch *_tapNavSwitch;
     IBOutlet UISwitch *_tapContentSwitch;
+    IBOutlet UISwitch *_useCompletionBlock;
+    
     CGFloat _offset;
 }
+
 - (IBAction)changeOffset:(id)sender;
 - (IBAction)showUp:(id)sender;
 - (IBAction)showDown:(id)sender;
@@ -41,6 +44,7 @@
 - (IBAction)changePanOpened:(id)sender;
 - (IBAction)changePanClosed:(id)sender;
 - (IBAction)changeTap:(id)sender;
+- (IBAction)changeCompletion:(id)sender;
 - (IBAction)switchCentral:(id)sender;
 - (IBAction)pushNav:(id)sender;
 - (IBAction)presentModal:(id)sender;
