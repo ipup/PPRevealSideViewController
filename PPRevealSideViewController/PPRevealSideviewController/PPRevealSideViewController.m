@@ -94,7 +94,6 @@
     self.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     self.view.clipsToBounds = YES;
     self.view.autoresizesSubviews = YES;
-    self.wantsFullScreenLayout = YES;
 }
 
 - (void) viewWillAppear:(BOOL)animated
@@ -317,7 +316,6 @@
     };
     
     // replace the view since IB add some offsets with the status bar if enabled
-    PPRSLog(@"%d", controller.wantsFullScreenLayout);
     controller.view.frame = [self getSideViewFrameFromRootFrame:rootFrame
                                                    andDirection:direction
                                         alreadyFullScreenLayout:controller.wantsFullScreenLayout];
@@ -1003,7 +1001,7 @@
 }
 
 - (BOOL) isTopControllerClosed {
-    return CGRectGetMinY(_rootViewController.view.frame) <= 20;
+    return CGRectGetMinY(_rootViewController.view.frame) <= 0;
 }
 
 - (BOOL) isBottomControllerClosed {
@@ -1066,10 +1064,7 @@
 
 - (CGRect) getSideViewFrameFromRootFrame:(CGRect)rootFrame andDirection:(PPRevealSideDirection)direction alreadyFullScreenLayout:(BOOL)alreadyFullScreenLayout{
     CGRect slideFrame = CGRectZero;
-    if (!alreadyFullScreenLayout)
-        slideFrame.origin.y = PPStatusBarHeight();
-    
-    CGFloat rootHeight = CGRectGetHeight(rootFrame) - (alreadyFullScreenLayout ? 0.0 : PPStatusBarHeight());
+    CGFloat rootHeight = CGRectGetHeight(rootFrame);
     CGFloat rootWidth = CGRectGetWidth(rootFrame);
     
     if ([self isOptionEnabled:PPRevealSideOptionsResizeSideView]){
@@ -1458,6 +1453,18 @@
 
 - (BOOL) shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation {
     return [_rootViewController shouldAutorotateToInterfaceOrientation:toInterfaceOrientation];
+}
+
+#pragma mark iOS 6 rotation
+// Not sure about that (asking the root view controller), but at least it should work.
+// I was looking for something more complicated/sophisticated, but that's maybe that easy
+
+- (BOOL) shouldAutorotate{
+    return [_rootViewController shouldAutorotate];
+}
+
+- (NSUInteger) supportedInterfaceOrientations{
+    return [_rootViewController supportedInterfaceOrientations];
 }
 
 #pragma mark - Memory management things
