@@ -5,6 +5,7 @@
             <Name>PPRevealSideViewController</Name>
             <Path>index.html</Path>
 			<Subnodes>
+                
 				
 				<Node type="folder">
 					<Name>Classes</Name>
@@ -40,6 +41,7 @@
         </Node>
     </TOC>
 	<Library>
+		
 		<Node id="1">
 			<Name>PPRevealSideViewController</Name>
 			<Path>Classes/PPRevealSideViewController.html</Path>

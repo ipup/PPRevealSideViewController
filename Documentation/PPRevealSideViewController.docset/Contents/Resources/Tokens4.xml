@@ -108,7 +108,7 @@
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/intfm/PPRevealSideViewControllerDelegate/pprevealSideViewController:shouldDeactivateGesture:forView:</TokenIdentifier>
-			<Abstract type="html">Called when a gesture will start. Typically, if you would use a class like the UISlider (handled by default in the class), you don't want to activate the pan gesture on the slider since it will not be functional.</Abstract>
+			<Abstract type="html">Called when a gesture will start. Typically, if you would use a class like the UISlider (handled by default in the class), you don&apos;t want to activate the pan gesture on the slider since it will not be functional.</Abstract>
 			<DeclaredIn>PPRevealSideViewController.h</DeclaredIn>			
 			
 	<RelatedTokens>

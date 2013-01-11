@@ -24,11 +24,13 @@
 	<key>DocSetMinimumXcodeVersion</key>
 	<string>3.0</string>
 	
+	<key>DashDocSetFamily</key>
+	<string>appledoc</string>
 	<key>DocSetPublisherIdentifier</key>
 	<string>fr.ipup.documentation</string>
 	<key>DocSetPublisherName</key>
 	<string>Marian PAUL - iPuP SARL</string>
 	<key>NSHumanReadableCopyright</key>
-	<string>Copyright © 2012 Marian PAUL - iPuP SARL. All rights reserved.</string>
+	<string>Copyright © 2013 Marian PAUL - iPuP SARL. All rights reserved.</string>
 </dict>
 </plist>

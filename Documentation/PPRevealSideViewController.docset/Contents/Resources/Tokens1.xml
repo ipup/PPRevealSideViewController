@@ -220,7 +220,7 @@ Define the interactions to close the side view when opened. By default, all the 
 			<Abstract type="html">The delegate which will receive events from the controller. See PPRevealSideViewControllerDelegate for more informations.</Abstract>
 			<DeclaredIn>PPRevealSideViewController.h</DeclaredIn>			
 			
-			<Declaration>@property (nonatomic, assign) id&lt;&gt; delegate</Declaration>
+			<Declaration>@property (nonatomic, assign) id&lt;PPRevealSideViewControllerDelegate&gt; delegate</Declaration>
 			
 			
 			<Anchor>//api/name/delegate</Anchor>
@@ -231,7 +231,7 @@ Define the interactions to close the side view when opened. By default, all the 
 			<Abstract type="html">The delegate which will receive events from the controller. See PPRevealSideViewControllerDelegate for more informations.</Abstract>
 			<DeclaredIn>PPRevealSideViewController.h</DeclaredIn>			
 			
-			<Declaration>@property (nonatomic, assign) id&lt;&gt; delegate</Declaration>
+			<Declaration>@property (nonatomic, assign) id&lt;PPRevealSideViewControllerDelegate&gt; delegate</Declaration>
 			
 			
 			<Anchor>//api/name/delegate</Anchor>
@@ -255,17 +255,33 @@ Define the interactions to close the side view when opened. By default, all the 
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/PPRevealSideViewController/pushViewController:onDirection:animated:</TokenIdentifier>
-			<Abstract type="html">Push controller with a direction and a default offset.</Abstract>
+			<Abstract type="html">Same as below, but without completionBlock for backward compatibility</Abstract>
 			<DeclaredIn>PPRevealSideViewController.h</DeclaredIn>			
 			
 	<RelatedTokens>
-		<TokenIdentifier>//apple_ref/occ/instm/PPRevealSideViewController/pushViewController:onDirection:withOffset:animated:</TokenIdentifier>
-		<TokenIdentifier>//apple_ref/occ/instm/PPRevealSideViewController/pushOldViewControllerOnDirection:animated:</TokenIdentifier>
-		<TokenIdentifier>//apple_ref/occ/instm/PPRevealSideViewController/pushViewController:onDirection:animated:forceToPopPush:</TokenIdentifier>
+		<TokenIdentifier>//apple_ref/occ/instm/PPRevealSideViewController/pushViewController:onDirection:animated:completion:</TokenIdentifier>
 		
 	</RelatedTokens>
 	
 			<Declaration>- (void)pushViewController:(UIViewController *)controller onDirection:(PPRevealSideDirection)direction animated:(BOOL)animated</Declaration>
+			
+			
+			<Anchor>//api/name/pushViewController:onDirection:animated:</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/PPRevealSideViewController/pushViewController:onDirection:animated:completion:</TokenIdentifier>
+			<Abstract type="html">Push controller with a direction and a default offset.</Abstract>
+			<DeclaredIn>PPRevealSideViewController.h</DeclaredIn>			
+			
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/occ/instm/PPRevealSideViewController/pushViewController:onDirection:withOffset:animated:completion:</TokenIdentifier>
+		<TokenIdentifier>//apple_ref/occ/instm/PPRevealSideViewController/pushViewController:onDirection:animated:forceToPopPush:completion:</TokenIdentifier>
+		<TokenIdentifier>//apple_ref/occ/instm/PPRevealSideViewController/pushOldViewControllerOnDirection:animated:completion:</TokenIdentifier>
+		
+	</RelatedTokens>
+	
+			<Declaration>- (void)pushViewController:(UIViewController *)controller onDirection:(PPRevealSideDirection)direction animated:(BOOL)animated completion:(void ( ^ ) ( ))completionBlock</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>controller</Name>
@@ -276,14 +292,33 @@ Define the interactions to close the side view when opened. By default, all the 
 				</Parameter><Parameter>
 					<Name>animated</Name>
 					<Abstract type="html">Animated or not</Abstract>
+				</Parameter><Parameter>
+					<Name>completionBlock</Name>
+					<Abstract type="html">Block that would be called after animation completed</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/pushViewController:onDirection:animated:</Anchor>
+			<Anchor>//api/name/pushViewController:onDirection:animated:completion:</Anchor>
 		</Token>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/PPRevealSideViewController/pushViewController:onDirection:animated:forceToPopPush:</TokenIdentifier>
+			<Abstract type="html">Same as below, but without completionBlock for backward compatibility</Abstract>
+			<DeclaredIn>PPRevealSideViewController.h</DeclaredIn>			
+			
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/occ/instm/PPRevealSideViewController/pushViewController:onDirection:animated:forceToPopPush:completion:</TokenIdentifier>
+		
+	</RelatedTokens>
+	
+			<Declaration>- (void)pushViewController:(UIViewController *)controller onDirection:(PPRevealSideDirection)direction animated:(BOOL)animated forceToPopPush:(BOOL)forcePopPush</Declaration>
+			
+			
+			<Anchor>//api/name/pushViewController:onDirection:animated:forceToPopPush:</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/PPRevealSideViewController/pushViewController:onDirection:animated:forceToPopPush:completion:</TokenIdentifier>
 			<Abstract type="html">Push controller with a direction and a default offset and force to pop then push.</Abstract>
 			<DeclaredIn>PPRevealSideViewController.h</DeclaredIn>			
 			
@@ -292,7 +327,7 @@ Define the interactions to close the side view when opened. By default, all the 
 		
 	</RelatedTokens>
 	
-			<Declaration>- (void)pushViewController:(UIViewController *)controller onDirection:(PPRevealSideDirection)direction animated:(BOOL)animated forceToPopPush:(BOOL)forcePopPush</Declaration>
+			<Declaration>- (void)pushViewController:(UIViewController *)controller onDirection:(PPRevealSideDirection)direction animated:(BOOL)animated forceToPopPush:(BOOL)forcePopPush completion:(void ( ^ ) ( ))completionBlock</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>controller</Name>
@@ -305,45 +340,39 @@ Define the interactions to close the side view when opened. By default, all the 
 					<Abstract type="html">Animated or not</Abstract>
 				</Parameter><Parameter>
 					<Name>forcePopPush</Name>
-					<Abstract type="html">This parameter is needed when you want to push a new controller in the same direction.
+					<Abstract type="html">This parameter is needed when you want to push a new controller in the same direction.</Abstract>
+				</Parameter><Parameter>
+					<Name>completionBlock</Name>
+					<Abstract type="html">Block that would be called after animation completed
 For example, you could push a new left controller from the left. In this case, setting forcePopPush to YES will pop to center view controller, then push the new controller.</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/pushViewController:onDirection:animated:forceToPopPush:</Anchor>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/PPRevealSideViewController/pushOldViewControllerOnDirection:animated:</TokenIdentifier>
-			<Abstract type="html">Push the old controller if exists for the direction with a default offset.
-This allows you for example to go directly on an another side from a controller in a side.</Abstract>
-			<DeclaredIn>PPRevealSideViewController.h</DeclaredIn>			
-			
-	<RelatedTokens>
-		<TokenIdentifier>//apple_ref/occ/instm/PPRevealSideViewController/pushOldViewControllerOnDirection:withOffset:animated:</TokenIdentifier>
-		
-	</RelatedTokens>
-	
-			<Declaration>- (void)pushOldViewControllerOnDirection:(PPRevealSideDirection)direction animated:(BOOL)animated</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>direction</Name>
-					<Abstract type="html">The direction</Abstract>
-				</Parameter><Parameter>
-					<Name>animated</Name>
-					<Abstract type="html">Animated or not</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/pushOldViewControllerOnDirection:animated:</Anchor>
+			<Anchor>//api/name/pushViewController:onDirection:animated:forceToPopPush:completion:</Anchor>
 		</Token>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/PPRevealSideViewController/pushViewController:onDirection:withOffset:animated:</TokenIdentifier>
+			<Abstract type="html">Same as below, but without completionBlock for backward compatibility</Abstract>
+			<DeclaredIn>PPRevealSideViewController.h</DeclaredIn>			
+			
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/occ/instm/PPRevealSideViewController/pushViewController:onDirection:withOffset:animated:completion:</TokenIdentifier>
+		
+	</RelatedTokens>
+	
+			<Declaration>- (void)pushViewController:(UIViewController *)controller onDirection:(PPRevealSideDirection)direction withOffset:(CGFloat)offset animated:(BOOL)animated</Declaration>
+			
+			
+			<Anchor>//api/name/pushViewController:onDirection:withOffset:animated:</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/PPRevealSideViewController/pushViewController:onDirection:withOffset:animated:completion:</TokenIdentifier>
 			<Abstract type="html">Same as pushViewController:onDirection:animated: but with an offset</Abstract>
 			<DeclaredIn>PPRevealSideViewController.h</DeclaredIn>			
 			
-			<Declaration>- (void)pushViewController:(UIViewController *)controller onDirection:(PPRevealSideDirection)direction withOffset:(CGFloat)offset animated:(BOOL)animated</Declaration>
+			<Declaration>- (void)pushViewController:(UIViewController *)controller onDirection:(PPRevealSideDirection)direction withOffset:(CGFloat)offset animated:(BOOL)animated completion:(void ( ^ ) ( ))completionBlock</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>controller</Name>
@@ -357,18 +386,37 @@ This allows you for example to go directly on an another side from a controller 
 				</Parameter><Parameter>
 					<Name>animated</Name>
 					<Abstract type="html">Animated or not</Abstract>
+				</Parameter><Parameter>
+					<Name>completionBlock</Name>
+					<Abstract type="html">Block that would be called after animation completed</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/pushViewController:onDirection:withOffset:animated:</Anchor>
+			<Anchor>//api/name/pushViewController:onDirection:withOffset:animated:completion:</Anchor>
 		</Token>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/PPRevealSideViewController/pushViewController:onDirection:withOffset:animated:forceToPopPush:</TokenIdentifier>
+			<Abstract type="html">Same as below, but without completionBlock for backward compatibility</Abstract>
+			<DeclaredIn>PPRevealSideViewController.h</DeclaredIn>			
+			
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/occ/instm/PPRevealSideViewController/pushViewController:onDirection:withOffset:animated:forceToPopPush:completion:</TokenIdentifier>
+		
+	</RelatedTokens>
+	
+			<Declaration>- (void)pushViewController:(UIViewController *)controller onDirection:(PPRevealSideDirection)direction withOffset:(CGFloat)offset animated:(BOOL)animated forceToPopPush:(BOOL)forcePopPush</Declaration>
+			
+			
+			<Anchor>//api/name/pushViewController:onDirection:withOffset:animated:forceToPopPush:</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/PPRevealSideViewController/pushViewController:onDirection:withOffset:animated:forceToPopPush:completion:</TokenIdentifier>
 			<Abstract type="html">Same as pushViewController:onDirection:animated:forceToPopPush: but with an offset</Abstract>
 			<DeclaredIn>PPRevealSideViewController.h</DeclaredIn>			
 			
-			<Declaration>- (void)pushViewController:(UIViewController *)controller onDirection:(PPRevealSideDirection)direction withOffset:(CGFloat)offset animated:(BOOL)animated forceToPopPush:(BOOL)forcePopPush</Declaration>
+			<Declaration>- (void)pushViewController:(UIViewController *)controller onDirection:(PPRevealSideDirection)direction withOffset:(CGFloat)offset animated:(BOOL)animated forceToPopPush:(BOOL)forcePopPush completion:(void ( ^ ) ( ))completionBlock</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>controller</Name>
@@ -384,20 +432,83 @@ This allows you for example to go directly on an another side from a controller 
 					<Abstract type="html">Animated or not</Abstract>
 				</Parameter><Parameter>
 					<Name>forcePopPush</Name>
-					<Abstract type="html">This parameter is needed when you want to push a new controller in the same direction.
+					<Abstract type="html">This parameter is needed when you want to push a new controller in the same direction.</Abstract>
+				</Parameter><Parameter>
+					<Name>completionBlock</Name>
+					<Abstract type="html">Block that would be called after animation completed
 For example, you could push a new left controller from the left. In this case, setting forcePopPush to YES will pop to center view controller, then push the new controller.</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/pushViewController:onDirection:withOffset:animated:forceToPopPush:</Anchor>
+			<Anchor>//api/name/pushViewController:onDirection:withOffset:animated:forceToPopPush:completion:</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/PPRevealSideViewController/pushOldViewControllerOnDirection:animated:</TokenIdentifier>
+			<Abstract type="html">Same as below, but without completionBlock for backward compatibility</Abstract>
+			<DeclaredIn>PPRevealSideViewController.h</DeclaredIn>			
+			
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/occ/instm/PPRevealSideViewController/pushOldViewControllerOnDirection:animated:completion:</TokenIdentifier>
+		
+	</RelatedTokens>
+	
+			<Declaration>- (void)pushOldViewControllerOnDirection:(PPRevealSideDirection)direction animated:(BOOL)animated</Declaration>
+			
+			
+			<Anchor>//api/name/pushOldViewControllerOnDirection:animated:</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/PPRevealSideViewController/pushOldViewControllerOnDirection:animated:completion:</TokenIdentifier>
+			<Abstract type="html">Push the old controller if exists for the direction with a default offset.
+This allows you for example to go directly on an another side from a controller in a side.</Abstract>
+			<DeclaredIn>PPRevealSideViewController.h</DeclaredIn>			
+			
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/occ/instm/PPRevealSideViewController/pushOldViewControllerOnDirection:withOffset:animated:</TokenIdentifier>
+		
+	</RelatedTokens>
+	
+			<Declaration>- (void)pushOldViewControllerOnDirection:(PPRevealSideDirection)direction animated:(BOOL)animated completion:(void ( ^ ) ( ))completionBlock</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>direction</Name>
+					<Abstract type="html">The direction</Abstract>
+				</Parameter><Parameter>
+					<Name>animated</Name>
+					<Abstract type="html">Animated or not</Abstract>
+				</Parameter><Parameter>
+					<Name>completionBlock</Name>
+					<Abstract type="html">Block that would be called after animation completed</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/pushOldViewControllerOnDirection:animated:completion:</Anchor>
 		</Token>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/PPRevealSideViewController/pushOldViewControllerOnDirection:withOffset:animated:</TokenIdentifier>
+			<Abstract type="html">Same as below, but without completionBlock for backward compatibility</Abstract>
+			<DeclaredIn>PPRevealSideViewController.h</DeclaredIn>			
+			
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/occ/instm/PPRevealSideViewController/pushOldViewControllerOnDirection:withOffset:animated:completion:</TokenIdentifier>
+		
+	</RelatedTokens>
+	
+			<Declaration>- (void)pushOldViewControllerOnDirection:(PPRevealSideDirection)direction withOffset:(CGFloat)offset animated:(BOOL)animated</Declaration>
+			
+			
+			<Anchor>//api/name/pushOldViewControllerOnDirection:withOffset:animated:</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/PPRevealSideViewController/pushOldViewControllerOnDirection:withOffset:animated:completion:</TokenIdentifier>
 			<Abstract type="html">Same as pushOldViewControllerOnDirection:animated: but with an offset</Abstract>
 			<DeclaredIn>PPRevealSideViewController.h</DeclaredIn>			
 			
-			<Declaration>- (void)pushOldViewControllerOnDirection:(PPRevealSideDirection)direction withOffset:(CGFloat)offset animated:(BOOL)animated</Declaration>
+			<Declaration>- (void)pushOldViewControllerOnDirection:(PPRevealSideDirection)direction withOffset:(CGFloat)offset animated:(BOOL)animated completion:(void ( ^ ) ( ))completionBlock</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>direction</Name>
@@ -408,14 +519,33 @@ For example, you could push a new left controller from the left. In this case, s
 				</Parameter><Parameter>
 					<Name>animated</Name>
 					<Abstract type="html">Animated or not</Abstract>
+				</Parameter><Parameter>
+					<Name>completionBlock</Name>
+					<Abstract type="html">Block that would be called after animation completed</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/pushOldViewControllerOnDirection:withOffset:animated:</Anchor>
+			<Anchor>//api/name/pushOldViewControllerOnDirection:withOffset:animated:completion:</Anchor>
 		</Token>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/PPRevealSideViewController/popViewControllerWithNewCenterController:animated:</TokenIdentifier>
+			<Abstract type="html">Same as below, but without completionBlock for backward compatibility</Abstract>
+			<DeclaredIn>PPRevealSideViewController.h</DeclaredIn>			
+			
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/occ/instm/PPRevealSideViewController/popViewControllerWithNewCenterController:animated:completion:</TokenIdentifier>
+		
+	</RelatedTokens>
+	
+			<Declaration>- (void)popViewControllerWithNewCenterController:(UIViewController *)centerController animated:(BOOL)animated</Declaration>
+			
+			
+			<Anchor>//api/name/popViewControllerWithNewCenterController:animated:</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/PPRevealSideViewController/popViewControllerWithNewCenterController:animated:completion:</TokenIdentifier>
 			<Abstract type="html">Pop controller with a new Center controller.</Abstract>
 			<DeclaredIn>PPRevealSideViewController.h</DeclaredIn>			
 			
@@ -424,7 +554,7 @@ For example, you could push a new left controller from the left. In this case, s
 		
 	</RelatedTokens>
 	
-			<Declaration>- (void)popViewControllerWithNewCenterController:(UIViewController *)centerController animated:(BOOL)animated</Declaration>
+			<Declaration>- (void)popViewControllerWithNewCenterController:(UIViewController *)centerController animated:(BOOL)animated completion:(void ( ^ ) ( ))completionBlock</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>centerController</Name>
@@ -432,14 +562,33 @@ For example, you could push a new left controller from the left. In this case, s
 				</Parameter><Parameter>
 					<Name>animated</Name>
 					<Abstract type="html">Animated or not</Abstract>
+				</Parameter><Parameter>
+					<Name>completionBlock</Name>
+					<Abstract type="html">Block that would be called after animation completed</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/popViewControllerWithNewCenterController:animated:</Anchor>
+			<Anchor>//api/name/popViewControllerWithNewCenterController:animated:completion:</Anchor>
 		</Token>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/PPRevealSideViewController/popViewControllerAnimated:</TokenIdentifier>
+			<Abstract type="html">Same as below, but without completionBlock for backward compatibility</Abstract>
+			<DeclaredIn>PPRevealSideViewController.h</DeclaredIn>			
+			
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/occ/instm/PPRevealSideViewController/popViewControllerAnimated:</TokenIdentifier>
+		
+	</RelatedTokens>
+	
+			<Declaration>- (void)popViewControllerAnimated:(BOOL)animated</Declaration>
+			
+			
+			<Anchor>//api/name/popViewControllerAnimated:</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/PPRevealSideViewController/popViewControllerAnimated:completion:</TokenIdentifier>
 			<Abstract type="html">Go back to the center controller.</Abstract>
 			<DeclaredIn>PPRevealSideViewController.h</DeclaredIn>			
 			
@@ -448,15 +597,197 @@ For example, you could push a new left controller from the left. In this case, s
 		
 	</RelatedTokens>
 	
-			<Declaration>- (void)popViewControllerAnimated:(BOOL)animated</Declaration>
+			<Declaration>- (void)popViewControllerAnimated:(BOOL)animated completion:(void ( ^ ) ( ))completionBlock</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>animated</Name>
 					<Abstract type="html">Animated or not</Abstract>
+				</Parameter><Parameter>
+					<Name>completionBlock</Name>
+					<Abstract type="html">Block that would be called after animation completed</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/popViewControllerAnimated:</Anchor>
+			<Anchor>//api/name/popViewControllerAnimated:completion:</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/PPRevealSideViewController/openCompletelySide:animated:</TokenIdentifier>
+			<Abstract type="html">Same as below, but without completionBlock for backward compatibility</Abstract>
+			<DeclaredIn>PPRevealSideViewController.h</DeclaredIn>			
+			
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/occ/instm/PPRevealSideViewController/openCompletelySide:animated:completion:</TokenIdentifier>
+		
+	</RelatedTokens>
+	
+			<Declaration>- (void)openCompletelySide:(PPRevealSideDirection)direction animated:(BOOL)animated</Declaration>
+			
+			
+			<Anchor>//api/name/openCompletelySide:animated:</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/PPRevealSideViewController/openCompletelySide:animated:completion:</TokenIdentifier>
+			<Abstract type="html">Open completely the side</Abstract>
+			<DeclaredIn>PPRevealSideViewController.h</DeclaredIn>			
+			
+			<Declaration>- (void)openCompletelySide:(PPRevealSideDirection)direction animated:(BOOL)animated completion:(void ( ^ ) ( ))completionBlock</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>direction</Name>
+					<Abstract type="html">The direction to open the side completely</Abstract>
+				</Parameter><Parameter>
+					<Name>animated</Name>
+					<Abstract type="html">Animated or not</Abstract>
+				</Parameter><Parameter>
+					<Name>completionBlock</Name>
+					<Abstract type="html">Block that would be called after animation completed</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/openCompletelySide:animated:completion:</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/PPRevealSideViewController/openCompletelyAnimated:</TokenIdentifier>
+			<Abstract type="html">Same as below, but without completionBlock for backward compatibility</Abstract>
+			<DeclaredIn>PPRevealSideViewController.h</DeclaredIn>			
+			
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/occ/instm/PPRevealSideViewController/openCompletelyAnimated:completion:</TokenIdentifier>
+		
+	</RelatedTokens>
+	
+			<Declaration>- (void)openCompletelyAnimated:(BOOL)animated</Declaration>
+			
+			
+			<Anchor>//api/name/openCompletelyAnimated:</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/PPRevealSideViewController/openCompletelyAnimated:completion:</TokenIdentifier>
+			<Abstract type="html">Open completely the current side semi opened</Abstract>
+			<DeclaredIn>PPRevealSideViewController.h</DeclaredIn>			
+			
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/occ/instm/PPRevealSideViewController/openCompletelySide:animated:</TokenIdentifier>
+		
+	</RelatedTokens>
+	
+			<Declaration>- (void)openCompletelyAnimated:(BOOL)animated completion:(void ( ^ ) ( ))completionBlock</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>animated</Name>
+					<Abstract type="html">Animated or not</Abstract>
+				</Parameter><Parameter>
+					<Name>completionBlock</Name>
+					<Abstract type="html">Block that would be called after animation completed</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/openCompletelyAnimated:completion:</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/PPRevealSideViewController/replaceAfterOpenedCompletelyAnimated:</TokenIdentifier>
+			<Abstract type="html">Same as below, but without completionBlock for backward compatibility</Abstract>
+			<DeclaredIn>PPRevealSideViewController.h</DeclaredIn>			
+			
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/occ/instm/PPRevealSideViewController/replaceAfterOpenedCompletelyAnimated:completion:</TokenIdentifier>
+		
+	</RelatedTokens>
+	
+			<Declaration>- (void)replaceAfterOpenedCompletelyAnimated:(BOOL)animated</Declaration>
+			
+			
+			<Anchor>//api/name/replaceAfterOpenedCompletelyAnimated:</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/PPRevealSideViewController/replaceAfterOpenedCompletelyAnimated:completion:</TokenIdentifier>
+			<Abstract type="html">Replace the side view with default offset.</Abstract>
+			<DeclaredIn>PPRevealSideViewController.h</DeclaredIn>			
+			
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/occ/instm/PPRevealSideViewController/replaceAfterOpenedCompletelyWithOffset:animated:</TokenIdentifier>
+		
+	</RelatedTokens>
+	
+			<Declaration>- (void)replaceAfterOpenedCompletelyAnimated:(BOOL)animated completion:(void ( ^ ) ( ))completionBlock</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>animated</Name>
+					<Abstract type="html">Animated or not</Abstract>
+				</Parameter><Parameter>
+					<Name>completionBlock</Name>
+					<Abstract type="html">Block that would be called after animation completed</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/replaceAfterOpenedCompletelyAnimated:completion:</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/PPRevealSideViewController/replaceAfterOpenedCompletelyWithOffset:animated:</TokenIdentifier>
+			<Abstract type="html">Same as below, but without completionBlock for backward compatibility</Abstract>
+			<DeclaredIn>PPRevealSideViewController.h</DeclaredIn>			
+			
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/occ/instm/PPRevealSideViewController/replaceAfterOpenedCompletelyWithOffset:animated:completion:</TokenIdentifier>
+		
+	</RelatedTokens>
+	
+			<Declaration>- (void)replaceAfterOpenedCompletelyWithOffset:(CGFloat)offset animated:(BOOL)animated</Declaration>
+			
+			
+			<Anchor>//api/name/replaceAfterOpenedCompletelyWithOffset:animated:</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/PPRevealSideViewController/replaceAfterOpenedCompletelyWithOffset:animated:completion:</TokenIdentifier>
+			<Abstract type="html">Replace the side view with an offset after it was opened completely. For example, if you hit a search bar, then you will open completely.
+If the user cancel, you probably want to replace the like it was before, to complete the cancel stuff.</Abstract>
+			<DeclaredIn>PPRevealSideViewController.h</DeclaredIn>			
+			
+			<Declaration>- (void)replaceAfterOpenedCompletelyWithOffset:(CGFloat)offset animated:(BOOL)animated completion:(void ( ^ ) ( ))completionBlock</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>offset</Name>
+					<Abstract type="html">The offset</Abstract>
+				</Parameter><Parameter>
+					<Name>animated</Name>
+					<Abstract type="html">Animated or not</Abstract>
+				</Parameter><Parameter>
+					<Name>completionBlock</Name>
+					<Abstract type="html">Block that would be called after animation completed</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/replaceAfterOpenedCompletelyWithOffset:animated:completion:</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/PPRevealSideViewController/replaceCentralViewControllerWithNewController:animated:animationDirection:completion:</TokenIdentifier>
+			<Abstract type="html">Replace the central view with complete opening animation. This is useful if you use side view as menu and need to switch central view after some operation without using the menu.</Abstract>
+			<DeclaredIn>PPRevealSideViewController.h</DeclaredIn>			
+			
+			<Declaration>- (void)replaceCentralViewControllerWithNewController:(UIViewController *)newCenterController animated:(BOOL)animated animationDirection:(PPRevealSideDirection)direction completion:(void ( ^ ) ( ))completionBlock</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>newCenterController</Name>
+					<Abstract type="html">A new controller for central view</Abstract>
+				</Parameter><Parameter>
+					<Name>animated</Name>
+					<Abstract type="html">Animated or not</Abstract>
+				</Parameter><Parameter>
+					<Name>completionBlock</Name>
+					<Abstract type="html">Block that would be called after animation completed</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/replaceCentralViewControllerWithNewController:animated:animationDirection:completion:</Anchor>
 		</Token>
 		
 		<Token>
@@ -516,7 +847,7 @@ Offset set to Default Offset</Abstract>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/PPRevealSideViewController/unloadViewControllerForSide:</TokenIdentifier>
-			<Abstract type="html">Remove the controller for a direction. This a convenient method when you use for example a Container view controller like Tab bar controller. When you switch from tabs, you probably want some tabs not to have side controllers. In that case, unload in view will disappear of the tab's controller, then preload on view will appear.</Abstract>
+			<Abstract type="html">Remove the controller for a direction. This a convenient method when you use for example a Container view controller like Tab bar controller. When you switch from tabs, you probably want some tabs not to have side controllers. In that case, unload in view will disappear of the tab&apos;s controller, then preload on view will appear.</Abstract>
 			<DeclaredIn>PPRevealSideViewController.h</DeclaredIn>			
 			
 			<Declaration>- (void)unloadViewControllerForSide:(PPRevealSideDirection)direction</Declaration>

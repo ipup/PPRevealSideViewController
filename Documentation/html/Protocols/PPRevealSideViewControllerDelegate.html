@@ -7,7 +7,7 @@
 		<meta name="viewport" content="width=550" />
 		<link rel="stylesheet" type="text/css" href="../css/styles.css" media="all" />
 		<link rel="stylesheet" type="text/css" media="print" href="../css/stylesPrint.css" />
-		<meta name="generator" content="appledoc 2.0.5 (build 759)" />
+		<meta name="generator" content="appledoc 2.1 (build 840)" />
 	</head>
 	<body>
 		<header id="top_header">
@@ -149,7 +149,7 @@
 					<div class="section section-overview">
 						<a title="Overview" name="overview"></a>
 						<h2 class="subtitle subtitle-overview">Overview</h2>
-						<p><a href="PPRevealSideViewControllerDelegate.html">PPRevealSideViewControllerDelegate</a> protocol</p>
+						<p>PPRevealSideViewControllerDelegate protocol</p>
 					</div>
 					
 					
@@ -262,9 +262,11 @@
 		<p>Implement this method if you have for example a container as the rootViewController (like UITabBarController). If you do not implement this method, the gestures are added to the RootViewController (the center view controller)</p>
 	</div>		
 	
-	
+    
+
 	<div class="method-subsection method-declaration"><code>- (UIViewController *)controllerForGesturesOnPPRevealSideViewController:(PPRevealSideViewController *)<em>controller</em></code></div>
-	
+
+    
 	
 	<div class="method-subsection arguments-section parameters">
 		<h4 class="method-subtitle parameter-title">Parameters</h4>
@@ -311,9 +313,11 @@
 		<p>Implement this method if you have some custom views in which to add pan gestures, for example a custom navigation bar (not a UINavigationBar)</p>
 	</div>		
 	
-	
+    
+
 	<div class="method-subsection method-declaration"><code>- (NSArray *)customViewsToAddPanGestureOnPPRevealSideViewController:(PPRevealSideViewController *)<em>controller</em></code></div>
-	
+
+    
 	
 	<div class="method-subsection arguments-section parameters">
 		<h4 class="method-subtitle parameter-title">Parameters</h4>
@@ -360,9 +364,11 @@
 		<p>Implement this method if you have some custom views in which to add Tap gestures, for example a custom navigation bar (not a UINavigationBar)</p>
 	</div>		
 	
-	
+    
+
 	<div class="method-subsection method-declaration"><code>- (NSArray *)customViewsToAddTapGestureOnPPRevealSideViewController:(PPRevealSideViewController *)<em>controller</em></code></div>
-	
+
+    
 	
 	<div class="method-subsection arguments-section parameters">
 		<h4 class="method-subtitle parameter-title">Parameters</h4>
@@ -409,9 +415,11 @@
 		<p>Called when the center controller has changed</p>
 	</div>		
 	
-	
+    
+
 	<div class="method-subsection method-declaration"><code>- (void)pprevealSideViewController:(PPRevealSideViewController *)<em>controller</em> didChangeCenterController:(UIViewController *)<em>newCenterController</em></code></div>
-	
+
+    
 	
 	<div class="method-subsection arguments-section parameters">
 		<h4 class="method-subtitle parameter-title">Parameters</h4>
@@ -458,9 +466,11 @@
 		<p>Called when a controller has been poped</p>
 	</div>		
 	
-	
+    
+
 	<div class="method-subsection method-declaration"><code>- (void)pprevealSideViewController:(PPRevealSideViewController *)<em>controller</em> didPopToController:(UIViewController *)<em>centerController</em></code></div>
-	
+
+    
 	
 	<div class="method-subsection arguments-section parameters">
 		<h4 class="method-subtitle parameter-title">Parameters</h4>
@@ -507,9 +517,11 @@
 		<p>Called when a controller has been pushed</p>
 	</div>		
 	
-	
+    
+
 	<div class="method-subsection method-declaration"><code>- (void)pprevealSideViewController:(PPRevealSideViewController *)<em>controller</em> didPushController:(UIViewController *)<em>pushedController</em></code></div>
-	
+
+    
 	
 	<div class="method-subsection arguments-section parameters">
 		<h4 class="method-subtitle parameter-title">Parameters</h4>
@@ -556,9 +568,11 @@
 		<p>Called when a gesture will start</p>
 	</div>		
 	
-	
+    
+
 	<div class="method-subsection method-declaration"><code>- (PPRevealSideDirection)pprevealSideViewController:(PPRevealSideViewController *)<em>controller</em> directionsAllowedForPanningOnView:(UIView *)<em>view</em></code></div>
-	
+
+    
 	
 	<div class="method-subsection arguments-section parameters">
 		<h4 class="method-subtitle parameter-title">Parameters</h4>
@@ -632,9 +646,11 @@
 		<p>Called when a gesture will start. Typically, if you would use a class like the UISlider (handled by default in the class), you don&rsquo;t want to activate the pan gesture on the slider since it will not be functional.</p>
 	</div>		
 	
-	
+    
+
 	<div class="method-subsection method-declaration"><code>- (BOOL)pprevealSideViewController:(PPRevealSideViewController *)<em>controller</em> shouldDeactivateGesture:(UIGestureRecognizer *)<em>gesture</em> forView:(UIView *)<em>view</em></code></div>
-	
+
+    
 	
 	<div class="method-subsection arguments-section parameters">
 		<h4 class="method-subtitle parameter-title">Parameters</h4>
@@ -700,9 +716,11 @@
 		<p>Called when a controller will be poped</p>
 	</div>		
 	
-	
+    
+
 	<div class="method-subsection method-declaration"><code>- (void)pprevealSideViewController:(PPRevealSideViewController *)<em>controller</em> willPopToController:(UIViewController *)<em>centerController</em></code></div>
-	
+
+    
 	
 	<div class="method-subsection arguments-section parameters">
 		<h4 class="method-subtitle parameter-title">Parameters</h4>
@@ -749,9 +767,11 @@
 		<p>Called when a controller will be pushed</p>
 	</div>		
 	
-	
+    
+
 	<div class="method-subsection method-declaration"><code>- (void)pprevealSideViewController:(PPRevealSideViewController *)<em>controller</em> willPushController:(UIViewController *)<em>pushedController</em></code></div>
-	
+
+    
 	
 	<div class="method-subsection arguments-section parameters">
 		<h4 class="method-subtitle parameter-title">Parameters</h4>
@@ -801,9 +821,9 @@
 				<div id="footer">
 					<hr />
 					<div class="footer-copyright">
-						<p><span class="copyright">&copy; 2012 Marian PAUL - iPuP SARL. All rights reserved. (Last updated: 2012-06-15)</span><br />
+						<p><span class="copyright">&copy; 2013 Marian PAUL - iPuP SARL. All rights reserved. (Last updated: 2013-01-11)</span><br />
 						
-						<span class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.0.5 (build 759)</a>.</span></p>
+						<span class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.1 (build 840)</a>.</span></p>
 						
 					</div>
 				</div>
@@ -891,6 +911,14 @@
 			}
 			
 			window.onload = init;
+			
+			// If showing in Xcode, hide the TOC and Header
+			if (navigator.userAgent.match(/xcode/i)) {
+				document.getElementById("contents").className = "hideInXcode"
+				document.getElementById("tocContainer").className = "hideInXcode"
+				document.getElementById("top_header").className = "hideInXcode"
+			}
+			
 		</script>
 	</body>
 </html>
