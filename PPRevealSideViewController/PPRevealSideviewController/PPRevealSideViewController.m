@@ -258,7 +258,6 @@ static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
     // TODO remove then adding not so good ... Maybe do something different
     if (PPSystemVersionGreaterOrEqualThan(5.0))
     {
-        [controller willMoveToParentViewController:self];
         [self addChildViewController:controller];
     }
     
@@ -751,7 +750,6 @@ static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
             
             if (PPSystemVersionGreaterOrEqualThan(5.0))
             {
-                [_rootViewController willMoveToParentViewController:self];
                 [self addChildViewController:_rootViewController];
             }
             
@@ -1022,7 +1020,6 @@ static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
     if (PPSystemVersionGreaterOrEqualThan(5.0))
     {
         [controller removeFromParentViewController];
-        [controller didMoveToParentViewController:nil];
     }
 }
 
@@ -1302,7 +1299,6 @@ static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
             c.view.frame = self.rootViewController.view.bounds;
             if (PPSystemVersionGreaterOrEqualThan(5.0))
             {
-                [c willMoveToParentViewController:self];
                 [self addChildViewController:c];
             }
             
