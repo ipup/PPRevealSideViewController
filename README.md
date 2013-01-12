@@ -131,6 +131,14 @@ If you want to pop a new center controller, then do the following :
     
     [self.revealSideViewController openCompletelySide:PPRevealSideDirectionLeft animated:YES];
 
+## Completion API
+ Every calls to PPRevealSide methods like pushing or poping can be agremented with completion block like
+ 
+     PopedViewController *c = [[PopedViewController alloc] initWithNibName:@"PopedViewController" bundle:nil ];
+	 [self.revealSideViewController pushViewController:c onDirection:PPRevealSideDirectionBottom withOffset:_offset animated:_animated completion:^{
+         PPRSLog(@"This is the end!");
+     }];
+	 	
 ## To go deeper 
 By default, the side views are not loaded. This means that even if you interface have a button to push a side view, the panning gesture won't show the controller. If you want so, you need to preload the controller you want to present.
 
@@ -170,6 +178,13 @@ Remember that, for the UIWebView for example, the best thing to do is to fit the
 
 3. In the case you do not have controllers on all sides, you can also disable the bouncing animation which show that there is no controller.
 
+You now have a great method to replace a center controller with an other from center (thanks to [xOr-developer](https://github.com/x0r-developer))
+
+    SecondViewController *c = [[SecondViewController alloc] initWithNibName:@"SecondViewController" bundle:nil];
+    [self.revealSideViewController replaceCentralViewControllerWithNewController:c animated:YES animationDirection:PPRevealSideDirectionLeft completion:^{
+		PPRSLog(@"Poped with new controller");
+	}];
+	
 ## Options
 You have some options availabled defined in PPRevealSideOptions
 
