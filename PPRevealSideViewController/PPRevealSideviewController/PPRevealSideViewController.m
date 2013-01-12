@@ -57,6 +57,13 @@ static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
 
 - (CGFloat) getOffsetForDirection:(PPRevealSideDirection)direction andInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation;
 - (CGFloat) getOffsetForDirection:(PPRevealSideDirection)direction;
+- (void) tryToRemoveObserverOnFrame;
+
+@end
+
+// Make a private category so that we can have the setter
+@interface UIViewController (PPRevealSideViewControllerPrivate)
+- (void) setRevealSideViewController:(PPRevealSideViewController *)revealSideViewController;
 @end
 
 #pragma mark -
@@ -734,15 +741,7 @@ static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
         
         [self removeAllGestures];
 		
-        @try {
-            [_rootViewController removeObserver:self forKeyPath:@"view.frame"];
-        }
-        @catch (NSException *exception) {
-            
-        }
-        @finally {
-            
-        }
+        [self tryToRemoveObserverOnFrame];
         
         [self removeControllerFromView:_rootViewController animated:NO];
         
@@ -1024,6 +1023,19 @@ static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
     {
         [controller removeFromParentViewController];
         [controller didMoveToParentViewController:nil];
+    }
+}
+
+- (void) tryToRemoveObserverOnFrame
+{
+    @try {
+        [_rootViewController removeObserver:self forKeyPath:@"view.frame"];
+    }
+    @catch (NSException *exception) {
+        
+    }
+    @finally {
+        
     }
 }
 
@@ -1528,15 +1540,7 @@ static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    @try {
-        [_rootViewController removeObserver:self forKeyPath:@"view.frame"];
-    }
-    @catch (NSException *exception) {
-        
-    }
-    @finally {
-        
-    }
+    [self tryToRemoveObserverOnFrame];
 }
 
 - (void)viewDidUnload
@@ -1548,6 +1552,9 @@ static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
 }
 
 - (void) dealloc {
+    PPRSLog();
+    [self tryToRemoveObserverOnFrame];
+    
     PP_RELEASE(_rootViewController);
     PP_RELEASE(_viewControllers);
     PP_RELEASE(_viewControllersOffsets);
@@ -1576,7 +1583,7 @@ static char revealSideViewControllerKey;
     objc_setAssociatedObject( self,
                              &revealSideViewControllerKey,
                              revealSideViewController,
-                             OBJC_ASSOCIATION_RETAIN );
+                             OBJC_ASSOCIATION_ASSIGN );
     [self didChangeValueForKey:@"revealSideViewController"];
 }
 
@@ -1606,7 +1613,7 @@ static char revealSideInsetKey;
     objc_setAssociatedObject( self,
                              &revealSideInsetKey,
                              stringInset,
-                             OBJC_ASSOCIATION_RETAIN );
+                             OBJC_ASSOCIATION_RETAIN_NONATOMIC );
     [self didChangeValueForKey:@"revealSideInset"];
 }
 

@@ -27,6 +27,9 @@
     
     self.window.rootViewController = _revealSideViewController;
     
+    // Uncomment if you want to test (yeah that's not pretty) the PPReveal deallocating
+    //[self performSelector:@selector(unloadRevealFromMemory) withObject:nil afterDelay:3.0];
+    
     PP_RELEASE(main);
     PP_RELEASE(nav);
     
@@ -67,6 +70,16 @@
 
     return PPRevealSideDirectionLeft | PPRevealSideDirectionRight | PPRevealSideDirectionTop | PPRevealSideDirectionBottom;
 }
+
+#pragma mark - Unloading tests
+
+- (void) unloadRevealFromMemory
+{
+    self.revealSideViewController = nil;
+    self.window.rootViewController = nil;
+}
+
+#pragma mark - UIApplicationDelegate methods
 
 - (void)applicationWillResignActive:(UIApplication *)application
 {

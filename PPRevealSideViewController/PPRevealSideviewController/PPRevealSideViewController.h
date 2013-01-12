@@ -548,7 +548,7 @@ If you want to pop a new center controller, then do the following :
 /**
  The parent revealSideViewController
  */
-@property (nonatomic, retain) PPRevealSideViewController *revealSideViewController;
+@property (nonatomic, readonly, assign) PPRevealSideViewController *revealSideViewController;
 @end
 
 /**
