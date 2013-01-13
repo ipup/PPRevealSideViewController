@@ -9,11 +9,60 @@ Pan and Tap gestures are also included !
 [See a demo on Youtube!](http://www.youtube.com/watch?v=lsc7RQvyy20)
 
 # Installation
+The easiest way to install PPRevealSideViewController is via the [CocoaPods](http://cocoapods.org/) package manager, since it's really flexible and provides easy installation.
 
-1. In your XCode Project, take the *PPRevealSideViewController.h and .m* from PPRevealSideViewController folder and drag them into your project. 
-2. Import *PPRevealSideViewController.h* file to your PCH file or your AppDelegate file.
-3. Add the QuartzCore Framework.
-4. Start using this new controller!
+## Via CocoaPods
+
+If you don't have cocoapods yet (shame on you), install it:
+
+``` bash
+$ [sudo] gem install cocoapods
+$ pod setup
+```
+
+Go to the directory of your Xcode project, and Create and/or Edit your Podfile and add PPRevealSideViewController:
+
+``` bash
+$ cd /path/to/MyProject
+$ touch Podfile
+# Edit the podfile using your favorite editor
+$ edit Podfile
+platform :ios 
+pod 'PPRevealSideViewController', '~> 1.0.0'
+```
+
+Run the install:
+
+``` bash
+$ pod install
+```
+
+Finally, open your project in Xcode from the .xcworkspace file (not the usual project file! This is really important)
+
+``` bash
+$ open MyProject.xcworkspace
+```
+
+Import *PPRevealSideViewController.h* file to your PCH file or your AppDelegate file.
+
+You are ready to go.
+
+## Old fashionned way
+
+1. Add PPRevealSideViewController as a submodule to your project
+
+``` bash
+$ cd /path/to/MyApplication
+# If this is a new project, initialize git...
+$ git init
+$ git submodule add git://github.com/ipup/PPRevealSideViewController.git vendor/PPRevealSideViewController
+$ git submodule update --init --recursive
+```
+
+2. In your XCode Project, take the *PPRevealSideViewController.h and .m* from PPRevealSideViewController folder and drag them into your project. 
+3. Import *PPRevealSideViewController.h* file to your PCH file or your AppDelegate file.
+4. Add the QuartzCore Framework.
+5. Start using this new controller!
 
 # ARC Support
 
