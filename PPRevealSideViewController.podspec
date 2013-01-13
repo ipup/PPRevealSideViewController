@@ -13,9 +13,4 @@ Pan and Tap gestures are also included!"
   s.requires_arc = true
   s.source_files = 'PPRevealSideViewController/PPRevealSideviewController/*.{h,m}'
   s.framework  = 'QuartzCore'
-  s.prefix_header_contents = <<-EOS
-  #ifdef __OBJC__
-  #import "PPRevealSideViewController.h"  
-  #endif /* __OBJC__*/
-  EOS
 end
