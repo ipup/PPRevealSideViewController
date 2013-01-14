@@ -745,7 +745,9 @@ static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
         
         [self removeControllerFromView:_rootViewController animated:NO];
         
+        PP_RELEASE(_rootViewController);
         _rootViewController = PP_RETAIN(controller);
+        
         if (_rootViewController) {
             _rootViewController.revealSideViewController = self;
             
