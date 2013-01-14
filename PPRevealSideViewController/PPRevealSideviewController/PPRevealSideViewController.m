@@ -90,7 +90,8 @@ static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
         
         self.tapInteractionsWhenOpened = PPRevealSideInteractionContentView | PPRevealSideInteractionNavigationBar;
         
-        self.directionsToShowBounce = PPRevealSideDirectionBottom | PPRevealSideDirectionLeft | PPRevealSideDirectionRight | PPRevealSideDirectionTop;
+        //self.directionsToShowBounce = PPRevealSideDirectionBottom | PPRevealSideDirectionLeft | PPRevealSideDirectionRight | PPRevealSideDirectionTop;
+        self.directionsToShowBounce = PPRevealSideDirectionNone;
         
         _viewControllers = [[NSMutableDictionary alloc] init];
         _viewControllersOffsets = [[NSMutableDictionary alloc] init];
