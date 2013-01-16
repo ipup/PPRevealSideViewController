@@ -8,79 +8,115 @@
 
 #import <UIKit/UIKit.h>
 
-// define some macros 
+
+// Define some compatibility macros 
 #ifndef __has_feature
-#define __has_feature(x) 0
+    #define __has_feature(x) 0
 #endif
+
 #ifndef __has_extension
-#define __has_extension __has_feature // Compatibility with pre-3.0 compilers.
+    #define __has_extension __has_feature // Compatibility with pre-3.0 compilers.
 #endif
 
 #if __has_feature(objc_arc) && __clang_major__ >= 3
-#define PP_ARC_ENABLED 1
-#endif // __has_feature(objc_arc)
-
-#if PP_ARC_ENABLED
-#define PP_RETAIN(xx) (xx)
-#define PP_RELEASE(xx)  xx = nil
-#define PP_AUTORELEASE(xx)  (xx)
-#else
-#define PP_RETAIN(xx)           [xx retain]
-#define PP_RELEASE(xx)          [xx release], xx = nil
-#define PP_AUTORELEASE(xx)      [xx autorelease]
-#endif
-
-#ifndef PPRSLog
-#if DEBUG
-# define PPRSLog(fmt, ...) NSLog((@"%s [Line %d] " fmt),__PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
-#else
-#define PPRSLog(fmt, ...)
-#endif
+    #define PP_ARC_ENABLED 1
 #endif
 
 #define PPSystemVersionGreaterOrEqualThan(version) ([[[UIDevice currentDevice] systemVersion] floatValue] >= version)
-/** 
+
+#if PP_ARC_ENABLED
+    #define PP_RETAIN(xx)           (xx)
+    #define PP_RELEASE(xx)          xx = nil
+    #define PP_AUTORELEASE(xx)      (xx)
+#else
+    #define PP_RETAIN(xx)           [xx retain]
+    #define PP_RELEASE(xx)          [xx release], xx = nil
+    #define PP_AUTORELEASE(xx)      [xx autorelease]
+#endif
+
+
+// Define a conditional logging macro
+#ifndef PPRSLog
+    #if DEBUG
+        #define PPRSLog(fmt, ...) NSLog((@"%s [Line %d] " fmt),__PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
+    #else
+        #define PPRSLog(fmt, ...)
+    #endif
+#endif
+
+
+/**
  @enum PPRevealSideDirection
  The direction to push !
  */
-enum {
+typedef enum {
+    /** These cannot be used as directions. Only for internal use ! */
+    PPRevealSideDirectionUndefined  = -1,
+    PPRevealSideDirectionNone       =  0,
+    /*PPRevealSideDirectionHorizontal = 1 << 1 | 1 << 2,
+    PPRevealSideDirectionVertical   = 1 << 3 | 1 << 4,
+    PPRevealSideDirectionAll        = 0xF,*/
+    
     /** Left direction */
-    PPRevealSideDirectionLeft = 1 << 1,
+    PPRevealSideDirectionLeft       = 1 << 1,
+    
     /** Right direction */
-    PPRevealSideDirectionRight = 1 << 2,
+    PPRevealSideDirectionRight      = 1 << 2,
+    
     /** Top direction */
-    PPRevealSideDirectionTop = 1 << 3,
+    PPRevealSideDirectionTop        = 1 << 3,
+    
     /** Bottom direction */
-    PPRevealSideDirectionBottom = 1 << 4,
-    /** This cannot be used as a direction. Only for internal use ! */
-    PPRevealSideDirectionNone = 0,
-};
-typedef NSUInteger PPRevealSideDirection;
+    PPRevealSideDirectionBottom     = 1 << 4,
+} PPRevealSideDirection;
 
-/** @enum PPRevealSideInteractions 
+
+/**
+ PPRevealSideDirection's combinations
+ Do not use them to push/pop/... !
+ */
+#define PPRevealSideDirectionsHorizontal (PPRevealSideDirectionLeft        | PPRevealSideDirectionRight)
+#define PPRevealSideDirectionsVertical   (PPRevealSideDirectionTop         | PPRevealSideDirectionBottom)
+#define PPRevealSideDirectionsAll        (PPRevealSideDirectionsHorizontal | PPRevealSideDirectionsVertical)
+
+#define PPRevealSideDirectionIsHorizontal(X) ((X & PPRevealSideDirectionsHorizontal) > 0)
+#define PPRevealSideDirectionIsVertical(X)   ((X & PPRevealSideDirectionsVertical)   > 0)
+
+static inline PPRevealSideDirection PPRevealSideDirectionGetOpposite(PPRevealSideDirection direction) {
+    switch (direction) {
+        case PPRevealSideDirectionLeft:   return PPRevealSideDirectionRight;
+        case PPRevealSideDirectionRight:  return PPRevealSideDirectionLeft;
+        case PPRevealSideDirectionTop:    return PPRevealSideDirectionBottom;
+        case PPRevealSideDirectionBottom: return PPRevealSideDirectionTop;
+        default:                          return PPRevealSideDirectionUndefined;
+    }
+}
+
+
+/**
+ @enum PPRevealSideInteractions 
  The interactions availabled 
  */
-enum {
-    PPRevealSideInteractionNone = 0,
+typedef enum {
+    PPRevealSideInteractionNone          = 0,
     PPRevealSideInteractionNavigationBar = 1 << 1,
-    PPRevealSideInteractionContentView = 1 << 2,
+    PPRevealSideInteractionContentView   = 1 << 2,
     
-};
-typedef NSUInteger PPRevealSideInteractions;
+} PPRevealSideInteractions;
 
-/** @enum PPRevealSideOptions 
+
+/**
+ @enum PPRevealSideOptions 
  Some options 
  */
-
-enum {
+typedef enum {
     PPRevealSideOptionsNone = 0,
     PPRevealSideOptionsShowShadows = 1 << 1, /// Disable or enable the shadows. Enabled by default
     PPRevealSideOptionsBounceAnimations = 1 << 2, /// Decide if the animations are boucing or not. By default, they are
     PPRevealSideOptionsCloseCompletlyBeforeOpeningNewDirection = 1 << 3, /// Decide if we close completely the old direction, for the new one or not. Set to YES by default
     PPRevealSideOptionsKeepOffsetOnRotation = 1 << 4, /// Keep the same offset when rotating. By default, set to no
     PPRevealSideOptionsResizeSideView = 1 << 5, /// Resize the side view. If set to yes, this disabled the bouncing stuff since the view behind is not large enough to show bouncing correctly. Set to NO by default
-};
-typedef NSUInteger PPRevealSideOptions;
+} PPRevealSideOptions;
 
 
 @protocol PPRevealSideViewControllerDelegate;
@@ -143,12 +179,11 @@ If you want to pop a new center controller, then do the following :
  
  */
 
-@interface PPRevealSideViewController : UIViewController <UIGestureRecognizerDelegate>
-{
-    NSMutableDictionary     *_viewControllers;
-    NSMutableDictionary     *_viewControllersOffsets;
+@interface PPRevealSideViewController : UIViewController <UIGestureRecognizerDelegate> {
+    NSMutableDictionary*    _viewControllers;
+    NSMutableDictionary*    _viewControllersOffsets;
     
-    NSMutableArray          *_gestures;
+    NSMutableArray*         _gestures;
     
     CGPoint                 _panOrigin;
     PPRevealSideDirection   _currentPanDirection;
@@ -183,6 +218,17 @@ If you want to pop a new center controller, then do the following :
  
  */
 @property (nonatomic, assign) PPRevealSideOptions options;
+
+/**
+ Does the same as the option PPRevealSideOptionsResizeSideView,
+ but only for specific directions.
+ */
+@property (nonatomic, assign) PPRevealSideDirection resizeSides;
+
+/**
+ Specify the size of invisible overlapping region
+ */
+@property (nonatomic, retain) NSMutableDictionary* resizeOverlap;
 
 /**
  The offset bouncing. 
@@ -262,7 +308,7 @@ If you want to pop a new center controller, then do the following :
  @see pushOldViewControllerOnDirection:animated:
  @see pushViewController:onDirection:animated:forceToPopPush:
  */
-- (void) pushViewController:(UIViewController*)controller onDirection:(PPRevealSideDirection)direction animated:(BOOL)animated;
+- (void)pushViewController:(UIViewController*)controller onDirection:(PPRevealSideDirection)direction animated:(BOOL)animated;
 
 /**
  Push controller with a direction and a default offset and force to pop then push.
@@ -273,7 +319,7 @@ If you want to pop a new center controller, then do the following :
  For example, you could push a new left controller from the left. In this case, setting forcePopPush to YES will pop to center view controller, then push the new controller.
  @see pushViewController:onDirection:withOffset:animated:forceToPopPush:
  */
-- (void) pushViewController:(UIViewController*)controller onDirection:(PPRevealSideDirection)direction animated:(BOOL)animated forceToPopPush:(BOOL)forcePopPush;
+- (void)pushViewController:(UIViewController*)controller onDirection:(PPRevealSideDirection)direction animated:(BOOL)animated forceToPopPush:(BOOL)forcePopPush;
 
 /**
  Push the old controller if exists for the direction with a default offset.
@@ -282,7 +328,7 @@ If you want to pop a new center controller, then do the following :
  @param animated Animated or not
  @see pushOldViewControllerOnDirection:withOffset:animated:
  */
-- (void) pushOldViewControllerOnDirection:(PPRevealSideDirection)direction animated:(BOOL)animated;
+- (void)pushOldViewControllerOnDirection:(PPRevealSideDirection)direction animated:(BOOL)animated;
 
 /**
  Same as pushViewController:onDirection:animated: but with an offset
@@ -291,7 +337,7 @@ If you want to pop a new center controller, then do the following :
  @param offset The offset when the side view is pushed
  @param animated Animated or not
  */
-- (void) pushViewController:(UIViewController*)controller onDirection:(PPRevealSideDirection)direction withOffset:(CGFloat)offset animated:(BOOL)animated;
+- (void)pushViewController:(UIViewController*)controller onDirection:(PPRevealSideDirection)direction withOffset:(CGFloat)offset animated:(BOOL)animated;
 
 /**
  Same as pushViewController:onDirection:animated:forceToPopPush: but with an offset
@@ -302,7 +348,7 @@ If you want to pop a new center controller, then do the following :
  @param forcePopPush This parameter is needed when you want to push a new controller in the same direction.
  For example, you could push a new left controller from the left. In this case, setting forcePopPush to YES will pop to center view controller, then push the new controller.
  */
-- (void) pushViewController:(UIViewController*)controller onDirection:(PPRevealSideDirection)direction withOffset:(CGFloat)offset animated:(BOOL)animated forceToPopPush:(BOOL)forcePopPush;
+- (void)pushViewController:(UIViewController*)controller onDirection:(PPRevealSideDirection)direction withOffset:(CGFloat)offset animated:(BOOL)animated forceToPopPush:(BOOL)forcePopPush;
 
 /**
  Same as pushOldViewControllerOnDirection:animated: but with an offset
@@ -310,7 +356,7 @@ If you want to pop a new center controller, then do the following :
  @param offset The offset when the side view is pushed
  @param animated Animated or not
  */
-- (void) pushOldViewControllerOnDirection:(PPRevealSideDirection)direction withOffset:(CGFloat)offset animated:(BOOL)animated;
+- (void)pushOldViewControllerOnDirection:(PPRevealSideDirection)direction withOffset:(CGFloat)offset animated:(BOOL)animated;
 
 /**
  Pop controller with a new Center controller.
@@ -319,14 +365,14 @@ If you want to pop a new center controller, then do the following :
  @see popViewControllerAnimated:
  */
 
-- (void) popViewControllerWithNewCenterController:(UIViewController*)centerController animated:(BOOL)animated;
+- (void)popViewControllerWithNewCenterController:(UIViewController*)centerController animated:(BOOL)animated;
 
 /**
  Go back to the center controller.
  @param animated Animated or not
  @see popViewControllerWithNewCenterController:animated:
  */
-- (void) popViewControllerAnimated:(BOOL)animated;
+- (void)popViewControllerAnimated:(BOOL)animated;
 
 
 /**---------------------------------------------------------------------------------------
@@ -343,13 +389,13 @@ If you want to pop a new center controller, then do the following :
  
  For example, you will use as it, with a performSelector:afterDelay: (because of some interferences with the push/pop methods)
  
-    - (void) viewDidAppear:(BOOL)animated {
+    - (void)viewDidAppear:(BOOL)animated {
         [super viewDidAppear:animated];
         [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(preloadLeft) object:nil];
         [self performSelector:@selector(preloadLeft) withObject:nil afterDelay:0.3];
     }
  
-    - (void) preloadLeft {
+    - (void)preloadLeft {
         TableViewController *c = [[TableViewController alloc] initWithStyle:UITableViewStylePlain];
         [self.revealSideViewController preloadViewController:c
                                                      forSide:PPRevealSideDirectionLeft
@@ -360,7 +406,7 @@ If you want to pop a new center controller, then do the following :
  @param direction The direction for the future controller
  @see preloadViewController:forSide:withOffset:
  */
-- (void) preloadViewController:(UIViewController*)controller forSide:(PPRevealSideDirection)direction;
+- (void)preloadViewController:(UIViewController*)controller forSide:(PPRevealSideDirection)direction;
 
 /**
  Same as preloadViewController:forSide: but with an offset.
@@ -369,13 +415,13 @@ If you want to pop a new center controller, then do the following :
  @param offset The offset
  @see changeOffset:forDirection:
  */
-- (void) preloadViewController:(UIViewController*)controller forSide:(PPRevealSideDirection)direction withOffset:(CGFloat)offset;
+- (void)preloadViewController:(UIViewController*)controller forSide:(PPRevealSideDirection)direction withOffset:(CGFloat)offset;
 
 /**
  Remove the controller for a direction. This a convenient method when you use for example a Container view controller like Tab bar controller. When you switch from tabs, you probably want some tabs not to have side controllers. In that case, unload in view will disappear of the tab's controller, then preload on view will appear.
  @param direction The direction for which to unload the controller
  */
-- (void) unloadViewControllerForSide:(PPRevealSideDirection)direction;
+- (void)unloadViewControllerForSide:(PPRevealSideDirection)direction;
 
 /**
  Change the offset for a direction. Not animated.
@@ -383,31 +429,57 @@ If you want to pop a new center controller, then do the following :
  @param direction The direction for which to change the offset
  @see changeOffset:forDirection:animated:
  */
-- (void) changeOffset:(CGFloat)offset forDirection:(PPRevealSideDirection)direction;
+- (void)changeOffset:(CGFloat)offset forDirection:(PPRevealSideDirection)direction;
 
 /**
- Same as - (void) changeOffset:(CGFloat)offset forDirection:(PPRevealSideDirection)direction but animated
+ Same as - (void)changeOffset:(CGFloat)offset forDirection:(PPRevealSideDirection)direction but animated
  @param offset The offset
  @param direction The direction for which to change the offset
  @param animated Animated or not
  */
-- (void) changeOffset:(CGFloat)offset forDirection:(PPRevealSideDirection)direction animated:(BOOL)animated;
+- (void)changeOffset:(CGFloat)offset forDirection:(PPRevealSideDirection)direction animated:(BOOL)animated;
 
 /**
  Set Option.
  @param option The option to set
  */
-- (void) setOption:(PPRevealSideOptions)option;
+- (void)setOption:(PPRevealSideOptions)option;
 
 /**
  Reset Option.
  @param option The option to reset
  */
-- (void) resetOption:(PPRevealSideOptions)option;
+- (void)resetOption:(PPRevealSideOptions)option;
+
+/**
+ Set resize sides
+ @param resizeSides     Bit set of sides which should be resized
+ */
+- (void)setResizeSides:(PPRevealSideDirection)resizeSides;
+
+/**
+ Set that a side should be resized
+ @param direction       Direction which should be resized
+ */
+- (void)setResizeSide:(PPRevealSideDirection)direction;
+
+/**
+ Reset, which will cause that a side will not be resized
+ @param direction       Direction which should not be resized
+ */
+- (void)resetResizeSide:(PPRevealSideDirection)direction;
+
+/**
+ Set resize overlapping.
+ @param overlap    The size of the overlapping region
+ @param direction  The direction for which to change the overlap
+ */
+- (void)setResizeOverlap:(CGFloat)overlap forSide:(PPRevealSideDirection)direction;
+
 /**
  Update the view with gestures. Should be called for example when used with controllerForGesturesOnPPRevealSideViewController delegate method when using a container controller as the root. For example with a UITabBarController, call this method when the selected controller has been updated
  */
-- (void) updateViewWhichHandleGestures;
+- (void)updateViewWhichHandleGestures;
 
 /**
  Get the controller for a side. It is useful when you are for example on the left, and you want to update the right controller. You could use a reference to the root controller but it is more convenient like this.
@@ -416,6 +488,10 @@ If you want to pop a new center controller, then do the following :
  @return The controller on the side parameter
  */
 - (UIViewController*)controllerForSide:(PPRevealSideDirection)side;
+
+
+- (CGFloat)offsetForDirection:(PPRevealSideDirection)direction andInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation;
+- (CGFloat)offsetForDirection:(PPRevealSideDirection)direction;
 
 @end
 
@@ -426,7 +502,7 @@ If you want to pop a new center controller, then do the following :
 /**
  The parent revealSideViewController
  */
-@property (nonatomic, retain) PPRevealSideViewController *revealSideViewController;
+@property (nonatomic, retain) IBOutlet PPRevealSideViewController *revealSideViewController;
 @end
 
 /**
@@ -449,31 +525,31 @@ If you want to pop a new center controller, then do the following :
  @param controller The reveal side view controller
  @param newCenterController The new center controller
  */
-- (void) pprevealSideViewController:(PPRevealSideViewController *)controller didChangeCenterController:(UIViewController*)newCenterController;
+- (void)pprevealSideViewController:(PPRevealSideViewController *)controller didChangeCenterController:(UIViewController*)newCenterController;
 
 /** Called when a controller will be pushed
  @param controller The reveal side view controller
  @param pushedController The controller pushed
  */
-- (void) pprevealSideViewController:(PPRevealSideViewController *)controller willPushController:(UIViewController *)pushedController;
+- (void)pprevealSideViewController:(PPRevealSideViewController *)controller willPushController:(UIViewController *)pushedController;
 
 /** Called when a controller has been pushed
  @param controller The reveal side view controller
  @param pushedController The controller pushed
  */
-- (void) pprevealSideViewController:(PPRevealSideViewController *)controller didPushController:(UIViewController *)pushedController;
+- (void)pprevealSideViewController:(PPRevealSideViewController *)controller didPushController:(UIViewController *)pushedController;
 
 /** Called when a controller will be poped
  @param controller The reveal side view controller
  @param centerController The center controller poped
  */
-- (void) pprevealSideViewController:(PPRevealSideViewController *)controller willPopToController:(UIViewController *)centerController;
+- (void)pprevealSideViewController:(PPRevealSideViewController *)controller willPopToController:(UIViewController *)centerController;
 
 /** Called when a controller has been poped
  @param controller The reveal side view controller
  @param centerController The center controller poped
  */
-- (void) pprevealSideViewController:(PPRevealSideViewController *)controller didPopToController:(UIViewController *)centerController;
+- (void)pprevealSideViewController:(PPRevealSideViewController *)controller didPopToController:(UIViewController *)centerController;
 
 /** Called when a gesture will start. Typically, if you would use a class like the UISlider (handled by default in the class), you don't want to activate the pan gesture on the slider since it will not be functional.
  @param controller The reveal side view controller
@@ -483,7 +559,7 @@ If you want to pop a new center controller, then do the following :
  @see pprevealSideViewController:directionsAllowedForPanningOnView:
  
  */
-- (BOOL) pprevealSideViewController:(PPRevealSideViewController *)controller shouldDeactivateGesture:(UIGestureRecognizer*)gesture forView:(UIView*)view;
+- (BOOL)pprevealSideViewController:(PPRevealSideViewController *)controller shouldDeactivateGesture:(UIGestureRecognizer *)gesture forView:(UIView *)view;
 
 /**
  Called when a gesture will start
@@ -501,7 +577,7 @@ If you want to pop a new center controller, then do the following :
  @return Return directions allowed for panning
  @see pprevealSideViewController:shouldDeactivateGesture:forView:
  */
-- (PPRevealSideDirection)pprevealSideViewController:(PPRevealSideViewController*)controller directionsAllowedForPanningOnView:(UIView*)view;
+- (PPRevealSideDirection)pprevealSideViewController:(PPRevealSideViewController *)controller directionsAllowedForPanningOnView:(UIView *)view;
 
 /**
  Implement this method if you have some custom views in which to add pan gestures, for example a custom navigation bar (not a UINavigationBar)
@@ -509,7 +585,7 @@ If you want to pop a new center controller, then do the following :
  @param controller The reveal side view controller
  @return an array of views
  */
-- (NSArray*) customViewsToAddPanGestureOnPPRevealSideViewController:(PPRevealSideViewController*)controller;
+- (NSArray *)customViewsToAddPanGestureOnPPRevealSideViewController:(PPRevealSideViewController *)controller;
 
 /**
  Implement this method if you have some custom views in which to add Tap gestures, for example a custom navigation bar (not a UINavigationBar)
@@ -517,7 +593,7 @@ If you want to pop a new center controller, then do the following :
  @param controller The reveal side view controller
  @return an array of views
  */
-- (NSArray*) customViewsToAddTapGestureOnPPRevealSideViewController:(PPRevealSideViewController*)controller;
+- (NSArray *)customViewsToAddTapGestureOnPPRevealSideViewController:(PPRevealSideViewController *)controller;
 
 /**
  Implement this method if you have for example a container as the rootViewController (like UITabBarController). If you do not implement this method, the gestures are added to the RootViewController (the center view controller)
@@ -525,7 +601,7 @@ If you want to pop a new center controller, then do the following :
  @param controller The reveal side view controller
  @return the controller in which we will add gestures
  */
-- (UIViewController*) controllerForGesturesOnPPRevealSideViewController:(PPRevealSideViewController*)controller;
+- (UIViewController *)controllerForGesturesOnPPRevealSideViewController:(PPRevealSideViewController *)controller;
 @end
 
 /**
