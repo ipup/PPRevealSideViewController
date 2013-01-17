@@ -1286,7 +1286,11 @@ static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
     }
     
     // If the direction is left or right, then cancel the swipe gesture to avoid double scrolling
-    if (_currentPanDirection == PPRevealSideDirectionLeft || _currentPanDirection == PPRevealSideDirectionRight)
+    if (
+        (_currentPanDirection == PPRevealSideDirectionLeft && [self controllerForSide:PPRevealSideDirectionLeft])
+        ||
+        (_currentPanDirection == PPRevealSideDirectionRight && [self controllerForSide:PPRevealSideDirectionRight])
+        )
     {
         // This is a simple way to cancel a gesture
         _tableViewSwipeGestureRecognizer.enabled = NO;
