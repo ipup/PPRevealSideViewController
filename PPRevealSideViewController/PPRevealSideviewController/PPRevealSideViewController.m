@@ -1076,11 +1076,12 @@ static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
 }
 
 - (CGRect) getSlidingRectForOffset:(CGFloat)offset forDirection:(PPRevealSideDirection)direction andOrientation:(UIInterfaceOrientation)orientation {
-    if (_wasClosed) {
-        if (direction == PPRevealSideDirectionLeft || direction == PPRevealSideDirectionRight) offset = MIN(CGRectGetWidth(PPScreenBounds()), offset);
-        
-        if (direction == PPRevealSideDirectionTop || direction == PPRevealSideDirectionBottom) offset = MIN(CGRectGetHeight(self.view.frame), offset);
-    }
+    //if (_wasClosed)
+    // Don't know why I limited this test to the case pan from close. The same set min should happen when from open.
+    // That's probably a failed attempt to handle slide from left to right when having controllers on both side. This works fine without this test
+    if (direction == PPRevealSideDirectionLeft || direction == PPRevealSideDirectionRight) offset = MIN(CGRectGetWidth(PPScreenBounds()), offset);
+    
+    if (direction == PPRevealSideDirectionTop || direction == PPRevealSideDirectionBottom) offset = MIN(CGRectGetHeight(self.view.frame), offset);
     CGRect rectToReturn = CGRectZero;
     rectToReturn.size = _rootViewController.view.frame.size;
     
