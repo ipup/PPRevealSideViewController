@@ -1544,7 +1544,11 @@ static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    [self tryToRemoveObserverOnFrame];
+    if (!PPSystemVersionGreaterOrEqualThan(6.0)) {
+        // Because the view will load. In iOS 6, there is no such behavior of load / unload
+        // I could have put it in didUnload, but I probably place it here for a good reason (don't remember which)
+        [self tryToRemoveObserverOnFrame];
+    }
 }
 
 - (void)viewDidUnload
