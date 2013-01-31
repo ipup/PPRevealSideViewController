@@ -207,9 +207,7 @@ static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
     if (_animationInProgress) return;
 	
     _rootViewController.view.alpha = 1.0;
-	
-    [self informDelegateWithOptionalSelector:@selector(pprevealSideViewController:willPushController:) withParam:controller];
-	
+		
     // get the side direction to close
     PPRevealSideDirection directionToClose = [self getSideToClose];
     
@@ -231,6 +229,8 @@ static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
 		return;
 	}
     
+    [self informDelegateWithOptionalSelector:@selector(pprevealSideViewController:willPushController:) withParam:controller];
+
     _animationInProgress = YES;
     
     NSNumber *directionNumber = [NSNumber numberWithInt:direction];
