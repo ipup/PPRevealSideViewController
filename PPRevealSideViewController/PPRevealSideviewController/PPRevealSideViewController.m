@@ -1230,7 +1230,9 @@ const CGFloat        PPRevealSideNavigationControllerPopTreshold = 100.0;
                 }
                 
                 _usedNavFromPanGesture = YES;
-                if (topVC.navigationItem.leftBarButtonItem && !topVC.navigationItem.leftItemsSupplementBackButton) {
+                if (topVC.navigationItem.leftBarButtonItem
+                    && topVC.navigationItem.leftBarButtonItem.action
+                    && !topVC.navigationItem.leftItemsSupplementBackButton) {
                     [self executeBarButtonItem:topVC.navigationItem.leftBarButtonItem];
                 } else {
                     [navController popViewControllerAnimated:YES];
