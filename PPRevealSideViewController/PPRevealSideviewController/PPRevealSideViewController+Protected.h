@@ -19,6 +19,7 @@
 - (void)handleShadows;
 
 - (void)informDelegateWithOptionalSelector:(SEL)selector withParam:(id)param;
+- (void)executeBarButtonItem:(UIBarButtonItem *)barItem;
 
 - (void)popViewControllerWithNewCenterController:(UIViewController *)centerController animated:(BOOL)animated andPresentNewController:(UIViewController*)controllerToPush withDirection:(PPRevealSideDirection)direction andOffset:(CGFloat)offset;
 

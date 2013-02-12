@@ -194,7 +194,7 @@ If you want to pop a new center controller, then do the following :
     BOOL                    _shouldNotCloseWhenPushingSameDirection;
     BOOL                    _wasClosed;
     BOOL                    _popFromPanGesture;
-    BOOL                    _popNavFromPanGesture;
+    BOOL                    _usedNavFromPanGesture;
 }
 
 /**

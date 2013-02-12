@@ -1211,17 +1211,36 @@ const CGFloat        PPRevealSideNavigationControllerPopTreshold = 100.0;
         }
         c.view.hidden = NO;
     } else {
-        if (_currentPanDirection == PPRevealSideDirectionLeft
-             && [self.rootViewController isKindOfClass:UINavigationController.class]
-             && ((UINavigationController *)self.rootViewController).viewControllers.count > 1
-             && !_popNavFromPanGesture) {
-            // We swiped to left and have a navigation controller in the center and have multiple controllers
-            // on the stack, so lets pop the top-most one.
-            if (x < PPRevealSideNavigationControllerPopTreshold) {
-                return;
+        UINavigationController* navController;
+        if ([self.rootViewController isKindOfClass:UINavigationController.class]) {
+            navController = (UINavigationController *)self.rootViewController;
+        } else {
+            navController = self.rootViewController.navigationController;
+        }
+        if (navController && !_usedNavFromPanGesture) {
+            UIViewController* topVC = navController.viewControllers.lastObject;
+            if (_currentPanDirection == PPRevealSideDirectionLeft
+                && !topVC.navigationItem.hidesBackButton
+                && navController.viewControllers.count > 1) {
+                // We swiped to left and have a navigation controller in the center and have multiple controllers
+                // on the stack and backButton is not hidden, so lets pop the top-most one.
+                if (x < PPRevealSideNavigationControllerPopTreshold) {
+                    // This must be done inside, because we won't cancel the gesture.
+                    return;
+                }
+                
+                _usedNavFromPanGesture = YES;
+                if (topVC.navigationItem.leftBarButtonItem && !topVC.navigationItem.leftItemsSupplementBackButton) {
+                    [self executeBarButtonItem:topVC.navigationItem.leftBarButtonItem];
+                } else {
+                    [navController popViewControllerAnimated:YES];
+                }
+            } else if (_currentPanDirection == PPRevealSideDirectionRight
+                       && topVC.navigationItem.rightBarButtonItem
+                       && topVC.navigationItem.rightBarButtonItem.action) {
+                _usedNavFromPanGesture = YES;
+                [self executeBarButtonItem:topVC.navigationItem.rightBarButtonItem];
             }
-            _popNavFromPanGesture = YES;
-            [((UINavigationController *)self.rootViewController) popViewControllerAnimated:YES];
         } else if (!disabled) {
             // We use the bounce animation
             PPRSLog(@"****** No controller to push ****** Think to preload controller ! ******");
@@ -1231,7 +1250,7 @@ const CGFloat        PPRevealSideNavigationControllerPopTreshold = 100.0;
         // Little trick to cancel the gesture. Otherwise, as long as we pan, we continue to pass here ...
         panGesture.enabled = NO;
         panGesture.enabled = YES;
-        _popNavFromPanGesture = NO;
+        _usedNavFromPanGesture = NO;
         return;
     }
     
@@ -1308,6 +1327,20 @@ const CGFloat        PPRevealSideNavigationControllerPopTreshold = 100.0;
             _shouldNotCloseWhenPushingSameDirection = NO;
         }
     }
+}
+
+- (void)executeBarButtonItem:(UIBarButtonItem *)barItem {
+    // Invoke barItems action on its target
+    NSMethodSignature* signature = [barItem.target methodSignatureForSelector:barItem.action];
+    NSInvocation* invocation = [NSInvocation invocationWithMethodSignature:signature];
+    invocation.target   = barItem.target;
+    invocation.selector = barItem.action;
+    if (signature.numberOfArguments >= 3) {
+        // Set self as first true argument, which is used as sender argument, if given.
+        // The first two arguments are the hidden arguments self and _cmd.
+        [invocation setArgument:(__bridge void *)(self) atIndex:2];
+    }
+    [invocation invoke];
 }
 
 - (void)gestureRecognizerDidTap:(UITapGestureRecognizer*)tapGesture {
