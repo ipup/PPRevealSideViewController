@@ -14,19 +14,20 @@
 
 
 // Define constant values
-const CGFloat        PPRevealSideDefaultOffset                  = 70.0;
-const CGFloat        PPRevealSideDefaultOffsetBouncing          = 5.0;
-const CGFloat        PPRevealSideDefaultResizeOverlap           = 8.0;
-const NSTimeInterval PPRevealSideOpenAnimationTime              = 0.3;
-const NSTimeInterval PPRevealSideOpenAnimationTimeBouncingRatio = 0.3;
-const NSTimeInterval PPRevealSideOpenAnimationTimeErrorRatio    = 0.15;
-const CGFloat        PPRevealSideBounceErrorOffset              = 14.0;
-const CGFloat        PPRevealSideTriggerChooseDirection         = 3.0;
-const CGFloat        PPRevealSideTriggerChangeDirection         = 0.0;
-const CGFloat        PPRevealSideMaxTriggerOffset               = 100.0;
-const CGFloat        PPRevealSideMinTouchableSize               = 44.0;
-const CGFloat        PPRevealSideStatusbarHeight                = 20.0;
-const double         PPRevealSideTriggerStepFactor              = 5.0;
+const CGFloat        PPRevealSideDefaultOffset                   = 70.0;
+const CGFloat        PPRevealSideDefaultOffsetBouncing           = 5.0;
+const CGFloat        PPRevealSideDefaultResizeOverlap            = 8.0;
+const NSTimeInterval PPRevealSideOpenAnimationTime               = 0.3;
+const NSTimeInterval PPRevealSideOpenAnimationTimeBouncingRatio  = 0.3;
+const NSTimeInterval PPRevealSideOpenAnimationTimeErrorRatio     = 0.15;
+const CGFloat        PPRevealSideBounceErrorOffset               = 14.0;
+const CGFloat        PPRevealSideTriggerChooseDirection          = 3.0;
+const CGFloat        PPRevealSideTriggerChangeDirection          = 0.0;
+const CGFloat        PPRevealSideMaxTriggerOffset                = 100.0;
+const CGFloat        PPRevealSideMinTouchableSize                = 44.0;
+const CGFloat        PPRevealSideStatusbarHeight                 = 20.0;
+const double         PPRevealSideTriggerStepFactor               = 5.0;
+const CGFloat        PPRevealSideNavigationControllerPopTreshold = 100.0;
 
 
 
@@ -497,6 +498,23 @@ const double         PPRevealSideTriggerStepFactor              = 5.0;
     [_viewControllers removeObjectForKey:key];
 }
 
+- (void)removeControllerFromView:(UIViewController*)controller animated:(BOOL)animated {
+    if (PPSystemVersionGreaterOrEqualThan(5.0)) {
+        [controller willMoveToParentViewController:nil];
+    } else {
+        [controller viewWillDisappear:animated];
+    }
+    
+    [controller.view removeFromSuperview];
+    
+    if (PPSystemVersionGreaterOrEqualThan(5.0)) {
+        [controller removeFromParentViewController];
+        [controller didMoveToParentViewController:nil];
+    } else {
+        [controller viewDidDisappear:animated];
+    }
+}
+
 - (void)changeOffset:(CGFloat)offset forDirection:(PPRevealSideDirection)direction {
     [self changeOffset:offset forDirection:direction animated:NO];
 }
@@ -593,15 +611,56 @@ const double         PPRevealSideTriggerStepFactor              = 5.0;
     [self didChangeValueForKey:@"tapInteractionsWhenOpened"];
 }
 
+- (void)setOffset:(CGFloat)offset forDirection:(PPRevealSideDirection)direction {
+    // This is always an offset for portrait
+    [_viewControllersOffsets setObject:[NSNumber numberWithDouble:offset] forKey:[NSNumber numberWithInt:direction]];
+}
+
 
 #pragma mark - Getters
 
-- (PPRevealSideDirection)sideDirectionOpened {
-    return [self sideToClose];
-}
-
 - (UIViewController *)controllerForSide:(PPRevealSideDirection)side {
     return [_viewControllers objectForKey:[NSNumber numberWithInt:side]];
+}
+
+- (BOOL)isOptionEnabled:(PPRevealSideOptions)option {
+    return ((_options & option) == option);
+}
+
+- (BOOL)canCrossOffsets {
+    return ![self isOptionEnabled:PPRevealSideOptionsResizeSideView] && [self isOptionEnabled:PPRevealSideOptionsBounceAnimations];
+}
+
+- (PPRevealSideDirection)sideDirectionOpened {
+    return self.sideToClose;
+}
+
+- (PPRevealSideDirection)sideToClose {
+    PPRevealSideDirection sideToReturn = PPRevealSideDirectionNone;
+    if (!self.isRightControllerClosed)  sideToReturn = PPRevealSideDirectionRight;
+    if (!self.isLeftControllerClosed)   sideToReturn = PPRevealSideDirectionLeft;
+    if (!self.isTopControllerClosed)    sideToReturn = PPRevealSideDirectionTop;
+    if (!self.isBottomControllerClosed) sideToReturn = PPRevealSideDirectionBottom;
+    return sideToReturn;
+}
+
+
+#pragma mark Closed Controllers
+
+- (BOOL)isLeftControllerClosed {
+    return CGRectGetMinX(_rootViewController.view.frame) <= 0;
+}
+
+- (BOOL)isRightControllerClosed {
+    return CGRectGetMaxX(_rootViewController.view.frame) >= CGRectGetWidth(_rootViewController.view.frame);
+}
+
+- (BOOL)isTopControllerClosed {
+    return CGRectGetMinY(_rootViewController.view.frame) <= 0;
+}
+
+- (BOOL)isBottomControllerClosed {
+    return CGRectGetMaxY(_rootViewController.view.frame) >= CGRectGetHeight(_rootViewController.view.frame);
 }
 
 
@@ -697,7 +756,7 @@ const double         PPRevealSideTriggerStepFactor              = 5.0;
 }
 
 - (void)resizeCurrentView {
-    PPRevealSideDirection direction = [self sideToClose];
+    PPRevealSideDirection direction = self.sideToClose;
     
     if (([self isOptionEnabled:PPRevealSideOptionsKeepOffsetOnRotation]
             && (direction == PPRevealSideDirectionRight || direction == PPRevealSideDirectionLeft)
@@ -708,6 +767,9 @@ const double         PPRevealSideTriggerStepFactor              = 5.0;
     }
 }
 
+
+#pragma mark - Gesture recognizer
+
 - (UIViewController *)controllerForGestures {
     UIViewController* controllerForGestures = _rootViewController;
     if ([self.delegate respondsToSelector:@selector(controllerForGesturesOnPPRevealSideViewController:)]) {
@@ -715,6 +777,19 @@ const double         PPRevealSideTriggerStepFactor              = 5.0;
         if (specialController) controllerForGestures = specialController;
     }
     return controllerForGestures;
+}
+
+- (UIViewController *)topControllerFromController:(UIViewController *)controller {
+    /*if ([controller isKindOfClass:UINavigationController.class]) {
+        return ((UINavigationController*)controller).viewControllers.lastObject;
+    } else {
+        if (controller.navigationController) {
+            return controller.navigationController.viewControllers.lastObject;
+        } else {
+            return controller;
+        }
+    }*/
+    return controller;
 }
 
 - (void)addPanGestureToView:(UIView *)view {
@@ -728,14 +803,14 @@ const double         PPRevealSideTriggerStepFactor              = 5.0;
 }
 
 - (void)addPanGestureToController:(UIViewController *)controller {
-    BOOL isClosed = ([self sideToClose] == PPRevealSideDirectionNone) ? YES : NO;
+    BOOL isClosed = (self.sideToClose == PPRevealSideDirectionNone) ? YES : NO;
     PPRevealSideInteractions interactions = isClosed ? _panInteractionsWhenClosed : _panInteractionsWhenOpened;
     
     // Nav Bar
-    if (interactions & PPRevealSideInteractionNavigationBar && ([controller isKindOfClass:[UINavigationController class]]
+    if (interactions & PPRevealSideInteractionNavigationBar && ([controller isKindOfClass:UINavigationController.class]
                                                                 || controller.navigationController)) {
         UINavigationController *nav;
-        if ([controller isKindOfClass:[UINavigationController class]]) {
+        if ([controller isKindOfClass:UINavigationController.class]) {
             nav = (UINavigationController*)controller;
         } else {
             nav = controller.navigationController;
@@ -747,16 +822,7 @@ const double         PPRevealSideTriggerStepFactor              = 5.0;
     
     // Content View
     if (interactions & PPRevealSideInteractionContentView) {
-        UIViewController *c;
-        if ([controller isKindOfClass:[UINavigationController class]]) {
-            c = [((UINavigationController*)controller).viewControllers lastObject];
-        } else {
-            if (controller.navigationController) {
-                c = [controller.navigationController.viewControllers lastObject];
-            } else {
-                c = controller;
-            }
-        }
+        UIViewController *c = [self topControllerFromController:controller];
         [self addPanGestureToView:c.view];
     }
     
@@ -784,18 +850,17 @@ const double         PPRevealSideTriggerStepFactor              = 5.0;
 }
 
 - (void)addTapGestureToController:(UIViewController *)controller {
-    BOOL isClosed = ([self sideToClose] == PPRevealSideDirectionNone) ? YES : NO;
-    if (isClosed) 
-    {
+    BOOL isClosed = (self.sideToClose == PPRevealSideDirectionNone) ? YES : NO;
+    if (isClosed) {
         // no tap gesture required when closed. So remove the old ones
         [self removeAllTapGestures];
         return; 
     }
 
     // Nav Bar
-    if (_tapInteractionsWhenOpened & PPRevealSideInteractionNavigationBar && ([controller isKindOfClass:[UINavigationController class]] || controller.navigationController)) {
+    if (_tapInteractionsWhenOpened & PPRevealSideInteractionNavigationBar && ([controller isKindOfClass:UINavigationController.class] || controller.navigationController)) {
         UINavigationController *nav;
-        if ([controller isKindOfClass:[UINavigationController class]]) {
+        if ([controller isKindOfClass:UINavigationController.class]) {
             nav = (UINavigationController*)controller;
         } else {
             nav = controller.navigationController;
@@ -805,16 +870,7 @@ const double         PPRevealSideTriggerStepFactor              = 5.0;
     
     // Content View
     if (_tapInteractionsWhenOpened & PPRevealSideInteractionContentView) {
-        UIViewController *c;
-        if ([controller isKindOfClass:[UINavigationController class]]) {
-            c = [((UINavigationController*)controller).viewControllers lastObject];
-        } else {
-            if (controller.navigationController) {
-                c = [controller.navigationController.viewControllers lastObject];
-            } else {
-                c = controller;
-            }
-        }
+        UIViewController *c = [self topControllerFromController:controller];
         [self addTapGestureToView:c.view];
     }
     
@@ -823,7 +879,7 @@ const double         PPRevealSideTriggerStepFactor              = 5.0;
         NSArray* views = [self.delegate customViewsToAddTapGestureOnPPRevealSideViewController:self];
         if (views) {
             for (UIView* subView in views) {
-                if ([subView isKindOfClass:[UIView class]]) {
+                if ([subView isKindOfClass:UIView.class]) {
                     [self addTapGestureToView:subView];
                 }
             }
@@ -872,63 +928,8 @@ const double         PPRevealSideTriggerStepFactor              = 5.0;
     [self addGesturesToCenterController];
 }
 
-- (void)setOffset:(CGFloat)offset forDirection:(PPRevealSideDirection)direction {
-    // This is always an offset for portrait
-    [_viewControllersOffsets setObject:[NSNumber numberWithDouble:offset] forKey:[NSNumber numberWithInt:direction]];
-}
 
-- (void)removeControllerFromView:(UIViewController*)controller animated:(BOOL)animated {
-    if (PPSystemVersionGreaterOrEqualThan(5.0)) {
-        [controller willMoveToParentViewController:nil];
-    } else {
-        [controller viewWillDisappear:animated];
-    }
-    
-    [controller.view removeFromSuperview];
-    
-    if (PPSystemVersionGreaterOrEqualThan(5.0)) {
-        [controller removeFromParentViewController];
-        [controller didMoveToParentViewController:nil];
-    } else {
-        [controller viewDidDisappear:animated];
-    }
-}
-
-#pragma mark Closed Controllers 
-
-- (BOOL)isLeftControllerClosed {
-    return CGRectGetMinX(_rootViewController.view.frame) <= 0;
-}
-
-- (BOOL)isRightControllerClosed {
-    return CGRectGetMaxX(_rootViewController.view.frame) >= CGRectGetWidth(_rootViewController.view.frame);
-}
-
-- (BOOL)isTopControllerClosed {
-    return CGRectGetMinY(_rootViewController.view.frame) <= 0;
-}
-
-- (BOOL)isBottomControllerClosed {
-    return CGRectGetMaxY(_rootViewController.view.frame) >= CGRectGetHeight(_rootViewController.view.frame); 
-}
-
-- (BOOL)isOptionEnabled:(PPRevealSideOptions)option {
-    return ((_options & option) == option); 
-}
-
-- (BOOL)canCrossOffsets {
-    return ![self isOptionEnabled:PPRevealSideOptionsResizeSideView] && [self isOptionEnabled:PPRevealSideOptionsBounceAnimations];
-}
-
-
-- (PPRevealSideDirection)sideToClose {
-    PPRevealSideDirection sideToReturn = PPRevealSideDirectionNone;
-    if (![self isRightControllerClosed])  sideToReturn = PPRevealSideDirectionRight;
-    if (![self isLeftControllerClosed])   sideToReturn = PPRevealSideDirectionLeft;
-    if (![self isTopControllerClosed])    sideToReturn = PPRevealSideDirectionTop;
-    if (![self isBottomControllerClosed]) sideToReturn = PPRevealSideDirectionBottom;
-    return sideToReturn;
-}
+#pragma mark - Layout calculations
 
 - (CGRect)slidingRectForOffset:(CGFloat)offset forDirection:(PPRevealSideDirection)direction andOrientation:(UIInterfaceOrientation)orientation {
     if (direction == PPRevealSideDirectionLeft || direction == PPRevealSideDirectionRight) {
@@ -1093,11 +1094,11 @@ const double         PPRevealSideTriggerStepFactor              = 5.0;
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
     _panOrigin = _rootViewController.view.frame.origin;
     gestureRecognizer.enabled = YES;
-    _currentPanDirection = [self sideToClose];
+    _currentPanDirection = self.sideToClose;
     _wasClosed = _currentPanDirection == PPRevealSideDirectionNone;
     
     BOOL hasExceptionTouch = NO;
-    if ([touch.view isKindOfClass:[UIControl class]] && [gestureRecognizer isKindOfClass:[UITapGestureRecognizer class]]) {
+    if ([touch.view isKindOfClass:UIControl.class] && [gestureRecognizer isKindOfClass:UITapGestureRecognizer.class]) {
         if (![touch.view isKindOfClass:NSClassFromString(@"UINavigationButton")]) {
             hasExceptionTouch = YES;
         }
@@ -1125,7 +1126,7 @@ const double         PPRevealSideTriggerStepFactor              = 5.0;
             return YES;
         }
     }
-
+    
     BOOL hasExceptionDelegate = NO;
     if ([self.delegate respondsToSelector:@selector(pprevealSideViewController:shouldDeactivateGesture:forView:)]) {
         hasExceptionDelegate = [self.delegate pprevealSideViewController:self
@@ -1186,17 +1187,11 @@ const double         PPRevealSideTriggerStepFactor              = 5.0;
         return;
     }
     
-    // If the direction is disabled, then cancel the gesture
-    if (_currentPanDirection & _disabledPanGestureDirection) {
-        // Little trick to cancel the gesture. Otherwise, as long as we pan, we continue to pass here ...
-        panGesture.enabled = NO;
-        panGesture.enabled = YES;
-        return;
-    }
+    BOOL disabled = _currentPanDirection & _disabledPanGestureDirection;
     
     // See if there is a controller or not for the direction. If yes, then add it.
     UIViewController *c = [_viewControllers objectForKey:[NSNumber numberWithInt:_currentPanDirection]];
-    if (c) {
+    if (!disabled && c) {
         if (!c.view.superview) {
             c.view.frame = self.rootViewController.view.bounds;
             if (PPSystemVersionGreaterOrEqualThan(5.0)) {
@@ -1216,13 +1211,27 @@ const double         PPRevealSideTriggerStepFactor              = 5.0;
         }
         c.view.hidden = NO;
     } else {
-        // We use the bounce animation
-        PPRSLog(@"****** No controller to push ****** Think to preload controller ! ******");
-        [self pushOldViewControllerOnDirection:_currentPanDirection animated:YES];
+        if (_currentPanDirection == PPRevealSideDirectionLeft
+             && [self.rootViewController isKindOfClass:UINavigationController.class]
+             && ((UINavigationController *)self.rootViewController).viewControllers.count > 1
+             && !_popNavFromPanGesture) {
+            // We swiped to left and have a navigation controller in the center and have multiple controllers
+            // on the stack, so lets pop the top-most one.
+            if (x < PPRevealSideNavigationControllerPopTreshold) {
+                return;
+            }
+            _popNavFromPanGesture = YES;
+            [((UINavigationController *)self.rootViewController) popViewControllerAnimated:YES];
+        } else if (!disabled) {
+            // We use the bounce animation
+            PPRSLog(@"****** No controller to push ****** Think to preload controller ! ******");
+            [self pushOldViewControllerOnDirection:_currentPanDirection animated:YES];
+        }
         
         // Little trick to cancel the gesture. Otherwise, as long as we pan, we continue to pass here ...
         panGesture.enabled = NO;
         panGesture.enabled = YES;
+        _popNavFromPanGesture = NO;
         return;
     }
     
@@ -1307,7 +1316,7 @@ const double         PPRevealSideTriggerStepFactor              = 5.0;
 }
 
 
-#pragma mark - Orientation stuff
+#pragma mark - Allowed orientations & animations
 
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
     [super willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
@@ -1383,7 +1392,7 @@ const double         PPRevealSideTriggerStepFactor              = 5.0;
 }
 
 
-#pragma mark - Memory management things
+#pragma mark - Memory management
 
 - (void)viewWillUnload {
     [super viewWillUnload];
