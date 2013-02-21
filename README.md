@@ -243,8 +243,25 @@ You have some options availabled defined in PPRevealSideOptions
 * PPRevealSideOptionsKeepOffsetOnRotation : Keep the same offset when rotating. By default, set to no.
 * PPRevealSideOptionsResizeSideView : Resize the side view. If set to yes, this disabled the bouncing stuff since the view behind is not large enough to show bouncing correctly. Set to NO by default.
 
+You can find it on
+-------
 
-                                                
+This control is used in these apps we developped at iPuP:
+
+[Les Ardoises](https://itunes.apple.com/fr/app/lesardoises/id535572649?mt=8)
+![Preview](http://a1918.phobos.apple.com/us/r1000/092/Purple/v4/20/2b/c9/202bc95a-5e37-4b5a-a64a-fe2a5e9e5cc5/mzl.bonbayen.320x480-75.jpg)
+
+[iAddict V3](https://itunes.apple.com/fr/app/iaddict-v2/id473749663?mt=8)
+![Preview](http://cdn.iphoneaddict.fr/wp-content/uploads/2013/02/iAddict-v3.jpg)
+
+[JDGeek](https://itunes.apple.com/fr/app/journal-du-geek-officiel/id541881667?mt=8)
+![Preview](http://a845.phobos.apple.com/us/r1000/097/Purple/v4/dd/c3/c6/ddc3c674-6371-2e1b-cf1a-37af9e2b584f/mzl.uonfdwvp.320x480-75.jpg)
+
+[JDGamer](https://itunes.apple.com/fr/app/journal-du-gamer-officiel/id541883168?mt=8)
+![Preview](http://a99.phobos.apple.com/us/r1000/096/Purple2/v4/0d/d2/5a/0dd25ac5-ef5a-621f-07ec-8832a207ace2/mzl.jkbdncdn.320x480-75.jpg)
+
+Please feel free to PR the readme for adding your app!
+
 License
 -------
 
