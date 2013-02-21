@@ -8,7 +8,7 @@ Pan and Tap gestures are also included!"
   s.homepage     = "https://github.com/ipup/PPRevealSideViewController"
   s.license      = { :type => 'MIT', :file => 'LICENSE' }
   s.author       = { "Marian PAUL" => "marian.paul2@gmail.com" }
-  s.source       = { :git => "https://github.com/ipup/PPRevealSideViewController.git", :tag => "1.0.0" }
+  s.source       = { :git => "https://github.com/ipup/PPRevealSideViewController.git", :tag => "1.0.1" }
   s.platform     = :ios
   s.requires_arc = true
   s.source_files = 'PPRevealSideViewController/PPRevealSideviewController/*.{h,m}'
