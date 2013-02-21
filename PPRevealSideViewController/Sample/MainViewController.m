@@ -49,7 +49,7 @@
                                                             action:@selector(showRight)];
     self.navigationItem.rightBarButtonItem = PP_AUTORELEASE(right);
     
-    _offsetSlider.value = 80.0;
+    _offsetSlider.value = 70.0;
     [self changeOffset:_offsetSlider];
     
     

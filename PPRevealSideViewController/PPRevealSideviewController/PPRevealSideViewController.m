@@ -529,6 +529,7 @@ static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
 - (void) openCompletelySide:(PPRevealSideDirection)direction animated:(BOOL)animated completion:(void(^)())completionBlock{
 	_shouldNotCloseWhenPushingSameDirection = YES;
     [self pushOldViewControllerOnDirection:direction withOffset:0.0 animated:YES completion:completionBlock];
+    _shouldNotCloseWhenPushingSameDirection = NO;
 }
 
 - (void) openCompletelyAnimated:(BOOL)animated{
@@ -557,6 +558,7 @@ static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
     _shouldNotCloseWhenPushingSameDirection = YES;
     PPRevealSideDirection direction = [self getSideToClose];
     [self pushOldViewControllerOnDirection:direction withOffset:offset animated:animated completion:completionBlock];
+    _shouldNotCloseWhenPushingSameDirection = NO;
 }
 
 - (void) replaceCentralViewControllerWithNewController:(UIViewController*)newCenterController animated:(BOOL)animated animationDirection:(PPRevealSideDirection)direction completion:(void(^)())completionBlock{
@@ -1180,7 +1182,7 @@ static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
 {
     CGFloat offset = [[_viewControllersOffsets objectForKey:[NSNumber numberWithInt:direction]] floatValue];
     
-    if (UIInterfaceOrientationIsLandscape(interfaceOrientation)) {
+    if (UIInterfaceOrientationIsLandscape(interfaceOrientation) && offset != 0.0) {
         if (![self isOptionEnabled:PPRevealSideOptionsKeepOffsetOnRotation])
         {
             // Take an orientation free rect
