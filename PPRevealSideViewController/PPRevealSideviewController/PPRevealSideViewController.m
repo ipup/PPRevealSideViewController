@@ -1265,13 +1265,13 @@ static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
         if (panDiffX > 0 && panDiffX > OFFSET_TRIGGER_CHOSE_DIRECTION)
             _currentPanDirection = PPRevealSideDirectionLeft;
         else
-            if (panDiffX < 0 && panDiffX < OFFSET_TRIGGER_CHOSE_DIRECTION)
+            if (panDiffX < 0 && panDiffX < -OFFSET_TRIGGER_CHOSE_DIRECTION)
                 _currentPanDirection = PPRevealSideDirectionRight;
             else
                 if (panDiffY > 0 && panDiffY > OFFSET_TRIGGER_CHOSE_DIRECTION)
                     _currentPanDirection = PPRevealSideDirectionTop;
                 else
-                    if (panDiffY < 0 && panDiffY < OFFSET_TRIGGER_CHOSE_DIRECTION)
+                    if (panDiffY < 0 && panDiffY < -OFFSET_TRIGGER_CHOSE_DIRECTION)
                         _currentPanDirection = PPRevealSideDirectionBottom;
         
     }
