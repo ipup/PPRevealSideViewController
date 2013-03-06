@@ -83,7 +83,9 @@ const CGFloat        PPRevealSideNavigationControllerPopTreshold = 100.0;
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [_rootViewController viewWillAppear:animated];
+    if (!PPSystemVersionGreaterOrEqualThan(5.0)) {
+        [_rootViewController viewWillAppear:animated];
+    }
     
     PPRevealSideDirection direction = self.sideToClose;
     if (direction != PPRevealSideDirectionNone) {
@@ -93,7 +95,9 @@ const CGFloat        PPRevealSideNavigationControllerPopTreshold = 100.0;
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    [_rootViewController viewDidAppear:animated];
+    if (!PPSystemVersionGreaterOrEqualThan(5.0)) {
+        [_rootViewController viewDidAppear:animated];
+    }
     
     PPRevealSideDirection direction = self.sideToClose;
     if (direction != PPRevealSideDirectionNone) {
@@ -103,7 +107,9 @@ const CGFloat        PPRevealSideNavigationControllerPopTreshold = 100.0;
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    [_rootViewController viewWillDisappear:animated];
+    if (!PPSystemVersionGreaterOrEqualThan(5.0)) {
+        [_rootViewController viewWillDisappear:animated];
+    }
     
     PPRevealSideDirection direction = self.sideToClose;
     if (direction != PPRevealSideDirectionNone) {
@@ -113,7 +119,9 @@ const CGFloat        PPRevealSideNavigationControllerPopTreshold = 100.0;
 
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
-    [_rootViewController viewDidDisappear:animated];
+    if (!PPSystemVersionGreaterOrEqualThan(5.0)) {
+        [_rootViewController viewDidDisappear:animated];
+    }
     
     PPRevealSideDirection direction = self.sideToClose;
     if (direction != PPRevealSideDirectionNone) {
@@ -267,7 +275,6 @@ const CGFloat        PPRevealSideNavigationControllerPopTreshold = 100.0;
     // TODO remove then adding not so good ... Maybe do something different
     [self removeControllerFromView:controller animated:animated];
     if (PPSystemVersionGreaterOrEqualThan(5.0)) {
-        [controller willMoveToParentViewController:self];
         [self addChildViewController:controller];
     }
     
@@ -509,7 +516,6 @@ const CGFloat        PPRevealSideNavigationControllerPopTreshold = 100.0;
     
     if (PPSystemVersionGreaterOrEqualThan(5.0)) {
         [controller removeFromParentViewController];
-        [controller didMoveToParentViewController:nil];
     } else {
         [controller viewDidDisappear:animated];
     }
@@ -666,36 +672,42 @@ const CGFloat        PPRevealSideNavigationControllerPopTreshold = 100.0;
 
 #pragma mark - Private methods
 
+- (void)tryToRemoveObserverOnFrame {
+    @try {
+        [_rootViewController removeObserver:self forKeyPath:@"view.frame"];
+    } @catch (NSException *exception) {
+    } @finally {
+    }
+}
+
 - (void)setRootViewController:(UIViewController *)controller replaceToOrigin:(BOOL)replace {
     if (_rootViewController != controller) {
         [self willChangeValueForKey:@"rootViewController"];
         
         [self removeAllGestures];
 
-        @try {
-            [_rootViewController removeObserver:self forKeyPath:@"view.frame"];
-        } @catch (NSException *exception) {
-        } @finally {
-        }
+        [self tryToRemoveObserverOnFrame];
         
         [self removeControllerFromView:_rootViewController animated:NO];
         
+        PP_RELEASE(_rootViewController);
         _rootViewController = PP_RETAIN(controller);
         _rootViewController.revealSideViewController = self;
         
         if (PPSystemVersionGreaterOrEqualThan(5.0)) {
-            [_rootViewController willMoveToParentViewController:self];
             [self addChildViewController:_rootViewController];
         }
         
         [self handleShadows];
         
-        if (!PPSystemVersionGreaterOrEqualThan(5.0)) [_rootViewController viewWillAppear:NO];
+        if (!PPSystemVersionGreaterOrEqualThan(5.0)) {
+            [_rootViewController viewWillAppear:NO];
+        }
         [self.view addSubview:_rootViewController.view];
-        if (!PPSystemVersionGreaterOrEqualThan(5.0)) [_rootViewController viewDidAppear:NO];
-        
-        if (PPSystemVersionGreaterOrEqualThan(5.0))
+        if (!PPSystemVersionGreaterOrEqualThan(5.0)) {
+            [_rootViewController viewDidAppear:NO];
             [_rootViewController didMoveToParentViewController:self];
+        }
         
         [_rootViewController addObserver:self
                               forKeyPath:@"view.frame"
@@ -1154,6 +1166,11 @@ const CGFloat        PPRevealSideNavigationControllerPopTreshold = 100.0;
 }
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
+    // If there is a scroll view gesture recognised, save it, we may cancel it in the future
+    if ([otherGestureRecognizer isKindOfClass:NSClassFromString(@"UIScrollViewPanGestureRecognizer")]) {
+        PP_RELEASE(_scrollViewPanGestureRecognizer);
+        _scrollViewPanGestureRecognizer = PP_RETAIN(otherGestureRecognizer);
+    }
     return YES;
 }
 
@@ -1167,7 +1184,7 @@ const CGFloat        PPRevealSideNavigationControllerPopTreshold = 100.0;
     CGFloat x = currentPoint.x + _panOrigin.x;
     CGFloat y = currentPoint.y + _panOrigin.y;
     
-    // If the center view controller is closed, then get the direction we want to Open
+    // If the center view controller is closed, then get the direction we want to open
     if (_currentPanDirection == PPRevealSideDirectionNone) {
         CGFloat panDiffX = currentPoint.x - _panOrigin.x;
         CGFloat panDiffY = currentPoint.y - _panOrigin.y;
@@ -1189,28 +1206,9 @@ const CGFloat        PPRevealSideNavigationControllerPopTreshold = 100.0;
     
     BOOL disabled = _currentPanDirection & _disabledPanGestureDirection;
     
-    // See if there is a controller or not for the direction. If yes, then add it.
-    UIViewController *c = [_viewControllers objectForKey:[NSNumber numberWithInt:_currentPanDirection]];
-    if (!disabled && c) {
-        if (!c.view.superview) {
-            c.view.frame = self.rootViewController.view.bounds;
-            if (PPSystemVersionGreaterOrEqualThan(5.0)) {
-                [c willMoveToParentViewController:self];
-                [self addChildViewController:c];
-            } else {
-                [c viewWillAppear:NO];
-            }
-            
-            [self.view insertSubview:c.view belowSubview:_rootViewController.view];
-            
-            if (PPSystemVersionGreaterOrEqualThan(5.0)) {
-                [c didMoveToParentViewController:self];
-            } else {
-                [c viewDidAppear:NO];
-            }
-        }
-        c.view.hidden = NO;
-    } else {
+    // See if there is a controller or not for the direction.
+    UIViewController *newVC = [_viewControllers objectForKey:[NSNumber numberWithInt:_currentPanDirection]];
+    if (disabled || !newVC) {
         UINavigationController* navController;
         if ([self.rootViewController isKindOfClass:UINavigationController.class]) {
             navController = (UINavigationController *)self.rootViewController;
@@ -1254,6 +1252,33 @@ const CGFloat        PPRevealSideNavigationControllerPopTreshold = 100.0;
         panGesture.enabled = YES;
         _usedNavFromPanGesture = NO;
         return;
+    }
+    
+    // Add new view controller to the view hierachy if needed.
+    if (!newVC.view.superview) {
+        newVC.view.frame = self.rootViewController.view.bounds;
+        if (PPSystemVersionGreaterOrEqualThan(5.0)) {
+            [self addChildViewController:newVC];
+        } else {
+            [newVC viewWillAppear:NO];
+        }
+        
+        [self.view insertSubview:newVC.view belowSubview:_rootViewController.view];
+        
+        if (PPSystemVersionGreaterOrEqualThan(5.0)) {
+            [newVC didMoveToParentViewController:self];
+        } else {
+            [newVC viewDidAppear:NO];
+        }
+    }
+    newVC.view.hidden = NO;
+    
+    // If the direction is left or right, then cancel the swipe gesture to avoid double scrolling
+    if (_currentPanDirection == PPRevealSideDirectionLeft || _currentPanDirection == PPRevealSideDirectionRight) {
+        // This is a simple way to cancel a gesture
+        _scrollViewPanGestureRecognizer.enabled = NO;
+        _scrollViewPanGestureRecognizer.enabled = YES;
+        PP_RELEASE(_scrollViewPanGestureRecognizer);
     }
     
     // Get size dimension to compare for triggering events
@@ -1435,10 +1460,8 @@ const CGFloat        PPRevealSideNavigationControllerPopTreshold = 100.0;
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    @try {
-        [_rootViewController removeObserver:self forKeyPath:@"view.frame"];
-    } @catch (NSException *exception) {
-    } @finally {
+    if (!PPSystemVersionGreaterOrEqualThan(6.0)) {
+        [self tryToRemoveObserverOnFrame];
     }
 }
 
