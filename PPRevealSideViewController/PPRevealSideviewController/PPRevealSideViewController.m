@@ -1438,6 +1438,10 @@ const CGFloat        PPRevealSideNavigationControllerPopTreshold = 100.0;
 }
 
 // iOS 6+
+- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation {
+    return [_rootViewController preferredInterfaceOrientationForPresentation];
+}
+
 - (BOOL)shouldAutorotate {
     return YES;
 }
