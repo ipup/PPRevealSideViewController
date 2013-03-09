@@ -61,8 +61,8 @@ const CGFloat        PPRevealSideNavigationControllerPopTreshold = 100.0;
         _viewControllers        = [NSMutableDictionary dictionaryWithCapacity:5];
         _viewControllersOffsets = [NSMutableDictionary dictionaryWithCapacity:5];
         _resizeOverlap          = [NSMutableDictionary dictionaryWithCapacity:5];
-
-        _gestures = [[NSMutableArray alloc] init];
+        
+        _gestures = [NSMutableArray new];
         
         [self setRootViewController:rootViewController];
     }
@@ -1407,16 +1407,12 @@ const CGFloat        PPRevealSideNavigationControllerPopTreshold = 100.0;
     
     if (!PPSystemVersionGreaterOrEqualThan(5.0)) {
         [_rootViewController willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
-    }
-    return;
     
-    #warning Dead code!
-    for (NSString* key in _viewControllers.allKeys) {
-        // optimisation
-        UIViewController *controller = (UIViewController *)[_viewControllers objectForKey:key];
-        if (controller.view.superview && !PPSystemVersionGreaterOrEqualThan(5.0)) {
-            [controller willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
-        }
+        /*for (UIViewController* controller in _viewControllers.allValues) {
+            if (controller.view.superview && !PPSystemVersionGreaterOrEqualThan(5.0)) {
+                [controller willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
+            }
+        }*/
     }
 }
 
@@ -1427,13 +1423,12 @@ const CGFloat        PPRevealSideNavigationControllerPopTreshold = 100.0;
     
     if (!PPSystemVersionGreaterOrEqualThan(5.0)) {
         [_rootViewController didRotateFromInterfaceOrientation:fromInterfaceOrientation];
-    }
-    
-    for (id key in _viewControllers.allKeys) {
-        // optimisation
-        UIViewController *controller = (UIViewController *)[_viewControllers objectForKey:key];
-        if (controller.view.superview && !PPSystemVersionGreaterOrEqualThan(5.0))
-            [controller didRotateFromInterfaceOrientation:fromInterfaceOrientation];
+        
+        for (UIViewController* controller in _viewControllers.allValues) {
+            if (controller.view.superview && !PPSystemVersionGreaterOrEqualThan(5.0)) {
+                [controller didRotateFromInterfaceOrientation:fromInterfaceOrientation];
+            }
+        }
     }
 }
 
@@ -1552,11 +1547,11 @@ static char revealSideInsetKey;
 
 #pragma mark - Helper functions
 
-UIInterfaceOrientation PPInterfaceOrientation(void) {
+UIInterfaceOrientation PPInterfaceOrientation() {
 	return UIApplication.sharedApplication.statusBarOrientation;
 }
 
-CGRect PPScreenBounds(void) {
+CGRect PPScreenBounds() {
 	CGRect bounds = [UIScreen mainScreen].bounds;
 	if (UIInterfaceOrientationIsLandscape(PPInterfaceOrientation())) {
 		CGFloat width = bounds.size.width;
@@ -1566,13 +1561,13 @@ CGRect PPScreenBounds(void) {
 	return bounds;
 }
 
-CGFloat PPStatusBarHeight(void) {
-    if ([[UIApplication sharedApplication] isStatusBarHidden]) {
+CGFloat PPStatusBarHeight() {
+    if (UIApplication.sharedApplication.isStatusBarHidden) {
         return 0.0;
     }
     if (UIInterfaceOrientationIsLandscape(PPInterfaceOrientation())) {
-        return [[UIApplication sharedApplication] statusBarFrame].size.width;
+        return UIApplication.sharedApplication.statusBarFrame.size.width;
     } else {
-        return [[UIApplication sharedApplication] statusBarFrame].size.height;
+        return UIApplication.sharedApplication.statusBarFrame.size.height;
     }
 }
