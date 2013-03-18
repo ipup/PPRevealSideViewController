@@ -478,6 +478,8 @@ const CGFloat        PPRevealSideNavigationControllerPopTreshold = 100.0;
         }
         
         [_viewControllers setObject:controller forKey:[NSNumber numberWithInt:direction]];
+        controller.revealSideViewController = self;
+        
         if (![controller isViewLoaded]) {
             if (PPSystemVersionGreaterOrEqualThan(5.0)) {
                 [controller willMoveToParentViewController:self];
@@ -1490,10 +1492,10 @@ static char revealSideViewControllerKey;
 
 - (void)setRevealSideViewController:(PPRevealSideViewController *)revealSideViewController {
     [self willChangeValueForKey:@"revealSideViewController"];
-    objc_setAssociatedObject( self, 
+    objc_setAssociatedObject(self,
                              &revealSideViewControllerKey,
                              revealSideViewController,
-                             OBJC_ASSOCIATION_RETAIN );
+                             OBJC_ASSOCIATION_ASSIGN);
     [self didChangeValueForKey:@"revealSideViewController"];
 }
 
