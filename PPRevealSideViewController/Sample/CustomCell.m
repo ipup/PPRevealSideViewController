@@ -11,8 +11,7 @@
 @implementation CustomCell
 @synthesize myLabel = _myLabel;
 
-- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
-{
+- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         _disclosureButton = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
@@ -25,34 +24,32 @@
         _myLabel.numberOfLines = 2;
         
         [self.contentView addSubview:_myLabel];
-        
     }
     return self;
 }
 
-- (void) layoutSubviews {
-    [super layoutSubviews];    
+- (void)layoutSubviews {
+    [super layoutSubviews];
     CGRect newFrame = _disclosureButton.frame;
-    newFrame.origin.x = CGRectGetWidth(self.contentView.frame)- 5.0 /*margin*/ - self.revealSideInset.right - CGRectGetWidth(newFrame);
-    newFrame.origin.y = floorf((CGRectGetHeight(self.frame) - CGRectGetHeight(_disclosureButton.frame))/2.0);
+    newFrame.origin.x = CGRectGetWidth(self.contentView.frame) - 5.0 /*margin*/ - self.revealSideInset.right - CGRectGetWidth(newFrame);
+    newFrame.origin.y = floorf((CGRectGetHeight(self.frame) - CGRectGetHeight(_disclosureButton.frame)) / 2.0);
     _disclosureButton.frame = newFrame;
     
     CGFloat margin = 3.0;
     
-    _myLabel.frame = CGRectMake(margin, 
-                                margin, 
-                                CGRectGetMinX(newFrame)-2*margin,
-                                CGRectGetHeight(self.frame) - 2*margin);
+    _myLabel.frame = CGRectMake(margin,
+                                margin,
+                                CGRectGetMinX(newFrame) - 2 * margin,
+                                CGRectGetHeight(self.frame) - 2 * margin);
 }
 
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated
-{
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
-
+    
     // Configure the view for the selected state
 }
 
-- (void) dealloc {
+- (void)dealloc {
     self.myLabel = nil;
 #if !PP_ARC_ENABLED
     [super dealloc];

@@ -17,25 +17,19 @@
 
 @implementation TableViewController
 
-- (id)initWithStyle:(UITableViewStyle)style
-{
+- (id)initWithStyle:(UITableViewStyle)style {
     self = [super initWithStyle:style];
     if (self) {
     }
     return self;
 }
 
-- (void)didReceiveMemoryWarning
-{
+- (void)didReceiveMemoryWarning {
     @try {
         [self.tableView removeObserver:self
                             forKeyPath:@"revealSideInset"];
-    }
-    @catch (NSException *exception) {
-        
-    }
-    @finally {
-        
+    } @catch (NSException *exception) {
+    } @finally {
     }
     
     [super didReceiveMemoryWarning];
@@ -45,67 +39,57 @@
 
 #pragma mark - View lifecycle
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
-
-    [self.tableView addObserver:self 
+    
+    [self.tableView addObserver:self
                      forKeyPath:@"revealSideInset"
                         options:NSKeyValueObservingOptionNew
                         context:NULL];
 }
 
-- (void)viewDidUnload
-{
+- (void)viewDidUnload {
     [super viewDidUnload];
     [self.tableView removeObserver:self
                         forKeyPath:@"revealSideInset"];
 }
 
-- (void)viewWillAppear:(BOOL)animated
-{
+- (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 }
 
-- (void)viewDidAppear:(BOOL)animated
-{
+- (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     [self.tableView reloadData];
 }
 
-- (void)viewWillDisappear:(BOOL)animated
-{
+- (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
 }
 
-- (void)viewDidDisappear:(BOOL)animated
-{
+- (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
     // Return YES for supported orientations
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
-- (void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
     if ([keyPath isEqualToString:@"revealSideInset"]) {
         UIEdgeInsets newInset = self.tableView.contentInset;
         newInset.top = self.tableView.revealSideInset.top;
         newInset.bottom = self.tableView.revealSideInset.bottom;
         self.tableView.contentInset = newInset;
-    }
-    else
-        [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
+    } else [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
 }
 
-- (void) dealloc 
-{
-    @try{
+- (void)dealloc {
+    @try {
         [self.tableView removeObserver:self
                             forKeyPath:@"revealSideInset"];
-    }@catch(id anException){
+    } @catch (id anException) {
         //do nothing, obviously it wasn't attached because an exception was thrown
     }
 #if !PP_ARC_ENABLED
@@ -115,23 +99,20 @@
 
 #pragma mark - Table view data source
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     // Return the number of sections.
     return 1;
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     // Return the number of rows in the section.
     return 32;
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *CellIdentifier = @"Cell";
     
-    CustomCell *cell = (CustomCell*)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    CustomCell *cell = (CustomCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
         cell = PP_AUTORELEASE([[CustomCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier]);
     }
@@ -141,7 +122,7 @@
             break;
         case 1:
             cell.myLabel.text = @"Push a new right";
-            break; 
+            break;
         case 2:
             cell.myLabel.text = @"Push new left";
             break;
@@ -172,113 +153,102 @@
 }
 
 /*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
+ // Override to support conditional editing of the table view.
+ - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+ {
+ // Return NO if you do not want the specified item to be editable.
+ return YES;
+ }
+ */
 
 /*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    }   
-    else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
+ // Override to support editing the table view.
+ - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+ {
+ if (editingStyle == UITableViewCellEditingStyleDelete) {
+ // Delete the row from the data source
+ [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+ }
+ else if (editingStyle == UITableViewCellEditingStyleInsert) {
+ // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
+ }
+ }
+ */
 
 /*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
-}
-*/
+ // Override to support rearranging the table view.
+ - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
+ {
+ }
+ */
 
 /*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
+ // Override to support conditional rearranging of the table view.
+ - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
+ {
+ // Return NO if you do not want the item to be re-orderable.
+ return YES;
+ }
+ */
 
 #pragma mark - Table view delegate
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     switch (indexPath.row % 9) {
         case 0:
             if (self.navigationController) {
                 ThirdViewController *c = [[ThirdViewController alloc] initWithNibName:@"ThirdViewController" bundle:nil];
                 [self.navigationController pushViewController:c animated:YES];
                 PP_RELEASE(c);
-            }
-            else
-            [self.revealSideViewController popViewControllerAnimated:YES];
+            } else [self.revealSideViewController popViewControllerAnimated:YES];
             break;
-        case 1:
-        {
-                PopedViewController *c = [[PopedViewController alloc] initWithNibName:@"PopedViewController" bundle:nil];
-                [self.revealSideViewController pushViewController:c
-                                                      onDirection:PPRevealSideDirectionRight animated:YES];
-                PP_RELEASE(c);
+        case 1: {
+            PopedViewController *c = [[PopedViewController alloc] initWithNibName:@"PopedViewController" bundle:nil];
+            [self.revealSideViewController pushViewController:c
+                                                  onDirection:PPRevealSideDirectionRight animated:YES];
+            PP_RELEASE(c);
         }
-            break; 
-        case 2:
-        {
+            break;
+        case 2: {
             PopedViewController *c = [[PopedViewController alloc] initWithNibName:@"PopedViewController" bundle:nil];
             // Since we are in the left already, we force the pop then push
             [self.revealSideViewController pushViewController:c
-                                                  onDirection:PPRevealSideDirectionLeft 
+                                                  onDirection:PPRevealSideDirectionLeft
                                                      animated:YES
                                                forceToPopPush:YES];
             PP_RELEASE(c);
         }
             break;
-        case 3:
-        {
+        case 3: {
             SecondViewController *c = [[SecondViewController alloc] initWithNibName:@"SecondViewController" bundle:nil];
-            [self.revealSideViewController popViewControllerWithNewCenterController:c 
+            [self.revealSideViewController popViewControllerWithNewCenterController:c
                                                                            animated:YES];
             PP_RELEASE(c);
         }
             break;
-        case 4:
-        {
+        case 4: {
             MainViewController *c = [[MainViewController alloc] initWithNibName:@"MainViewController" bundle:nil];
             UINavigationController *n = [[UINavigationController alloc] initWithRootViewController:c];
-            [self.revealSideViewController popViewControllerWithNewCenterController:n 
+            [self.revealSideViewController popViewControllerWithNewCenterController:n
                                                                            animated:YES];
             PP_RELEASE(c);
             PP_RELEASE(n);
-        }            
+        }
             break;
-        case 5:
-        {
+        case 5: {
             WebViewController *c = [[WebViewController alloc] initWithNibName:@"WebViewController" bundle:nil];
             UINavigationController *n = [[UINavigationController alloc] initWithRootViewController:c];
-            [self.revealSideViewController popViewControllerWithNewCenterController:n 
+            [self.revealSideViewController popViewControllerWithNewCenterController:n
                                                                            animated:YES];
             PP_RELEASE(c);
             PP_RELEASE(n);
-        }            
+        }
             break;
-        case 6:
-        {
+        case 6: {
             ModalViewController *m = [[ModalViewController alloc] initWithNibName:@"ModalViewController" bundle:nil];
             UINavigationController *n = [[UINavigationController alloc] initWithRootViewController:m];
-            if (PPSystemVersionGreaterOrEqualThan(5.0))
-                [self presentModalViewController:n animated:YES];
-            else
-                [self.revealSideViewController presentModalViewController:n animated:YES];
+            if (PPSystemVersionGreaterOrEqualThan(5.0)) [self presentModalViewController:n animated:YES];
+            else [self.revealSideViewController presentModalViewController:n animated:YES];
             
             PP_RELEASE(m);
             PP_RELEASE(n);
