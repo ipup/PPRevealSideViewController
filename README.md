@@ -8,6 +8,20 @@ Pan and Tap gestures are also included !
 
 [See a demo on Youtube!](http://www.youtube.com/watch?v=lsc7RQvyy20)
 
+# Try it with MacBuildServer
+## Install the full sample
+<!-- MacBuildServer Install Button -->
+<div class="macbuildserver-block">
+    <a class="macbuildserver-button" href="http://macbuildserver.com/project/github/build/?xcode_project=PPRevealSideViewController.xcodeproj&amp;target=PPRevealSideViewController&amp;repo_url=git%40github.com%3Aipup%2FPPRevealSideViewController.git&amp;build_conf=Release" target="_blank"><img src="http://com.macbuildserver.github.s3-website-us-east-1.amazonaws.com/button_up.png"/></a><br/><sup><a href="http://macbuildserver.com/github/opensource/" target="_blank">by MacBuildServer</a></sup>
+</div>
+<!-- MacBuildServer Install Button -->
+## Install the easy sample (light one)
+<!-- MacBuildServer Install Button -->
+<div class="macbuildserver-block">
+    <a class="macbuildserver-button" href="http://macbuildserver.com/project/github/build/?xcode_project=EasySample%2FEasySample.xcodeproj&amp;target=EasySample&amp;repo_url=git%40github.com%3Aipup%2FPPRevealSideViewController.git&amp;build_conf=Release" target="_blank"><img src="http://com.macbuildserver.github.s3-website-us-east-1.amazonaws.com/button_up.png"/></a><br/><sup><a href="http://macbuildserver.com/github/opensource/" target="_blank">by MacBuildServer</a></sup>
+</div>
+<!-- MacBuildServer Install Button -->
+
 # Installation
 The easiest way to install PPRevealSideViewController is via the [CocoaPods](http://cocoapods.org/) package manager, since it's really flexible and provides easy installation.
 
