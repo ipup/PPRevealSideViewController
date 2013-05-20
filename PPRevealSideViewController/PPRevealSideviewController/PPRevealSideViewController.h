@@ -451,6 +451,12 @@ If you want to pop a new center controller, then do the following :
  */
 - (void) replaceCentralViewControllerWithNewController:(UIViewController*)newCenterController animated:(BOOL)animated animationDirection:(PPRevealSideDirection)direction completion:(void(^)())completionBlock;
 
+/**
+ Replace the central view without any animation. That way, if the user switches center controller from the menu, it won't pop to place the new center controller on complete screen
+ @param newCenterController A new controller for central view
+ */
+- (void) replaceCentralViewControllerWithNewControllerWithoutPopping:(UIViewController*)newCenterController;
+
 /**---------------------------------------------------------------------------------------
  * @name More functionalities
  *  ---------------------------------------------------------------------------------------

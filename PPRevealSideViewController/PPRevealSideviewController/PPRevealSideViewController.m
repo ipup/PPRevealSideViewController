@@ -568,6 +568,14 @@ static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
 	}];
 }
 
+- (void)replaceCentralViewControllerWithNewControllerWithoutPopping:(UIViewController *)newCenterController
+{
+    if (!newCenterController) return;
+    // Set the frame for the new one, the same as the old one
+    newCenterController.view.frame = self.rootViewController.view.frame;
+    [self setRootViewController:newCenterController replaceToOrigin:NO];
+}
+
 #pragma mark - Other useful methods
 - (void) preloadViewController:(UIViewController*)controller forSide:(PPRevealSideDirection)direction {
     [self preloadViewController:controller
