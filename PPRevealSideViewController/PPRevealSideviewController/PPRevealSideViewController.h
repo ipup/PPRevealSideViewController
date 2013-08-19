@@ -499,25 +499,32 @@ If you want to pop a new center controller, then do the following :
 
 @end
 
+
 /**
  UIViewController category for the PPRevealSideViewController
  */
 @interface UIViewController (PPRevealSideViewController)
+
 /**
  The parent revealSideViewController
  */
 @property (nonatomic, assign) IBOutlet PPRevealSideViewController *revealSideViewController;
+
 @end
+
 
 /**
  UIView category to add a content inset when you push a view with an offset
  */
 @interface UIView (PPRevealSideViewController)
+
 /**
  Content inset when you push a view with an offset
  */
 @property (nonatomic, assign) UIEdgeInsets revealSideInset;
+
 @end
+
 
 /**
  PPRevealSideViewControllerDelegate protocol
