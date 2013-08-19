@@ -1241,7 +1241,8 @@ const CGFloat        PPRevealSideNavigationControllerPopTreshold = 100.0;
                 }
             } else if (_currentPanDirection == PPRevealSideDirectionRight
                        && topVC.navigationItem.rightBarButtonItem
-                       && topVC.navigationItem.rightBarButtonItem.action) {
+                       && topVC.navigationItem.rightBarButtonItem.action
+                       && !topVC.navigationItem.rightSwipeDisabled) {
                 PPRSLog(@"****** Special case: use right item! ******");
                 _usedNavFromPanGesture = YES;
                 [self executeBarButtonItem:topVC.navigationItem.rightBarButtonItem];
@@ -1532,6 +1533,22 @@ const CGFloat        PPRevealSideNavigationControllerPopTreshold = 100.0;
         inset = self.superview.revealSideInset;
     }
     return inset;
+}
+
+@end
+
+
+
+@implementation UINavigationItem (PPRevealSideViewController)
+
+- (void)setRightSwipeDisabled:(BOOL)rightSwipeDisabled {
+    [self willChangeValueForKey:@"rightSwipeDisabled"];
+    objc_setAssociatedObject(self, @selector(rightSwipeDisabled), @(rightSwipeDisabled), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    [self didChangeValueForKey:@"rightSwipeDisabled"];
+}
+
+- (BOOL)rightSwipeDisabled {
+    return objc_getAssociatedObject(self, @selector(rightSwipeDisabled));
 }
 
 @end

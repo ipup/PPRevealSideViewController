@@ -527,6 +527,19 @@ If you want to pop a new center controller, then do the following :
 
 
 /**
+ UINavigationItem category to disable right swipe
+ */
+@interface UINavigationItem (PPRevealSideViewController)
+
+/**
+ Disable executing rightBarButtonItem by swiping right in view
+ */
+@property (nonatomic, assign) BOOL rightSwipeDisabled;
+
+@end
+
+
+/**
  PPRevealSideViewControllerDelegate protocol
  */
 @protocol PPRevealSideViewControllerDelegate <NSObject>
