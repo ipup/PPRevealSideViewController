@@ -1246,7 +1246,7 @@ const CGFloat        PPRevealSideNavigationControllerPopTreshold = 100.0;
                 _usedNavFromPanGesture = YES;
                 [self executeBarButtonItem:topVC.navigationItem.rightBarButtonItem];
             }
-        } else if (!disabled) {
+        } else if (!disabled && !_usedNavFromPanGesture) {
             // We use the bounce animation
             PPRSLog(@"****** No controller to push ****** Think to preload controller ! ******");
             [self pushOldViewControllerOnDirection:_currentPanDirection animated:YES];
