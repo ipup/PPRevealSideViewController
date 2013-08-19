@@ -36,8 +36,10 @@
 
 
 // Define a conditional logging macro
+//#define PPRS_DEBUG 1
+
 #ifndef PPRSLog
-    #if DEBUG
+    #if PPRS_DEBUG
         #define PPRSLog(fmt, ...) NSLog((@"%s [Line %d] " fmt),__PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
     #else
         #define PPRSLog(fmt, ...)
