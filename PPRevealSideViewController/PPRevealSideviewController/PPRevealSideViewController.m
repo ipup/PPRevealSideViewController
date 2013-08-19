@@ -1233,13 +1233,16 @@ const CGFloat        PPRevealSideNavigationControllerPopTreshold = 100.0;
                 if (topVC.navigationItem.leftBarButtonItem
                     && topVC.navigationItem.leftBarButtonItem.action
                     && !topVC.navigationItem.leftItemsSupplementBackButton) {
+                    PPRSLog(@"****** Special case: use left item! ******");
                     [self executeBarButtonItem:topVC.navigationItem.leftBarButtonItem];
                 } else {
+                    PPRSLog(@"****** Special case: pop! ******");
                     [navController popViewControllerAnimated:YES];
                 }
             } else if (_currentPanDirection == PPRevealSideDirectionRight
                        && topVC.navigationItem.rightBarButtonItem
                        && topVC.navigationItem.rightBarButtonItem.action) {
+                PPRSLog(@"****** Special case: use right item! ******");
                 _usedNavFromPanGesture = YES;
                 [self executeBarButtonItem:topVC.navigationItem.rightBarButtonItem];
             }
