@@ -1491,19 +1491,14 @@ const CGFloat        PPRevealSideNavigationControllerPopTreshold = 100.0;
 
 @implementation UIViewController (PPRevealSideViewController)
 
-static char revealSideViewControllerKey;
-
 - (void)setRevealSideViewController:(PPRevealSideViewController *)revealSideViewController {
     [self willChangeValueForKey:@"revealSideViewController"];
-    objc_setAssociatedObject(self,
-                             &revealSideViewControllerKey,
-                             revealSideViewController,
-                             OBJC_ASSOCIATION_ASSIGN);
+    objc_setAssociatedObject(self, @selector(revealSideViewController), revealSideViewController, OBJC_ASSOCIATION_ASSIGN);
     [self didChangeValueForKey:@"revealSideViewController"];
 }
 
 - (PPRevealSideViewController *)revealSideViewController {
-    id controller = objc_getAssociatedObject(self, &revealSideViewControllerKey);
+    id controller = objc_getAssociatedObject(self, @selector(revealSideViewController));
     
     // Because we can't ask the navigation controller to set to the pushed controller the revealSideViewController!
     if (!controller && self.navigationController) {
@@ -1522,25 +1517,14 @@ static char revealSideViewControllerKey;
 
 @implementation UIView (PPRevealSideViewController)
 
-static char revealSideInsetKey;
-
 - (void)setRevealSideInset:(UIEdgeInsets)revealSideInset {
     [self willChangeValueForKey:@"revealSideInset"];
-    
-    NSString *stringInset = NSStringFromUIEdgeInsets(revealSideInset);
-    objc_setAssociatedObject(
-            self, 
-            &revealSideInsetKey,
-            stringInset,
-            OBJC_ASSOCIATION_RETAIN
-        );
-    
+    objc_setAssociatedObject(self, @selector(revealSideInset), NSStringFromUIEdgeInsets(revealSideInset), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     [self didChangeValueForKey:@"revealSideInset"];
 }
 
 - (UIEdgeInsets)revealSideInset {
-    NSString *stringInset = objc_getAssociatedObject(self,
-                                                     &revealSideInsetKey);
+    NSString *stringInset = objc_getAssociatedObject(self, @selector(revealSideInset));
     UIEdgeInsets inset = UIEdgeInsetsZero;
     if (stringInset) {
         inset = UIEdgeInsetsFromString(stringInset);
