@@ -1217,6 +1217,9 @@ const CGFloat        PPRevealSideNavigationControllerPopTreshold = 100.0;
         } else {
             navController = self.rootViewController.navigationController;
         }
+        if (ABS([panGesture translationInView:self.view].x) < 100 && ABS([panGesture velocityInView:self.view].x) < 300) {
+            return;
+        }
         if (navController && !_usedNavFromPanGesture) {
             UIViewController* topVC = navController.viewControllers.lastObject;
             if (_currentPanDirection == PPRevealSideDirectionLeft
