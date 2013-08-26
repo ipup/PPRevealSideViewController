@@ -1374,7 +1374,8 @@ const CGFloat        PPRevealSideNavigationControllerPopTreshold = 100.0;
     if (signature.numberOfArguments >= 3) {
         // Set self as first true argument, which is used as sender argument, if given.
         // The first two arguments are the hidden arguments self and _cmd.
-        [invocation setArgument:(__bridge void *)(self) atIndex:2];
+        id this = self;
+        [invocation setArgument:&this atIndex:2];
     }
     [invocation invoke];
 }
