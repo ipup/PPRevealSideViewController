@@ -1050,7 +1050,9 @@ static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
 
 - (CGRect)getSideViewFrameFromRootFrame:(CGRect)rootFrame andDirection:(PPRevealSideDirection)direction alreadyFullScreenLayout:(BOOL)alreadyFullScreenLayout {
     CGRect slideFrame = CGRectZero;
-    CGFloat rootHeight = CGRectGetHeight(rootFrame);
+    CGFloat yOffset = PPSystemVersionGreaterOrEqualThan(7.0) ? PPStatusBarHeight() : 0.0;
+    
+    CGFloat rootHeight = CGRectGetHeight(rootFrame) - yOffset;
     CGFloat rootWidth = CGRectGetWidth(rootFrame);
     
     if ([self isOptionEnabled:PPRevealSideOptionsResizeSideView]) {
@@ -1081,6 +1083,8 @@ static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
         slideFrame.size.height = rootHeight;
     }
     
+    slideFrame.origin.y += yOffset;
+
     return slideFrame;
 }
 
