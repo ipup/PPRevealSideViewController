@@ -1224,7 +1224,8 @@ const CGFloat        PPRevealSideNavigationControllerPopTreshold = 100.0;
             UIViewController* topVC = navController.viewControllers.lastObject;
             if (_currentPanDirection == PPRevealSideDirectionLeft
                 && !topVC.navigationItem.hidesBackButton
-                && navController.viewControllers.count > 1) {
+                && navController.viewControllers.count > 1
+                && !topVC.navigationItem.leftSwipeDisabled) {
                 // We swiped to left and have a navigation controller in the center and have multiple controllers
                 // on the stack and backButton is not hidden, so lets pop the top-most one.
                 if (x < PPRevealSideNavigationControllerPopTreshold) {
@@ -1552,7 +1553,19 @@ const CGFloat        PPRevealSideNavigationControllerPopTreshold = 100.0;
 }
 
 - (BOOL)rightSwipeDisabled {
-    return objc_getAssociatedObject(self, @selector(rightSwipeDisabled));
+    NSNumber *numberValue = objc_getAssociatedObject(self, @selector(rightSwipeDisabled));
+    return [numberValue boolValue];
+}
+
+- (void)setLeftSwipeDisabled:(BOOL)leftSwipeDisabled {
+    [self willChangeValueForKey:@"leftSwipeDisabled"];
+    objc_setAssociatedObject(self, @selector(leftSwipeDisabled), @(leftSwipeDisabled), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    [self didChangeValueForKey:@"leftSwipeDisabled"];
+}
+
+- (BOOL)leftSwipeDisabled {
+    NSNumber *numberValue = objc_getAssociatedObject(self, @selector(leftSwipeDisabled));
+    return [numberValue boolValue];
 }
 
 @end
