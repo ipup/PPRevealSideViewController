@@ -10,6 +10,8 @@
 #import <QuartzCore/QuartzCore.h>
 #import <objc/runtime.h>
 
+#define REAL_STATUS_BAR 0
+
 #pragma mark - Unit constants
 static const CGFloat DefaultOffset = 70.0;
 static const CGFloat DefaultOffsetBouncing = 5.0;
@@ -22,7 +24,13 @@ static const CGFloat OFFSET_TRIGGER_CHANGE_DIRECTION = 0.0;
 static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
 
 #pragma mark -
-@interface PPRevealSideViewController (Private)
+@interface PPRevealSideViewController ()
+
+#if !REAL_STATUS_BAR
+@property (nonatomic, strong) UIView *fakeStatusBar;
+@property (nonatomic, assign) BOOL hideStatusBar;
+#endif
+
 - (void)setRootViewController:(UIViewController *)controller replaceToOrigin:(BOOL)replace;
 - (void)setRootViewController:(UIViewController *)controller;
 - (void)addShadow;
@@ -265,6 +273,14 @@ static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
     void (^ openAnimBlock)(void) = ^(void) {
         controller.view.hidden = NO;
         _rootViewController.view.frame = rootFrame;
+        
+        if (PPSystemVersionGreaterOrEqualThan(7.0)) {
+#if REAL_STATUS_BAR
+            CGRect statusBarFrame = self.statusBar.frame;
+            statusBarFrame.origin.x = rootFrame.origin.x;
+            [self moveStatusBarFrame:statusBarFrame];
+#endif
+        }
     };
     
     // replace the view since IB add some offsets with the status bar if enabled
@@ -323,6 +339,12 @@ static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
         if (PPSystemVersionGreaterOrEqualThan(5.0)) [controller didMoveToParentViewController:self];
         if (completionBlock) completionBlock();
         [self informDelegateWithOptionalSelector:@selector(pprevealSideViewController:didPushController:) withParam:controller];
+    }
+    
+    if (PPSystemVersionGreaterOrEqualThan(7.0)) {
+#if !REAL_STATUS_BAR
+        [self showFakeStatusBar];
+#endif
     }
 }
 
@@ -423,11 +445,26 @@ static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
                 newFrame.origin.x = 0.0;
                 newFrame.origin.y = 0.0;
                 _rootViewController.view.frame = newFrame;
+                
+                if (PPSystemVersionGreaterOrEqualThan(7.0)) {
+#if REAL_STATUS_BAR
+                    CGRect statusBarFrame = self.statusBar.frame;
+                    statusBarFrame.origin.x = newFrame.origin.x;
+                    [self moveStatusBarFrame:statusBarFrame];
+#endif
+                }
             };
             
             // this is the completion block when you pop then push the new controller
             void (^ smallAnimBlockCompletion)(BOOL) = ^(BOOL finished) {
                 if (finished) {
+                    
+                    if (PPSystemVersionGreaterOrEqualThan(7.0)) {
+#if !REAL_STATUS_BAR
+                        [self hideFakeStatusBar];
+#endif
+                    }
+                    
                     [self informDelegateWithOptionalSelector:@selector(pprevealSideViewController:didPopToController:) withParam:centerController];
                     
                     // remove the view (don't need to surcharge (not english this word ? ... ) all the interface).
@@ -1302,6 +1339,16 @@ static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
     self.rootViewController.view.frame = [self getSlidingRectForOffset:offset
                                                           forDirection:_currentPanDirection];
     
+    if (PPSystemVersionGreaterOrEqualThan(7.0)) {
+#if REAL_STATUS_BAR
+        CGRect statusBarFrame = self.statusBar.frame;
+        statusBarFrame.origin.x = [self getSlidingRectForOffset:offset forDirection:_currentPanDirection].origin.x;
+        self.statusBar.frame = statusBarFrame;
+#else
+        [self showFakeStatusBar];
+#endif
+    }
+    
     if (panGesture.state == UIGestureRecognizerStateEnded || panGesture.state == UIGestureRecognizerStateCancelled) {
         CGFloat offsetController = [self getOffsetForDirection:_currentPanDirection];
         
@@ -1419,6 +1466,89 @@ static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
 - (NSUInteger)supportedInterfaceOrientations {
     return [_rootViewController supportedInterfaceOrientations];
 }
+
+#pragma mark Move iOS 7 statusBar
+
+#if REAL_STATUS_BAR
+- (UIView *)statusBar {
+    if (!PPSystemVersionGreaterOrEqualThan(7.0)) {
+        return nil;
+    }
+    
+    UIView *statusBarView = [[UIApplication sharedApplication] valueForKey:@"statusBar"];
+    return statusBarView;
+}
+#else
+- (UIView *)statusBar {
+    if (!PPSystemVersionGreaterOrEqualThan(7.0)) {
+        return nil;
+    }
+    
+    if (!self.fakeStatusBar) {
+        self.fakeStatusBar = [[UIView alloc] initWithFrame:[UIApplication sharedApplication].statusBarFrame];
+        UIView *screenShot = [[UIScreen mainScreen] snapshotViewAfterScreenUpdates:NO];
+        [self.fakeStatusBar addSubview:screenShot];
+        [self.fakeStatusBar setClipsToBounds:YES];
+    }
+    return self.fakeStatusBar;
+}
+#endif
+
+#if REAL_STATUS_BAR
+- (void)moveStatusBarFrame:(CGRect)frame {
+    if (!PPSystemVersionGreaterOrEqualThan(7.0)) {
+        return;
+    }
+    
+    UIView *statusBarView = [self statusBar];
+    statusBarView.frame = frame;
+}
+#endif
+
+#if !REAL_STATUS_BAR
+- (void)showFakeStatusBar {
+    if (!PPSystemVersionGreaterOrEqualThan(7.0)) {
+        return;
+    }
+    
+    [_rootViewController.view addSubview:self.statusBar];
+    [self setStatusBarHidden:YES];
+}
+
+- (void)hideFakeStatusBar {
+    if (!PPSystemVersionGreaterOrEqualThan(7.0)) {
+        return;
+    }
+    
+    [self.statusBar removeFromSuperview];
+    [self setStatusBarHidden:NO];
+}
+
+- (void)setStatusBarHidden:(BOOL)hidden {
+    if (!PPSystemVersionGreaterOrEqualThan(7.0)) {
+        return;
+    }
+    
+    BOOL UIViewControllerBasedStatusBarAppearance = YES; // Default on iOS 7
+    id thing = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"UIViewControllerBasedStatusBarAppearance"];
+    if (thing) {
+        UIViewControllerBasedStatusBarAppearance = [thing boolValue];
+    }
+    
+    if (UIViewControllerBasedStatusBarAppearance) {
+        if ([self respondsToSelector:@selector(setNeedsStatusBarAppearanceUpdate)]) {
+            self.hideStatusBar = hidden;
+            [self setNeedsStatusBarAppearanceUpdate];
+        }
+    } else {
+        [UIApplication sharedApplication].statusBarHidden = hidden;
+    }
+}
+
+- (BOOL)prefersStatusBarHidden {
+    return self.hideStatusBar;
+}
+#endif
 
 #pragma mark - Memory management things
 
