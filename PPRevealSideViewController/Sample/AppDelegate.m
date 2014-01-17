@@ -9,7 +9,15 @@
 #import "AppDelegate.h"
 #import "MainViewController.h"
 
+#define UIColorFromRGB(rgbValue) [UIColor \
+colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 \
+green:((float)((rgbValue & 0xFF00) >> 8))/255.0 \
+blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
+
 @implementation AppDelegate
+{
+    UIView *_iOS7UnderStatusBar;
+}
 
 @synthesize window = _window;
 @synthesize revealSideViewController = _revealSideViewController;
@@ -34,6 +42,19 @@
     
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
+    
+    if (PPSystemVersionGreaterOrEqualThan(7.0)) {
+        _iOS7UnderStatusBar = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, CGRectGetWidth(PPScreenBounds()), PPStatusBarHeight())];
+        _iOS7UnderStatusBar.backgroundColor = [UIColor blackColor];
+        [self.window.rootViewController.view addSubview:_iOS7UnderStatusBar];
+        _iOS7UnderStatusBar.alpha = 0.0;
+        PP_AUTORELEASE(_iOS7UnderStatusBar);
+        
+        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+        [[UINavigationBar appearance] setBarTintColor:UIColorFromRGB(0x34B085)];
+        [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
+    }
+    
     return YES;
 }
 
@@ -41,6 +62,10 @@
 
 - (void)pprevealSideViewController:(PPRevealSideViewController *)controller willPushController:(UIViewController *)pushedController {
     PPRSLog(@"%@", pushedController);
+    [UIView animateWithDuration:0.3
+                     animations:^{
+                         _iOS7UnderStatusBar.alpha = 1.0;
+                     }];
 }
 
 - (void)pprevealSideViewController:(PPRevealSideViewController *)controller didPushController:(UIViewController *)pushedController {
@@ -49,6 +74,10 @@
 
 - (void)pprevealSideViewController:(PPRevealSideViewController *)controller willPopToController:(UIViewController *)centerController {
     PPRSLog(@"%@", centerController);
+    [UIView animateWithDuration:0.3
+                     animations:^{
+                         _iOS7UnderStatusBar.alpha = 0.0;
+                     }];
 }
 
 - (void)pprevealSideViewController:(PPRevealSideViewController *)controller didPopToController:(UIViewController *)centerController {
@@ -67,6 +96,12 @@
     if ([view isKindOfClass:NSClassFromString(@"UIWebBrowserView")]) return PPRevealSideDirectionLeft | PPRevealSideDirectionRight;
     
     return PPRevealSideDirectionLeft | PPRevealSideDirectionRight | PPRevealSideDirectionTop | PPRevealSideDirectionBottom;
+}
+
+- (void)pprevealSideViewController:(PPRevealSideViewController *)controller didManuallyMoveCenterControllerWithOffset:(CGFloat)offset
+{
+    offset = MIN(offset, CGRectGetWidth(PPScreenBounds()));
+    _iOS7UnderStatusBar.alpha = 1.0/(CGRectGetWidth(PPScreenBounds()) - [controller offsetForCurrentPaningDirection]) * (-offset + CGRectGetWidth(PPScreenBounds()));
 }
 
 #pragma mark - Unloading tests

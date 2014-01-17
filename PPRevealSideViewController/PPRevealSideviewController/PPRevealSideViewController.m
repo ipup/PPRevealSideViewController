@@ -579,7 +579,7 @@ static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
             }
             controller.view.hidden = YES;
         }
-        controller.view.frame = self.view.bounds;
+        controller.view.frame = [self getSideViewFrameFromRootFrame:_rootViewController.view.frame andDirection:direction alreadyFullScreenLayout:YES];
     }
     [self setOffset:offset forDirection:direction];
 }
@@ -611,6 +611,16 @@ static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
             _rootViewController.view.frame = [self getSlidingRectForOffset:offset
                                                               forDirection:direction];
     }
+}
+
+- (CGFloat) offsetForDirection:(PPRevealSideDirection)direction
+{
+    return [_viewControllersOffsets[@(direction)] floatValue];
+}
+
+- (CGFloat) offsetForCurrentPaningDirection
+{
+    return [_viewControllersOffsets[@(_currentPanDirection)] floatValue];
 }
 
 #pragma mark - Observation method
@@ -1224,7 +1234,7 @@ static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
     UIViewController *c = [_viewControllers objectForKey:[NSNumber numberWithInt:_currentPanDirection]];
     if (c) {
         if (!c.view.superview) {
-            c.view.frame = self.rootViewController.view.bounds;
+            c.view.frame = [self getSideViewFrameFromRootFrame:_rootViewController.view.frame andDirection:_currentPanDirection alreadyFullScreenLayout:YES];
             if (PPSystemVersionGreaterOrEqualThan(5.0)) {
                 [self addChildViewController:c];
             }
@@ -1305,6 +1315,11 @@ static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
     
     self.rootViewController.view.frame = [self getSlidingRectForOffset:offset
                                                           forDirection:_currentPanDirection];
+    
+    if ([self.delegate respondsToSelector:@selector(pprevealSideViewController:didManuallyMoveCenterControllerWithOffset:)])
+    {
+        [self.delegate pprevealSideViewController:self didManuallyMoveCenterControllerWithOffset:offset];
+    }
     
     if (panGesture.state == UIGestureRecognizerStateEnded || panGesture.state == UIGestureRecognizerStateCancelled) {
         CGFloat offsetController = [self getOffsetForDirection:_currentPanDirection];

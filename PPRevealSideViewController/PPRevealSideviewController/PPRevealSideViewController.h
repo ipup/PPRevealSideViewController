@@ -524,6 +524,19 @@ typedef NSUInteger   PPRevealSideOptions;
 - (void)changeOffset:(CGFloat)offset forDirection:(PPRevealSideDirection)direction animated:(BOOL)animated;
 
 /**
+ Return the offset for a specific direction
+ @param direction The direction for which you want the offset
+ @return the current offset
+ */
+- (CGFloat) offsetForDirection:(PPRevealSideDirection)direction;
+
+/**
+ Return the offset for the current paning direction. Be careful not to use when not panning
+ @return the current offset for current paning direction
+ */
+- (CGFloat) offsetForCurrentPaningDirection;
+
+/**
  Set Option.
  @param option The option to set
  */
@@ -657,6 +670,15 @@ typedef NSUInteger   PPRevealSideOptions;
  @return the controller in which we will add gestures
  */
 - (UIViewController *)controllerForGesturesOnPPRevealSideViewController:(PPRevealSideViewController *)controller;
+
+/**
+ Implement this method if you want to know about the user moving the reveal manually
+ @param controller The reveal side view controller
+ @param offset The current offset
+
+ */
+- (void) pprevealSideViewController:(PPRevealSideViewController*)controller didManuallyMoveCenterControllerWithOffset:(CGFloat)offset;
+
 @end
 
 /**
