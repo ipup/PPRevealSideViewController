@@ -197,6 +197,9 @@ Try them! (using `setOption:`)
 
 Please also note that if you want to change the background color of the status bar when using the fading option, change value of `fakeiOS7StatusBarColor` (default is black).
 	 	
+    [self.revealSideViewController resetOption:PPRevealSideOptionsiOS7StatusBarFading];
+    [self.revealSideViewController setOption:PPRevealSideOptionsiOS7StatusBarMoving];
+
 ## To go deeper 
 By default, the side views are not loaded. This means that even if you interface have a button to push a side view, the panning gesture won't show the controller. If you want so, you need to preload the controller you want to present.
 
