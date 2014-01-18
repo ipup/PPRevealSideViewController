@@ -1437,9 +1437,9 @@ static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
     if ([self.delegate respondsToSelector:@selector(pprevealSideViewController:didManuallyMoveCenterControllerWithOffset:)])
     {
         [self.delegate pprevealSideViewController:self didManuallyMoveCenterControllerWithOffset:offset];
-        
-        [self handleiOS7StatusBarOnManualMoveWithOffset:offset];
     }
+    
+    [self handleiOS7StatusBarOnManualMoveWithOffset:offset];
     
     if (panGesture.state == UIGestureRecognizerStateEnded || panGesture.state == UIGestureRecognizerStateCancelled) {
         CGFloat offsetController = [self getOffsetForDirection:_currentPanDirection];
