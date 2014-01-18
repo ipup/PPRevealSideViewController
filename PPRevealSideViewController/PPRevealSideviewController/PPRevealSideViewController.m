@@ -22,7 +22,11 @@ static const CGFloat OFFSET_TRIGGER_CHANGE_DIRECTION = 0.0;
 static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
 
 #pragma mark -
-@interface PPRevealSideViewController (Private)
+@interface PPRevealSideViewController ()
+
+@property (nonatomic, strong) UIView *underStatusBarView;
+@property (nonatomic, assign) BOOL hideStatusBar;
+
 - (void)setRootViewController:(UIViewController *)controller replaceToOrigin:(BOOL)replace;
 - (void)setRootViewController:(UIViewController *)controller;
 - (void)addShadow;
@@ -76,14 +80,17 @@ static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
 @synthesize options = _options;
 @synthesize bouncingOffset = _bouncingOffset;
 @synthesize delegate = _delegate;
+@synthesize underStatusBarView = _underStatusBarView;
 
 - (id)initWithRootViewController:(UIViewController *)rootViewController {
     self = [super init];
     if (self) {
         // set default options
-        self.options = PPRevealSideOptionsShowShadows | PPRevealSideOptionsBounceAnimations | PPRevealSideOptionsCloseCompletlyBeforeOpeningNewDirection;
+        self.options = PPRevealSideOptionsShowShadows | PPRevealSideOptionsBounceAnimations | PPRevealSideOptionsCloseCompletlyBeforeOpeningNewDirection | PPRevealSideOptionsiOS7StatusBarFading;
         
         self.bouncingOffset = -1.0;
+        
+        self.fakeiOS7StatusBarColor = [UIColor blackColor];
         
         self.panInteractionsWhenClosed = PPRevealSideInteractionNavigationBar;
         self.panInteractionsWhenOpened = PPRevealSideInteractionNavigationBar | PPRevealSideInteractionContentView;
@@ -265,6 +272,7 @@ static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
     void (^ openAnimBlock)(void) = ^(void) {
         controller.view.hidden = NO;
         _rootViewController.view.frame = rootFrame;
+        [self handleiOS7StatusWillPushWithFinalX:rootFrame.origin.x];
     };
     
     // replace the view since IB add some offsets with the status bar if enabled
@@ -278,6 +286,15 @@ static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
     
     UIViewAnimationOptions options = UIViewAnimationOptionCurveEaseOut | UIViewAnimationOptionLayoutSubviews;
     
+    // Slightly delay this thing, seems to be a bug somewhere
+    double delayInSeconds = 0.01;
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
+    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+        if (self.underStatusBarView && [self isOptionEnabled:PPRevealSideOptionsiOS7StatusBarMoving]) {
+            [self setStatusBarHidden:YES];
+        }
+    });
+    
     if (animated) {
         [UIView animateWithDuration:animationTime
                               delay:0.0
@@ -290,6 +307,7 @@ static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
                                                      options:options
                                                   animations:^{
                                                       _rootViewController.view.frame = [self getSlidingRectForOffset:offset forDirection:direction];
+                                                      [self handleiOS7StatusWillPushWithFinalX:_rootViewController.view.frame.origin.x];
                                                   } completion:^(BOOL finished) {
                                                       if (offset == 0.0) {
                                                           [UIView animateWithDuration:0.1
@@ -423,6 +441,7 @@ static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
                 newFrame.origin.x = 0.0;
                 newFrame.origin.y = 0.0;
                 _rootViewController.view.frame = newFrame;
+                [self handleiOS7StatusWillPopWithFinalX:newFrame.origin.x];
             };
             
             // this is the completion block when you pop then push the new controller
@@ -436,6 +455,10 @@ static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
                     [self removeControllerFromView:oldController animated:animated];
                     
                     _animationInProgress = NO;
+                    
+                    if (self.underStatusBarView && [self isOptionEnabled:PPRevealSideOptionsiOS7StatusBarMoving]) {
+                        [self setStatusBarHidden:NO];
+                    }
                     
                     if (controllerToPush) {
                         [self pushViewController:controllerToPush onDirection:direction withOffset:offset animated:animated completion:completionBlock];
@@ -579,7 +602,7 @@ static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
             }
             controller.view.hidden = YES;
         }
-        controller.view.frame = self.view.bounds;
+        controller.view.frame = [self getSideViewFrameFromRootFrame:_rootViewController.view.frame andDirection:direction alreadyFullScreenLayout:YES];
     }
     [self setOffset:offset forDirection:direction];
 }
@@ -611,6 +634,16 @@ static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
             _rootViewController.view.frame = [self getSlidingRectForOffset:offset
                                                               forDirection:direction];
     }
+}
+
+- (CGFloat) offsetForDirection:(PPRevealSideDirection)direction
+{
+    return [_viewControllersOffsets[@(direction)] floatValue];
+}
+
+- (CGFloat) offsetForCurrentPaningDirection
+{
+    return [_viewControllersOffsets[@(_currentPanDirection)] floatValue];
 }
 
 #pragma mark - Observation method
@@ -667,11 +700,13 @@ static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
 - (void)setOption:(PPRevealSideOptions)option {
     _options |= option;
     if (option == PPRevealSideOptionsShowShadows) [self handleShadows];
+    if (option == PPRevealSideOptionsiOS7StatusBarMoving || option == PPRevealSideOptionsiOS7StatusBarFading) self.underStatusBarView = nil;
 }
 
 - (void)resetOption:(PPRevealSideOptions)option {
     _options ^= option;
     if (option == PPRevealSideOptionsShowShadows) [self handleShadows];
+    if (option == PPRevealSideOptionsiOS7StatusBarMoving || option == PPRevealSideOptionsiOS7StatusBarFading) self.underStatusBarView = nil;
 }
 
 - (void)setPanInteractionsWhenClosed:(PPRevealSideInteractions)panInteractionsWhenClosed {
@@ -695,6 +730,27 @@ static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
     [self didChangeValueForKey:@"tapInteractionsWhenOpened"];
 }
 
+- (void)setFakeiOS7StatusBarColor:(UIColor *)fakeiOS7StatusBarColor
+{
+    [self willChangeValueForKey:@"fakeiOS7StatusBarColor"];
+    _fakeiOS7StatusBarColor = PP_RETAIN(fakeiOS7StatusBarColor);
+    if ([self isOptionEnabled:PPRevealSideOptionsiOS7StatusBarFading]) {
+        self.underStatusBarView.backgroundColor = fakeiOS7StatusBarColor;
+    }
+    [self didChangeValueForKey:@"fakeiOS7StatusBarColor"];
+}
+
+- (void)setUnderStatusBarView:(UIView *)underStatusBarView
+{
+    [self willChangeValueForKey:@"underStatusBarView"];
+
+    if (!underStatusBarView) {
+        [_underStatusBarView removeFromSuperview];
+    }
+    _underStatusBarView = PP_RETAIN(underStatusBarView);
+    [self didChangeValueForKey:@"underStatusBarView"];
+}
+
 #pragma mark - Getters
 
 - (PPRevealSideDirection)sideDirectionOpened {
@@ -703,6 +759,28 @@ static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
 
 - (UIViewController *)controllerForSide:(PPRevealSideDirection)side {
     return [_viewControllers objectForKey:[NSNumber numberWithInt:side]];
+}
+
+- (UIView *)underStatusBarView
+{
+    if (!PPSystemVersionGreaterOrEqualThan(7.0)) return nil;
+    
+    if (!_underStatusBarView && ([self isOptionEnabled:PPRevealSideOptionsiOS7StatusBarFading] || [self isOptionEnabled:PPRevealSideOptionsiOS7StatusBarMoving])) {
+        _underStatusBarView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(PPScreenBounds()), PPStatusBarHeight())];
+        if ([self isOptionEnabled:PPRevealSideOptionsiOS7StatusBarFading]) {
+            _underStatusBarView.backgroundColor = self.fakeiOS7StatusBarColor;
+        }
+        else if ([self isOptionEnabled:PPRevealSideOptionsiOS7StatusBarMoving]) {
+            UIView *screenShot = [[UIScreen mainScreen] snapshotViewAfterScreenUpdates:NO];
+            [_underStatusBarView addSubview:screenShot];
+            [_underStatusBarView setClipsToBounds:YES];
+        }
+        
+        [self.view addSubview:_underStatusBarView];
+    }
+    
+    [self.view bringSubviewToFront:_underStatusBarView];
+    return _underStatusBarView;
 }
 
 #pragma mark - Private methods
@@ -776,6 +854,52 @@ static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
         [self addShadow];
     } else {
         [self removeShadow];
+    }
+}
+
+- (void) handleiOS7StatusBarOnManualMoveWithOffset:(CGFloat)offset
+{
+    if (self.underStatusBarView) {
+        if ([self isOptionEnabled:PPRevealSideOptionsiOS7StatusBarFading]) {
+            offset = MIN(offset, (_currentPanDirection == PPRevealSideDirectionLeft || _currentPanDirection == PPRevealSideDirectionRight) ? CGRectGetWidth(PPScreenBounds()) : CGRectGetHeight(PPScreenBounds()));
+
+            self.underStatusBarView.alpha = 1.0/(CGRectGetWidth(PPScreenBounds()) - [self offsetForCurrentPaningDirection]) * (-offset + CGRectGetWidth(PPScreenBounds()));
+        }
+        if ([self isOptionEnabled:PPRevealSideOptionsiOS7StatusBarMoving]) {
+            CGRect newFrame = self.underStatusBarView.frame;
+            newFrame.origin.x = CGRectGetMinX(self.rootViewController.view.frame);
+            self.underStatusBarView.frame = newFrame;
+            
+            [self setStatusBarHidden:YES];
+        }
+    }
+}
+
+- (void) handleiOS7StatusWillPushWithFinalX:(CGFloat)finalX
+{
+    if (self.underStatusBarView) {
+        if ([self isOptionEnabled:PPRevealSideOptionsiOS7StatusBarFading]) {
+            self.underStatusBarView.alpha = 1.0;
+        }
+        if ([self isOptionEnabled:PPRevealSideOptionsiOS7StatusBarMoving]) {
+            CGRect newFrame = self.underStatusBarView.frame;
+            newFrame.origin.x = finalX;
+            self.underStatusBarView.frame = newFrame;
+        }
+    }
+}
+
+- (void) handleiOS7StatusWillPopWithFinalX:(CGFloat)finalX
+{
+    if (self.underStatusBarView) {
+        if ([self isOptionEnabled:PPRevealSideOptionsiOS7StatusBarFading]) {
+            self.underStatusBarView.alpha = 0.0;
+        }
+        if ([self isOptionEnabled:PPRevealSideOptionsiOS7StatusBarMoving]) {
+            CGRect newFrame = self.underStatusBarView.frame;
+            newFrame.origin.x = finalX;
+            self.underStatusBarView.frame = newFrame;
+        }
     }
 }
 
@@ -1050,7 +1174,13 @@ static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
 
 - (CGRect)getSideViewFrameFromRootFrame:(CGRect)rootFrame andDirection:(PPRevealSideDirection)direction alreadyFullScreenLayout:(BOOL)alreadyFullScreenLayout {
     CGRect slideFrame = CGRectZero;
-    CGFloat rootHeight = CGRectGetHeight(rootFrame);
+    CGFloat yOffset = PPSystemVersionGreaterOrEqualThan(7.0) ? PPStatusBarHeight() : 0.0;
+    
+    if ([self isOptionEnabled:PPRevealSideOptionsiOS7StatusBarMoving]) {
+        yOffset = 0.0;
+    }
+    
+    CGFloat rootHeight = CGRectGetHeight(rootFrame) - yOffset;
     CGFloat rootWidth = CGRectGetWidth(rootFrame);
     
     if ([self isOptionEnabled:PPRevealSideOptionsResizeSideView]) {
@@ -1081,6 +1211,8 @@ static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
         slideFrame.size.height = rootHeight;
     }
     
+    slideFrame.origin.y += yOffset;
+
     return slideFrame;
 }
 
@@ -1220,7 +1352,7 @@ static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
     UIViewController *c = [_viewControllers objectForKey:[NSNumber numberWithInt:_currentPanDirection]];
     if (c) {
         if (!c.view.superview) {
-            c.view.frame = self.rootViewController.view.bounds;
+            c.view.frame = [self getSideViewFrameFromRootFrame:_rootViewController.view.frame andDirection:_currentPanDirection alreadyFullScreenLayout:YES];
             if (PPSystemVersionGreaterOrEqualThan(5.0)) {
                 [self addChildViewController:c];
             }
@@ -1301,6 +1433,13 @@ static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
     
     self.rootViewController.view.frame = [self getSlidingRectForOffset:offset
                                                           forDirection:_currentPanDirection];
+    
+    if ([self.delegate respondsToSelector:@selector(pprevealSideViewController:didManuallyMoveCenterControllerWithOffset:)])
+    {
+        [self.delegate pprevealSideViewController:self didManuallyMoveCenterControllerWithOffset:offset];
+        
+        [self handleiOS7StatusBarOnManualMoveWithOffset:offset];
+    }
     
     if (panGesture.state == UIGestureRecognizerStateEnded || panGesture.state == UIGestureRecognizerStateCancelled) {
         CGFloat offsetController = [self getOffsetForDirection:_currentPanDirection];
@@ -1418,6 +1557,33 @@ static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
 
 - (NSUInteger)supportedInterfaceOrientations {
     return [_rootViewController supportedInterfaceOrientations];
+}
+
+#pragma mark - iOS 7 status bar
+
+- (void)setStatusBarHidden:(BOOL)hidden {
+    if (!PPSystemVersionGreaterOrEqualThan(7.0)) {
+        return;
+    }
+    
+    BOOL UIViewControllerBasedStatusBarAppearance = YES; // Default on iOS 7
+    id thing = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"UIViewControllerBasedStatusBarAppearance"];
+    if (thing) {
+        UIViewControllerBasedStatusBarAppearance = [thing boolValue];
+    }
+    
+    if (UIViewControllerBasedStatusBarAppearance) {
+        if ([self respondsToSelector:@selector(setNeedsStatusBarAppearanceUpdate)]) {
+            self.hideStatusBar = hidden;
+            [self setNeedsStatusBarAppearanceUpdate];
+        }
+    } else {
+        [UIApplication sharedApplication].statusBarHidden = hidden;
+    }
+}
+
+- (BOOL)prefersStatusBarHidden {
+    return self.hideStatusBar;
 }
 
 #pragma mark - Memory management things

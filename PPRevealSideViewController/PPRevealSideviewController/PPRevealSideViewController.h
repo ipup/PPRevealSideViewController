@@ -80,6 +80,8 @@ enum {
     PPRevealSideOptionsCloseCompletlyBeforeOpeningNewDirection = 1 << 3, /// Decide if we close completely the old direction, for the new one or not. Set to YES by default
     PPRevealSideOptionsKeepOffsetOnRotation = 1 << 4, /// Keep the same offset when rotating. By default, set to no
     PPRevealSideOptionsResizeSideView = 1 << 5, /// Resize the side view. If set to yes, this disabled the bouncing stuff since the view behind is not large enough to show bouncing correctly. Set to NO by default
+    PPRevealSideOptionsiOS7StatusBarFading = 1 << 6,/// Show a status bar below which fade in / out depending on reveal position
+    PPRevealSideOptionsiOS7StatusBarMoving = 1 << 7 /// The status bar is moving with the center view
 };
 typedef NSUInteger   PPRevealSideOptions;
 
@@ -238,6 +240,8 @@ typedef NSUInteger   PPRevealSideOptions;
 @property (nonatomic, assign) id <PPRevealSideViewControllerDelegate> delegate;
 
 @property (nonatomic, readonly) PPRevealSideDirection sideDirectionOpened;
+
+@property (nonatomic, strong) UIColor *fakeiOS7StatusBarColor; // Default is black
 
 /**---------------------------------------------------------------------------------------
  * @name Init method
@@ -524,6 +528,19 @@ typedef NSUInteger   PPRevealSideOptions;
 - (void)changeOffset:(CGFloat)offset forDirection:(PPRevealSideDirection)direction animated:(BOOL)animated;
 
 /**
+ Return the offset for a specific direction
+ @param direction The direction for which you want the offset
+ @return the current offset
+ */
+- (CGFloat) offsetForDirection:(PPRevealSideDirection)direction;
+
+/**
+ Return the offset for the current paning direction. Be careful not to use when not panning
+ @return the current offset for current paning direction
+ */
+- (CGFloat) offsetForCurrentPaningDirection;
+
+/**
  Set Option.
  @param option The option to set
  */
@@ -657,6 +674,15 @@ typedef NSUInteger   PPRevealSideOptions;
  @return the controller in which we will add gestures
  */
 - (UIViewController *)controllerForGesturesOnPPRevealSideViewController:(PPRevealSideViewController *)controller;
+
+/**
+ Implement this method if you want to know about the user moving the reveal manually
+ @param controller The reveal side view controller
+ @param offset The current offset
+
+ */
+- (void) pprevealSideViewController:(PPRevealSideViewController*)controller didManuallyMoveCenterControllerWithOffset:(CGFloat)offset;
+
 @end
 
 /**

@@ -9,6 +9,11 @@
 #import "AppDelegate.h"
 #import "MainViewController.h"
 
+#define UIColorFromRGB(rgbValue) [UIColor \
+colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 \
+green:((float)((rgbValue & 0xFF00) >> 8))/255.0 \
+blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
+
 @implementation AppDelegate
 
 @synthesize window = _window;
@@ -34,6 +39,13 @@
     
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
+    
+    if (PPSystemVersionGreaterOrEqualThan(7.0)) {
+        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+        [[UINavigationBar appearance] setBarTintColor:UIColorFromRGB(0x34B085)];
+        [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
+    }
+    
     return YES;
 }
 
@@ -41,6 +53,10 @@
 
 - (void)pprevealSideViewController:(PPRevealSideViewController *)controller willPushController:(UIViewController *)pushedController {
     PPRSLog(@"%@", pushedController);
+//    [UIView animateWithDuration:0.3
+//                     animations:^{
+//                         _iOS7UnderStatusBar.alpha = 1.0;
+//                     }];
 }
 
 - (void)pprevealSideViewController:(PPRevealSideViewController *)controller didPushController:(UIViewController *)pushedController {
@@ -49,6 +65,10 @@
 
 - (void)pprevealSideViewController:(PPRevealSideViewController *)controller willPopToController:(UIViewController *)centerController {
     PPRSLog(@"%@", centerController);
+//    [UIView animateWithDuration:0.3
+//                     animations:^{
+//                         _iOS7UnderStatusBar.alpha = 0.0;
+//                     }];
 }
 
 - (void)pprevealSideViewController:(PPRevealSideViewController *)controller didPopToController:(UIViewController *)centerController {
@@ -67,6 +87,10 @@
     if ([view isKindOfClass:NSClassFromString(@"UIWebBrowserView")]) return PPRevealSideDirectionLeft | PPRevealSideDirectionRight;
     
     return PPRevealSideDirectionLeft | PPRevealSideDirectionRight | PPRevealSideDirectionTop | PPRevealSideDirectionBottom;
+}
+
+- (void)pprevealSideViewController:(PPRevealSideViewController *)controller didManuallyMoveCenterControllerWithOffset:(CGFloat)offset
+{
 }
 
 #pragma mark - Unloading tests

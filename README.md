@@ -84,7 +84,7 @@ PPRevealSideViewController fully supports ARC *and* non-ARC modes out of the box
 
 # Compatibility
 
-The class if fully compatible from iOS 4 to iOS 6. Not tested yet on older versions like iOS 3, but there is no reasons it doesn't work.
+The class if fully compatible from iOS 4 to iOS 7. Not tested yet on older versions like iOS 3, but there is no reasons it doesn't work.
 Please note that this class use the new container methods of UIViewController since iOS 5. By using this class on iOS 4 for example, you need to be careful with rotation handling, and presentModalViewController stuff.
 Some things you need to be aware on iOS 4 or older :
 
@@ -201,6 +201,15 @@ If you want to pop a new center controller, then do the following :
 	 [self.revealSideViewController pushViewController:c onDirection:PPRevealSideDirectionBottom withOffset:_offset animated:_animated completion:^{
          PPRSLog(@"This is the end!");
      }];
+
+## iOS 7 and status bar
+
+Yeah, this status bar on iOS 7. Well, you now have two options (fading is set as default).
+`PPRevealSideOptionsiOS7StatusBarFading` and `PPRevealSideOptionsiOS7StatusBarMoving`
+
+Try them! (using `setOption:`)
+
+Please also note that if you want to change the background color of the status bar when using the fading option, change value of `fakeiOS7StatusBarColor` (default is black).
 	 	
 ## To go deeper 
 By default, the side views are not loaded. This means that even if you interface have a button to push a side view, the panning gesture won't show the controller. If you want so, you need to preload the controller you want to present.
@@ -275,6 +284,14 @@ This control is used in these apps we developped at iPuP:
 ![Preview](http://a99.phobos.apple.com/us/r1000/096/Purple2/v4/0d/d2/5a/0dd25ac5-ef5a-621f-07ec-8832a207ace2/mzl.jkbdncdn.320x480-75.jpg)
 
 Please feel free to PR the readme for adding your app!
+
+Other contributors
+-------
+
+For the methods with completion block [xOr-developer](https://github.com/x0r-developer)
+For the iOS 7 moving status bar [cvknage](https://github.com/cvknage)
+
+Big thanks to them!
 
 License
 -------
