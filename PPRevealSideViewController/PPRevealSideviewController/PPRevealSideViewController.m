@@ -766,7 +766,7 @@ static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
     if (!PPSystemVersionGreaterOrEqualThan(7.0)) return nil;
     
     if (!_underStatusBarView && ([self isOptionEnabled:PPRevealSideOptionsiOS7StatusBarFading] || [self isOptionEnabled:PPRevealSideOptionsiOS7StatusBarMoving])) {
-        _underStatusBarView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(PPScreenBounds()), PPStatusBarHeight())];
+        _underStatusBarView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(PPScreenBounds()), 20.0f)];
         if ([self isOptionEnabled:PPRevealSideOptionsiOS7StatusBarFading]) {
             _underStatusBarView.backgroundColor = self.fakeiOS7StatusBarColor;
         }
