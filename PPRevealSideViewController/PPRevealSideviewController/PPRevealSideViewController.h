@@ -160,7 +160,6 @@ typedef NSUInteger   PPRevealSideOptions;
     CGFloat _currentVelocity;
     CGFloat _oldStatusBarHeight;
     
-    BOOL _animationInProgress;
     BOOL _shouldNotCloseWhenPushingSameDirection;
     BOOL _wasClosed;
     BOOL _popFromPanGesture;
@@ -172,7 +171,6 @@ typedef NSUInteger   PPRevealSideOptions;
  Getter for the rootViewController
  */
 @property (nonatomic, readonly, retain) UIViewController *rootViewController;
-
 /**
  The Reveal options. Possible values are :
  
@@ -243,6 +241,7 @@ typedef NSUInteger   PPRevealSideOptions;
 
 @property (nonatomic, strong) UIColor *fakeiOS7StatusBarColor; // Default is black
 
+@property (nonatomic, readonly) BOOL animationInProgress;
 /**---------------------------------------------------------------------------------------
  * @name Init method
  *  ---------------------------------------------------------------------------------------
