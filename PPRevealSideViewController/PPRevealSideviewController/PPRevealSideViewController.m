@@ -735,7 +735,8 @@ static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
     [self willChangeValueForKey:@"fakeiOS7StatusBarColor"];
     _fakeiOS7StatusBarColor = PP_RETAIN(fakeiOS7StatusBarColor);
     if ([self isOptionEnabled:PPRevealSideOptionsiOS7StatusBarFading]) {
-        self.underStatusBarView.backgroundColor = fakeiOS7StatusBarColor;
+        // Dot not use `self.` because we don't want to create the view if not existing
+        _underStatusBarView.backgroundColor = fakeiOS7StatusBarColor;
     }
     [self didChangeValueForKey:@"fakeiOS7StatusBarColor"];
 }
