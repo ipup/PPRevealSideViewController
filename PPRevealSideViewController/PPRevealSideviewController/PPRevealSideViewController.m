@@ -704,6 +704,7 @@ static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
 }
 
 - (void)resetOption:(PPRevealSideOptions)option {
+    _options |= option;
     _options ^= option;
     if (option == PPRevealSideOptionsShowShadows) [self handleShadows];
     if (option == PPRevealSideOptionsiOS7StatusBarMoving || option == PPRevealSideOptionsiOS7StatusBarFading) self.underStatusBarView = nil;
