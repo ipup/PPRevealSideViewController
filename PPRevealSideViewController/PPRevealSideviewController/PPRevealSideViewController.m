@@ -1178,7 +1178,7 @@ static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
     CGRect slideFrame = CGRectZero;
     CGFloat yOffset = PPSystemVersionGreaterOrEqualThan(7.0) ? 20.0 : 0.0;
     
-    if ([self isOptionEnabled:PPRevealSideOptionsiOS7StatusBarMoving]) {
+    if ([self isOptionEnabled:PPRevealSideOptionsiOS7StatusBarMoving] || [self isOptionEnabled:PPRevealSideOptionsNoStatusBar]) {
         yOffset = 0.0;
     }
     

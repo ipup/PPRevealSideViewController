@@ -82,6 +82,7 @@ enum {
     PPRevealSideOptionsResizeSideView = 1 << 5, /// Resize the side view. If set to yes, this disabled the bouncing stuff since the view behind is not large enough to show bouncing correctly. Set to NO by default
     PPRevealSideOptionsiOS7StatusBarFading = 1 << 6,/// Show a status bar below which fade in / out depending on reveal position
     PPRevealSideOptionsiOS7StatusBarMoving = 1 << 7 /// The status bar is moving with the center view
+    PPRevealSideOptionsNoStatusBar = 1 << 8 /// No Status Bar
 };
 typedef NSUInteger   PPRevealSideOptions;
 
