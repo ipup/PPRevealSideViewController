@@ -1245,7 +1245,7 @@ static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
 - (CGFloat)getOffsetForDirection:(PPRevealSideDirection)direction andInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
     CGFloat offset = [[_viewControllersOffsets objectForKey:[NSNumber numberWithInt:direction]] floatValue];
     
-    if (UIInterfaceOrientationIsLandscape(interfaceOrientation) && offset != 0.0) {
+    if (UIInterfaceOrientationIsLandscape(interfaceOrientation) && offset != 0.0 && !PPSystemVersionGreaterOrEqualThan(8.0)) {
         if (![self isOptionEnabled:PPRevealSideOptionsKeepOffsetOnRotation]) {
             // Take an orientation free rect
             CGRect portraitBounds = [UIScreen mainScreen].bounds;
@@ -1690,7 +1690,7 @@ UIInterfaceOrientation PPInterfaceOrientation(void) {
 
 CGRect PPScreenBounds(void) {
     CGRect bounds = [UIScreen mainScreen].bounds;
-    if (UIInterfaceOrientationIsLandscape(PPInterfaceOrientation())) {
+    if (UIInterfaceOrientationIsLandscape(PPInterfaceOrientation()) && !PPSystemVersionGreaterOrEqualThan(8.0)) {
         CGFloat width = bounds.size.width;
         bounds.size.width = bounds.size.height;
         bounds.size.height = width;
@@ -1700,6 +1700,6 @@ CGRect PPScreenBounds(void) {
 
 CGFloat PPStatusBarHeight(void) {
     if ([[UIApplication sharedApplication] isStatusBarHidden]) return 0.0;
-    if (UIInterfaceOrientationIsLandscape(PPInterfaceOrientation())) return [[UIApplication sharedApplication] statusBarFrame].size.width;
+    if (UIInterfaceOrientationIsLandscape(PPInterfaceOrientation()) && !PPSystemVersionGreaterOrEqualThan(8.0)) return [[UIApplication sharedApplication] statusBarFrame].size.width;
     else return [[UIApplication sharedApplication] statusBarFrame].size.height;
 }
