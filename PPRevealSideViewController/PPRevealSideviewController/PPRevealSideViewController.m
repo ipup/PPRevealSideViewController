@@ -55,7 +55,7 @@ static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
 - (PPRevealSideDirection)getSideToClose;
 
 - (CGRect)getSlidingRectForOffset:(CGFloat)offset forDirection:(PPRevealSideDirection)direction;
-- (CGRect)getSideViewFrameFromRootFrame:(CGRect)rootFrame andDirection:(PPRevealSideDirection)direction alreadyFullScreenLayout:(BOOL)alreadyFullScreenLayout;
+- (CGRect)getSideViewFrameFromRootFrame:(CGRect)rootFrame andDirection:(PPRevealSideDirection)direction;
 
 - (UIEdgeInsets)getEdgetInsetForDirection:(PPRevealSideDirection)direction;
 
@@ -277,8 +277,7 @@ static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
     
     // replace the view since IB add some offsets with the status bar if enabled
     controller.view.frame = [self getSideViewFrameFromRootFrame:rootFrame
-                                                   andDirection:direction
-                                        alreadyFullScreenLayout:controller.wantsFullScreenLayout];
+                                                   andDirection:direction];
     
     NSTimeInterval animationTime = OpenAnimationTime;
     //    if ([self canCrossOffsets]) animationTime = OpenAnimationTime;
@@ -602,7 +601,7 @@ static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
             }
             controller.view.hidden = YES;
         }
-        controller.view.frame = [self getSideViewFrameFromRootFrame:_rootViewController.view.frame andDirection:direction alreadyFullScreenLayout:YES];
+        controller.view.frame = [self getSideViewFrameFromRootFrame:_rootViewController.view.frame andDirection:direction];
     }
     [self setOffset:offset forDirection:direction];
 }
@@ -674,8 +673,7 @@ static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
                              PPRevealSideDirection direction = [self getSideToClose];
                              UIViewController *openedController = [_viewControllers objectForKey:[NSNumber numberWithInt:direction]];
                              CGRect newFrame = [self getSideViewFrameFromRootFrame:_rootViewController.view.frame
-                                                                      andDirection:direction
-                                                           alreadyFullScreenLayout:openedController.wantsFullScreenLayout];
+                                                                      andDirection:direction];
                              openedController.view.frame = newFrame;
                              
                              CGFloat offset = [[_viewControllersOffsets objectForKey:[NSNumber numberWithInt:direction]] floatValue];
@@ -1174,7 +1172,7 @@ static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
     return [self getSlidingRectForOffset:offset forDirection:direction andOrientation:PPInterfaceOrientation()];
 }
 
-- (CGRect)getSideViewFrameFromRootFrame:(CGRect)rootFrame andDirection:(PPRevealSideDirection)direction alreadyFullScreenLayout:(BOOL)alreadyFullScreenLayout {
+- (CGRect)getSideViewFrameFromRootFrame:(CGRect)rootFrame andDirection:(PPRevealSideDirection)direction {
     CGRect slideFrame = CGRectZero;
     CGFloat yOffset = PPSystemVersionGreaterOrEqualThan(7.0) ? 20.0 : 0.0;
     
@@ -1354,7 +1352,7 @@ static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
     UIViewController *c = [_viewControllers objectForKey:[NSNumber numberWithInt:_currentPanDirection]];
     if (c) {
         if (!c.view.superview) {
-            c.view.frame = [self getSideViewFrameFromRootFrame:_rootViewController.view.frame andDirection:_currentPanDirection alreadyFullScreenLayout:YES];
+            c.view.frame = [self getSideViewFrameFromRootFrame:_rootViewController.view.frame andDirection:_currentPanDirection];
             if (PPSystemVersionGreaterOrEqualThan(5.0)) {
                 [self addChildViewController:c];
             }
@@ -1508,8 +1506,7 @@ static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
         
         if (controller.view.superview) {
             controller.view.frame = [self getSideViewFrameFromRootFrame:_rootViewController.view.frame
-                                                           andDirection:[key intValue]
-                                                alreadyFullScreenLayout:controller.wantsFullScreenLayout];
+                                                           andDirection:[key intValue]];
             if (!PPSystemVersionGreaterOrEqualThan(5.0)) [controller willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
         }
     }

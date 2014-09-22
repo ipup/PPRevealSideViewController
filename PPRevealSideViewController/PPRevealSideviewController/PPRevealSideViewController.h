@@ -43,7 +43,8 @@
  @enum PPRevealSideDirection
  The direction to push!
  */
-enum {
+
+typedef NS_ENUM(NSUInteger,PPRevealSideDirection) {
     /** Left direction */
     PPRevealSideDirectionLeft = 1 << 1,
     /** Right direction */
@@ -55,25 +56,24 @@ enum {
     /** This cannot be used as a direction. Only for internal use! */
     PPRevealSideDirectionNone = 0,
 };
-typedef NSUInteger   PPRevealSideDirection;
 
 /** 
  @enum PPRevealSideInteractions
  The interactions availabled
  */
-enum {
+
+typedef NS_OPTIONS(NSUInteger,PPRevealSideInteractions) {
     PPRevealSideInteractionNone = 0,
     PPRevealSideInteractionNavigationBar = 1 << 1,
     PPRevealSideInteractionContentView = 1 << 2,
 };
-typedef NSUInteger   PPRevealSideInteractions;
 
 /** 
  @enum PPRevealSideOptions
  Some options
  */
 
-enum {
+typedef NS_OPTIONS(NSUInteger,PPRevealSideOptions) {
     PPRevealSideOptionsNone = 0,
     PPRevealSideOptionsShowShadows = 1 << 1, /// Disable or enable the shadows. Enabled by default
     PPRevealSideOptionsBounceAnimations = 1 << 2, /// Decide if the animations are boucing or not. By default, they are
@@ -84,8 +84,6 @@ enum {
     PPRevealSideOptionsiOS7StatusBarMoving = 1 << 7 /// The status bar is moving with the center view
     PPRevealSideOptionsNoStatusBar = 1 << 8 /// No Status Bar
 };
-typedef NSUInteger   PPRevealSideOptions;
-
 
 @protocol PPRevealSideViewControllerDelegate;
 
