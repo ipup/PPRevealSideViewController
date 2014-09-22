@@ -9,7 +9,7 @@ Pan and Tap gestures are also included!"
   s.license      = { :type => 'MIT', :file => 'LICENSE' }
   s.author       = { "Marian PAUL" => "marian.paul2@gmail.com" }
   s.source       = { :git => "https://github.com/ipup/PPRevealSideViewController.git", :tag => "1.2.0" }
-  s.platform     = :ios
+  s.platform     = :ios, '6.0'
   s.requires_arc = true
   s.source_files = 'PPRevealSideViewController/PPRevealSideviewController/*.{h,m}'
   s.framework  = 'QuartzCore'
