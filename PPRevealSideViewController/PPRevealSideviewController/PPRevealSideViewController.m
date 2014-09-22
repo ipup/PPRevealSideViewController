@@ -9,6 +9,7 @@
 #import "PPRevealSideViewController.h"
 #import <QuartzCore/QuartzCore.h>
 #import <objc/runtime.h>
+#import <PPHelpMe/PPHelpMe.h>
 
 #pragma mark - Unit constants
 static const CGFloat DefaultOffset = 70.0;
@@ -1681,25 +1682,3 @@ static char revealSideInsetKey;
 }
 
 @end
-
-#pragma mark - Some Functions
-UIInterfaceOrientation PPInterfaceOrientation(void) {
-    UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
-    return orientation;
-}
-
-CGRect PPScreenBounds(void) {
-    CGRect bounds = [UIScreen mainScreen].bounds;
-    if (UIInterfaceOrientationIsLandscape(PPInterfaceOrientation()) && !PPSystemVersionGreaterOrEqualThan(8.0)) {
-        CGFloat width = bounds.size.width;
-        bounds.size.width = bounds.size.height;
-        bounds.size.height = width;
-    }
-    return bounds;
-}
-
-CGFloat PPStatusBarHeight(void) {
-    if ([[UIApplication sharedApplication] isStatusBarHidden]) return 0.0;
-    if (UIInterfaceOrientationIsLandscape(PPInterfaceOrientation()) && !PPSystemVersionGreaterOrEqualThan(8.0)) return [[UIApplication sharedApplication] statusBarFrame].size.width;
-    else return [[UIApplication sharedApplication] statusBarFrame].size.height;
-}

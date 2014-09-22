@@ -81,7 +81,7 @@ typedef NS_OPTIONS(NSUInteger,PPRevealSideOptions) {
     PPRevealSideOptionsKeepOffsetOnRotation = 1 << 4, /// Keep the same offset when rotating. By default, set to no
     PPRevealSideOptionsResizeSideView = 1 << 5, /// Resize the side view. If set to yes, this disabled the bouncing stuff since the view behind is not large enough to show bouncing correctly. Set to NO by default
     PPRevealSideOptionsiOS7StatusBarFading = 1 << 6,/// Show a status bar below which fade in / out depending on reveal position
-    PPRevealSideOptionsiOS7StatusBarMoving = 1 << 7 /// The status bar is moving with the center view
+    PPRevealSideOptionsiOS7StatusBarMoving = 1 << 7, /// The status bar is moving with the center view
     PPRevealSideOptionsNoStatusBar = 1 << 8 /// No Status Bar
 };
 
@@ -682,17 +682,3 @@ typedef NS_OPTIONS(NSUInteger,PPRevealSideOptions) {
 - (void) pprevealSideViewController:(PPRevealSideViewController*)controller didManuallyMoveCenterControllerWithOffset:(CGFloat)offset;
 
 @end
-
-/**
- A convenient function which get the current interface orientation based on the status bar.
- */
-UIInterfaceOrientation PPInterfaceOrientation(void);
-/**
- A convenient function which get the screen bounds. Also handle the size in both landscape and portrait.
- */
-CGRect PPScreenBounds(void);
-
-/**
- A convenient function which get the status bar height
- */
-CGFloat PPStatusBarHeight(void);
