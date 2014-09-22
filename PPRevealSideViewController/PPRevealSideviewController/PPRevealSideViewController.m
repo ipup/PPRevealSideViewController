@@ -1196,7 +1196,7 @@ static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
                 slideFrame.size.width = rootWidth - CGRectGetMaxX(rootFrame);
                 break;
             case PPRevealSideDirectionTop:
-                slideFrame.size.height = CGRectGetMinY(rootFrame);
+                slideFrame.size.height = CGRectGetMinY(rootFrame) - yOffset;
                 slideFrame.size.width = rootWidth;
                 break;
             case PPRevealSideDirectionBottom:
