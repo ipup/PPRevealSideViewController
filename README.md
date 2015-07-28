@@ -28,7 +28,7 @@ $ touch Podfile
 # Edit the podfile using your favorite editor
 $ edit Podfile
 platform :ios 
-pod 'PPRevealSideViewController', '~> 1.0.0'
+pod 'PPRevealSideViewController', '~> 1.2.1'
 ```
 
 Run the install:
