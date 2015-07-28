@@ -125,32 +125,24 @@ static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    if (!PPSystemVersionGreaterOrEqualThan(5.0)) [_rootViewController viewWillAppear:animated];
-    
     PPRevealSideDirection direction = [self getSideToClose];
     if (direction != PPRevealSideDirectionNone) [[_viewControllers objectForKey:[NSNumber numberWithInt:direction]] viewWillAppear:animated];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    if (!PPSystemVersionGreaterOrEqualThan(5.0)) [_rootViewController viewDidAppear:animated];
-    
     PPRevealSideDirection direction = [self getSideToClose];
     if (direction != PPRevealSideDirectionNone) [[_viewControllers objectForKey:[NSNumber numberWithInt:direction]] viewDidAppear:animated];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    if (!PPSystemVersionGreaterOrEqualThan(5.0)) [_rootViewController viewWillDisappear:animated];
-    
     PPRevealSideDirection direction = [self getSideToClose];
     if (direction != PPRevealSideDirectionNone) [[_viewControllers objectForKey:[NSNumber numberWithInt:direction]] viewWillDisappear:animated];
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
-    if (!PPSystemVersionGreaterOrEqualThan(5.0)) [_rootViewController viewDidDisappear:animated];
-    
     PPRevealSideDirection direction = [self getSideToClose];
     if (direction != PPRevealSideDirectionNone) [[_viewControllers objectForKey:[NSNumber numberWithInt:direction]] viewDidDisappear:animated];
 }
@@ -256,19 +248,19 @@ static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
     [self removeControllerFromView:controller animated:animated];
     
     // TODO remove then adding not so good ... Maybe do something different
-    if (PPSystemVersionGreaterOrEqualThan(5.0)) {
-        [self addChildViewController:controller];
-    }
+    [self addChildViewController:controller];
     
-    if (!PPSystemVersionGreaterOrEqualThan(5.0)) [controller viewWillAppear:animated];
     [self.view insertSubview:controller.view belowSubview:_rootViewController.view];
-    if (!PPSystemVersionGreaterOrEqualThan(5.0)) [controller viewDidAppear:animated];
     
     // if bounces is activated and the push is animated, calculate the first frame with the bounce
     CGRect rootFrame = CGRectZero;
-    if ([self canCrossOffsets] && animated && offset != 0.0f) // then we make an offset
+    if ([self canCrossOffsets] && animated && offset != 0.0f) { // then we make an offset
         rootFrame = [self getSlidingRectForOffset:offset - ((_bouncingOffset == -1.0) ? DefaultOffsetBouncing : _bouncingOffset) forDirection:direction];
-    else rootFrame = [self getSlidingRectForOffset:offset forDirection:direction];
+    }
+    else {
+        
+        rootFrame = [self getSlidingRectForOffset:offset forDirection:direction];
+    }
     
     void (^ openAnimBlock)(void) = ^(void) {
         controller.view.hidden = NO;
@@ -323,14 +315,14 @@ static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
                                                           _animationInProgress = NO;
                                                       }
                                                       
-                                                      if (PPSystemVersionGreaterOrEqualThan(5.0)) [controller didMoveToParentViewController:self];
+                                                      [controller didMoveToParentViewController:self];
                                                       if (completionBlock) completionBlock();
                                                       
                                                       [self informDelegateWithOptionalSelector:@selector(pprevealSideViewController:didPushController:) withParam:controller];
                                                   }];
                              } else {
                                  _animationInProgress = NO;
-                                 if (PPSystemVersionGreaterOrEqualThan(5.0)) [controller didMoveToParentViewController:self];
+                                 [controller didMoveToParentViewController:self];
                                  if (completionBlock) completionBlock();
                                  [self informDelegateWithOptionalSelector:@selector(pprevealSideViewController:didPushController:) withParam:controller];
                              }
@@ -338,7 +330,7 @@ static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
     } else {
         openAnimBlock();
         _animationInProgress = NO;
-        if (PPSystemVersionGreaterOrEqualThan(5.0)) [controller didMoveToParentViewController:self];
+        [controller didMoveToParentViewController:self];
         if (completionBlock) completionBlock();
         [self informDelegateWithOptionalSelector:@selector(pprevealSideViewController:didPushController:) withParam:controller];
     }
@@ -592,14 +584,13 @@ static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
         
         [_viewControllers setObject:controller forKey:[NSNumber numberWithInt:direction]];
         if (![controller isViewLoaded]) {
-            if (PPSystemVersionGreaterOrEqualThan(5.0)) [controller willMoveToParentViewController:self];
+            [controller willMoveToParentViewController:self];
             
             [self.view insertSubview:controller.view atIndex:0];
             
-            if (PPSystemVersionGreaterOrEqualThan(5.0)) {
-                [self addChildViewController:controller];
-                [controller didMoveToParentViewController:self];
-            }
+            [self addChildViewController:controller];
+            [controller didMoveToParentViewController:self];
+            
             controller.view.hidden = YES;
         }
         controller.view.frame = [self getSideViewFrameFromRootFrame:_rootViewController.view.frame andDirection:direction];
@@ -802,17 +793,13 @@ static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
         if (_rootViewController) {
             _rootViewController.revealSideViewController = self;
             
-            if (PPSystemVersionGreaterOrEqualThan(5.0)) {
-                [self addChildViewController:_rootViewController];
-            }
+            [self addChildViewController:_rootViewController];
             
             [self handleShadows];
             
-            if (!PPSystemVersionGreaterOrEqualThan(5.0)) [_rootViewController viewWillAppear:NO];
             [self.view addSubview:_rootViewController.view];
-            if (!PPSystemVersionGreaterOrEqualThan(5.0)) [_rootViewController viewDidAppear:NO];
             
-            if (PPSystemVersionGreaterOrEqualThan(5.0)) [_rootViewController didMoveToParentViewController:self];
+            [_rootViewController didMoveToParentViewController:self];
             
             [_rootViewController addObserver:self
                                   forKeyPath:@"view.frame"
@@ -1083,15 +1070,11 @@ static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
 }
 
 - (void)removeControllerFromView:(UIViewController *)controller animated:(BOOL)animated {
-    if (PPSystemVersionGreaterOrEqualThan(5.0)) [controller willMoveToParentViewController:nil];
-    if (!PPSystemVersionGreaterOrEqualThan(5.0)) [controller viewWillDisappear:animated];
+    [controller willMoveToParentViewController:nil];
     
     [controller.view removeFromSuperview];
     
-    if (!PPSystemVersionGreaterOrEqualThan(5.0)) [controller viewDidDisappear:animated];
-    if (PPSystemVersionGreaterOrEqualThan(5.0)) {
-        [controller removeFromParentViewController];
-    }
+    [controller removeFromParentViewController];
 }
 
 - (void)tryToRemoveObserverOnFrame {
@@ -1354,15 +1337,11 @@ static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
     if (c) {
         if (!c.view.superview) {
             c.view.frame = [self getSideViewFrameFromRootFrame:_rootViewController.view.frame andDirection:_currentPanDirection];
-            if (PPSystemVersionGreaterOrEqualThan(5.0)) {
-                [self addChildViewController:c];
-            }
+            [self addChildViewController:c];
             
-            if (!PPSystemVersionGreaterOrEqualThan(5.0)) [c viewWillAppear:NO];
             [self.view insertSubview:c.view belowSubview:_rootViewController.view];
-            if (!PPSystemVersionGreaterOrEqualThan(5.0)) [c viewDidAppear:NO];
             
-            if (PPSystemVersionGreaterOrEqualThan(5.0)) [c didMoveToParentViewController:self];
+            [c didMoveToParentViewController:self];
         }
         c.view.hidden = NO;
     } else { // we use the bounce animation
@@ -1498,8 +1477,6 @@ static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
     [super willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
     
-    if (!PPSystemVersionGreaterOrEqualThan(5.0)) [_rootViewController willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
-    
     [self resizeCurrentView];
     
     for (id key in _viewControllers.allKeys) {
@@ -1508,7 +1485,6 @@ static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
         if (controller.view.superview) {
             controller.view.frame = [self getSideViewFrameFromRootFrame:_rootViewController.view.frame
                                                            andDirection:[key intValue]];
-            if (!PPSystemVersionGreaterOrEqualThan(5.0)) [controller willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
         }
     }
 }
@@ -1517,30 +1493,12 @@ static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
     [super willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
     [self removeShadow];
     //_rootViewController.view.layer.shouldRasterize = YES;
-    
-    
-    if (!PPSystemVersionGreaterOrEqualThan(5.0)) [_rootViewController willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
-    return;
-    
-    for (id key in _viewControllers.allKeys) {
-        // optimisation
-        UIViewController *controller = (UIViewController *)[_viewControllers objectForKey:key];
-        if (controller.view.superview && !PPSystemVersionGreaterOrEqualThan(5.0)) [controller willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
-    }
 }
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
     [super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
     //_rootViewController.view.layer.shouldRasterize = NO;
     [self handleShadows];
-    
-    if (!PPSystemVersionGreaterOrEqualThan(5.0)) [_rootViewController didRotateFromInterfaceOrientation:fromInterfaceOrientation];
-    
-    for (id key in _viewControllers.allKeys) {
-        // optimisation
-        UIViewController *controller = (UIViewController *)[_viewControllers objectForKey:key];
-        if (controller.view.superview && !PPSystemVersionGreaterOrEqualThan(5.0)) [controller didRotateFromInterfaceOrientation:fromInterfaceOrientation];
-    }
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation {
@@ -1590,15 +1548,6 @@ static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
 
 - (void)viewWillUnload {
     [super viewWillUnload];
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    if (!PPSystemVersionGreaterOrEqualThan(6.0)) {
-        // Because the view will load. In iOS 6, there is no such behavior of load / unload
-        // I could have put it in didUnload, but I probably place it here for a good reason (don't remember which)
-        [self tryToRemoveObserverOnFrame];
-    }
 }
 
 - (void)viewDidUnload {
