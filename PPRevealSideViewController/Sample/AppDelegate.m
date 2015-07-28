@@ -46,6 +46,8 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
         [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
     }
     
+    self.revealSideViewController.fakeiOS7StatusBarColor = UIColorFromRGB(0x340085);
+    
     return YES;
 }
 

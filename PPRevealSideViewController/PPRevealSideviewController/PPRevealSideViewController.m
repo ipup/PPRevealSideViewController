@@ -1544,6 +1544,14 @@ static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
     return self.hideStatusBar;
 }
 
+- (UIViewController *)childViewControllerForStatusBarStyle {
+    return self.rootViewController;
+}
+
+- (UIViewController *)childViewControllerForStatusBarHidden {
+    return self.rootViewController;
+}
+
 #pragma mark - Memory management things
 
 - (void)viewWillUnload {
