@@ -70,14 +70,13 @@ PPRevealSideViewController fully supports ARC *and* non-ARC modes out of the box
 
 # Compatibility
 
-The class if fully compatible from iOS 4 to iOS 7. Not tested yet on older versions like iOS 3, but there is no reasons it doesn't work.
-Please note that this class use the new container methods of UIViewController since iOS 5. By using this class on iOS 4 for example, you need to be careful with rotation handling, and presentModalViewController stuff.
-Some things you need to be aware on iOS 4 or older :
+The class if fully compatible from iOS 7. I recently dropped support for previous version. So if needed, please grab a previous commit / version than [this one](https://github.com/ipup/PPRevealSideViewController/commit/6ae0c43278ec251c2d22c897d610d017bbd47dec).
 
-* the currentOrientation property is not passed to child controllers, so only the window rootViewController knows the currentOrientation. Always use the status bar orientation from UIApplication
-* override willAnimateRotationToInterfaceOrientation method to relayout the subviews
-* ALWAYS present modal view controller from reveal side view controller, not from the controller itself. Otherwise, you will see strange bug with memory warning and/or rotation (bad layout)
-* There is no support on iOS 4 and older of hiding and showing status bar in the app. It's ok if the status bar is initially hidden or not
+## State preservation and restoration
+PPReveal supports state preservation and restoration. All you need is to set a `restorationIdentifier` to all the controllers you want to restore, maybe a `restorationClass` and you're all set
+
+## Status bar style / hidden
+The status bar style and hidden are forwarded to the child controllers. If you want to remove this behavior, simply subclasse PPReveal and override both `childViewControllerForStatusBarStyle` and `childViewControllerForStatusBarHidden` to return `nil`.
 
 # Documentation 
 

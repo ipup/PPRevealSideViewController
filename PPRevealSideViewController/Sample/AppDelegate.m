@@ -19,13 +19,16 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 @synthesize window = _window;
 @synthesize revealSideViewController = _revealSideViewController;
 
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+
+-(BOOL)application:(UIApplication *)application willFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     self.window = PP_AUTORELEASE([[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]]);
     
     MainViewController *main = [[MainViewController alloc] initWithNibName:@"MainViewController" bundle:nil];
     
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:main];
+    nav.restorationIdentifier = @"MainNav";
     _revealSideViewController = [[PPRevealSideViewController alloc] initWithRootViewController:nav];
+    _revealSideViewController.restorationIdentifier = @"PPReveal";
     
     _revealSideViewController.delegate = self;
     
@@ -37,16 +40,21 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
     PP_RELEASE(main);
     PP_RELEASE(nav);
     
+    self.revealSideViewController.fakeiOS7StatusBarColor = UIColorFromRGB(0x340085);
+
     self.window.backgroundColor = [UIColor whiteColor];
-    [self.window makeKeyAndVisible];
+    
+    return YES;
+}
+
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+       [self.window makeKeyAndVisible];
     
     if (PPSystemVersionGreaterOrEqualThan(7.0)) {
         [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
         [[UINavigationBar appearance] setBarTintColor:UIColorFromRGB(0x34B085)];
         [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
     }
-    
-    self.revealSideViewController.fakeiOS7StatusBarColor = UIColorFromRGB(0x340085);
     
     return YES;
 }
@@ -136,6 +144,14 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
      Save data if appropriate.
      See also applicationDidEnterBackground:.
      */
+}
+
+- (BOOL)application:(UIApplication *)application shouldSaveApplicationState:(NSCoder *)coder {
+    return YES;
+}
+
+- (BOOL)application:(UIApplication *)application shouldRestoreApplicationState:(NSCoder *)coder {
+    return YES;
 }
 
 @end

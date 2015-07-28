@@ -8,6 +8,10 @@
 
 #import "SecondViewController.h"
 
+@interface SecondViewController () <UIViewControllerRestoration>
+
+@end
+
 @implementation SecondViewController
 
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
@@ -29,9 +33,16 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    self.restorationIdentifier = @"SecondController";
+    self.restorationClass = [self class];
+
     // Do any additional setup after loading the view from its nib.
 }
 
++ (UIViewController *)viewControllerWithRestorationIdentifierPath:(NSArray *)identifierComponents coder:(NSCoder *)coder {
+    return [[self class] new];
+}
 - (void)viewDidUnload {
     [super viewDidUnload];
     // Release any retained subviews of the main view.

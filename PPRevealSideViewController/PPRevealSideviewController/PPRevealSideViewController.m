@@ -26,43 +26,7 @@ static const CGFloat MAX_TRIGGER_OFFSET              = 100.0f;
 @interface PPRevealSideViewController ()
 
 @property (nonatomic, strong) UIView *underStatusBarView;
-@property (nonatomic, assign) BOOL hideStatusBar;
-
-- (void)setRootViewController:(UIViewController *)controller replaceToOrigin:(BOOL)replace;
-- (void)setRootViewController:(UIViewController *)controller;
-- (void)addShadow;
-- (void)removeShadow;
-- (void)handleShadows;
-- (void)informDelegateWithOptionalSelector:(SEL)selector withParam:(id)param;
-- (void)popViewControllerWithNewCenterController:(UIViewController *)centerController animated:(BOOL)animated andPresentNewController:(UIViewController *)controllerToPush withDirection:(PPRevealSideDirection)direction andOffset:(CGFloat)offset;
-- (void)addGesturesToCenterController;
-- (void)addPanGestureToController:(UIViewController *)controller;
-- (void)addTapGestureToController:(UIViewController *)controller;
-- (void)addGesturesToController:(UIViewController *)controller;
-- (void)removeAllPanGestures;
-- (void)removeAllTapGestures;
-- (void)removeAllGestures;
-- (void)setOffset:(CGFloat)offset forDirection:(PPRevealSideDirection)direction;
-- (void)removeControllerFromView:(UIViewController *)controller animated:(BOOL)animated;
-- (void)preloadViewController:(UIViewController *)controller forSide:(PPRevealSideDirection)direction withOffset:(CGFloat)offset forceRemoval:(BOOL)force;
-
-- (BOOL)isLeftControllerClosed;
-- (BOOL)isRightControllerClosed;
-- (BOOL)isTopControllerClosed;
-- (BOOL)isBottomControllerClosed;
-- (BOOL)isOptionEnabled:(PPRevealSideOptions)option;
-- (BOOL)canCrossOffsets;
-
-- (PPRevealSideDirection)getSideToClose;
-
-- (CGRect)getSlidingRectForOffset:(CGFloat)offset forDirection:(PPRevealSideDirection)direction;
-- (CGRect)getSideViewFrameFromRootFrame:(CGRect)rootFrame andDirection:(PPRevealSideDirection)direction;
-
-- (UIEdgeInsets)getEdgetInsetForDirection:(PPRevealSideDirection)direction;
-
-- (CGFloat)getOffsetForDirection:(PPRevealSideDirection)direction andInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation;
-- (CGFloat)getOffsetForDirection:(PPRevealSideDirection)direction;
-- (void)tryToRemoveObserverOnFrame;
+@property (nonatomic, assign) BOOL   hideStatusBar;
 
 @end
 
@@ -73,14 +37,6 @@ static const CGFloat MAX_TRIGGER_OFFSET              = 100.0f;
 
 #pragma mark -
 @implementation PPRevealSideViewController
-@synthesize rootViewController = _rootViewController;
-@synthesize panInteractionsWhenClosed = _panInteractionsWhenClosed;
-@synthesize panInteractionsWhenOpened = _panInteractionsWhenOpened;
-@synthesize tapInteractionsWhenOpened = _tapInteractionsWhenOpened;
-@synthesize directionsToShowBounce = _directionsToShowBounce;
-@synthesize options = _options;
-@synthesize bouncingOffset = _bouncingOffset;
-@synthesize delegate = _delegate;
 @synthesize underStatusBarView = _underStatusBarView;
 
 - (instancetype)initWithRootViewController:(UIViewController *)rootViewController {
@@ -1549,11 +1505,63 @@ static const CGFloat MAX_TRIGGER_OFFSET              = 100.0f;
 }
 
 - (UIViewController *)childViewControllerForStatusBarStyle {
+    if (self.sideDirectionOpened != PPRevealSideDirectionNone) {
+        return [self controllerForSide:self.sideDirectionOpened];
+    }
     return self.rootViewController;
 }
 
 - (UIViewController *)childViewControllerForStatusBarHidden {
+    if (self.sideDirectionOpened != PPRevealSideDirectionNone) {
+        return [self controllerForSide:self.sideDirectionOpened];
+    }
     return self.rootViewController;
+}
+
+#pragma mark - State Restoration
+
+static NSString *kPPRevealStatePreservationCenterController = @"PPRevealStatePreservationCenterController";
+static NSString *kPPRevealStatePreservationSideController = @"PPRevealStatePreservationSideController";
+static NSString *kPPRevealStatePreservationOpenSide = @"PPRevealStatePreservationOpenSide";
+
+- (void)encodeRestorableStateWithCoder:(NSCoder *)coder {
+    [super encodeRestorableStateWithCoder:coder];
+    
+    // Encode center controller
+    [coder encodeObject:self.rootViewController forKey:kPPRevealStatePreservationCenterController];
+
+    // Encode side controllers
+    for (id key in _viewControllers) {
+        UIViewController *c = _viewControllers[key];
+        if (c) {
+            [coder encodeObject:c forKey:[NSString stringWithFormat:@"%@_%@", kPPRevealStatePreservationSideController, key]];
+        }
+    }
+    
+    // Encode opened side
+    [coder encodeInteger:self.sideDirectionOpened forKey:kPPRevealStatePreservationOpenSide];
+}
+
+- (void)decodeRestorableStateWithCoder:(NSCoder *)coder{
+    [super decodeRestorableStateWithCoder:coder];
+    
+    UIViewController *rootController = [coder decodeObjectForKey:kPPRevealStatePreservationCenterController];
+    if (rootController) {
+        // This resizing address an issue where the center controller does not have the correct height
+        [rootController.view setHeight:PPScreenHeight()];
+        [self setRootViewController:rootController];
+    }
+    
+    for (id side in @[@(PPRevealSideDirectionTop), @(PPRevealSideDirectionLeft), @(PPRevealSideDirectionRight), @(PPRevealSideDirectionBottom)]) {
+        UIViewController *controller = [coder decodeObjectForKey:[NSString stringWithFormat:@"%@_%@", kPPRevealStatePreservationSideController, side]];
+
+        if (controller) {
+            _viewControllers[side] = controller;
+        }
+    }
+    
+    PPRevealSideDirection openedDirection = [coder decodeIntegerForKey:kPPRevealStatePreservationOpenSide];
+    [self pushOldViewControllerOnDirection:openedDirection animated:NO];
 }
 
 #pragma mark - Memory management things

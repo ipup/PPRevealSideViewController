@@ -15,6 +15,10 @@
 #import "WebViewController.h"
 #import "ModalViewController.h"
 
+@interface TableViewController () <UIViewControllerRestoration>
+
+@end
+
 @implementation TableViewController
 
 - (instancetype)initWithStyle:(UITableViewStyle)style {
@@ -37,10 +41,16 @@
     // Release any cached data, images, etc that aren't in use.
 }
 
++ (UIViewController *)viewControllerWithRestorationIdentifierPath:(NSArray *)identifierComponents coder:(NSCoder *)coder {
+    return [[[self class] alloc] initWithStyle:UITableViewStylePlain];
+}
+
 #pragma mark - View lifecycle
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.restorationIdentifier = @"LeftTableController";
+    self.restorationClass = [self class];
     
     [self.tableView addObserver:self
                      forKeyPath:@"revealSideInset"

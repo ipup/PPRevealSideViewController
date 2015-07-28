@@ -1,0 +1,8 @@
+#1.2.1
+* Dropped support for OS <= 6
+* Removed warning about project configuration
+* Moved to modern O-C syntax
+* Added support for childViewControllerForStatusBarStyle
+* Added f suffix on float values
+* Fixed an issue with fake status bar and rotation
+* Added support for state preservation and restoration

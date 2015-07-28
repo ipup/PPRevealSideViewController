@@ -34,6 +34,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    self.restorationIdentifier = @"MainController";
+    
     UIBarButtonItem *left = [[UIBarButtonItem alloc] initWithTitle:@"Left"
                                                              style:UIBarButtonItemStylePlain
                                                             target:self
