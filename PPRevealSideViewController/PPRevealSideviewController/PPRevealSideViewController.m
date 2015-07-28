@@ -918,6 +918,10 @@ static const CGFloat MAX_TRIGGER_OFFSET              = 100.0f;
         _rootViewController.view.frame = [self getSlidingRectForOffset:[self getOffsetForDirection:direction]
                                                           forDirection:direction];
     }
+    
+    if (_underStatusBarView) {
+        _underStatusBarView.frame = CGRectMake(0.0f, 0.0f, PPScreenWidth(), MIN(20.0f, PPStatusBarHeight()));
+    }
 }
 
 - (UIViewController *)getControllerForGestures {
