@@ -12,15 +12,15 @@
 #import <PPHelpMe/PPHelpMe.h>
 
 #pragma mark - Unit constants
-static const CGFloat DefaultOffset = 70.0;
-static const CGFloat DefaultOffsetBouncing = 5.0;
-static const CGFloat OpenAnimationTime = 0.3;
-static const CGFloat OpenAnimationTimeBouncingRatio = 0.3;
-static const CGFloat BOUNCE_ERROR_OFFSET = 14.0;
-static const CGFloat divisionNumber = 5.0;
-static const CGFloat OFFSET_TRIGGER_CHOSE_DIRECTION = 3.0;
-static const CGFloat OFFSET_TRIGGER_CHANGE_DIRECTION = 0.0;
-static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
+static const CGFloat DefaultOffset                   = 70.0f;
+static const CGFloat DefaultOffsetBouncing           = 5.0f;
+static const CGFloat OpenAnimationTime               = 0.3f;
+static const CGFloat OpenAnimationTimeBouncingRatio  = 0.3f;
+static const CGFloat BOUNCE_ERROR_OFFSET             = 14.0f;
+static const CGFloat divisionNumber                  = 5.0f;
+static const CGFloat OFFSET_TRIGGER_CHOSE_DIRECTION  = 3.0f;
+static const CGFloat OFFSET_TRIGGER_CHANGE_DIRECTION = 0.0f;
+static const CGFloat MAX_TRIGGER_OFFSET              = 100.0f;
 
 #pragma mark -
 @interface PPRevealSideViewController ()
@@ -89,7 +89,7 @@ static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
         // set default options
         self.options = PPRevealSideOptionsShowShadows | PPRevealSideOptionsBounceAnimations | PPRevealSideOptionsCloseCompletlyBeforeOpeningNewDirection | PPRevealSideOptionsiOS7StatusBarFading;
         
-        self.bouncingOffset = -1.0;
+        self.bouncingOffset = -1.0f;
         
         self.fakeiOS7StatusBarColor = [UIColor blackColor];
         
@@ -199,7 +199,7 @@ static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
 - (void)pushViewController:(UIViewController *)controller onDirection:(PPRevealSideDirection)direction withOffset:(CGFloat)offset animated:(BOOL)animated forceToPopPush:(BOOL)forcePopPush completion:(void (^)())completionBlock {
     if (_animationInProgress) return;
     
-    _rootViewController.view.alpha = 1.0;
+    _rootViewController.view.alpha = 1.0f;
     
     // get the side direction to close
     PPRevealSideDirection directionToClose = [self getSideToClose];
@@ -255,7 +255,7 @@ static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
     // if bounces is activated and the push is animated, calculate the first frame with the bounce
     CGRect rootFrame = CGRectZero;
     if ([self canCrossOffsets] && animated && offset != 0.0f) { // then we make an offset
-        rootFrame = [self getSlidingRectForOffset:offset - ((_bouncingOffset == -1.0) ? DefaultOffsetBouncing : _bouncingOffset) forDirection:direction];
+        rootFrame = [self getSlidingRectForOffset:offset - ((_bouncingOffset == -1.0f) ? DefaultOffsetBouncing : _bouncingOffset) forDirection:direction];
     }
     else {
         
@@ -279,7 +279,7 @@ static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
     UIViewAnimationOptions options = UIViewAnimationOptionCurveEaseOut | UIViewAnimationOptionLayoutSubviews;
     
     // Slightly delay this thing, seems to be a bug somewhere
-    double delayInSeconds = 0.01;
+    double delayInSeconds = 0.0f;
     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
     dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
         if (self.underStatusBarView && [self isOptionEnabled:PPRevealSideOptionsiOS7StatusBarMoving]) {
@@ -289,22 +289,22 @@ static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
     
     if (animated) {
         [UIView animateWithDuration:animationTime
-                              delay:0.0
+                              delay:0.0f
                             options:options
                          animations:openAnimBlock
                          completion:^(BOOL finished) {
                              if ([self canCrossOffsets]) {                // then we come to normal
                                  [UIView animateWithDuration:OpenAnimationTime * OpenAnimationTimeBouncingRatio
-                                                       delay:0.0
+                                                       delay:0.0f
                                                      options:options
                                                   animations:^{
                                                       _rootViewController.view.frame = [self getSlidingRectForOffset:offset forDirection:direction];
                                                       [self handleiOS7StatusWillPushWithFinalX:_rootViewController.view.frame.origin.x];
                                                   } completion:^(BOOL finished) {
-                                                      if (offset == 0.0) {
-                                                          [UIView animateWithDuration:0.1
+                                                      if (offset == 0.0f) {
+                                                          [UIView animateWithDuration:0.1f
                                                                            animations:^{
-                                                                               _rootViewController.view.alpha = 0.0;
+                                                                               _rootViewController.view.alpha = 0.0f;
                                                                            }
                                                            
                                                                            completion:^(BOOL finished) {
@@ -357,8 +357,8 @@ static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
             // make a small animation to indicate that there is not yet a controller
             CGRect originalFrame = _rootViewController.view.frame;
             _animationInProgress = YES;
-            [UIView animateWithDuration:OpenAnimationTime * 0.15
-                                  delay:0.0
+            [UIView animateWithDuration:OpenAnimationTime * 0.15f
+                                  delay:0.0f
                                 options:UIViewAnimationOptionCurveEaseInOut
                              animations:^{
                                  CGFloat offsetBounce;
@@ -368,8 +368,8 @@ static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
                                  _rootViewController.view.frame = [self getSlidingRectForOffset:offsetBounce
                                                                                    forDirection:direction];
                              } completion:^(BOOL finished) {
-                                 [UIView animateWithDuration:OpenAnimationTime * 0.15
-                                                       delay:0.0
+                                 [UIView animateWithDuration:OpenAnimationTime * 0.15f
+                                                       delay:0.0f
                                                      options:UIViewAnimationOptionCurveEaseInOut
                                                   animations:^{
                                                       _rootViewController.view.frame = originalFrame;
@@ -396,7 +396,7 @@ static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
 }
 
 - (void)popViewControllerWithNewCenterController:(UIViewController *)centerController animated:(BOOL)animated completion:(void (^)())completionBlock {
-    [self popViewControllerWithNewCenterController:centerController animated:animated andPresentNewController:nil withDirection:PPRevealSideDirectionNone andOffset:0.0 completion:completionBlock];
+    [self popViewControllerWithNewCenterController:centerController animated:animated andPresentNewController:nil withDirection:PPRevealSideDirectionNone andOffset:0.0f completion:completionBlock];
 }
 
 - (void)popViewControllerWithNewCenterController:(UIViewController *)centerController animated:(BOOL)animated andPresentNewController:(UIViewController *)controllerToPush withDirection:(PPRevealSideDirection)direction andOffset:(CGFloat)offset {
@@ -430,8 +430,8 @@ static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
             // this is the anim block to put to normal the center controller
             void (^ smallAnimBlock)(void) = ^(void) {
                 CGRect newFrame = _rootViewController.view.frame;
-                newFrame.origin.x = 0.0;
-                newFrame.origin.y = 0.0;
+                newFrame.origin.x = 0.0f;
+                newFrame.origin.y = 0.0f;
                 _rootViewController.view.frame = newFrame;
                 [self handleiOS7StatusWillPopWithFinalX:newFrame.origin.x];
             };
@@ -467,7 +467,7 @@ static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
                 //                else animationTime = OpenAnimationTime;
                 
                 [UIView animateWithDuration:animationTime
-                                      delay:0.0
+                                      delay:0.0f
                                     options:options
                                  animations:smallAnimBlock
                                  completion:smallAnimBlockCompletion];
@@ -484,18 +484,18 @@ static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
         
         // open completely and then close it
         [UIView animateWithDuration:OpenAnimationTime * OpenAnimationTimeBouncingRatio
-                              delay:0.0
+                              delay:0.0f
                             options:options
                          animations:^{
                              // this will open completely the view
-                             _rootViewController.view.frame = [self getSlidingRectForOffset:0.0 forDirection:directionToOpen];
+                             _rootViewController.view.frame = [self getSlidingRectForOffset:0.0f forDirection:directionToOpen];
                          } completion:bigAnimBlock];
     } else {
         // we just execute the close anim block
         // Badly, we can't use the bigAnimBlock as an animation block since there is the finished parameter. So, just execute it !
         if (animated) {
             [UIView animateWithDuration:OpenAnimationTime
-                                  delay:0.0
+                                  delay:0.0f
                                 options:options
                              animations:^{
                                  bigAnimBlock(YES);
@@ -514,7 +514,7 @@ static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
 
 - (void)openCompletelySide:(PPRevealSideDirection)direction animated:(BOOL)animated completion:(void (^)())completionBlock {
     _shouldNotCloseWhenPushingSameDirection = YES;
-    [self pushOldViewControllerOnDirection:direction withOffset:0.0 animated:YES completion:completionBlock];
+    [self pushOldViewControllerOnDirection:direction withOffset:0.0f animated:YES completion:completionBlock];
     _shouldNotCloseWhenPushingSameDirection = NO;
 }
 
@@ -659,7 +659,7 @@ static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
         _oldStatusBarHeight = PPStatusBarHeight();
         // Replace the views
         [UIView animateWithDuration:[UIApplication sharedApplication].statusBarOrientationAnimationDuration
-                              delay:0.0
+                              delay:0.0f
                             options:UIViewAnimationOptionCurveEaseInOut
                          animations:^{
                              PPRevealSideDirection direction = [self getSideToClose];
@@ -755,7 +755,7 @@ static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
 
 - (UIView *)underStatusBarView
 {
-    if (!PPSystemVersionGreaterOrEqualThan(7.0)) return nil;
+    if (!PPSystemVersionGreaterOrEqualThan(7.0f)) return nil;
     
     if (!_underStatusBarView && ([self isOptionEnabled:PPRevealSideOptionsiOS7StatusBarFading] || [self isOptionEnabled:PPRevealSideOptionsiOS7StatusBarMoving])) {
         _underStatusBarView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(PPScreenBounds()), 20.0f)];
@@ -833,7 +833,7 @@ static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
 - (void)removeShadow {
     _rootViewController.view.layer.shadowPath = nil;
     _rootViewController.view.layer.shadowOpacity = 0.0f;
-    _rootViewController.view.layer.shadowRadius = 0.0;
+    _rootViewController.view.layer.shadowRadius = 0.0f;
     _rootViewController.view.layer.shadowColor = nil;
 }
 
@@ -851,7 +851,7 @@ static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
         if ([self isOptionEnabled:PPRevealSideOptionsiOS7StatusBarFading]) {
             offset = MIN(offset, (_currentPanDirection == PPRevealSideDirectionLeft || _currentPanDirection == PPRevealSideDirectionRight) ? CGRectGetWidth(PPScreenBounds()) : CGRectGetHeight(PPScreenBounds()));
 
-            self.underStatusBarView.alpha = 1.0/(CGRectGetWidth(PPScreenBounds()) - [self offsetForCurrentPaningDirection]) * (-offset + CGRectGetWidth(PPScreenBounds()));
+            self.underStatusBarView.alpha = 1.0f/(CGRectGetWidth(PPScreenBounds()) - [self offsetForCurrentPaningDirection]) * (-offset + CGRectGetWidth(PPScreenBounds()));
         }
         if ([self isOptionEnabled:PPRevealSideOptionsiOS7StatusBarMoving]) {
             CGRect newFrame = self.underStatusBarView.frame;
@@ -867,7 +867,7 @@ static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
 {
     if (self.underStatusBarView) {
         if ([self isOptionEnabled:PPRevealSideOptionsiOS7StatusBarFading]) {
-            self.underStatusBarView.alpha = 1.0;
+            self.underStatusBarView.alpha = 1.0f;
         }
         if ([self isOptionEnabled:PPRevealSideOptionsiOS7StatusBarMoving]) {
             CGRect newFrame = self.underStatusBarView.frame;
@@ -881,7 +881,7 @@ static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
 {
     if (self.underStatusBarView) {
         if ([self isOptionEnabled:PPRevealSideOptionsiOS7StatusBarFading]) {
-            self.underStatusBarView.alpha = 0.0;
+            self.underStatusBarView.alpha = 0.0f;
         }
         if ([self isOptionEnabled:PPRevealSideOptionsiOS7StatusBarMoving]) {
             CGRect newFrame = self.underStatusBarView.frame;
@@ -1088,7 +1088,7 @@ static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
 #pragma mark - Closed Controllers
 
 - (BOOL)isLeftControllerClosed {
-    return CGRectGetMinX(_rootViewController.view.frame) <= 0;
+    return CGRectGetMinX(_rootViewController.view.frame) <= 0.0f;
 }
 
 - (BOOL)isRightControllerClosed {
@@ -1096,7 +1096,7 @@ static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
 }
 
 - (BOOL)isTopControllerClosed {
-    return CGRectGetMinY(_rootViewController.view.frame) <= 0;
+    return CGRectGetMinY(_rootViewController.view.frame) <= 0.0f;
 }
 
 - (BOOL)isBottomControllerClosed {
@@ -1134,16 +1134,16 @@ static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
     CGFloat height = CGRectGetHeight(_rootViewController.view.frame);
     switch (direction) {
         case PPRevealSideDirectionLeft:
-            rectToReturn.origin = CGPointMake(width - offset, 0.0);
+            rectToReturn.origin = CGPointMake(width - offset, 0.0f);
             break;
         case PPRevealSideDirectionRight:
-            rectToReturn.origin = CGPointMake(-(width - offset), 0.0);
+            rectToReturn.origin = CGPointMake(-(width - offset), 0.0f);
             break;
         case PPRevealSideDirectionBottom:
-            rectToReturn.origin = CGPointMake(0.0, -(height - offset));
+            rectToReturn.origin = CGPointMake(0.0f, -(height - offset));
             break;
         case PPRevealSideDirectionTop:
-            rectToReturn.origin = CGPointMake(0.0, height - offset);
+            rectToReturn.origin = CGPointMake(0.0f, height - offset);
             break;
         default:
             break;
@@ -1158,10 +1158,10 @@ static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
 
 - (CGRect)getSideViewFrameFromRootFrame:(CGRect)rootFrame andDirection:(PPRevealSideDirection)direction {
     CGRect slideFrame = CGRectZero;
-    CGFloat yOffset = PPSystemVersionGreaterOrEqualThan(7.0) ? 20.0 : 0.0;
+    CGFloat yOffset = PPSystemVersionGreaterOrEqualThan(7.0f) ? 20.0f : 0.0f;
     
     if ([self isOptionEnabled:PPRevealSideOptionsiOS7StatusBarMoving] || [self isOptionEnabled:PPRevealSideOptionsNoStatusBar]) {
-        yOffset = 0.0;
+        yOffset = 0.0f;
     }
     
     CGFloat rootHeight = CGRectGetHeight(rootFrame) - yOffset;
@@ -1229,12 +1229,12 @@ static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
 - (CGFloat)getOffsetForDirection:(PPRevealSideDirection)direction andInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
     CGFloat offset = [_viewControllersOffsets[@(direction)] floatValue];
     
-    if (UIInterfaceOrientationIsLandscape(interfaceOrientation) && offset != 0.0 && !PPSystemVersionGreaterOrEqualThan(8.0)) {
+    if (UIInterfaceOrientationIsLandscape(interfaceOrientation) && offset != 0.0f && !PPSystemVersionGreaterOrEqualThan(8.0f)) {
         if (![self isOptionEnabled:PPRevealSideOptionsKeepOffsetOnRotation]) {
             // Take an orientation free rect
             CGRect portraitBounds = [UIScreen mainScreen].bounds;
             // Get the difference between width and height
-            CGFloat diff = 0.0;
+            CGFloat diff = 0.0f;
             if (direction == PPRevealSideDirectionLeft || direction == PPRevealSideDirectionRight) diff = portraitBounds.size.height - portraitBounds.size.width;
             if (direction == PPRevealSideDirectionTop) diff = -(portraitBounds.size.height - portraitBounds.size.width);
             
@@ -1294,20 +1294,20 @@ static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
     CGFloat x = currentPoint.x + _panOrigin.x;
     CGFloat y = currentPoint.y + _panOrigin.y;
     
-    CGFloat offset = 0;
+    CGFloat offset = 0.0f;
     
     // if the center view controller is closed, then get the direction we want to Open
     if (_currentPanDirection == PPRevealSideDirectionNone) {
         CGFloat panDiffX = currentPoint.x - _panOrigin.x;
         CGFloat panDiffY = currentPoint.y - _panOrigin.y;
         
-        if (panDiffX > 0 && panDiffX > OFFSET_TRIGGER_CHOSE_DIRECTION) _currentPanDirection = PPRevealSideDirectionLeft;
+        if (panDiffX > 0.0f && panDiffX > OFFSET_TRIGGER_CHOSE_DIRECTION) _currentPanDirection = PPRevealSideDirectionLeft;
         else
-            if (panDiffX < 0 && panDiffX < -OFFSET_TRIGGER_CHOSE_DIRECTION) _currentPanDirection = PPRevealSideDirectionRight;
+            if (panDiffX < 0.0f && panDiffX < -OFFSET_TRIGGER_CHOSE_DIRECTION) _currentPanDirection = PPRevealSideDirectionRight;
             else
-                if (panDiffY > 0 && panDiffY > OFFSET_TRIGGER_CHOSE_DIRECTION) _currentPanDirection = PPRevealSideDirectionTop;
+                if (panDiffY > 0.0f && panDiffY > OFFSET_TRIGGER_CHOSE_DIRECTION) _currentPanDirection = PPRevealSideDirectionTop;
                 else
-                    if (panDiffY < 0 && panDiffY < -OFFSET_TRIGGER_CHOSE_DIRECTION) _currentPanDirection = PPRevealSideDirectionBottom;
+                    if (panDiffY < 0.0f && panDiffY < -OFFSET_TRIGGER_CHOSE_DIRECTION) _currentPanDirection = PPRevealSideDirectionBottom;
     }
     
     if (_currentPanDirection == PPRevealSideDirectionNone) return;
@@ -1520,7 +1520,7 @@ static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
 #pragma mark - iOS 7 status bar
 
 - (void)setStatusBarHidden:(BOOL)hidden {
-    if (!PPSystemVersionGreaterOrEqualThan(7.0)) {
+    if (!PPSystemVersionGreaterOrEqualThan(7.0f)) {
         return;
     }
     
