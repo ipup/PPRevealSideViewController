@@ -83,7 +83,7 @@ static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
 @synthesize delegate = _delegate;
 @synthesize underStatusBarView = _underStatusBarView;
 
-- (id)initWithRootViewController:(UIViewController *)rootViewController {
+- (instancetype)initWithRootViewController:(UIViewController *)rootViewController {
     self = [super init];
     if (self) {
         // set default options
@@ -126,25 +126,25 @@ static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     PPRevealSideDirection direction = [self getSideToClose];
-    if (direction != PPRevealSideDirectionNone) [[_viewControllers objectForKey:[NSNumber numberWithInt:direction]] viewWillAppear:animated];
+    if (direction != PPRevealSideDirectionNone) [_viewControllers[@(direction)] viewWillAppear:animated];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     PPRevealSideDirection direction = [self getSideToClose];
-    if (direction != PPRevealSideDirectionNone) [[_viewControllers objectForKey:[NSNumber numberWithInt:direction]] viewDidAppear:animated];
+    if (direction != PPRevealSideDirectionNone) [_viewControllers[@(direction)] viewDidAppear:animated];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     PPRevealSideDirection direction = [self getSideToClose];
-    if (direction != PPRevealSideDirectionNone) [[_viewControllers objectForKey:[NSNumber numberWithInt:direction]] viewWillDisappear:animated];
+    if (direction != PPRevealSideDirectionNone) [_viewControllers[@(direction)] viewWillDisappear:animated];
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
     PPRevealSideDirection direction = [self getSideToClose];
-    if (direction != PPRevealSideDirectionNone) [[_viewControllers objectForKey:[NSNumber numberWithInt:direction]] viewDidDisappear:animated];
+    if (direction != PPRevealSideDirectionNone) [_viewControllers[@(direction)] viewDidDisappear:animated];
 }
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
@@ -224,7 +224,7 @@ static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
     
     _animationInProgress = YES;
     
-    NSNumber *directionNumber = [NSNumber numberWithInt:direction];
+    NSNumber *directionNumber = @(direction);
     
     // save the offset
     [self setOffset:offset forDirection:direction];
@@ -233,11 +233,11 @@ static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
     offset = [self getOffsetForDirection:direction];
     
     // save the controller and remove the old one from the view
-    UIViewController *oldController = [_viewControllers objectForKey:directionNumber];
+    UIViewController *oldController = _viewControllers[directionNumber];
     
     if (controller != oldController) [self removeControllerFromView:oldController animated:animated];
     
-    [_viewControllers setObject:controller forKey:directionNumber];
+    _viewControllers[directionNumber] = controller;
     
     // set the container controller to self
     controller.revealSideViewController = self;
@@ -349,7 +349,7 @@ static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
 }
 
 - (void)pushOldViewControllerOnDirection:(PPRevealSideDirection)direction withOffset:(CGFloat)offset animated:(BOOL)animated completion:(void (^)())completionBlock {
-    UIViewController *oldController = [_viewControllers objectForKey:[NSNumber numberWithInt:direction]];
+    UIViewController *oldController = _viewControllers[@(direction)];
     if (oldController) {
         [self pushViewController:oldController onDirection:direction withOffset:offset animated:animated forceToPopPush:NO completion:completionBlock];
     } else {
@@ -442,7 +442,7 @@ static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
                     [self informDelegateWithOptionalSelector:@selector(pprevealSideViewController:didPopToController:) withParam:centerController];
                     
                     // remove the view (don't need to surcharge (not english this word ? ... ) all the interface).
-                    UIViewController *oldController = (UIViewController *)[_viewControllers objectForKey:[NSNumber numberWithInt:directionToClose]];
+                    UIViewController *oldController = (UIViewController *)_viewControllers[@(directionToClose)];
                     
                     [self removeControllerFromView:oldController animated:animated];
                     
@@ -578,11 +578,11 @@ static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
 - (void)preloadViewController:(UIViewController *)controller forSide:(PPRevealSideDirection)direction withOffset:(CGFloat)offset forceRemoval:(BOOL)force {
     if (direction == [self sideDirectionOpened] && !force) return;
     
-    UIViewController *existingController = [_viewControllers objectForKey:[NSNumber numberWithInt:direction]];
+    UIViewController *existingController = _viewControllers[@(direction)];
     if (existingController != controller) {
         if (existingController.view.superview) [self removeControllerFromView:existingController animated:NO];
         
-        [_viewControllers setObject:controller forKey:[NSNumber numberWithInt:direction]];
+        _viewControllers[@(direction)] = controller;
         if (![controller isViewLoaded]) {
             [controller willMoveToParentViewController:self];
             
@@ -599,8 +599,8 @@ static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
 }
 
 - (void)unloadViewControllerForSide:(PPRevealSideDirection)direction {
-    NSNumber *key = [NSNumber numberWithInt:direction];
-    UIViewController *controller = [_viewControllers objectForKey:key];
+    NSNumber *key = @(direction);
+    UIViewController *controller = _viewControllers[key];
     
     [self removeControllerFromView:controller animated:NO];
     
@@ -641,7 +641,7 @@ static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
     if ([keyPath isEqualToString:@"view.frame"]) {
         PPRevealSideDirection direction = [self getSideToClose];
-        UIViewController *openedController = [_viewControllers objectForKey:[NSNumber numberWithInt:direction]];
+        UIViewController *openedController = _viewControllers[@(direction)];
         if (openedController) {
             openedController.view.revealSideInset = [self getEdgetInsetForDirection:direction];
         }
@@ -663,12 +663,12 @@ static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
                             options:UIViewAnimationOptionCurveEaseInOut
                          animations:^{
                              PPRevealSideDirection direction = [self getSideToClose];
-                             UIViewController *openedController = [_viewControllers objectForKey:[NSNumber numberWithInt:direction]];
+                             UIViewController *openedController = _viewControllers[@(direction)];
                              CGRect newFrame = [self getSideViewFrameFromRootFrame:_rootViewController.view.frame
                                                                       andDirection:direction];
                              openedController.view.frame = newFrame;
                              
-                             CGFloat offset = [[_viewControllersOffsets objectForKey:[NSNumber numberWithInt:direction]] floatValue];
+                             CGFloat offset = [_viewControllersOffsets[@(direction)] floatValue];
                              CGRect rootFrame = [self getSlidingRectForOffset:offset forDirection:direction];
                              _rootViewController.view.frame = rootFrame;
                              PPRSLog(@"%@", NSStringFromCGRect(rootFrame));
@@ -750,7 +750,7 @@ static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
 }
 
 - (UIViewController *)controllerForSide:(PPRevealSideDirection)side {
-    return [_viewControllers objectForKey:[NSNumber numberWithInt:side]];
+    return _viewControllers[@(side)];
 }
 
 - (UIView *)underStatusBarView
@@ -1066,7 +1066,7 @@ static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
 
 - (void)setOffset:(CGFloat)offset forDirection:(PPRevealSideDirection)direction {
     // This is always an offset for portrait
-    [_viewControllersOffsets setObject:[NSNumber numberWithFloat:offset] forKey:[NSNumber numberWithInt:direction]];
+    _viewControllersOffsets[@(direction)] = @(offset);
 }
 
 - (void)removeControllerFromView:(UIViewController *)controller animated:(BOOL)animated {
@@ -1227,7 +1227,7 @@ static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
 }
 
 - (CGFloat)getOffsetForDirection:(PPRevealSideDirection)direction andInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    CGFloat offset = [[_viewControllersOffsets objectForKey:[NSNumber numberWithInt:direction]] floatValue];
+    CGFloat offset = [_viewControllersOffsets[@(direction)] floatValue];
     
     if (UIInterfaceOrientationIsLandscape(interfaceOrientation) && offset != 0.0 && !PPSystemVersionGreaterOrEqualThan(8.0)) {
         if (![self isOptionEnabled:PPRevealSideOptionsKeepOffsetOnRotation]) {
@@ -1333,7 +1333,7 @@ static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
     }
     
     // see if there is a controller or not for the direction. If yes, then add it.
-    UIViewController *c = [_viewControllers objectForKey:[NSNumber numberWithInt:_currentPanDirection]];
+    UIViewController *c = _viewControllers[@(_currentPanDirection)];
     if (c) {
         if (!c.view.superview) {
             c.view.frame = [self getSideViewFrameFromRootFrame:_rootViewController.view.frame andDirection:_currentPanDirection];
@@ -1380,8 +1380,8 @@ static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
             if (_currentPanDirection == PPRevealSideDirectionLeft) newDirection = PPRevealSideDirectionRight;
             else newDirection = PPRevealSideDirectionLeft;
             
-            if ([_viewControllers objectForKey:[NSNumber numberWithInt:newDirection]]) {
-                UIViewController *c = [_viewControllers objectForKey:[NSNumber numberWithInt:_currentPanDirection]];
+            if (_viewControllers[@(newDirection)]) {
+                UIViewController *c = _viewControllers[@(_currentPanDirection)];
                 
                 [self removeControllerFromView:c animated:YES];
                 
@@ -1397,8 +1397,8 @@ static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
             if (_currentPanDirection == PPRevealSideDirectionBottom) newDirection = PPRevealSideDirectionTop;
             else newDirection = PPRevealSideDirectionBottom;
             
-            if ([_viewControllers objectForKey:[NSNumber numberWithInt:newDirection]]) {
-                UIViewController *c = [_viewControllers objectForKey:[NSNumber numberWithInt:_currentPanDirection]];
+            if (_viewControllers[@(newDirection)]) {
+                UIViewController *c = _viewControllers[@(_currentPanDirection)];
                 
                 [self removeControllerFromView:c animated:YES];
                 
@@ -1480,7 +1480,7 @@ static const CGFloat MAX_TRIGGER_OFFSET = 100.0;
     [self resizeCurrentView];
     
     for (id key in _viewControllers.allKeys) {
-        UIViewController *controller = (UIViewController *)[_viewControllers objectForKey:key];
+        UIViewController *controller = (UIViewController *)_viewControllers[key];
         
         if (controller.view.superview) {
             controller.view.frame = [self getSideViewFrameFromRootFrame:_rootViewController.view.frame

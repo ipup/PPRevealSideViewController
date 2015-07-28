@@ -15,7 +15,7 @@
 
 @implementation MainViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
@@ -273,8 +273,7 @@
 - (IBAction)presentModal:(id)sender {
     ModalViewController *m = [[ModalViewController alloc] initWithNibName:@"ModalViewController" bundle:nil];
     UINavigationController *n = [[UINavigationController alloc] initWithRootViewController:m];
-    if (PPSystemVersionGreaterOrEqualThan(5.0)) [self presentModalViewController:n animated:YES];
-    else [self.revealSideViewController presentModalViewController:n animated:YES];
+    [self presentViewController:n animated:YES completion:NULL];
     
     PP_RELEASE(m);
     PP_RELEASE(n);

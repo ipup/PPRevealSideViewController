@@ -11,7 +11,7 @@
 @implementation CustomCell
 @synthesize myLabel = _myLabel;
 
-- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
+- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         _disclosureButton = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];

@@ -17,7 +17,7 @@
 
 @implementation TableViewController
 
-- (id)initWithStyle:(UITableViewStyle)style {
+- (instancetype)initWithStyle:(UITableViewStyle)style {
     self = [super initWithStyle:style];
     if (self) {
     }
@@ -247,8 +247,7 @@
         case 6: {
             ModalViewController *m = [[ModalViewController alloc] initWithNibName:@"ModalViewController" bundle:nil];
             UINavigationController *n = [[UINavigationController alloc] initWithRootViewController:m];
-            if (PPSystemVersionGreaterOrEqualThan(5.0)) [self presentModalViewController:n animated:YES];
-            else [self.revealSideViewController presentModalViewController:n animated:YES];
+            [self presentViewController:n animated:YES completion:NULL];
             
             PP_RELEASE(m);
             PP_RELEASE(n);

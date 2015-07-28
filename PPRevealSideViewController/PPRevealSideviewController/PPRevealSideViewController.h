@@ -252,7 +252,7 @@ typedef NS_OPTIONS(NSUInteger,PPRevealSideOptions) {
  @return the controller initialized
  */
 
-- (id)initWithRootViewController:(UIViewController *)rootViewController;
+- (instancetype)initWithRootViewController:(UIViewController *)rootViewController NS_DESIGNATED_INITIALIZER;
 
 
 /**---------------------------------------------------------------------------------------
