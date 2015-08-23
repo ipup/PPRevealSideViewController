@@ -378,59 +378,55 @@ static const CGFloat MAX_TRIGGER_OFFSET              = 100.0f;
     
     // define the close anim block
     void (^ bigAnimBlock)(BOOL) = ^(BOOL finished) {
-        if (finished) {
-            CGRect oldFrame = _rootViewController.view.frame;
-            centerController.view.frame = oldFrame;
-            [self setRootViewController:centerController replaceToOrigin:NO];
+        CGRect oldFrame = _rootViewController.view.frame;
+        centerController.view.frame = oldFrame;
+        [self setRootViewController:centerController replaceToOrigin:NO];
+        
+        // this is the anim block to put to normal the center controller
+        void (^ smallAnimBlock)(void) = ^(void) {
+            CGRect newFrame = _rootViewController.view.frame;
+            newFrame.origin.x = 0.0f;
+            newFrame.origin.y = 0.0f;
+            _rootViewController.view.frame = newFrame;
+            [self handleiOS7StatusWillPopWithFinalX:newFrame.origin.x];
+        };
+        
+        // this is the completion block when you pop then push the new controller
+        void (^ smallAnimBlockCompletion)(BOOL) = ^(BOOL finished) {
+            [self informDelegateWithOptionalSelector:@selector(pprevealSideViewController:didPopToController:) withParam:centerController];
             
-            // this is the anim block to put to normal the center controller
-            void (^ smallAnimBlock)(void) = ^(void) {
-                CGRect newFrame = _rootViewController.view.frame;
-                newFrame.origin.x = 0.0f;
-                newFrame.origin.y = 0.0f;
-                _rootViewController.view.frame = newFrame;
-                [self handleiOS7StatusWillPopWithFinalX:newFrame.origin.x];
-            };
+            // remove the view (don't need to surcharge (not english this word ? ... ) all the interface).
+            UIViewController *oldController = (UIViewController *)_viewControllers[@(directionToClose)];
             
-            // this is the completion block when you pop then push the new controller
-            void (^ smallAnimBlockCompletion)(BOOL) = ^(BOOL finished) {
-                if (finished) {
-                    [self informDelegateWithOptionalSelector:@selector(pprevealSideViewController:didPopToController:) withParam:centerController];
-                    
-                    // remove the view (don't need to surcharge (not english this word ? ... ) all the interface).
-                    UIViewController *oldController = (UIViewController *)_viewControllers[@(directionToClose)];
-                    
-                    [self removeControllerFromView:oldController animated:animated];
-                    
-                    _animationInProgress = NO;
-                    
-                    if (self.underStatusBarView && [self isOptionEnabled:PPRevealSideOptionsiOS7StatusBarMoving]) {
-                        [self setStatusBarHidden:NO];
-                    }
-                    
-                    if (controllerToPush) {
-                        [self pushViewController:controllerToPush onDirection:direction withOffset:offset animated:animated completion:completionBlock];
-                    } else {
-                        if (completionBlock) completionBlock();
-                    }
-                }
-            };
+            [self removeControllerFromView:oldController animated:animated];
             
-            // execute the blocks depending on animated or not
-            if (animated) {
-                NSTimeInterval animationTime = OpenAnimationTime;
-                //                if ([self canCrossOffsets]) animationTime = OpenAnimationTime;
-                //                else animationTime = OpenAnimationTime;
-                
-                [UIView animateWithDuration:animationTime
-                                      delay:0.0f
-                                    options:options
-                                 animations:smallAnimBlock
-                                 completion:smallAnimBlockCompletion];
-            } else {
-                smallAnimBlock();
-                smallAnimBlockCompletion(YES);
+            _animationInProgress = NO;
+            
+            if (self.underStatusBarView && [self isOptionEnabled:PPRevealSideOptionsiOS7StatusBarMoving]) {
+                [self setStatusBarHidden:NO];
             }
+            
+            if (controllerToPush) {
+                [self pushViewController:controllerToPush onDirection:direction withOffset:offset animated:animated completion:completionBlock];
+            } else {
+                if (completionBlock) completionBlock();
+            }
+        };
+        
+        // execute the blocks depending on animated or not
+        if (animated) {
+            NSTimeInterval animationTime = OpenAnimationTime;
+            //                if ([self canCrossOffsets]) animationTime = OpenAnimationTime;
+            //                else animationTime = OpenAnimationTime;
+            
+            [UIView animateWithDuration:animationTime
+                                  delay:0.0f
+                                options:options
+                             animations:smallAnimBlock
+                             completion:smallAnimBlockCompletion];
+        } else {
+            smallAnimBlock();
+            smallAnimBlockCompletion(YES);
         }
     };
     
