@@ -35,6 +35,9 @@ static const CGFloat MAX_TRIGGER_OFFSET              = 100.0f;
 - (void)setRevealSideViewController:(PPRevealSideViewController *)revealSideViewController;
 @end
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wobjc-designated-initializers"
+
 #pragma mark -
 @implementation PPRevealSideViewController
 @synthesize underStatusBarView = _underStatusBarView;
@@ -66,6 +69,8 @@ static const CGFloat MAX_TRIGGER_OFFSET              = 100.0f;
     }
     return self;
 }
+
+#pragma clang diagnostic pop
 
 #pragma mark - View lifecycle
 
@@ -1469,7 +1474,7 @@ static const CGFloat MAX_TRIGGER_OFFSET              = 100.0f;
     return [_rootViewController shouldAutorotate];
 }
 
-- (NSUInteger)supportedInterfaceOrientations {
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
     return [_rootViewController supportedInterfaceOrientations];
 }
 
