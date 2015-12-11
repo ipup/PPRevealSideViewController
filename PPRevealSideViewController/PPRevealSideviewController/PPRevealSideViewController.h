@@ -146,6 +146,8 @@ typedef NS_OPTIONS(NSUInteger,PPRevealSideOptions) {
  
  */
 
+static NSString * const kPPRevealLeftConstraints = @"PPREVEAL_LEFT_CONSTRAINTS";
+
 @interface PPRevealSideViewController : UIViewController <UIGestureRecognizerDelegate>
 {
     NSMutableDictionary *_viewControllers;
