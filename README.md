@@ -59,7 +59,7 @@ $ git submodule add git://github.com/ipup/PPRevealSideViewController.git vendor/
 $ git submodule update --init --recursive
 ```
 
-2. In your XCode Project, take the *PPRevealSideViewController.h and .m* from PPRevealSideViewController folder and drag them into your project. 
+2. In your Xcode Project, take the *PPRevealSideViewController.h and .m* from PPRevealSideViewController folder and drag them into your project. 
 3. Import *PPRevealSideViewController.h* file to your PCH file or your AppDelegate file.
 4. Add the QuartzCore Framework.
 5. Start using this new controller!
