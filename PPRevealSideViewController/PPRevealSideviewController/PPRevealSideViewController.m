@@ -1244,6 +1244,11 @@ static const CGFloat MAX_TRIGGER_OFFSET              = 100.0f;
         PP_RELEASE(_tableViewSwipeGestureRecognizer);
         _tableViewSwipeGestureRecognizer = PP_RETAIN(otherGestureRecognizer);
     }
+    
+    if ([otherGestureRecognizer isKindOfClass:[UISwipeGestureRecognizer class]] && [[otherGestureRecognizer view] isKindOfClass:[UINavigationBar class]]) {
+        return NO;
+    }
+    
     return YES;
 }
 
