@@ -157,6 +157,10 @@ static const CGFloat MAX_TRIGGER_OFFSET              = 100.0f;
     [self pushViewController:controller onDirection:direction withOffset:offset animated:animated forceToPopPush:forcePopPush completion:nil];
 }
 
+- (NSLayoutConstraint *)findConstraintWithIdentifier:(NSString *)identifier {
+    return [[self.view.constraints filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"self.identifier LIKE[c] %@", identifier]] firstObject];
+}
+
 - (void)pushViewController:(UIViewController *)controller onDirection:(PPRevealSideDirection)direction withOffset:(CGFloat)offset animated:(BOOL)animated forceToPopPush:(BOOL)forcePopPush completion:(void (^)())completionBlock {
     if (_animationInProgress) return;
     
@@ -223,9 +227,23 @@ static const CGFloat MAX_TRIGGER_OFFSET              = 100.0f;
         rootFrame = [self getSlidingRectForOffset:offset forDirection:direction];
     }
     
+    NSLayoutConstraint *constraint = [self findConstraintWithIdentifier:kPPRevealLeftConstraints];
+    
+    if (constraint) {
+        [self.view layoutIfNeeded];
+        
+        constraint.constant = rootFrame.origin.x;
+    }
+    
     void (^ openAnimBlock)(void) = ^(void) {
         controller.view.hidden = NO;
-        _rootViewController.view.frame = rootFrame;
+        
+        if (constraint) {
+            [self.view layoutIfNeeded];
+        } else {
+            _rootViewController.view.frame = rootFrame;
+        }
+        
         [self handleiOS7StatusWillPushWithFinalX:rootFrame.origin.x];
     };
     
@@ -259,7 +277,10 @@ static const CGFloat MAX_TRIGGER_OFFSET              = 100.0f;
                                                        delay:0.0f
                                                      options:options
                                                   animations:^{
-                                                      _rootViewController.view.frame = [self getSlidingRectForOffset:offset forDirection:direction];
+                                                      if (!constraint) {
+                                                          _rootViewController.view.frame = [self getSlidingRectForOffset:offset forDirection:direction];
+                                                      }
+                                                      
                                                       [self handleiOS7StatusWillPushWithFinalX:_rootViewController.view.frame.origin.x];
                                                   } completion:^(BOOL finished) {
                                                       if (offset == 0.0f) {
@@ -326,14 +347,18 @@ static const CGFloat MAX_TRIGGER_OFFSET              = 100.0f;
                                  if (direction == PPRevealSideDirectionLeft || direction == PPRevealSideDirectionRight) offsetBounce = CGRectGetWidth(_rootViewController.view.frame) - BOUNCE_ERROR_OFFSET;
                                  else offsetBounce = CGRectGetHeight(_rootViewController.view.frame) - BOUNCE_ERROR_OFFSET;
                                  
-                                 _rootViewController.view.frame = [self getSlidingRectForOffset:offsetBounce
-                                                                                   forDirection:direction];
+                                 if (![self findConstraintWithIdentifier:kPPRevealLeftConstraints]) {
+                                     _rootViewController.view.frame = [self getSlidingRectForOffset:offsetBounce
+                                                                                       forDirection:direction];
+                                 }
                              } completion:^(BOOL finished) {
                                  [UIView animateWithDuration:OpenAnimationTime * 0.15f
                                                        delay:0.0f
                                                      options:UIViewAnimationOptionCurveEaseInOut
                                                   animations:^{
-                                                      _rootViewController.view.frame = originalFrame;
+                                                      if (![self findConstraintWithIdentifier:kPPRevealLeftConstraints]) {
+                                                          _rootViewController.view.frame = originalFrame;
+                                                      }
                                                   } completion:^(BOOL finished) {
                                                       _animationInProgress = NO;
                                                       if (completionBlock) completionBlock();
@@ -380,6 +405,14 @@ static const CGFloat MAX_TRIGGER_OFFSET              = 100.0f;
     UIViewAnimationOptions options = UIViewAnimationOptionCurveEaseOut;
     
     _animationInProgress = YES;
+
+    NSLayoutConstraint *constraint = [self findConstraintWithIdentifier:kPPRevealLeftConstraints];
+    
+    if (constraint) {
+        [self.view layoutIfNeeded];
+        
+        constraint.constant = 0.0f;
+    }
     
     // define the close anim block
     void (^ bigAnimBlock)(BOOL) = ^(BOOL finished) {
@@ -392,7 +425,13 @@ static const CGFloat MAX_TRIGGER_OFFSET              = 100.0f;
             CGRect newFrame = _rootViewController.view.frame;
             newFrame.origin.x = 0.0f;
             newFrame.origin.y = 0.0f;
-            _rootViewController.view.frame = newFrame;
+            
+            if (constraint) {
+                [self.view layoutIfNeeded];
+            } else {
+                _rootViewController.view.frame = newFrame;
+            }
+            
             [self handleiOS7StatusWillPopWithFinalX:newFrame.origin.x];
         };
         
@@ -445,7 +484,9 @@ static const CGFloat MAX_TRIGGER_OFFSET              = 100.0f;
                             options:options
                          animations:^{
                              // this will open completely the view
-                             _rootViewController.view.frame = [self getSlidingRectForOffset:0.0f forDirection:directionToOpen];
+                             if (![self findConstraintWithIdentifier:kPPRevealLeftConstraints]) {
+                                 _rootViewController.view.frame = [self getSlidingRectForOffset:0.0f forDirection:directionToOpen];
+                             }
                          } completion:bigAnimBlock];
     } else {
         // we just execute the close anim block
@@ -575,12 +616,15 @@ static const CGFloat MAX_TRIGGER_OFFSET              = 100.0f;
         if (animated)
             [UIView animateWithDuration:0.3
                              animations:^{
-                                 _rootViewController.view.frame = [self getSlidingRectForOffset:offset
-                                                                                   forDirection:direction];
+                                 if (![self findConstraintWithIdentifier:kPPRevealLeftConstraints]) {
+                                     _rootViewController.view.frame = [self getSlidingRectForOffset:offset
+                                                                                       forDirection:direction];
+                                 }
                              }];
-        else
+        else if (![self findConstraintWithIdentifier:kPPRevealLeftConstraints]) {
             _rootViewController.view.frame = [self getSlidingRectForOffset:offset
                                                               forDirection:direction];
+        }
     }
 }
 
@@ -627,7 +671,11 @@ static const CGFloat MAX_TRIGGER_OFFSET              = 100.0f;
                              
                              CGFloat offset = [_viewControllersOffsets[@(direction)] floatValue];
                              CGRect rootFrame = [self getSlidingRectForOffset:offset forDirection:direction];
-                             _rootViewController.view.frame = rootFrame;
+                             
+                             if (![self findConstraintWithIdentifier:kPPRevealLeftConstraints]) {
+                                 _rootViewController.view.frame = rootFrame;
+                             }
+                             
                              PPRSLog(@"%@", NSStringFromCGRect(rootFrame));
                          }
          
@@ -765,7 +813,9 @@ static const CGFloat MAX_TRIGGER_OFFSET              = 100.0f;
             
             [self addGesturesToCenterController];
             
-            if (replace) _rootViewController.view.frame = self.view.bounds;
+            if (replace && ![self findConstraintWithIdentifier:kPPRevealLeftConstraints]) {
+                _rootViewController.view.frame = self.view.bounds;
+            }
             
             [self informDelegateWithOptionalSelector:@selector(pprevealSideViewController:didChangeCenterController:) withParam:_rootViewController];
         }
@@ -867,13 +917,13 @@ static const CGFloat MAX_TRIGGER_OFFSET              = 100.0f;
 - (void)resizeCurrentView {
     PPRevealSideDirection direction = [self getSideToClose];
     
-    if (
-        ([self isOptionEnabled:PPRevealSideOptionsKeepOffsetOnRotation] && (direction == PPRevealSideDirectionRight || direction == PPRevealSideDirectionLeft))
+    if (([self isOptionEnabled:PPRevealSideOptionsKeepOffsetOnRotation] && (direction == PPRevealSideDirectionRight || direction == PPRevealSideDirectionLeft))
         ||
-        (direction == PPRevealSideDirectionBottom || direction == PPRevealSideDirectionTop)
-        ) {
-        _rootViewController.view.frame = [self getSlidingRectForOffset:[self getOffsetForDirection:direction]
-                                                          forDirection:direction];
+        (direction == PPRevealSideDirectionBottom || direction == PPRevealSideDirectionTop)) {
+        if (![self findConstraintWithIdentifier:kPPRevealLeftConstraints]) {
+            _rootViewController.view.frame = [self getSlidingRectForOffset:[self getOffsetForDirection:direction]
+                                                              forDirection:direction];
+        }
     }
     
     if (_underStatusBarView) {
@@ -1377,8 +1427,16 @@ static const CGFloat MAX_TRIGGER_OFFSET              = 100.0f;
     
     if (!_wasClosed) offset = oldOffsetBeforeMax;
     
-    self.rootViewController.view.frame = [self getSlidingRectForOffset:offset
-                                                          forDirection:_currentPanDirection];
+    NSLayoutConstraint *constraint = [self findConstraintWithIdentifier:kPPRevealLeftConstraints];
+    CGRect frame = [self getSlidingRectForOffset:offset
+                                    forDirection:_currentPanDirection];
+    
+    if (constraint) {
+        constraint.constant = frame.origin.x;
+        [self.view layoutIfNeeded];
+    } else {
+        self.rootViewController.view.frame = frame;
+    }
     
     if ([self.delegate respondsToSelector:@selector(pprevealSideViewController:didManuallyMoveCenterControllerWithOffset:)])
     {
