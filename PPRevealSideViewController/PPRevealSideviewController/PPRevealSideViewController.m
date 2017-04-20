@@ -738,6 +738,11 @@ static const CGFloat MAX_TRIGGER_OFFSET              = 100.0f;
     if (_rootViewController != controller) {
         [self willChangeValueForKey:@"rootViewController"];
         
+        [_rootViewController addObserver:self
+                              forKeyPath:@"view.frame"
+                                 options:NSKeyValueObservingOptionNew
+                                 context:NULL];
+        
         [self removeAllGestures];
         
         [self tryToRemoveObserverOnFrame];
@@ -757,11 +762,6 @@ static const CGFloat MAX_TRIGGER_OFFSET              = 100.0f;
             [self.view addSubview:_rootViewController.view];
             
             [_rootViewController didMoveToParentViewController:self];
-            
-            [_rootViewController addObserver:self
-                                  forKeyPath:@"view.frame"
-                                     options:NSKeyValueObservingOptionNew
-                                     context:NULL];
             
             [self addGesturesToCenterController];
             
