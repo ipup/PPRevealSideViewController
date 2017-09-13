@@ -22,6 +22,9 @@ static const CGFloat OFFSET_TRIGGER_CHOSE_DIRECTION  = 3.0f;
 static const CGFloat OFFSET_TRIGGER_CHANGE_DIRECTION = 0.0f;
 static const CGFloat MAX_TRIGGER_OFFSET              = 100.0f;
 
+#define IS_IPHONE_X (PPScreenHeight() == 812.0f)
+#define RAW_STATUS_BAR_HEIGHT (IS_IPHONE_X ? PPStatusBarHeight() : 20.0f)
+
 #pragma mark -
 @interface PPRevealSideViewController ()
 
@@ -715,7 +718,7 @@ static const CGFloat MAX_TRIGGER_OFFSET              = 100.0f;
     if (!PPSystemVersionGreaterOrEqualThan(7.0f)) return nil;
     
     if (!_underStatusBarView && ([self isOptionEnabled:PPRevealSideOptionsiOS7StatusBarFading] || [self isOptionEnabled:PPRevealSideOptionsiOS7StatusBarMoving])) {
-        _underStatusBarView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(PPScreenBounds()), 20.0f)];
+        _underStatusBarView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(PPScreenBounds()), RAW_STATUS_BAR_HEIGHT)];
         if ([self isOptionEnabled:PPRevealSideOptionsiOS7StatusBarFading]) {
             _underStatusBarView.backgroundColor = self.fakeiOS7StatusBarColor;
         }
@@ -877,7 +880,7 @@ static const CGFloat MAX_TRIGGER_OFFSET              = 100.0f;
     }
     
     if (_underStatusBarView) {
-        _underStatusBarView.frame = CGRectMake(0.0f, 0.0f, PPScreenWidth(), MIN(20.0f, PPStatusBarHeight()));
+        _underStatusBarView.frame = CGRectMake(0.0f, 0.0f, PPScreenWidth(), MIN(RAW_STATUS_BAR_HEIGHT, PPStatusBarHeight()));
     }
 }
 
@@ -1119,7 +1122,7 @@ static const CGFloat MAX_TRIGGER_OFFSET              = 100.0f;
 
 - (CGRect)getSideViewFrameFromRootFrame:(CGRect)rootFrame andDirection:(PPRevealSideDirection)direction {
     CGRect slideFrame = CGRectZero;
-    CGFloat yOffset = PPSystemVersionGreaterOrEqualThan(7.0f) ? 20.0f : 0.0f;
+    CGFloat yOffset = PPSystemVersionGreaterOrEqualThan(7.0f) ? RAW_STATUS_BAR_HEIGHT : 0.0f;
     
     if ([self isOptionEnabled:PPRevealSideOptionsiOS7StatusBarMoving] || [self isOptionEnabled:PPRevealSideOptionsNoStatusBar]) {
         yOffset = 0.0f;
