@@ -276,7 +276,7 @@ typedef NS_OPTIONS(NSUInteger,PPRevealSideOptions) {
  @see pushViewController:onDirection:animated:forceToPopPush:completion:
  @see pushOldViewControllerOnDirection:animated:completion:
  */
-- (void)pushViewController:(UIViewController *)controller onDirection:(PPRevealSideDirection)direction animated:(BOOL)animated completion:(void (^)())completionBlock;
+- (void)pushViewController:(UIViewController *)controller onDirection:(PPRevealSideDirection)direction animated:(BOOL)animated completion:(void (^)(void))completionBlock;
 
 /**
  Same as below, but without completionBlock for backward compatibility
@@ -294,7 +294,7 @@ typedef NS_OPTIONS(NSUInteger,PPRevealSideOptions) {
  For example, you could push a new left controller from the left. In this case, setting forcePopPush to YES will pop to center view controller, then push the new controller.
  @see pushViewController:onDirection:withOffset:animated:forceToPopPush:
  */
-- (void)pushViewController:(UIViewController *)controller onDirection:(PPRevealSideDirection)direction animated:(BOOL)animated forceToPopPush:(BOOL)forcePopPush completion:(void (^)())completionBlock;
+- (void)pushViewController:(UIViewController *)controller onDirection:(PPRevealSideDirection)direction animated:(BOOL)animated forceToPopPush:(BOOL)forcePopPush completion:(void (^)(void))completionBlock;
 
 /**
  Same as below, but without completionBlock for backward compatibility
@@ -310,7 +310,7 @@ typedef NS_OPTIONS(NSUInteger,PPRevealSideOptions) {
  @param animated Animated or not
  @param completionBlock Block that would be called after animation completed
  */
-- (void)pushViewController:(UIViewController *)controller onDirection:(PPRevealSideDirection)direction withOffset:(CGFloat)offset animated:(BOOL)animated completion:(void (^)())completionBlock;
+- (void)pushViewController:(UIViewController *)controller onDirection:(PPRevealSideDirection)direction withOffset:(CGFloat)offset animated:(BOOL)animated completion:(void (^)(void))completionBlock;
 
 /**
  Same as below, but without completionBlock for backward compatibility
@@ -328,7 +328,7 @@ typedef NS_OPTIONS(NSUInteger,PPRevealSideOptions) {
  @param completionBlock Block that would be called after animation completed
  For example, you could push a new left controller from the left. In this case, setting forcePopPush to YES will pop to center view controller, then push the new controller.
  */
-- (void)pushViewController:(UIViewController *)controller onDirection:(PPRevealSideDirection)direction withOffset:(CGFloat)offset animated:(BOOL)animated forceToPopPush:(BOOL)forcePopPush completion:(void (^)())completionBlock;
+- (void)pushViewController:(UIViewController *)controller onDirection:(PPRevealSideDirection)direction withOffset:(CGFloat)offset animated:(BOOL)animated forceToPopPush:(BOOL)forcePopPush completion:(void (^)(void))completionBlock;
 
 /**
  Same as below, but without completionBlock for backward compatibility
@@ -344,7 +344,7 @@ typedef NS_OPTIONS(NSUInteger,PPRevealSideOptions) {
  @param completionBlock Block that would be called after animation completed
  @see pushOldViewControllerOnDirection:withOffset:animated:
  */
-- (void)pushOldViewControllerOnDirection:(PPRevealSideDirection)direction animated:(BOOL)animated completion:(void (^)())completionBlock;
+- (void)pushOldViewControllerOnDirection:(PPRevealSideDirection)direction animated:(BOOL)animated completion:(void (^)(void))completionBlock;
 
 /**
  Same as below, but without completionBlock for backward compatibility
@@ -359,7 +359,7 @@ typedef NS_OPTIONS(NSUInteger,PPRevealSideOptions) {
  @param animated Animated or not
  @param completionBlock Block that would be called after animation completed
  */
-- (void)pushOldViewControllerOnDirection:(PPRevealSideDirection)direction withOffset:(CGFloat)offset animated:(BOOL)animated completion:(void (^)())completionBlock;
+- (void)pushOldViewControllerOnDirection:(PPRevealSideDirection)direction withOffset:(CGFloat)offset animated:(BOOL)animated completion:(void (^)(void))completionBlock;
 
 /**
  Same as below, but without completionBlock for backward compatibility
@@ -374,7 +374,7 @@ typedef NS_OPTIONS(NSUInteger,PPRevealSideOptions) {
  @param completionBlock Block that would be called after animation completed
  @see popViewControllerAnimated:
  */
-- (void)popViewControllerWithNewCenterController:(UIViewController *)centerController animated:(BOOL)animated completion:(void (^)())completionBlock;
+- (void)popViewControllerWithNewCenterController:(UIViewController *)centerController animated:(BOOL)animated completion:(void (^)(void))completionBlock;
 
 /**
  Same as below, but without completionBlock for backward compatibility
@@ -388,7 +388,7 @@ typedef NS_OPTIONS(NSUInteger,PPRevealSideOptions) {
  @param completionBlock Block that would be called after animation completed
  @see popViewControllerWithNewCenterController:animated:
  */
-- (void)popViewControllerAnimated:(BOOL)animated completion:(void (^)())completionBlock;
+- (void)popViewControllerAnimated:(BOOL)animated completion:(void (^)(void))completionBlock;
 
 /**
  Same as below, but without completionBlock for backward compatibility
@@ -402,7 +402,7 @@ typedef NS_OPTIONS(NSUInteger,PPRevealSideOptions) {
  @param animated Animated or not
  @param completionBlock Block that would be called after animation completed
  */
-- (void)openCompletelySide:(PPRevealSideDirection)direction animated:(BOOL)animated completion:(void (^)())completionBlock;
+- (void)openCompletelySide:(PPRevealSideDirection)direction animated:(BOOL)animated completion:(void (^)(void))completionBlock;
 
 /**
  Same as below, but without completionBlock for backward compatibility
@@ -416,7 +416,7 @@ typedef NS_OPTIONS(NSUInteger,PPRevealSideOptions) {
  @param completionBlock Block that would be called after animation completed
  @see openCompletelySide:animated:
  */
-- (void)openCompletelyAnimated:(BOOL)animated completion:(void (^)())completionBlock;
+- (void)openCompletelyAnimated:(BOOL)animated completion:(void (^)(void))completionBlock;
 
 /**
  Same as below, but without completionBlock for backward compatibility
@@ -430,7 +430,7 @@ typedef NS_OPTIONS(NSUInteger,PPRevealSideOptions) {
  @param completionBlock Block that would be called after animation completed
  @see replaceAfterOpenedCompletelyWithOffset:animated:
  */
-- (void)replaceAfterOpenedCompletelyAnimated:(BOOL)animated completion:(void (^)())completionBlock;
+- (void)replaceAfterOpenedCompletelyAnimated:(BOOL)animated completion:(void (^)(void))completionBlock;
 
 /**
  Same as below, but without completionBlock for backward compatibility
@@ -445,7 +445,7 @@ typedef NS_OPTIONS(NSUInteger,PPRevealSideOptions) {
  @param animated Animated or not
  @param completionBlock Block that would be called after animation completed
  */
-- (void)replaceAfterOpenedCompletelyWithOffset:(CGFloat)offset animated:(BOOL)animated completion:(void (^)())completionBlock;
+- (void)replaceAfterOpenedCompletelyWithOffset:(CGFloat)offset animated:(BOOL)animated completion:(void (^)(void))completionBlock;
 
 /**
  Replace the central view with complete opening animation. This is useful if you use side view as menu and need to switch central view after some operation without using the menu.
@@ -453,7 +453,7 @@ typedef NS_OPTIONS(NSUInteger,PPRevealSideOptions) {
  @param animated Animated or not
  @param completionBlock Block that would be called after animation completed
  */
-- (void)replaceCentralViewControllerWithNewController:(UIViewController *)newCenterController animated:(BOOL)animated animationDirection:(PPRevealSideDirection)direction completion:(void (^)())completionBlock;
+- (void)replaceCentralViewControllerWithNewController:(UIViewController *)newCenterController animated:(BOOL)animated animationDirection:(PPRevealSideDirection)direction completion:(void (^)(void))completionBlock;
 
 /**
  Replace the central view without any animation. That way, if the user switches center controller from the menu, it won't pop to place the new center controller on complete screen
