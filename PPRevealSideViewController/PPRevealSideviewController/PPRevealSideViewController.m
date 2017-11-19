@@ -136,7 +136,7 @@ static const CGFloat MAX_TRIGGER_OFFSET              = 100.0f;
     [self pushViewController:controller onDirection:direction animated:animated completion:nil];
 }
 
-- (void)pushViewController:(UIViewController *)controller onDirection:(PPRevealSideDirection)direction animated:(BOOL)animated completion:(void (^)())completionBlock {
+- (void)pushViewController:(UIViewController *)controller onDirection:(PPRevealSideDirection)direction animated:(BOOL)animated completion:(void (^)(void))completionBlock {
     [self pushViewController:controller onDirection:direction withOffset:DefaultOffset animated:animated completion:completionBlock];
 }
 
@@ -144,7 +144,7 @@ static const CGFloat MAX_TRIGGER_OFFSET              = 100.0f;
     [self pushViewController:controller onDirection:direction animated:animated forceToPopPush:forcePopPush completion:nil];
 }
 
-- (void)pushViewController:(UIViewController *)controller onDirection:(PPRevealSideDirection)direction animated:(BOOL)animated forceToPopPush:(BOOL)forcePopPush completion:(void (^)())completionBlock {
+- (void)pushViewController:(UIViewController *)controller onDirection:(PPRevealSideDirection)direction animated:(BOOL)animated forceToPopPush:(BOOL)forcePopPush completion:(void (^)(void))completionBlock {
     [self pushViewController:controller onDirection:direction withOffset:DefaultOffset animated:animated forceToPopPush:forcePopPush completion:completionBlock];
 }
 
@@ -152,7 +152,7 @@ static const CGFloat MAX_TRIGGER_OFFSET              = 100.0f;
     [self pushViewController:controller onDirection:direction withOffset:offset animated:animated completion:nil];
 }
 
-- (void)pushViewController:(UIViewController *)controller onDirection:(PPRevealSideDirection)direction withOffset:(CGFloat)offset animated:(BOOL)animated completion:(void (^)())completionBlock {
+- (void)pushViewController:(UIViewController *)controller onDirection:(PPRevealSideDirection)direction withOffset:(CGFloat)offset animated:(BOOL)animated completion:(void (^)(void))completionBlock {
     [self pushViewController:controller onDirection:direction withOffset:offset animated:animated forceToPopPush:NO completion:completionBlock];
 }
 
@@ -160,7 +160,7 @@ static const CGFloat MAX_TRIGGER_OFFSET              = 100.0f;
     [self pushViewController:controller onDirection:direction withOffset:offset animated:animated forceToPopPush:forcePopPush completion:nil];
 }
 
-- (void)pushViewController:(UIViewController *)controller onDirection:(PPRevealSideDirection)direction withOffset:(CGFloat)offset animated:(BOOL)animated forceToPopPush:(BOOL)forcePopPush completion:(void (^)())completionBlock {
+- (void)pushViewController:(UIViewController *)controller onDirection:(PPRevealSideDirection)direction withOffset:(CGFloat)offset animated:(BOOL)animated forceToPopPush:(BOOL)forcePopPush completion:(void (^)(void))completionBlock {
     if (_animationInProgress) return;
     
     _rootViewController.view.alpha = 1.0f;
@@ -304,7 +304,7 @@ static const CGFloat MAX_TRIGGER_OFFSET              = 100.0f;
     [self pushOldViewControllerOnDirection:direction animated:animated completion:nil];
 }
 
-- (void)pushOldViewControllerOnDirection:(PPRevealSideDirection)direction animated:(BOOL)animated completion:(void (^)())completionBlock {
+- (void)pushOldViewControllerOnDirection:(PPRevealSideDirection)direction animated:(BOOL)animated completion:(void (^)(void))completionBlock {
     [self pushOldViewControllerOnDirection:direction withOffset:DefaultOffset animated:animated completion:completionBlock];
 }
 
@@ -312,7 +312,7 @@ static const CGFloat MAX_TRIGGER_OFFSET              = 100.0f;
     [self pushOldViewControllerOnDirection:direction withOffset:offset animated:animated completion:nil];
 }
 
-- (void)pushOldViewControllerOnDirection:(PPRevealSideDirection)direction withOffset:(CGFloat)offset animated:(BOOL)animated completion:(void (^)())completionBlock {
+- (void)pushOldViewControllerOnDirection:(PPRevealSideDirection)direction withOffset:(CGFloat)offset animated:(BOOL)animated completion:(void (^)(void))completionBlock {
     UIViewController *oldController = _viewControllers[@(direction)];
     if (oldController) {
         [self pushViewController:oldController onDirection:direction withOffset:offset animated:animated forceToPopPush:NO completion:completionBlock];
@@ -351,7 +351,7 @@ static const CGFloat MAX_TRIGGER_OFFSET              = 100.0f;
     [self popViewControllerAnimated:animated completion:nil];
 }
 
-- (void)popViewControllerAnimated:(BOOL)animated completion:(void (^)())completionBlock {
+- (void)popViewControllerAnimated:(BOOL)animated completion:(void (^)(void))completionBlock {
     [self popViewControllerWithNewCenterController:_rootViewController animated:animated completion:completionBlock];
 }
 
@@ -359,7 +359,7 @@ static const CGFloat MAX_TRIGGER_OFFSET              = 100.0f;
     [self popViewControllerWithNewCenterController:centerController animated:animated completion:nil];
 }
 
-- (void)popViewControllerWithNewCenterController:(UIViewController *)centerController animated:(BOOL)animated completion:(void (^)())completionBlock {
+- (void)popViewControllerWithNewCenterController:(UIViewController *)centerController animated:(BOOL)animated completion:(void (^)(void))completionBlock {
     [self popViewControllerWithNewCenterController:centerController animated:animated andPresentNewController:nil withDirection:PPRevealSideDirectionNone andOffset:0.0f completion:completionBlock];
 }
 
@@ -367,7 +367,7 @@ static const CGFloat MAX_TRIGGER_OFFSET              = 100.0f;
     [self popViewControllerWithNewCenterController:centerController animated:animated andPresentNewController:controllerToPush withDirection:direction andOffset:offset completion:nil];
 }
 
-- (void)popViewControllerWithNewCenterController:(UIViewController *)centerController animated:(BOOL)animated andPresentNewController:(UIViewController *)controllerToPush withDirection:(PPRevealSideDirection)direction andOffset:(CGFloat)offset completion:(void (^)())completionBlock {
+- (void)popViewControllerWithNewCenterController:(UIViewController *)centerController animated:(BOOL)animated andPresentNewController:(UIViewController *)controllerToPush withDirection:(PPRevealSideDirection)direction andOffset:(CGFloat)offset completion:(void (^)(void))completionBlock {
     if (_animationInProgress) return;
     
     _rootViewController.view.alpha = 1.0f;
@@ -472,7 +472,7 @@ static const CGFloat MAX_TRIGGER_OFFSET              = 100.0f;
     [self openCompletelySide:direction animated:animated completion:nil];
 }
 
-- (void)openCompletelySide:(PPRevealSideDirection)direction animated:(BOOL)animated completion:(void (^)())completionBlock {
+- (void)openCompletelySide:(PPRevealSideDirection)direction animated:(BOOL)animated completion:(void (^)(void))completionBlock {
     _shouldNotCloseWhenPushingSameDirection = YES;
     [self pushOldViewControllerOnDirection:direction withOffset:0.0f animated:YES completion:completionBlock];
     _shouldNotCloseWhenPushingSameDirection = NO;
@@ -482,7 +482,7 @@ static const CGFloat MAX_TRIGGER_OFFSET              = 100.0f;
     [self openCompletelyAnimated:animated completion:nil];
 }
 
-- (void)openCompletelyAnimated:(BOOL)animated completion:(void (^)())completionBlock {
+- (void)openCompletelyAnimated:(BOOL)animated completion:(void (^)(void))completionBlock {
     PPRevealSideDirection direction = [self getSideToClose];
     [self openCompletelySide:direction animated:animated completion:completionBlock];
 }
@@ -492,7 +492,7 @@ static const CGFloat MAX_TRIGGER_OFFSET              = 100.0f;
     [self replaceAfterOpenedCompletelyAnimated:animated completion:nil];
 }
 
-- (void)replaceAfterOpenedCompletelyAnimated:(BOOL)animated completion:(void (^)())completionBlock {
+- (void)replaceAfterOpenedCompletelyAnimated:(BOOL)animated completion:(void (^)(void))completionBlock {
     [self replaceAfterOpenedCompletelyWithOffset:DefaultOffset animated:animated completion:completionBlock];
 }
 
@@ -500,14 +500,14 @@ static const CGFloat MAX_TRIGGER_OFFSET              = 100.0f;
     [self replaceAfterOpenedCompletelyWithOffset:offset animated:animated completion:nil];
 }
 
-- (void)replaceAfterOpenedCompletelyWithOffset:(CGFloat)offset animated:(BOOL)animated completion:(void (^)())completionBlock {
+- (void)replaceAfterOpenedCompletelyWithOffset:(CGFloat)offset animated:(BOOL)animated completion:(void (^)(void))completionBlock {
     _shouldNotCloseWhenPushingSameDirection = YES;
     PPRevealSideDirection direction = [self getSideToClose];
     [self pushOldViewControllerOnDirection:direction withOffset:offset animated:animated completion:completionBlock];
     _shouldNotCloseWhenPushingSameDirection = NO;
 }
 
-- (void)replaceCentralViewControllerWithNewController:(UIViewController *)newCenterController animated:(BOOL)animated animationDirection:(PPRevealSideDirection)direction completion:(void (^)())completionBlock {
+- (void)replaceCentralViewControllerWithNewController:(UIViewController *)newCenterController animated:(BOOL)animated animationDirection:(PPRevealSideDirection)direction completion:(void (^)(void))completionBlock {
     __block __typeof(&*self) weakSelf = self;
     [self openCompletelySide:direction animated:animated completion:^{
         [weakSelf popViewControllerWithNewCenterController:newCenterController animated:animated completion:completionBlock];
